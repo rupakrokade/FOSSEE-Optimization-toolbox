@@ -12,6 +12,7 @@
 mode(-1)
 lines(0)
 
+WITHOUT_AUTO_PUTLHSVAR = %t;
 toolbox_title = "FAMOS"
 
 [a, opt] = getversion();
