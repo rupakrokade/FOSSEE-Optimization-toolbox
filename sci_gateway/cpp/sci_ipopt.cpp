@@ -324,46 +324,45 @@ int sci_solveqp(char *fname)
 		return 0;
 	}
 
-		using namespace Ipopt;
+	using namespace Ipopt;
 
-		SmartPtr<QuadNLP> Prob = new QuadNLP(nVars,nCons,QItems,PItems,ConItems,conUB,conLB,varUB,varLB,init_guess);
-		SmartPtr<IpoptApplication> app = IpoptApplicationFactory();
-  		app->RethrowNonIpoptException(true);
+	SmartPtr<QuadNLP> Prob = new QuadNLP(nVars,nCons,QItems,PItems,ConItems,conUB,conLB,varUB,varLB,init_guess);
+	SmartPtr<IpoptApplication> app = IpoptApplicationFactory();
+	app->RethrowNonIpoptException(true);
 
-		// Change some options
-		// Note: The following choices are only examples, they might not be
-		//       suitable for your optimization problem.
-		app->Options()->SetNumericValue("tol", 1e-7);
-		app->Options()->SetIntegerValue("max_iter", (int)*max_iter);
-		app->Options()->SetNumericValue("max_cpu_time", *cpu_time);
-		app->Options()->SetStringValue("mu_strategy", "adaptive");
+	// Change some options
+	// Note: The following choices are only examples, they might not be
+	//       suitable for your optimization problem.
+	app->Options()->SetNumericValue("tol", 1e-7);
+	app->Options()->SetIntegerValue("max_iter", (int)*max_iter);
+	app->Options()->SetNumericValue("max_cpu_time", *cpu_time);
+	app->Options()->SetStringValue("mu_strategy", "adaptive");
 
-		// Indicates whether all equality constraints are linear 
-		app->Options()->SetStringValue("jac_c_constant", "yes");
-		// Indicates whether all inequality constraints are linear 
-		app->Options()->SetStringValue("jac_d_constant", "yes");	
-		// Indicates whether the problem is a quadratic problem 
-		app->Options()->SetStringValue("hessian_constant", "yes");
+	// Indicates whether all equality constraints are linear 
+	app->Options()->SetStringValue("jac_c_constant", "yes");
+	// Indicates whether all inequality constraints are linear 
+	app->Options()->SetStringValue("jac_d_constant", "yes");	
+	// Indicates whether the problem is a quadratic problem 
+	app->Options()->SetStringValue("hessian_constant", "yes");
+
+	// Initialize the IpoptApplication and process the options
+	ApplicationReturnStatus status;
+ 	status = app->Initialize();
+	if (status != Solve_Succeeded) {
+	  	sciprint("\n*** Error during initialization!\n");
+   	 return (int) status;
+ 	 }
+	 // Ask Ipopt to solve the problem
 	
-		// Initialize the IpoptApplication and process the options
-		ApplicationReturnStatus status;
-	 	status = app->Initialize();
-		if (status != Solve_Succeeded) {
-		  	sciprint("\n*** Error during initialization!\n");
-			return0toScilab();
-	   	 return (int) status;
-	 	 }
-		 // Ask Ipopt to solve the problem
-		
-		 status = app->OptimizeTNLP(Prob);
+	 status = app->OptimizeTNLP(Prob);
 
+	int stats = Prob->returnStatus();
+
+	if (stats == 0 | stats == 1 | stats == 2){
 		double *fX = Prob->getX();
 		double ObjVal = Prob->getObjVal();
-		double *Zl = Prob->getZl();
-		double *Zu = Prob->getZu();
-		double *Lambda = Prob->getLambda();
 		double iteration = Prob->iterCount();
-		int stats = Prob->returnStatus();
+
 		sciErr = createMatrixOfDouble(pvApiCtx, nbInputArgument(pvApiCtx) + 1, 1, nVars, fX);
 		if (sciErr.iErr)
 		{
@@ -392,6 +391,60 @@ int sci_solveqp(char *fname)
 			return 0;
 		}
 
+		AssignOutputVariable(pvApiCtx, 1) = nbInputArgument(pvApiCtx) + 1;
+		AssignOutputVariable(pvApiCtx, 2) = nbInputArgument(pvApiCtx) + 2;		
+		AssignOutputVariable(pvApiCtx, 3) = nbInputArgument(pvApiCtx) + 3;
+		AssignOutputVariable(pvApiCtx, 4) = nbInputArgument(pvApiCtx) + 4;
+	}
+
+	else
+	{
+		double *fX = NULL;
+		double ObjVal = 0;
+		int stats = Prob->returnStatus();
+		double iteration = 0;
+
+		sciErr = createMatrixOfDouble(pvApiCtx, nbInputArgument(pvApiCtx) + 1, 0, 0, fX);
+		if (sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}
+
+		sciErr = createMatrixOfDouble(pvApiCtx, nbInputArgument(pvApiCtx) + 2,1,1,&ObjVal);
+		if (sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}
+
+		sciErr = createMatrixOfInteger32(pvApiCtx, nbInputArgument(pvApiCtx) + 3,1,1,&stats);
+		if (sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}
+
+		sciErr = createMatrixOfDouble(pvApiCtx, nbInputArgument(pvApiCtx) + 4,1,1,&iteration);
+		if (sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}
+
+		AssignOutputVariable(pvApiCtx, 1) = nbInputArgument(pvApiCtx) + 1;
+		AssignOutputVariable(pvApiCtx, 2) = nbInputArgument(pvApiCtx) + 2;		
+		AssignOutputVariable(pvApiCtx, 3) = nbInputArgument(pvApiCtx) + 3;
+		AssignOutputVariable(pvApiCtx, 4) = nbInputArgument(pvApiCtx) + 4;
+	}
+
+
+	if(stats == 0){
+		
+		double *Zl = Prob->getZl();
+		double *Zu = Prob->getZu();
+		double *Lambda = Prob->getLambda();
+	
 		sciErr = createMatrixOfDouble(pvApiCtx, nbInputArgument(pvApiCtx) + 5, 1, nVars, Zl);
 		if (sciErr.iErr)
 		{
@@ -405,28 +458,54 @@ int sci_solveqp(char *fname)
 			printError(&sciErr, 0);
 			return 0;
 		}
-		
+	
 		sciErr = createMatrixOfDouble(pvApiCtx, nbInputArgument(pvApiCtx) + 7, 1, nCons, Lambda);
 		if (sciErr.iErr)
 		{
 			printError(&sciErr, 0);
 			return 0;
 		}
-		
 
-		AssignOutputVariable(pvApiCtx, 1) = nbInputArgument(pvApiCtx) + 1;
-		AssignOutputVariable(pvApiCtx, 2) = nbInputArgument(pvApiCtx) + 2;		
-		AssignOutputVariable(pvApiCtx, 3) = nbInputArgument(pvApiCtx) + 3;
-		AssignOutputVariable(pvApiCtx, 4) = nbInputArgument(pvApiCtx) + 4;
 		AssignOutputVariable(pvApiCtx, 5) = nbInputArgument(pvApiCtx) + 5;
 		AssignOutputVariable(pvApiCtx, 6) = nbInputArgument(pvApiCtx) + 6;
-		AssignOutputVariable(pvApiCtx, 7) = nbInputArgument(pvApiCtx) + 7;	
+		AssignOutputVariable(pvApiCtx, 7) = nbInputArgument(pvApiCtx) + 7;
+	}
 
-  		// As the SmartPtrs go out of scope, the reference count
-  		// will be decremented and the objects will automatically
-  		// be deleted.
+	else{
+		double *Zl = NULL;
+		double *Zu = NULL;
+		double *Lambda = NULL;
 	
+		sciErr = createMatrixOfDouble(pvApiCtx, nbInputArgument(pvApiCtx) + 5, 0, 0, Zl);
+		if (sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}
+
+		sciErr = createMatrixOfDouble(pvApiCtx, nbInputArgument(pvApiCtx) + 6, 0, 0, Zu);
+		if (sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}
+	
+		sciErr = createMatrixOfDouble(pvApiCtx, nbInputArgument(pvApiCtx) + 7, 0, 0, Lambda);
+		if (sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}
+
+		AssignOutputVariable(pvApiCtx, 5) = nbInputArgument(pvApiCtx) + 5;
+		AssignOutputVariable(pvApiCtx, 6) = nbInputArgument(pvApiCtx) + 6;
+		AssignOutputVariable(pvApiCtx, 7) = nbInputArgument(pvApiCtx) + 7;
+	}
 		
+	// As the SmartPtrs go out of scope, the reference count
+	// will be decremented and the objects will automatically
+	// be deleted.
+
 	return 0;
 	}
 

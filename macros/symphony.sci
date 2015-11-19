@@ -206,11 +206,11 @@ function [xopt,fopt,status,output] = symphony (varargin)
 	UB = UB';
    end
 
-   if (size(conLB,2)== [nbVar]) then
+   if (size(conLB,2)== [nbCon]) then
 	conLB = conLB';
    end
 
-   if (size(conUB,2)== [nbVar]) then
+   if (size(conUB,2)== [nbCon]) then
 	conUB = conUB';
    end
 
@@ -276,6 +276,36 @@ function [xopt,fopt,status,output] = symphony (varargin)
 	errmsg = msprintf(gettext("%s: Size of parameters should be even"), "Symphony");
 	error(errmsg);
    end
+
+   //Check if the user gives a matrix instead of a vector
+   
+   if ((size(isInt,1)~=1)& (size(isInt,2)~=1)) then
+      errmsg = msprintf(gettext("%s: isInt should be a vector"), "qpipopt");
+      error(errmsg); 
+   end
+   
+   if (size(LB,1)~=1)& (size(LB,2)~=1) then
+      errmsg = msprintf(gettext("%s: Lower Bound should be a vector"), "qpipopt");
+      error(errmsg); 
+   end
+   
+   if (size(UB,1)~=1)& (size(UB,2)~=1) then
+      errmsg = msprintf(gettext("%s: Upper Bound should be a vector"), "qpipopt");
+      error(errmsg); 
+   end
+   
+   if (nbCon) then
+        if ((size(conLB,1)~=1)& (size(conLB,2)~=1)) then
+            errmsg = msprintf(gettext("%s: Constraint Lower Bound should be a vector"), "qpipopt");
+            error(errmsg); 
+        end
+
+        if (size(conUB,1)~=1)& (size(conUB,2)~=1) then
+            errmsg = msprintf(gettext("%s: Constraint Upper Bound should be a vector"), "qpipopt");
+            error(errmsg); 
+        end
+   end
+
 
    LB = LB';
    UB = UB';

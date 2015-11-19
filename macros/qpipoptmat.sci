@@ -174,9 +174,9 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
         
        	select param(2*i-1)
     	case "MaxIter" then
-          		options(2*i-1) = param(2*i);
+          		options(2*i) = param(2*i);
        	case "CpuTime" then
-          		options(2*i-1) = param(2*i);
+          		options(2*i) = param(2*i);
     	else
     	      errmsg = msprintf(gettext("%s: Unrecognized parameter name ''%s''."), "qpipoptmat", param(2*i-1));
     	      error(errmsg)
@@ -270,7 +270,39 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
       warnmsg = msprintf(gettext("%s: Ignoring initial guess of variables as it is not equal to the number of variables"), "qpipopt");
       warning(warnmsg);
    end
-
+   
+   //Check if the user gives a matrix instead of a vector
+   
+   if ((size(f,1)~=1)& (size(f,2)~=1)) then
+      errmsg = msprintf(gettext("%s: f should be a vector"), "qpipopt");
+      error(errmsg); 
+   end
+   
+   if (size(LB,1)~=1)& (size(LB,2)~=1) then
+      errmsg = msprintf(gettext("%s: Lower Bound should be a vector"), "qpipopt");
+      error(errmsg); 
+   end
+   
+   if (size(UB,1)~=1)& (size(UB,2)~=1) then
+      errmsg = msprintf(gettext("%s: Upper Bound should be a vector"), "qpipopt");
+      error(errmsg); 
+   end
+   
+   if (nbConInEq) then
+        if ((size(b,1)~=1)& (size(b,2)~=1)) then
+            errmsg = msprintf(gettext("%s: Constraint Lower Bound should be a vector"), "qpipopt");
+            error(errmsg); 
+        end
+    end
+    
+    if (nbConEq) then
+        if (size(beq,1)~=1)& (size(beq,2)~=1) then
+            errmsg = msprintf(gettext("%s: Constraint should be a vector"), "qpipopt");
+            error(errmsg); 
+        end
+   end
+  
+    
    
    //Converting it into ipopt format
    f = f';
@@ -296,6 +328,43 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
    lambda.upper = Zu;
    lambda.eqlin = lmbda(1:nbConEq);
    lambda.ineqlin = lmbda(nbConEq+1:nbCon);
+   
+    select status
+    
+    case 0 then
+        printf("\nOptimal Solution Found.\n");
+    case 1 then
+        printf("\nMaximum Number of Iterations Exceeded. Output may not be optimal.\n");
+    case 2 then
+        printf("\nMaximum CPU Time exceeded. Output may not be optimal.\n");
+    case 3 then
+        printf("\nStop at Tiny Step\n");
+    case 4 then
+        printf("\nSolved To Acceptable Level\n");
+    case 5 then
+        printf("\nConverged to a point of local infeasibility.\n");
+    case 6 then
+        printf("\nStopping optimization at current point as requested by user.\n");
+    case 7 then
+        printf("\nFeasible point for square problem found.\n");
+    case 8 then 
+        printf("\nIterates divering; problem might be unbounded.\n");
+    case 9 then
+        printf("\nRestoration Failed!\n");
+    case 10 then
+        printf("\nError in step computation (regularization becomes too large?)!\n");
+    case 12 then
+        printf("\nProblem has too few degrees of freedom.\n");
+    case 13 then
+        printf("\nInvalid option thrown back by IPOpt\n");
+    case 14 then
+        printf("\nNot enough memory.\n");
+    case 15 then
+        printf("\nINTERNAL ERROR: Unknown SolverReturn value - Notify IPOPT Authors.\n");
+    else
+        printf("\nInvalid status returned. Notify the Toolbox authors\n");
+        break;
+    end
     
 
 endfunction
