@@ -196,6 +196,20 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
       options = varargin(9);
    end
 
+// Check if the user gives empty matrix
+    if (size(lb,2)==0) then
+        lb = repmat(-%inf,nbVar,1);
+    end
+    
+    if (size(intcon,2)==0) then
+        intcon = 0;
+    end
+    
+    if (size(ub,2)==0) then
+        ub = repmat(%inf,nbVar,1);
+    end
+
+// Calculating the size of equality and inequality constraints
    nbConInEq = size(A,1);
    nbConEq = size(Aeq,1);
 
@@ -283,6 +297,37 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
 	error(errmsg);
    end
 
+   //Check if the user gives a matrix instead of a vector
+   
+   if ((size(intcon,1)~=1)& (size(intcon,2)~=1)) then
+      errmsg = msprintf(gettext("%s: intcon should be a vector"), "symphonymat");
+      error(errmsg); 
+   end
+   
+   if (size(lb,1)~=1)& (size(lb,2)~=1) then
+      errmsg = msprintf(gettext("%s: Lower Bound should be a vector"), "symphonymat");
+      error(errmsg); 
+   end
+   
+   if (size(ub,1)~=1)& (size(ub,2)~=1) then
+      errmsg = msprintf(gettext("%s: Upper Bound should be a vector"), "symphonymat");
+      error(errmsg); 
+   end
+   
+   if (nbConInEq) then
+        if ((size(b,1)~=1)& (size(b,2)~=1)) then
+            errmsg = msprintf(gettext("%s: Constraint Lower Bound should be a vector"), "symphonymat");
+            error(errmsg); 
+        end
+    end
+    
+    if (nbConEq) then
+        if (size(beq,1)~=1)& (size(beq,2)~=1) then
+            errmsg = msprintf(gettext("%s: Constraint Upper Bound should be a vector"), "symphonymat");
+            error(errmsg); 
+        end
+   end
+  
 
     //Changing the inputs in symphony's format 
     conMatrix = [A;Aeq]
@@ -291,7 +336,9 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
     conUB = [b;beq] ;
     
     isInt = repmat(%f,1,nbVar);
-    for i=1:size(intcon,2)
+    // Changing intcon into column vector
+    intcon = intcon(:);
+    for i=1:size(intcon,1)
         isInt(intcon(i)) = %t
     end
     

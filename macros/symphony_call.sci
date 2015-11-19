@@ -11,6 +11,11 @@
 
 function [xopt,fopt,status,output] = symphony_call(nbVar,nbCon,objCoef,isInt,LB,UB,conMatrix,conLB,conUB,objSense,options)
 
+    xopt = [];
+    fopt = [];
+    status = [];
+    output = [];
+    
     //Opening Symphony environment 
     sym_open();
 
@@ -27,14 +32,9 @@ function [xopt,fopt,status,output] = symphony_call(nbVar,nbCon,objCoef,isInt,LB,
     end
 
     op = sym_solve();
-    disp(op);
     
-    xopt = [];
-    fopt = [];
-    status = [];
-    output = [];
-    
-     if (~op) then
+    status = sym_getStatus();
+     if (status == 228 | status == 227 | status == 229 | status == 230 | status == 231 | status == 232 | status == 233) then
             xopt = sym_getVarSoln();
             // Symphony gives a row matrix converting it to column matrix
             xopt = xopt';
@@ -46,7 +46,7 @@ function [xopt,fopt,status,output] = symphony_call(nbVar,nbCon,objCoef,isInt,LB,
     
     output = struct("Iterations"      , []);
       
-      output.Iterations = sym_getIterCount();
+    output.Iterations = sym_getIterCount();
 
 
 endfunction

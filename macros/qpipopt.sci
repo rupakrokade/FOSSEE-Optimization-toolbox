@@ -226,40 +226,69 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
 
    //Check the number of constraint
    if ( size(conMatrix,1) ~= nbCon) then
-      errmsg = msprintf(gettext("%s: The number of constraints is not equal to the number of constraint given i.e. %d"), "qpipopt", nbCon);
+      errmsg = msprintf(gettext("%s: The size of constraint matrix is not equal to the number of constraint given i.e. %d"), "qpipopt", nbCon);
       error(errmsg);
    end
 
    //Check the size of Lower Bound which should equal to the number of variables
    if ( size(LB,2) ~= nbVar) then
-      errmsg = msprintf(gettext("%s: The Lower Bound is not equal to the number of variables"), "qpipopt");
+      errmsg = msprintf(gettext("%s: The size of Lower Bound is not equal to the number of variables"), "qpipopt");
       error(errmsg);
    end
 
    //Check the size of Upper Bound which should equal to the number of variables
    if ( size(UB,2) ~= nbVar) then
-      errmsg = msprintf(gettext("%s: The Upper Bound is not equal to the number of variables"), "qpipopt");
+      errmsg = msprintf(gettext("%s: The size of Upper Bound is not equal to the number of variables"), "qpipopt");
       error(errmsg);
    end
 
    //Check the size of constraints of Lower Bound which should equal to the number of constraints
    if ( size(conLB,2) ~= nbCon) then
-      errmsg = msprintf(gettext("%s: The Lower Bound of constraints is not equal to the number of constraints"), "qpipopt");
+      errmsg = msprintf(gettext("%s: The size of Lower Bound of constraints is not equal to the number of constraints"), "qpipopt");
       error(errmsg);
    end
 
    //Check the size of constraints of Upper Bound which should equal to the number of constraints
    if ( size(conUB,2) ~= nbCon) then
-      errmsg = msprintf(gettext("%s: The Upper Bound of constraints is not equal to the number of constraints"), "qpipopt");
+      errmsg = msprintf(gettext("%s: The size of Upper Bound of constraints is not equal to the number of constraints"), "qpipopt");
       error(errmsg);
    end
     
    //Check the size of initial of variables which should equal to the number of variables
-   if ( size(x0,2) ~= nbVar) then
+   if ( size(x0,2) ~= nbVar | size(x0,"*")>nbVar) then
       warnmsg = msprintf(gettext("%s: Ignoring initial guess of variables as it is not equal to the number of variables"), "qpipopt");
       warning(warnmsg);
    end
+   
+   //Check if the user gives a matrix instead of a vector
+   
+   if ((size(p,1)~=1)& (size(p,2)~=1)) then
+      errmsg = msprintf(gettext("%s: p should be a vector"), "qpipopt");
+      error(errmsg); 
+   end
+   
+   if (size(LB,1)~=1)& (size(LB,2)~=1) then
+      errmsg = msprintf(gettext("%s: Lower Bound should be a vector"), "qpipopt");
+      error(errmsg); 
+   end
+   
+   if (size(UB,1)~=1)& (size(UB,2)~=1) then
+      errmsg = msprintf(gettext("%s: Upper Bound should be a vector"), "qpipopt");
+      error(errmsg); 
+   end
+   
+   if (nbCon) then
+        if ((size(conLB,1)~=1)& (size(b,2)~=1)) then
+            errmsg = msprintf(gettext("%s: Constraint Lower Bound should be a vector"), "qpipopt");
+            error(errmsg); 
+        end
 
+        if (size(conUB,1)~=1)& (size(beq,2)~=1) then
+            errmsg = msprintf(gettext("%s: Constraint should be a vector"), "qpipopt");
+            error(errmsg); 
+        end
+   end
+   
     
    
    [xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,Q,p,conMatrix,conLB,conUB,LB,UB,x0,options);
@@ -275,6 +304,43 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
    lambda.lower = Zl;
    lambda.upper = Zu;
    lambda.constraint = lmbda;
+
+    select status
+    
+    case 0 then
+        printf("\nOptimal Solution Found.\n");
+    case 1 then
+        printf("\nMaximum Number of Iterations Exceeded. Output may not be optimal.\n");
+    case 2 then
+        printf("\nMaximum CPU Time exceeded. Output may not be optimal.\n");
+    case 3 then
+        printf("\nStop at Tiny Step\n");
+    case 4 then
+        printf("\nSolved To Acceptable Level\n");
+    case 5 then
+        printf("\nConverged to a point of local infeasibility.\n");
+    case 6 then
+        printf("\nStopping optimization at current point as requested by user.\n");
+    case 7 then
+        printf("\nFeasible point for square problem found.\n");
+    case 8 then 
+        printf("\nIterates divering; problem might be unbounded.\n");
+    case 9 then
+        printf("\nRestoration Failed!\n");
+    case 10 then
+        printf("\nError in step computation (regularization becomes too large?)!\n");
+    case 12 then
+        printf("\nProblem has too few degrees of freedom.\n");
+    case 13 then
+        printf("\nInvalid option thrown back by IPOpt\n");
+    case 14 then
+        printf("\nNot enough memory.\n");
+    case 15 then
+        printf("\nINTERNAL ERROR: Unknown SolverReturn value - Notify IPOPT Authors.\n");
+    else
+        printf("\nInvalid status returned. Notify the Toolbox authors\n");
+        break;
+    end
     
 
 endfunction

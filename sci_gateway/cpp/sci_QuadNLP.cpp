@@ -209,10 +209,11 @@ void QuadNLP::finalize_solution(SolverReturn status,
     		 finalLambda_[i] = lambda[i];
 	}
 
-	iter_ = ip_data->iter_count();
 	finalObjVal_ = obj_value;
 	status_ = status;
-	
+	if (status_ == 0 | status_ == 1 | status_ == 2){
+		iter_ = ip_data->iter_count();
+	}
    }
 
 	const double * QuadNLP::getX()
