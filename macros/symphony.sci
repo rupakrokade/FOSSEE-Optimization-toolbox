@@ -202,7 +202,7 @@ function [xopt,fopt,status,output] = symphony (varargin)
 	LB = LB';
    end
 
-   if (size(UB,2)== [nbCon]) then
+   if (size(UB,2)== [nbVar]) then
 	UB = UB';
    end
 
