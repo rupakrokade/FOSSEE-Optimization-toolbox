@@ -121,6 +121,11 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
     if (size(UB,2)==0) then
         UB = repmat(%inf,nbVar,1);
     end
+
+    if (size(p,2)==0) then
+        p = repmat(0,nbVar,1);
+    end
+    
     
    if ( rhs<10 | size(varargin(10)) ==0 ) then
       x0 = repmat(0,nbVar,1);
@@ -289,8 +294,19 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
         end
    end
    
-    
-   
+    // Check if the user gives infinity or negative infinity in conLB or conUB
+	for i = 1:nbCon
+		if (conLB(i) == %inf)
+		   	errmsg = msprintf(gettext("%s: Value of Lower Bound can not be infinity"), "qpipopt");
+            error(errmsg); 
+        end	
+
+		if (conUB(i) == -%inf)
+		   	errmsg = msprintf(gettext("%s: Value of Upper Bound can not be negative infinity"), "qpipopt");
+            error(errmsg); 
+        end	
+	end
+
    [xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,Q,p,conMatrix,conLB,conUB,LB,UB,x0,options);
    
    xopt = xopt';
@@ -324,7 +340,7 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
     case 7 then
         printf("\nFeasible point for square problem found.\n");
     case 8 then 
-        printf("\nIterates divering; problem might be unbounded.\n");
+        printf("\nIterates diverging; problem might be unbounded.\n");
     case 9 then
         printf("\nRestoration Failed!\n");
     case 10 then
