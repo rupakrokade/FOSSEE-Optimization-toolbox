@@ -159,6 +159,28 @@ int getDoubleMatrixFromScilab(int argNum, int *rows, int *cols, double **dest)
 	return 0;
 }
 
+int getFixedSizeDoubleMatrixInList(int argNum, int itemPos, int rows, int cols, double **dest)
+{
+	int *varAddress,inputMatrixRows,inputMatrixCols;
+	SciErr sciErr;
+	const char errMsg[]="Wrong type for input argument #%d: A matrix of double of size %d by %d is expected.\n";
+	const int errNum=999;
+	//same steps as above
+	sciErr = getVarAddressFromPosition(pvApiCtx, argNum, &varAddress);
+	if (sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 1;
+	}
+
+	getMatrixOfDoubleInList(pvApiCtx, varAddress, itemPos, &rows, &cols, dest);
+	if (sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 0;
+	}
+}
+
 int return0toScilab()
 {
 	int iRet;
@@ -192,3 +214,36 @@ int returnDoubleToScilab(double retVal)
 	//ReturnArguments(pvApiCtx);
 	return 0;
 }
+
+int returnDoubleMatrixToScilab(int itemPos, int rows, int cols, double *dest)
+{
+	SciErr sciErr;
+	//same steps as above
+	sciErr = createMatrixOfDouble(pvApiCtx, nbInputArgument(pvApiCtx) + itemPos, rows, cols, dest);
+	if (sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 0;
+	}
+
+	AssignOutputVariable(pvApiCtx, itemPos) = nbInputArgument(pvApiCtx)+itemPos;
+
+	return 0;
+}
+
+int returnIntegerMatrixToScilab(int itemPos, int rows, int cols, int *dest)
+{
+	SciErr sciErr;
+	//same steps as above
+	sciErr = createMatrixOfInteger32(pvApiCtx, nbInputArgument(pvApiCtx) + itemPos, rows, cols, dest);
+	if (sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 0;
+	}
+
+	AssignOutputVariable(pvApiCtx, itemPos) = nbInputArgument(pvApiCtx)+itemPos;
+
+	return 0;
+}
+

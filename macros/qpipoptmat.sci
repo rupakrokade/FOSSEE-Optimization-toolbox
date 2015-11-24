@@ -152,7 +152,10 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
     if (size(UB,2)==0) then
         UB = repmat(%inf,nbVar,1);
     end
-    
+
+    if (size(f,2)==0) then
+        f = repmat(0,nbVar,1);
+    end
 
    if (type(param) ~= 15) then
       errmsg = msprintf(gettext("%s: param should be a list "), "qpipopt");
@@ -302,7 +305,19 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
         end
    end
   
+	for i = 1:nbConInEq
+		if (b(i) == -%inf)
+		   	errmsg = msprintf(gettext("%s: Value of b can not be negative infinity"), "qpipopt");
+            error(errmsg); 
+        end	
+	end
     
+	for i = 1:nbConEq
+		if (beq(i) == -%inf)
+		   	errmsg = msprintf(gettext("%s: Value of beq can not be negative infinity"), "qpipopt");
+            error(errmsg); 
+        end	
+	end
    
    //Converting it into ipopt format
    f = f';
@@ -321,13 +336,11 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
    output.Iterations = iter;
    lambda = struct("lower"           , [], ..
                    "upper"           , [], ..
-                   "ineqlin"         , [], ..
-                   "eqlin"           , []);
+                   "constraint"           , []);
    
    lambda.lower = Zl;
    lambda.upper = Zu;
-   lambda.eqlin = lmbda(1:nbConEq);
-   lambda.ineqlin = lmbda(nbConEq+1:nbCon);
+   lambda.constraint = lmbda;
    
     select status
     
@@ -348,7 +361,7 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
     case 7 then
         printf("\nFeasible point for square problem found.\n");
     case 8 then 
-        printf("\nIterates divering; problem might be unbounded.\n");
+        printf("\nIterates diverging; problem might be unbounded.\n");
     case 9 then
         printf("\nRestoration Failed!\n");
     case 10 then

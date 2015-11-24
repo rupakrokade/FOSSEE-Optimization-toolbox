@@ -11,9 +11,13 @@ int getUIntFromScilab(int argNum, int *dest);
 int getIntFromScilab(int argNum, int *dest);
 int getFixedSizeDoubleMatrixFromScilab(int argNum, int rows, int cols, double **dest);
 int getDoubleMatrixFromScilab(int argNum, int *rows, int *cols, double **dest);
+int getFixedSizeDoubleMatrixInList(int argNum, int itemPos, int rows, int cols, double **dest);
+
 
 //output
 int return0toScilab();
 int returnDoubleToScilab(double retVal);
+int returnDoubleMatrixToScilab(int itemPos, int rows, int cols, double *dest);
+int returnIntegerMatrixToScilab(int itemPos, int rows, int cols, int *dest);
 
 #endif //SCI_IOFUNCHEADER
