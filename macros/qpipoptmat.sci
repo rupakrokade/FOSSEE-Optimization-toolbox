@@ -158,7 +158,7 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
     end
 
    if (type(param) ~= 15) then
-      errmsg = msprintf(gettext("%s: param should be a list "), "qpipopt");
+      errmsg = msprintf(gettext("%s: param should be a list "), "qpipoptmat");
       error(errmsg);
    end
    
@@ -270,51 +270,51 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 
    //Check the size of initial of variables which should equal to the number of variables
    if ( size(x0,1) ~= nbVar) then
-      warnmsg = msprintf(gettext("%s: Ignoring initial guess of variables as it is not equal to the number of variables"), "qpipopt");
+      warnmsg = msprintf(gettext("%s: Ignoring initial guess of variables as it is not equal to the number of variables"), "qpipoptmat");
       warning(warnmsg);
    end
    
    //Check if the user gives a matrix instead of a vector
    
    if ((size(f,1)~=1)& (size(f,2)~=1)) then
-      errmsg = msprintf(gettext("%s: f should be a vector"), "qpipopt");
+      errmsg = msprintf(gettext("%s: f should be a vector"), "qpipoptmat");
       error(errmsg); 
    end
    
    if (size(LB,1)~=1)& (size(LB,2)~=1) then
-      errmsg = msprintf(gettext("%s: Lower Bound should be a vector"), "qpipopt");
+      errmsg = msprintf(gettext("%s: Lower Bound should be a vector"), "qpipoptmat");
       error(errmsg); 
    end
    
    if (size(UB,1)~=1)& (size(UB,2)~=1) then
-      errmsg = msprintf(gettext("%s: Upper Bound should be a vector"), "qpipopt");
+      errmsg = msprintf(gettext("%s: Upper Bound should be a vector"), "qpipoptmat");
       error(errmsg); 
    end
    
    if (nbConInEq) then
         if ((size(b,1)~=1)& (size(b,2)~=1)) then
-            errmsg = msprintf(gettext("%s: Constraint Lower Bound should be a vector"), "qpipopt");
+            errmsg = msprintf(gettext("%s: Constraint Lower Bound should be a vector"), "qpipoptmat");
             error(errmsg); 
         end
     end
     
     if (nbConEq) then
         if (size(beq,1)~=1)& (size(beq,2)~=1) then
-            errmsg = msprintf(gettext("%s: Constraint should be a vector"), "qpipopt");
+            errmsg = msprintf(gettext("%s: Constraint should be a vector"), "qpipoptmat");
             error(errmsg); 
         end
    end
   
 	for i = 1:nbConInEq
 		if (b(i) == -%inf)
-		   	errmsg = msprintf(gettext("%s: Value of b can not be negative infinity"), "qpipopt");
+		   	errmsg = msprintf(gettext("%s: Value of b can not be negative infinity"), "qpipoptmat");
             error(errmsg); 
         end	
 	end
     
 	for i = 1:nbConEq
 		if (beq(i) == -%inf)
-		   	errmsg = msprintf(gettext("%s: Value of beq can not be negative infinity"), "qpipopt");
+		   	errmsg = msprintf(gettext("%s: Value of beq can not be negative infinity"), "qpipoptmat");
             error(errmsg); 
         end	
 	end
