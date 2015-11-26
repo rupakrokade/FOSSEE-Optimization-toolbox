@@ -3,6 +3,7 @@
 <map version="1.0">
 <mapID target="index" url="index.html"/>
 <mapID target="section_19f4f1e5726c01d683e8b82be0a7e910" url="section_19f4f1e5726c01d683e8b82be0a7e910.html"/>
+<mapID target="lsqlin" url="lsqlin.html"/>
 <mapID target="qpipopt" url="qpipopt.html"/>
 <mapID target="qpipopt_mat" url="qpipopt_mat.html"/>
 <mapID target="qpipoptmat" url="qpipoptmat.html"/>

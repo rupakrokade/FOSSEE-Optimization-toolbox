@@ -72,7 +72,7 @@ beq = [ 25, 1.25, 1.25]
 intcon = [1 2 3 4];
 
 // Calling Symphony
-[x,f,status,output] = symphony_mat(c,intcon,[],[],Aeq,beq,lb,ub);
+[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub);
 
 assert_close ( x , [1 1 0 1 7.25 0 0.25 3.5]' , 1.e-7 );
 assert_close ( f , [ 8495] , 1.e-7 );

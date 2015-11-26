@@ -298,13 +298,13 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
 	for i = 1:nbCon
 		if (conLB(i) == %inf)
 		   	errmsg = msprintf(gettext("%s: Value of Lower Bound can not be infinity"), "qpipopt");
-            error(errmsg); 
-        end	
+    		error(errmsg); 
+  		end	
 
 		if (conUB(i) == -%inf)
 		   	errmsg = msprintf(gettext("%s: Value of Upper Bound can not be negative infinity"), "qpipopt");
-            error(errmsg); 
-        end	
+    		error(errmsg); 
+		end	
 	end
 
    [xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,Q,p,conMatrix,conLB,conUB,LB,UB,x0,options);

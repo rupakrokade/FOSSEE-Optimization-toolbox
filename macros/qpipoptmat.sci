@@ -23,8 +23,8 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
   //   [xopt,fopt,exitflag,output,lamda] = qpipoptmat( ... )
   //   
   //   Parameters
-  //   H : a vector of doubles, where n is number of variables, represents coefficients of quadratic in the quadratic problem.
-  //   f : a vector of doubles, where n is number of variables, represents coefficients of linear in the quadratic problem
+  //   H : a symmetric matrix of doubles, represents coefficients of quadratic in the quadratic problem.
+  //   f : a vector of doubles, represents coefficients of linear in the quadratic problem
   //   A : a vector of doubles, represents the linear coefficients in the inequality constraints
   //   b : a vector of doubles, represents the linear coefficients in the inequality constraints
   //   Aeq : a matrix of doubles, represents the linear coefficients in the equality constraints
