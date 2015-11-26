@@ -72,7 +72,7 @@ beq = [ 25, 1.25, 1.25]
 intcon = [1 2 3 4];
 
 // Calling Symphony
-[x,f,iter] = symphony_mat(c,intcon,[],[],Aeq,beq,lb,ub);
+[x,f,iter] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub);
 
 //In Symphony Library for optimal solution status = 227
 status = sym_getStatus();

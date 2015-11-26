@@ -67,7 +67,7 @@ lb = [0; 0];
 ub = [%inf; %inf];
 [xopt,fopt,exitflag,output,lambda] = qpipoptmat(H,f,A,b,[],[],lb,ub)
 
-assert_close ( x , [0.6666667 1.3333333]' , 1.e-7 );
-assert_close ( f , [ - 8.2222223] , 1.e-7 );
+assert_close ( xopt , [0.6666667 1.3333333]' , 1.e-7 );
+assert_close ( fopt , [ - 8.2222223] , 1.e-7 );
 
-assert_checkequal( exitflag , 0 );
+assert_checkequal( exitflag , int32(0) );
