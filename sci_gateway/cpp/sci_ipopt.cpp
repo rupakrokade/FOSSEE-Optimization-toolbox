@@ -22,7 +22,7 @@ int sci_solveqp(char *fname)
 {
 	using namespace Ipopt;
 
-	CheckInputArgument(pvApiCtx, 11, 11); // We need total 10 input arguments.
+	CheckInputArgument(pvApiCtx, 11, 11); // We need total 11 input arguments.
 	CheckOutputArgument(pvApiCtx, 7, 7);
 	
 	// Error management variable
