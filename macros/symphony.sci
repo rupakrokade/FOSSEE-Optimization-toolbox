@@ -21,7 +21,7 @@ function [xopt,fopt,status,output] = symphony (varargin)
   //   Parameters
   //   nbVar : a double, number of variables.
   //   nbCon : a double, number of constraints.
-  //   objCoeff : a 1 x n matrix of doubles, where n is number of variables, represents coefficients of the variables in the objective.
+  //   objCoeff : a vector of doubles, represents coefficients of the variables in the objective.
   //   isInt : a vector of boolean, represents wether a variable is constrained to be an integer.
   //   LB : a vector of doubles, represents lower bounds of the variables.
   //   UB : a vector of doubles, represents upper bounds of the variables.

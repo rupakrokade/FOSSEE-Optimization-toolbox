@@ -20,7 +20,7 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
   //   [xopt,fopt,status,output] = symphonymat( ... )
   //   
   //   Parameters
-  //   f : a vector of doubles, where n is number of variables, contains coefficients of the variables in the objective 
+  //   f : a vector of doubles, contains coefficients of the variables in the objective 
   //   intcon : Vector of integer constraints, specified as a vector of positive integers. The values in intcon indicate the components of the decision variable x that are integer-valued. intcon has values from 1 through number of variable.
   //   A : Linear inequality constraint matrix, specified as a matrix of doubles. A represents the linear coefficients in the constraints A*x ≤ b. A has size M-by-N, where M is the number of constraints and N is number of variables
   //   b : Linear inequality constraint vector, specified as a vector of doubles. b represents the constant vector in the constraints A*x ≤ b. b has length M, where A is M-by-N
@@ -29,8 +29,9 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
   //   lb : Lower bounds, specified as a vector or array of doubles. lb represents the lower bounds elementwise in lb ≤ x ≤ ub.
   //   ub : Upper bounds, specified as a vector or array of doubles. ub represents the upper bounds elementwise in lb ≤ x ≤ ub.
   //   options : a list containing the the parameters to be set.
-  //   xopt : a 1xn matrix of doubles, the computed solution of the optimization problem
-  //   fopt : a 1x1 matrix of doubles, the function value at x
+  //   xopt : a vector of double, the computed solution of the optimization problem
+  //   fopt : a doubles, the function value at x
+  //   status : status flag from symphony.
   //   output : The output data structure contains detailed informations about the optimization process.
   //   
   //   Description

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from lsqnonneg.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="lsqnonneg" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>lsqnonneg</refname>
+    <refpurpose>Solves nonnegative least-squares curve fitting problems.</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x = lsqnonneg(C,d)
+   x = lsqnonneg(C,d,param)
+   [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg( ... )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>C :</term>
+      <listitem><para> a matrix of doubles, represents the multiplier of the solution x in the expression C*x - d. C is M-by-N, where M is the number of equations, and N is the number of elements of x.</para></listitem></varlistentry>
+   <varlistentry><term>d :</term>
+      <listitem><para> a vector of doubles, represents the additive constant term in the expression C*x - d. d is M-by-1, where M is the number of equations.</para></listitem></varlistentry>
+   <varlistentry><term>xopt :</term>
+      <listitem><para> a vector of doubles, the computed solution of the optimization problem.</para></listitem></varlistentry>
+   <varlistentry><term>resnorm :</term>
+      <listitem><para> a double, objective value returned as the scalar value norm(C*x-d)^2.</para></listitem></varlistentry>
+   <varlistentry><term>residual :</term>
+      <listitem><para> a vector of doubles, solution residuals returned as the vector C*x-d.</para></listitem></varlistentry>
+   <varlistentry><term>exitflag :</term>
+      <listitem><para> Integer identifying the reason the algorithm terminated.</para></listitem></varlistentry>
+   <varlistentry><term>output :</term>
+      <listitem><para> Structure containing information about the optimization.</para></listitem></varlistentry>
+   <varlistentry><term>lambda :</term>
+      <listitem><para> Structure containing the Lagrange multipliers at the solution x (separated by constraint type).</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Solves nonnegative least-squares curve fitting problems specified by :
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+&amp;\mbox{min}_{x}
+&amp; 1/2||C*x - d||_2^2  \\
+&amp; &amp; x \geq 0 \\
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+We are calling IPOpt for solving the nonnegative least-squares curve fitting problems, IPOpt is a library written in C++. The code has been written by ​Andreas Wächter and ​Carl Laird.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+A basic lsqnonneg problem
+C = [
+0.0372    0.2869
+0.6861    0.7071
+0.6233    0.6245
+0.6344    0.6170];
+d = [
+0.8587
+0.1781
+0.0747
+0.8405];
+[xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg(C,d)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Harpreet Singh</member>
+   </simplelist>
+</refsection>
+</refentry>

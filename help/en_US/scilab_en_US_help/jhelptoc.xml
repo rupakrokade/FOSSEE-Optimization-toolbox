@@ -4,6 +4,7 @@
 <tocitem target="index" text="Symphony Toolbox">
 <tocitem target="section_19f4f1e5726c01d683e8b82be0a7e910" text="Symphony Toolbox">
 <tocitem target="lsqlin" text="lsqlin"/>
+<tocitem target="lsqnonneg" text="lsqnonneg"/>
 <tocitem target="qpipopt" text="qpipopt"/>
 <tocitem target="qpipopt_mat" text="qpipopt_mat"/>
 <tocitem target="qpipoptmat" text="qpipoptmat"/>

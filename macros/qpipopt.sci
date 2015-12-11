@@ -25,7 +25,7 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
   //   Q : a symmetric matrix of doubles, represents coefficients of quadratic in the quadratic problem.
   //   p : a vector of doubles, represents coefficients of linear in the quadratic problem
   //   LB : a vector of doubles, contains lower bounds of the variables.
-  //   UB : a vector of doubles, where n is number of variables, contains upper bounds of the variables.
+  //   UB : a vector of doubles, contains upper bounds of the variables.
   //   conMatrix : a matrix of doubles, contains  matrix representing the constraint matrix 
   //   conLB : a vector of doubles, contains lower bounds of the constraints. 
   //   conUB : a vector of doubles, contains upper bounds of the constraints. 

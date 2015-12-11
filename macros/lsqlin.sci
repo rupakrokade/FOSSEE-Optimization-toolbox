@@ -28,19 +28,19 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
 	//   b : a vector of doubles, represents the linear coefficients in the inequality constraints
 	//   Aeq : a matrix of doubles, represents the linear coefficients in the equality constraints
 	//   beq : a vector of doubles, represents the linear coefficients in the equality constraints
-	//   LB : a vector of doubles, where n is number of variables, contains lower bounds of the variables.
-	//   UB : a vector of doubles, where n is number of variables, contains upper bounds of the variables.
+	//   LB : a vector of doubles, contains lower bounds of the variables.
+	//   UB : a vector of doubles,  contains upper bounds of the variables.
 	//   x0 : a vector of doubles, contains initial guess of variables.
 	//   param : a list containing the the parameters to be set.
 	//   xopt : a vector of doubles, the computed solution of the optimization problem.
-	//   fopt : a double, the function value at x.
+	//   resnorm : a double, objective value returned as the scalar value norm(C*x-d)^2.
+	//   residual : a vector of doubles, solution residuals returned as the vector C*x-d.
 	//   exitflag : Integer identifying the reason the algorithm terminated.
 	//   output : Structure containing information about the optimization.
 	//   lambda : Structure containing the Lagrange multipliers at the solution x (separated by constraint type).
 	//   
 	//   Description
 	//   Search the minimum of a constrained linear least square problem specified by :
-	//   find the minimum of f(x) such that 
 	//
 	//   <latex>
 	//    \begin{eqnarray}
@@ -212,7 +212,7 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
 		x0=x0';
 	end
 
-	//Check the size of f which should equal to the number of variable
+	//Check the size of d which should equal to the number of variable
 	if ( size(d,1) ~= size(C,1)) then
 		errmsg = msprintf(gettext("%s: The number of rows in C must be equal the number of elements of d"), "lsqlin");
 		error(errmsg);

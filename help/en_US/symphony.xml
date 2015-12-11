@@ -40,7 +40,7 @@
    <varlistentry><term>nbCon :</term>
       <listitem><para> a double, number of constraints.</para></listitem></varlistentry>
    <varlistentry><term>objCoeff :</term>
-      <listitem><para> a 1 x n matrix of doubles, where n is number of variables, represents coefficients of the variables in the objective.</para></listitem></varlistentry>
+      <listitem><para> a vector of doubles, represents coefficients of the variables in the objective.</para></listitem></varlistentry>
    <varlistentry><term>isInt :</term>
       <listitem><para> a vector of boolean, represents wether a variable is constrained to be an integer.</para></listitem></varlistentry>
    <varlistentry><term>LB :</term>
