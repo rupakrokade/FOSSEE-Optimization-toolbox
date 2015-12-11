@@ -20,7 +20,7 @@
 
       </td>
       <td width="30%" class="next">
-      	<span class="next"><a href="qpipopt.html">qpipopt &gt;&gt;</a></span>
+      	<span class="next"><a href="lsqnonneg.html">lsqnonneg &gt;&gt;</a></span>
 
       </td>
     </tr></table>
@@ -58,17 +58,19 @@
    <dt><span class="term">beq :</span>
       <dd><p class="para">a vector of doubles, represents the linear coefficients in the equality constraints</p></dd></dt>
    <dt><span class="term">LB :</span>
-      <dd><p class="para">a vector of doubles, where n is number of variables, contains lower bounds of the variables.</p></dd></dt>
+      <dd><p class="para">a vector of doubles, contains lower bounds of the variables.</p></dd></dt>
    <dt><span class="term">UB :</span>
-      <dd><p class="para">a vector of doubles, where n is number of variables, contains upper bounds of the variables.</p></dd></dt>
+      <dd><p class="para">a vector of doubles,  contains upper bounds of the variables.</p></dd></dt>
    <dt><span class="term">x0 :</span>
       <dd><p class="para">a vector of doubles, contains initial guess of variables.</p></dd></dt>
    <dt><span class="term">param :</span>
       <dd><p class="para">a list containing the the parameters to be set.</p></dd></dt>
    <dt><span class="term">xopt :</span>
       <dd><p class="para">a vector of doubles, the computed solution of the optimization problem.</p></dd></dt>
-   <dt><span class="term">fopt :</span>
-      <dd><p class="para">a double, the function value at x.</p></dd></dt>
+   <dt><span class="term">resnorm :</span>
+      <dd><p class="para">a double, objective value returned as the scalar value norm(C*x-d)^2.</p></dd></dt>
+   <dt><span class="term">residual :</span>
+      <dd><p class="para">a vector of doubles, solution residuals returned as the vector C*x-d.</p></dd></dt>
    <dt><span class="term">exitflag :</span>
       <dd><p class="para">Integer identifying the reason the algorithm terminated.</p></dd></dt>
    <dt><span class="term">output :</span>
@@ -77,8 +79,7 @@
       <dd><p class="para">Structure containing the Lagrange multipliers at the solution x (separated by constraint type).</p></dd></dt></dl></div>
 
 <div class="refsection"><h3 class="title">Description</h3>
-   <p class="para">Search the minimum of a constrained linear least square problem specified by :
-find the minimum of f(x) such that</p>
+   <p class="para">Search the minimum of a constrained linear least square problem specified by :</p>
    <p class="para"><span><img src='./_LaTeX_lsqlin.xml_1.png' style='position:relative;top:41px;width:234px;height:90px'/></span></p>
    <p class="para">We are calling IPOpt for solving the linear least square problem, IPOpt is a library written in C++. The code has been written by ​Andreas Wächter and ​Carl Laird.</p>
    <p class="para"></p></div>
@@ -143,7 +144,7 @@ find the minimum of f(x) such that</p>
 
       </td>
       <td width="30%" class="next">
-      	<span class="next"><a href="qpipopt.html">qpipopt &gt;&gt;</a></span>
+      	<span class="next"><a href="lsqnonneg.html">lsqnonneg &gt;&gt;</a></span>
 
       </td>
     </tr></table>

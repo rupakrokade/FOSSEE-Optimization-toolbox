@@ -46,7 +46,7 @@
    <varlistentry><term>LB :</term>
       <listitem><para> a vector of doubles, contains lower bounds of the variables.</para></listitem></varlistentry>
    <varlistentry><term>UB :</term>
-      <listitem><para> a vector of doubles, where n is number of variables, contains upper bounds of the variables.</para></listitem></varlistentry>
+      <listitem><para> a vector of doubles, contains upper bounds of the variables.</para></listitem></varlistentry>
    <varlistentry><term>conMatrix :</term>
       <listitem><para> a matrix of doubles, contains  matrix representing the constraint matrix</para></listitem></varlistentry>
    <varlistentry><term>conLB :</term>

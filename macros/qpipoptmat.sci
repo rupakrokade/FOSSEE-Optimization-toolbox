@@ -29,8 +29,8 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
   //   b : a vector of doubles, represents the linear coefficients in the inequality constraints
   //   Aeq : a matrix of doubles, represents the linear coefficients in the equality constraints
   //   beq : a vector of doubles, represents the linear coefficients in the equality constraints
-  //   LB : a vector of doubles, where n is number of variables, contains lower bounds of the variables.
-  //   UB : a vector of doubles, where n is number of variables, contains upper bounds of the variables.
+  //   LB : a vector of doubles, contains lower bounds of the variables.
+  //   UB : a vector of doubles, contains upper bounds of the variables.
   //   x0 : a vector of doubles, contains initial guess of variables.
   //   param : a list containing the the parameters to be set.
   //   xopt : a vector of doubles, the computed solution of the optimization problem.

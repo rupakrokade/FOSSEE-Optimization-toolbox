@@ -50,17 +50,19 @@
    <varlistentry><term>beq :</term>
       <listitem><para> a vector of doubles, represents the linear coefficients in the equality constraints</para></listitem></varlistentry>
    <varlistentry><term>LB :</term>
-      <listitem><para> a vector of doubles, where n is number of variables, contains lower bounds of the variables.</para></listitem></varlistentry>
+      <listitem><para> a vector of doubles, contains lower bounds of the variables.</para></listitem></varlistentry>
    <varlistentry><term>UB :</term>
-      <listitem><para> a vector of doubles, where n is number of variables, contains upper bounds of the variables.</para></listitem></varlistentry>
+      <listitem><para> a vector of doubles,  contains upper bounds of the variables.</para></listitem></varlistentry>
    <varlistentry><term>x0 :</term>
       <listitem><para> a vector of doubles, contains initial guess of variables.</para></listitem></varlistentry>
    <varlistentry><term>param :</term>
       <listitem><para> a list containing the the parameters to be set.</para></listitem></varlistentry>
    <varlistentry><term>xopt :</term>
       <listitem><para> a vector of doubles, the computed solution of the optimization problem.</para></listitem></varlistentry>
-   <varlistentry><term>fopt :</term>
-      <listitem><para> a double, the function value at x.</para></listitem></varlistentry>
+   <varlistentry><term>resnorm :</term>
+      <listitem><para> a double, objective value returned as the scalar value norm(C*x-d)^2.</para></listitem></varlistentry>
+   <varlistentry><term>residual :</term>
+      <listitem><para> a vector of doubles, solution residuals returned as the vector C*x-d.</para></listitem></varlistentry>
    <varlistentry><term>exitflag :</term>
       <listitem><para> Integer identifying the reason the algorithm terminated.</para></listitem></varlistentry>
    <varlistentry><term>output :</term>
@@ -74,7 +76,6 @@
    <title>Description</title>
    <para>
 Search the minimum of a constrained linear least square problem specified by :
-find the minimum of f(x) such that
    </para>
    <para>
 <latex>
