@@ -320,18 +320,20 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
 	[xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,Q,p,conMatrix,conLB,conUB,LB,UB,x0,options);
 
 	xopt = xopt';
-	residual = C*xopt-d;
+	residual = -1*(C*xopt-d);
 	resnorm = residual'*residual;
 	exitflag = status;
 	output = struct("Iterations"      , []);
 	output.Iterations = iter;
-	lambda = struct("lower"           , [], ..
-				    "upper"           , [], ..
-				    "constraint"      , []);
-
-	lambda.lower = Zl;
-	lambda.upper = Zu;
-	lambda.constraint = lmbda;
+   lambda = struct("lower"           , [], ..
+                   "upper"           , [], ..
+                   "eqlin"           , [], ..
+				   "ineqlin"         , []);
+   
+   lambda.lower = Zl;
+   lambda.upper = Zu;
+   lambda.eqlin = lmbda(1:nbConEq);
+   lambda.ineqlin = lmbda(nbConEq+1:nbCon);
 
 	select status 
 		case 0 then

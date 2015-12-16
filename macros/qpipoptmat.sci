@@ -336,11 +336,13 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
    output.Iterations = iter;
    lambda = struct("lower"           , [], ..
                    "upper"           , [], ..
-                   "constraint"           , []);
+                   "eqlin"           , [], ..
+				   "ineqlin"         , []);
    
    lambda.lower = Zl;
    lambda.upper = Zu;
-   lambda.constraint = lmbda;
+   lambda.eqlin = lmbda(1:nbConEq);
+   lambda.ineqlin = lmbda(nbConEq+1:nbCon);
    
     select status
     

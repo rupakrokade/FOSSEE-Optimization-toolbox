@@ -3,7 +3,7 @@ mode(1)
 // Demo of lsqnonneg.sci
 //
 
-A basic lsqnonneg problem
+// A basic lsqnonneg problem
 C = [
 0.0372    0.2869
 0.6861    0.7071

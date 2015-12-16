@@ -134,18 +134,16 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 	[xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,Q,p,conMatrix,conLB,conUB,LB,UB,x0,options);
 
 	xopt = xopt';
-	residual = C*xopt-d;
+	residual = -1*(C*xopt-d);
 	resnorm = residual'*residual;
 	exitflag = status;
 	output = struct("Iterations"      , []);
 	output.Iterations = iter;
-	lambda = struct("lower"           , [], ..
-				    "upper"           , [], ..
-				    "constraint"      , []);
-
-	lambda.lower = Zl;
-	lambda.upper = Zu;
-	lambda.constraint = lmbda;
+   lambda = struct("lower"           , [], ..
+                   "upper"           , []);
+   
+   lambda.lower = Zl;
+   lambda.upper = Zu;
 
 	select status 
 		case 0 then
