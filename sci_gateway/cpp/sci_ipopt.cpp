@@ -233,7 +233,7 @@ int sci_solveqp(char *fname)
 			return 1;
 		}
 
-		if (returnDoubleMatrixToScilab(7, 1, 1, Lambda))
+		if (returnDoubleMatrixToScilab(7, 1, nCons, Lambda))
 		{
 			return 1;
 		}
