@@ -177,7 +177,7 @@ int getFixedSizeDoubleMatrixInList(int argNum, int itemPos, int rows, int cols, 
 	if (sciErr.iErr)
 	{
 		printError(&sciErr, 0);
-		return 0;
+		return 1;
 	}
 }
 
@@ -223,7 +223,7 @@ int returnDoubleMatrixToScilab(int itemPos, int rows, int cols, double *dest)
 	if (sciErr.iErr)
 	{
 		printError(&sciErr, 0);
-		return 0;
+		return 1;
 	}
 
 	AssignOutputVariable(pvApiCtx, itemPos) = nbInputArgument(pvApiCtx)+itemPos;
@@ -239,7 +239,7 @@ int returnIntegerMatrixToScilab(int itemPos, int rows, int cols, int *dest)
 	if (sciErr.iErr)
 	{
 		printError(&sciErr, 0);
-		return 0;
+		return 1;
 	}
 
 	AssignOutputVariable(pvApiCtx, itemPos) = nbInputArgument(pvApiCtx)+itemPos;
