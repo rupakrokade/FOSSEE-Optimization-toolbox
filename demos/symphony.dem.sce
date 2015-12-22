@@ -24,6 +24,7 @@ xopt = [1 1 0 1 7.25 0 0.25 3.5]
 fopt = [8495]
 // Calling Symphony
 [x,f,status,output] = symphony(8,3,c,isInt,lb,ub,conMatrix,conlb,conub,1)
+// Press ENTER to continue
 halt()   // Press return to continue
  
 // An advanced case where we set some options in symphony
@@ -107,7 +108,5 @@ xopt = [0 1 1 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 1 0 1 1 0 1 ..
 // Optimal value
 fopt = [ 24381 ]
 // Calling Symphony
-[x,f,status,output] = symphony(nbVar,nbCon,p,isInt,lb,ub,conMatrix,conLB,conUB,-1,options)
-halt()   // Press return to continue
- 
+[x,f,status,output] = symphony(nbVar,nbCon,p,isInt,lb,ub,conMatrix,conLB,conUB,-1,options);
 //========= E N D === O F === D E M O =========//

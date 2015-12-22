@@ -17,6 +17,7 @@ beq = [ 25, 1.25, 1.25]
 intcon = [1 2 3 4];
 // Calling Symphony
 [x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub)
+// Press ENTER to continue
 halt()   // Press return to continue
  
 // An advanced case where we set some options in symphony
@@ -99,6 +100,4 @@ xopt = [0 1 1 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 1 0 1 1 0 1 ..
 fopt = [ 24381 ]
 // Calling Symphony
 [x,f,status,output] = symphonymat(objCoef,intcon,conMatrix,conUB,[],[],lb,ub,options);
-halt()   // Press return to continue
- 
 //========= E N D === O F === D E M O =========//

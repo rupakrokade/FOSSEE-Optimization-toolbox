@@ -21,8 +21,10 @@ b = [0.5251
 0.2026
 0.6721];
 [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin(C,d,A,b)
+// Press ENTER to continue
 halt()   // Press return to continue
  
+//A basic example for equality, inequality and bounds
 C = [0.9501    0.7620    0.6153    0.4057
 0.2311    0.4564    0.7919    0.9354
 0.6068    0.0185    0.9218    0.9169
@@ -44,6 +46,4 @@ beq = 4;
 lb = -0.1*ones(4,1);
 ub = 2*ones(4,1);
 [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin(C,d,A,b,Aeq,beq,lb,ub)
-halt()   // Press return to continue
- 
 //========= E N D === O F === D E M O =========//

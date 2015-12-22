@@ -24,11 +24,11 @@
 <refsynopsisdiv>
    <title>Calling Sequence</title>
    <synopsis>
-   x = lsqlin(C,d,A,b)
-   x = lsqlin(C,d,A,b,Aeq,beq)
-   x = lsqlin(C,d,A,b,Aeq,beq,lb,ub)
-   x = lsqlin(C,d,A,b,Aeq,beq,lb,ub,x0)
-   x = lsqlin(C,d,A,b,Aeq,beq,lb,ub,x0,param)
+   xopt = lsqlin(C,d,A,b)
+   xopt = lsqlin(C,d,A,b,Aeq,beq)
+   xopt = lsqlin(C,d,A,b,Aeq,beq,lb,ub)
+   xopt = lsqlin(C,d,A,b,Aeq,beq,lb,ub,x0)
+   xopt = lsqlin(C,d,A,b,Aeq,beq,lb,ub,x0,param)
    [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin( ... )
    
    </synopsis>
@@ -66,9 +66,9 @@
    <varlistentry><term>exitflag :</term>
       <listitem><para> Integer identifying the reason the algorithm terminated.</para></listitem></varlistentry>
    <varlistentry><term>output :</term>
-      <listitem><para> Structure containing information about the optimization.</para></listitem></varlistentry>
+      <listitem><para> Structure containing information about the optimization. Right now it contains number of iteration.</para></listitem></varlistentry>
    <varlistentry><term>lambda :</term>
-      <listitem><para> Structure containing the Lagrange multipliers at the solution x (separated by constraint type).</para></listitem></varlistentry>
+      <listitem><para> Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper and linear equality, inequality constraints.</para></listitem></varlistentry>
    </variablelist>
 </refsection>
 
@@ -82,14 +82,14 @@ Search the minimum of a constrained linear least square problem specified by :
 \begin{eqnarray}
 &amp;\mbox{min}_{x}
 &amp; 1/2||C*x - d||_2^2  \\
-&amp; \text{subject to} &amp; A.x \leq b \\
-&amp; &amp; Aeq.x \leq beq \\
+&amp; \text{subject to} &amp; A*x \leq b \\
+&amp; &amp; Aeq*x = beq \\
 &amp; &amp; lb \leq x \leq ub \\
 \end{eqnarray}
 </latex>
    </para>
    <para>
-We are calling IPOpt for solving the linear least square problem, IPOpt is a library written in C++. The code has been written by ​Andreas Wächter and ​Carl Laird.
+We are calling IPOpt for solving the linear least square problem, IPOpt is a library written in C++.
    </para>
    <para>
 </para>
@@ -116,6 +116,7 @@ b = [0.5251
 0.2026
 0.6721];
 [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin(C,d,A,b)
+// Press ENTER to continue
 
    ]]></programlisting>
 </refsection>
@@ -123,6 +124,7 @@ b = [0.5251
 <refsection>
    <title>Examples</title>
    <programlisting role="example"><![CDATA[
+//A basic example for equality, inequality and bounds
 C = [0.9501    0.7620    0.6153    0.4057
 0.2311    0.4564    0.7919    0.9354
 0.6068    0.0185    0.9218    0.9169
@@ -144,7 +146,6 @@ beq = 4;
 lb = -0.1*ones(4,1);
 ub = 2*ones(4,1);
 [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin(C,d,A,b,Aeq,beq,lb,ub)
-
    ]]></programlisting>
 </refsection>
 

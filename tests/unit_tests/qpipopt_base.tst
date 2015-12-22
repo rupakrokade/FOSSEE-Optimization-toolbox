@@ -74,3 +74,4 @@ assert_close ( xopt , [0.6666667 1.3333333]' , 1.e-7 );
 assert_close ( fopt , [ - 8.2222223] , 1.e-7 );
 
 assert_checkequal( exitflag , int32(0) );
+printf("Test Successfull")

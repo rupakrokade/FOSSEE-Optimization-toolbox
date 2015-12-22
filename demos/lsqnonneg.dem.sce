@@ -15,6 +15,4 @@ d = [
 0.0747
 0.8405];
 [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg(C,d)
-halt()   // Press return to continue
- 
 //========= E N D === O F === D E M O =========//

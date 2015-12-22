@@ -80,5 +80,5 @@ isInt = [repmat(%t,1,4) repmat(%f,1,4)];
 
 assert_close ( x , [1 1 0 1 7.25 0 0.25 3.5]' , 1.e-7 );
 assert_close ( f , [ 8495] , 1.e-7 );
-
 assert_checkequal( status , 227 );
+

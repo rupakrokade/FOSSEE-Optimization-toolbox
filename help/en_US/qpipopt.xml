@@ -64,9 +64,9 @@
    <varlistentry><term>exitflag :</term>
       <listitem><para> Integer identifying the reason the algorithm terminated.</para></listitem></varlistentry>
    <varlistentry><term>output :</term>
-      <listitem><para> Structure containing information about the optimization.</para></listitem></varlistentry>
+      <listitem><para> Structure containing information about the optimization. Right now it contains number of iteration.</para></listitem></varlistentry>
    <varlistentry><term>lambda :</term>
-      <listitem><para> Structure containing the Lagrange multipliers at the solution x (separated by constraint type).</para></listitem></varlistentry>
+      <listitem><para> Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper and linear equality, inequality constraints.</para></listitem></varlistentry>
    </variablelist>
 </refsection>
 
@@ -87,7 +87,7 @@ find the minimum of f(x) such that
 </latex>
    </para>
    <para>
-We are calling IPOpt for solving the quadratic problem, IPOpt is a library written in C++. The code has been written by ​Andreas Wächter and ​Carl Laird.
+We are calling IPOpt for solving the quadratic problem, IPOpt is a library written in C++.
    </para>
    <para>
 </para>
@@ -113,6 +113,7 @@ nbCon = 5;
 x0 = repmat(0,nbVar,1);
 param = list("MaxIter", 300, "CpuTime", 100);
 [xopt,fopt,exitflag,output,lambda]=qpipopt(nbVar,nbCon,Q,p,lb,ub,conMatrix,conLB,conUB,x0,param)
+// Press ENTER to continue
 
    ]]></programlisting>
 </refsection>
@@ -137,7 +138,6 @@ ub = [%inf; %inf];
 nbVar = 2;
 nbCon = 3;
 [xopt,fopt,exitflag,output,lambda] = qpipopt(nbVar,nbCon,Q,p,lb,ub,conMatrix,conLB,conUB)
-
    ]]></programlisting>
 </refsection>
 

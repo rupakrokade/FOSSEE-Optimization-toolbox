@@ -76,7 +76,7 @@ C = [0.9501    0.7620    0.6153    0.4057
  [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin(C,d,A,b,Aeq,beq,lb,ub)
 
 assert_close ( xopt , [ -0.1, -0.1, 0.1599089, 0.4089598 ]' , 0.0005 );
-assert_close ( residual , [ 0.0352969 0.0876228 -0.3532508 0.1452700 0.1212324 ]' , 0.0005 );
+assert_close ( residual , [-0.0352969 -0.0876228 0.3532508 -0.1452700 -0.1212324  ]' , 0.0005 );
 assert_close ( resnorm , [ 0.1695104] , 0.0005 );
-
 assert_checkequal( exitflag , int32(0) );
+printf("Test Successful");

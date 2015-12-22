@@ -20,7 +20,7 @@
 
       </td>
       <td width="30%" class="next">
-      	<span class="next"><a href="qpipopt_mat.html">qpipopt_mat &gt;&gt;</a></span>
+      	<span class="next"><a href="qpipoptmat.html">qpipoptmat &gt;&gt;</a></span>
 
       </td>
     </tr></table>
@@ -72,15 +72,15 @@
    <dt><span class="term">exitflag :</span>
       <dd><p class="para">Integer identifying the reason the algorithm terminated.</p></dd></dt>
    <dt><span class="term">output :</span>
-      <dd><p class="para">Structure containing information about the optimization.</p></dd></dt>
+      <dd><p class="para">Structure containing information about the optimization. Right now it contains number of iteration.</p></dd></dt>
    <dt><span class="term">lambda :</span>
-      <dd><p class="para">Structure containing the Lagrange multipliers at the solution x (separated by constraint type).</p></dd></dt></dl></div>
+      <dd><p class="para">Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper and linear equality, inequality constraints.</p></dd></dt></dl></div>
 
 <div class="refsection"><h3 class="title">Description</h3>
    <p class="para">Search the minimum of a constrained linear quadratic optimization problem specified by :
 find the minimum of f(x) such that</p>
    <p class="para"><span><img src='./_LaTeX_qpipopt.xml_1.png' style='position:relative;top:31px;width:293px;height:70px'/></span></p>
-   <p class="para">We are calling IPOpt for solving the quadratic problem, IPOpt is a library written in C++. The code has been written by ​Andreas Wächter and ​Carl Laird.</p>
+   <p class="para">We are calling IPOpt for solving the quadratic problem, IPOpt is a library written in C++.</p>
    <p class="para"></p></div>
 
 <div class="refsection"><h3 class="title">Examples</h3>
@@ -100,7 +100,8 @@ find the minimum of f(x) such that</p>
 <span class="scilabid">nbCon</span> <span class="scilaboperator">=</span> <span class="scilabnumber">5</span><span class="scilabdefault">;</span>
 <span class="scilabid">x0</span> <span class="scilaboperator">=</span> <a class="scilabmacro" href="scilab://repmat">repmat</a><span class="scilabopenclose">(</span><span class="scilabnumber">0</span><span class="scilabdefault">,</span><span class="scilabid">nbVar</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
 <span class="scilabid">param</span> <span class="scilaboperator">=</span> <a class="scilabcommand" href="scilab://list">list</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">MaxIter</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span> <span class="scilabnumber">300</span><span class="scilabdefault">,</span> <span class="scilabstring">&#0034;</span><span class="scilabstring">CpuTime</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span> <span class="scilabnumber">100</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
-<span class="scilabopenclose">[</span><span class="scilabid">xopt</span><span class="scilabdefault">,</span><span class="scilabid">fopt</span><span class="scilabdefault">,</span><span class="scilabid">exitflag</span><span class="scilabdefault">,</span><span class="scilabid">output</span><span class="scilabdefault">,</span><span class="scilabid">lambda</span><span class="scilabopenclose">]</span><span class="scilaboperator">=</span><span class="scilabid">qpipopt</span><span class="scilabopenclose">(</span><span class="scilabid">nbVar</span><span class="scilabdefault">,</span><span class="scilabid">nbCon</span><span class="scilabdefault">,</span><span class="scilabid">Q</span><span class="scilabdefault">,</span><span class="scilabid">p</span><span class="scilabdefault">,</span><span class="scilabid">lb</span><span class="scilabdefault">,</span><span class="scilabid">ub</span><span class="scilabdefault">,</span><span class="scilabid">conMatrix</span><span class="scilabdefault">,</span><span class="scilabid">conLB</span><span class="scilabdefault">,</span><span class="scilabid">conUB</span><span class="scilabdefault">,</span><span class="scilabid">x0</span><span class="scilabdefault">,</span><span class="scilabid">param</span><span class="scilabopenclose">)</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
+<span class="scilabopenclose">[</span><span class="scilabid">xopt</span><span class="scilabdefault">,</span><span class="scilabid">fopt</span><span class="scilabdefault">,</span><span class="scilabid">exitflag</span><span class="scilabdefault">,</span><span class="scilabid">output</span><span class="scilabdefault">,</span><span class="scilabid">lambda</span><span class="scilabopenclose">]</span><span class="scilaboperator">=</span><span class="scilabid">qpipopt</span><span class="scilabopenclose">(</span><span class="scilabid">nbVar</span><span class="scilabdefault">,</span><span class="scilabid">nbCon</span><span class="scilabdefault">,</span><span class="scilabid">Q</span><span class="scilabdefault">,</span><span class="scilabid">p</span><span class="scilabdefault">,</span><span class="scilabid">lb</span><span class="scilabdefault">,</span><span class="scilabid">ub</span><span class="scilabdefault">,</span><span class="scilabid">conMatrix</span><span class="scilabdefault">,</span><span class="scilabid">conLB</span><span class="scilabdefault">,</span><span class="scilabid">conUB</span><span class="scilabdefault">,</span><span class="scilabid">x0</span><span class="scilabdefault">,</span><span class="scilabid">param</span><span class="scilabopenclose">)</span>
+<span class="scilabcomment">// Press ENTER to continue</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
 
 <div class="refsection"><h3 class="title">Examples</h3>
    <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabcomment">//Find the value of x that minimize following function</span>
@@ -138,7 +139,7 @@ find the minimum of f(x) such that</p>
 
       </td>
       <td width="30%" class="next">
-      	<span class="next"><a href="qpipopt_mat.html">qpipopt_mat &gt;&gt;</a></span>
+      	<span class="next"><a href="qpipoptmat.html">qpipoptmat &gt;&gt;</a></span>
 
       </td>
     </tr></table>
