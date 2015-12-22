@@ -48,25 +48,25 @@
    <dt><span class="term">nbCon :</span>
       <dd><p class="para">a double, number of constraints.</p></dd></dt>
    <dt><span class="term">objCoeff :</span>
-      <dd><p class="para">a vector of doubles, represents coefficients of the variables in the objective.</p></dd></dt>
+      <dd><p class="para">a vector of double, represents coefficients of the variables in the objective.</p></dd></dt>
    <dt><span class="term">isInt :</span>
       <dd><p class="para">a vector of boolean, represents wether a variable is constrained to be an integer.</p></dd></dt>
    <dt><span class="term">LB :</span>
-      <dd><p class="para">a vector of doubles, represents lower bounds of the variables.</p></dd></dt>
+      <dd><p class="para">a vector of double, represents lower bounds of the variables.</p></dd></dt>
    <dt><span class="term">UB :</span>
-      <dd><p class="para">a vector of doubles, represents upper bounds of the variables.</p></dd></dt>
+      <dd><p class="para">a vector of double, represents upper bounds of the variables.</p></dd></dt>
    <dt><span class="term">conMatrix :</span>
-      <dd><p class="para">a matrix of doubles, represents  matrix representing the constraint matrix.</p></dd></dt>
+      <dd><p class="para">a matrix of double, represents  matrix representing the constraint matrix.</p></dd></dt>
    <dt><span class="term">conLB :</span>
-      <dd><p class="para">a vector of doubles, represents lower bounds of the constraints.</p></dd></dt>
+      <dd><p class="para">a vector of double, represents lower bounds of the constraints.</p></dd></dt>
    <dt><span class="term">conUB :</span>
-      <dd><p class="para">a vector of doubles, represents upper bounds of the constraints</p></dd></dt>
+      <dd><p class="para">a vector of double, represents upper bounds of the constraints</p></dd></dt>
    <dt><span class="term">objSense :</span>
       <dd><p class="para">The sense (maximization/minimization) of the objective. Use 1(sym_minimize ) or -1 (sym_maximize) here.</p></dd></dt>
    <dt><span class="term">options :</span>
       <dd><p class="para">a a list containing the the parameters to be set.</p></dd></dt>
    <dt><span class="term">xopt :</span>
-      <dd><p class="para">a vector of doubles, the computed solution of the optimization problem.</p></dd></dt>
+      <dd><p class="para">a vector of double, the computed solution of the optimization problem.</p></dd></dt>
    <dt><span class="term">fopt :</span>
       <dd><p class="para">a double, the function value at x.</p></dd></dt>
    <dt><span class="term">status :</span>
@@ -84,7 +84,7 @@ find the minimum or maximum of f(x) such that</p>
 <div class="refsection"><h3 class="title">Examples</h3>
    <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabcomment">//A basic case :</span>
 <span class="scilabcomment">// Objective function</span>
-<span class="scilabid">c</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">350</span><span class="scilaboperator">*</span><span class="scilabnumber">5</span><span class="scilabdefault">,</span><span class="scilabnumber">330</span><span class="scilaboperator">*</span><span class="scilabnumber">3</span><span class="scilabdefault">,</span><span class="scilabnumber">310</span><span class="scilaboperator">*</span><span class="scilabnumber">4</span><span class="scilabdefault">,</span><span class="scilabnumber">280</span><span class="scilaboperator">*</span><span class="scilabnumber">6</span><span class="scilabdefault">,</span><span class="scilabnumber">500</span><span class="scilabdefault">,</span><span class="scilabnumber">450</span><span class="scilabdefault">,</span><span class="scilabnumber">400</span><span class="scilabdefault">,</span><span class="scilabnumber">100</span><span class="scilabopenclose">]</span><span class="scilaboperator">&#0039;</span><span class="scilabdefault">;</span>
+<span class="scilabid">objCoef</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">350</span><span class="scilaboperator">*</span><span class="scilabnumber">5</span><span class="scilabdefault">,</span><span class="scilabnumber">330</span><span class="scilaboperator">*</span><span class="scilabnumber">3</span><span class="scilabdefault">,</span><span class="scilabnumber">310</span><span class="scilaboperator">*</span><span class="scilabnumber">4</span><span class="scilabdefault">,</span><span class="scilabnumber">280</span><span class="scilaboperator">*</span><span class="scilabnumber">6</span><span class="scilabdefault">,</span><span class="scilabnumber">500</span><span class="scilabdefault">,</span><span class="scilabnumber">450</span><span class="scilabdefault">,</span><span class="scilabnumber">400</span><span class="scilabdefault">,</span><span class="scilabnumber">100</span><span class="scilabopenclose">]</span><span class="scilaboperator">&#0039;</span><span class="scilabdefault">;</span>
 <span class="scilabcomment">// Lower Bound of variable</span>
 <span class="scilabid">lb</span> <span class="scilaboperator">=</span> <a class="scilabmacro" href="scilab://repmat">repmat</a><span class="scilabopenclose">(</span><span class="scilabnumber">0</span><span class="scilabdefault">,</span><span class="scilabnumber">8</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
 <span class="scilabcomment">// Upper Bound of variables</span>
