@@ -6,10 +6,8 @@
 <mapID target="lsqlin" url="lsqlin.html"/>
 <mapID target="lsqnonneg" url="lsqnonneg.html"/>
 <mapID target="qpipopt" url="qpipopt.html"/>
-<mapID target="qpipopt_mat" url="qpipopt_mat.html"/>
 <mapID target="qpipoptmat" url="qpipoptmat.html"/>
 <mapID target="symphony" url="symphony.html"/>
-<mapID target="symphony_mat" url="symphony_mat.html"/>
 <mapID target="symphonymat" url="symphonymat.html"/>
 <mapID target="section_508f0b211d17ea6769714cc144e6b731" url="section_508f0b211d17ea6769714cc144e6b731.html"/>
 <mapID target="sym_addConstr" url="sym_addConstr.html"/>

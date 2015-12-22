@@ -14,8 +14,8 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 	// Solves nonnegative least-squares curve fitting problems.
 	//
 	//   Calling Sequence
-	//   x = lsqnonneg(C,d)
-	//   x = lsqnonneg(C,d,param)
+	//   xopt = lsqnonneg(C,d)
+	//   xopt = lsqnonneg(C,d,param)
 	//   [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg( ... )
 	//   
 	//   Parameters
@@ -25,8 +25,8 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 	//   resnorm : a double, objective value returned as the scalar value norm(C*x-d)^2.
 	//   residual : a vector of doubles, solution residuals returned as the vector C*x-d.
 	//   exitflag : Integer identifying the reason the algorithm terminated.
-	//   output : Structure containing information about the optimization.
-	//   lambda : Structure containing the Lagrange multipliers at the solution x (separated by constraint type).
+	//   output : Structure containing information about the optimization. Right now it contains number of iteration.
+	//   lambda : Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper and linear equality, inequality constraints.
 	//   
 	//   Description
 	//   Solves nonnegative least-squares curve fitting problems specified by :
@@ -39,10 +39,10 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 	//    \end{eqnarray}
 	//   </latex>
 	//   
-	//   We are calling IPOpt for solving the nonnegative least-squares curve fitting problems, IPOpt is a library written in C++. The code has been written by ​Andreas Wächter and ​Carl Laird.
+	//   We are calling IPOpt for solving the nonnegative least-squares curve fitting problems, IPOpt is a library written in C++.
 	//    
 	// Examples 
-	// A basic lsqnonneg problem
+	// // A basic lsqnonneg problem
 	//	C = [
 	//		0.0372    0.2869
 	//		0.6861    0.7071
@@ -54,7 +54,6 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 	//   	0.0747
 	//	    0.8405];
 	// [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg(C,d)
-	//
 	// Authors
 	// Harpreet Singh
 

@@ -32,7 +32,7 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
   //   xopt : a vector of double, the computed solution of the optimization problem
   //   fopt : a doubles, the function value at x
   //   status : status flag from symphony.
-  //   output : The output data structure contains detailed informations about the optimization process.
+  //   output : The output data structure contains detailed informations about the optimization process. Right now it contains number of iteration.
   //   
   //   Description
   //   Search the minimum or maximum of a constrained mixed integer linear programming optimization problem specified by :
@@ -41,14 +41,15 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
   //   <latex>
   //    \begin{eqnarray}
   //    &\mbox{min}_{x}
-  //    & f(x) \\
-  //    & \text{subject to} & A.x \leq b \\
-  //    & & Aeq.x \leq beq \\
+  //    & f^T*x \\
+  //    & \text{subject to} & A*x \leq b \\
+  //    & & Aeq*x = beq \\
   //    & & lb \leq x \leq ub \\
+  //	& & x_i \in \!\, \mathbb{Z}, i \in \!\, I
   //    \end{eqnarray}
   //   </latex>
   //   
-  //   We are calling SYMPHONY written in C by gateway files for the actual computation. SYMPHONY was originally written by ​Ted Ralphs, ​Menal Guzelsoy and ​Ashutosh Mahajan.
+  //   We are calling SYMPHONY written in C by gateway files for the actual computation.
   //
   // Examples
   //    // Objective function
@@ -65,6 +66,7 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
   //    intcon = [1 2 3 4];
   //    // Calling Symphony
   //    [x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub)
+  //	// Press ENTER to continue 
   //
   // Examples 
   //    // An advanced case where we set some options in symphony
@@ -147,7 +149,6 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
   //    fopt = [ 24381 ]
   //    // Calling Symphony
   //    [x,f,status,output] = symphonymat(objCoef,intcon,conMatrix,conUB,[],[],lb,ub,options);
-  // 
   // Authors
   // Keyur Joshi, Saikiran, Iswarya, Harpreet Singh
     

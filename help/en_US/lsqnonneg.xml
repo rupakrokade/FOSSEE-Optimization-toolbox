@@ -24,8 +24,8 @@
 <refsynopsisdiv>
    <title>Calling Sequence</title>
    <synopsis>
-   x = lsqnonneg(C,d)
-   x = lsqnonneg(C,d,param)
+   xopt = lsqnonneg(C,d)
+   xopt = lsqnonneg(C,d,param)
    [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg( ... )
    
    </synopsis>
@@ -47,9 +47,9 @@
    <varlistentry><term>exitflag :</term>
       <listitem><para> Integer identifying the reason the algorithm terminated.</para></listitem></varlistentry>
    <varlistentry><term>output :</term>
-      <listitem><para> Structure containing information about the optimization.</para></listitem></varlistentry>
+      <listitem><para> Structure containing information about the optimization. Right now it contains number of iteration.</para></listitem></varlistentry>
    <varlistentry><term>lambda :</term>
-      <listitem><para> Structure containing the Lagrange multipliers at the solution x (separated by constraint type).</para></listitem></varlistentry>
+      <listitem><para> Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper and linear equality, inequality constraints.</para></listitem></varlistentry>
    </variablelist>
 </refsection>
 
@@ -68,7 +68,7 @@ Solves nonnegative least-squares curve fitting problems specified by :
 </latex>
    </para>
    <para>
-We are calling IPOpt for solving the nonnegative least-squares curve fitting problems, IPOpt is a library written in C++. The code has been written by ​Andreas Wächter and ​Carl Laird.
+We are calling IPOpt for solving the nonnegative least-squares curve fitting problems, IPOpt is a library written in C++.
    </para>
    <para>
 </para>
@@ -77,7 +77,7 @@ We are calling IPOpt for solving the nonnegative least-squares curve fitting pro
 <refsection>
    <title>Examples</title>
    <programlisting role="example"><![CDATA[
-A basic lsqnonneg problem
+// A basic lsqnonneg problem
 C = [
 0.0372    0.2869
 0.6861    0.7071
@@ -89,7 +89,6 @@ d = [
 0.0747
 0.8405];
 [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg(C,d)
-
    ]]></programlisting>
 </refsection>
 

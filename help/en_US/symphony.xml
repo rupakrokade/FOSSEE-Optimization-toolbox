@@ -64,7 +64,7 @@
    <varlistentry><term>status :</term>
       <listitem><para> status flag from symphony.</para></listitem></varlistentry>
    <varlistentry><term>output :</term>
-      <listitem><para> The output data structure contains detailed informations about the optimization process.</para></listitem></varlistentry>
+      <listitem><para> The output data structure contains detailed informations about the optimization process. Right now it contains number of iteration.</para></listitem></varlistentry>
    </variablelist>
 </refsection>
 
@@ -78,14 +78,15 @@ find the minimum or maximum of f(x) such that
 <latex>
 \begin{eqnarray}
 &amp;\mbox{min}_{x}
-&amp; f(x) \\
-&amp; \text{subject to} &amp; conLB \leq C(x) \leq conUB \\
+&amp; f^T*x \\
+&amp; \text{subject to} &amp; conLB \leq C*x \leq conUB \\
 &amp; &amp; lb \leq x \leq ub \\
+&amp; &amp; x_i \in \!\, \mathbb{Z}, i \in \!\, I
 \end{eqnarray}
 </latex>
    </para>
    <para>
-We are calling SYMPHONY written in C by gateway files for the actual computation. SYMPHONY was originally written by ​Ted Ralphs, ​Menal Guzelsoy and ​Ashutosh Mahajan.
+We are calling SYMPHONY written in C by gateway files for the actual computation.
    </para>
    <para>
 </para>
@@ -115,6 +116,7 @@ xopt = [1 1 0 1 7.25 0 0.25 3.5]
 fopt = [8495]
 // Calling Symphony
 [x,f,status,output] = symphony(8,3,c,isInt,lb,ub,conMatrix,conlb,conub,1)
+// Press ENTER to continue
 
    ]]></programlisting>
 </refsection>
@@ -203,8 +205,7 @@ xopt = [0 1 1 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 1 0 1 1 0 1 ..
 // Optimal value
 fopt = [ 24381 ]
 // Calling Symphony
-[x,f,status,output] = symphony(nbVar,nbCon,p,isInt,lb,ub,conMatrix,conLB,conUB,-1,options)
-
+[x,f,status,output] = symphony(nbVar,nbCon,p,isInt,lb,ub,conMatrix,conLB,conUB,-1,options);
    ]]></programlisting>
 </refsection>
 

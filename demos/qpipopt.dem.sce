@@ -20,6 +20,7 @@ nbCon = 5;
 x0 = repmat(0,nbVar,1);
 param = list("MaxIter", 300, "CpuTime", 100);
 [xopt,fopt,exitflag,output,lambda]=qpipopt(nbVar,nbCon,Q,p,lb,ub,conMatrix,conLB,conUB,x0,param)
+// Press ENTER to continue
 halt()   // Press return to continue
  
 //Find the value of x that minimize following function
@@ -39,6 +40,4 @@ ub = [%inf; %inf];
 nbVar = 2;
 nbCon = 3;
 [xopt,fopt,exitflag,output,lambda] = qpipopt(nbVar,nbCon,Q,p,lb,ub,conMatrix,conLB,conUB)
-halt()   // Press return to continue
- 
 //========= E N D === O F === D E M O =========//

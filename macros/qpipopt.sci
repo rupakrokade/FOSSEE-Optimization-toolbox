@@ -34,8 +34,8 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
   //   xopt : a vector of doubles, the computed solution of the optimization problem.
   //   fopt : a double, the function value at x.
   //   exitflag : Integer identifying the reason the algorithm terminated.
-  //   output : Structure containing information about the optimization.
-  //   lambda : Structure containing the Lagrange multipliers at the solution x (separated by constraint type).
+  //   output : Structure containing information about the optimization. Right now it contains number of iteration.
+  //   lambda : Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper and linear equality, inequality constraints.
   //   
   //   Description
   //   Search the minimum of a constrained linear quadratic optimization problem specified by :
@@ -50,7 +50,7 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
   //    \end{eqnarray}
   //   </latex>
   //   
-  //   We are calling IPOpt for solving the quadratic problem, IPOpt is a library written in C++. The code has been written by ​Andreas Wächter and ​Carl Laird.
+  //   We are calling IPOpt for solving the quadratic problem, IPOpt is a library written in C++.
   //
   // Examples
   //      //Find x in R^6 such that:
@@ -70,6 +70,7 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
   //      x0 = repmat(0,nbVar,1);
   //	  param = list("MaxIter", 300, "CpuTime", 100);
   //      [xopt,fopt,exitflag,output,lambda]=qpipopt(nbVar,nbCon,Q,p,lb,ub,conMatrix,conLB,conUB,x0,param)
+  // // Press ENTER to continue
   //    
   // Examples 
   //    //Find the value of x that minimize following function
@@ -89,7 +90,6 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
   //	nbVar = 2;
   //	nbCon = 3;
   //	[xopt,fopt,exitflag,output,lambda] = qpipopt(nbVar,nbCon,Q,p,lb,ub,conMatrix,conLB,conUB)
-  // 
   // Authors
   // Keyur Joshi, Saikiran, Iswarya, Harpreet Singh
     

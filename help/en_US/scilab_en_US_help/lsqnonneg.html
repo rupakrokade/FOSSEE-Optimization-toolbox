@@ -37,8 +37,8 @@
 
 
 <div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
-   <div class="synopsis"><pre><span class="default">x</span><span class="default"> = </span><span class="functionid">lsqnonneg</span><span class="default">(</span><span class="default">C</span><span class="default">,</span><span class="default">d</span><span class="default">)</span>
-<span class="default">x</span><span class="default"> = </span><span class="functionid">lsqnonneg</span><span class="default">(</span><span class="default">C</span><span class="default">,</span><span class="default">d</span><span class="default">,</span><span class="default">param</span><span class="default">)</span>
+   <div class="synopsis"><pre><span class="default">xopt</span><span class="default"> = </span><span class="functionid">lsqnonneg</span><span class="default">(</span><span class="default">C</span><span class="default">,</span><span class="default">d</span><span class="default">)</span>
+<span class="default">xopt</span><span class="default"> = </span><span class="functionid">lsqnonneg</span><span class="default">(</span><span class="default">C</span><span class="default">,</span><span class="default">d</span><span class="default">,</span><span class="default">param</span><span class="default">)</span>
 <span class="default">[</span><span class="default">xopt</span><span class="default">,</span><span class="default">resnorm</span><span class="default">,</span><span class="default">residual</span><span class="default">,</span><span class="default">exitflag</span><span class="default">,</span><span class="default">output</span><span class="default">,</span><span class="default">lambda</span><span class="default">] = </span><span class="functionid">lsqnonneg</span><span class="default">( ... )</span></pre></div></div>
 
 <div class="refsection"><h3 class="title">Parameters</h3>
@@ -55,18 +55,18 @@
    <dt><span class="term">exitflag :</span>
       <dd><p class="para">Integer identifying the reason the algorithm terminated.</p></dd></dt>
    <dt><span class="term">output :</span>
-      <dd><p class="para">Structure containing information about the optimization.</p></dd></dt>
+      <dd><p class="para">Structure containing information about the optimization. Right now it contains number of iteration.</p></dd></dt>
    <dt><span class="term">lambda :</span>
-      <dd><p class="para">Structure containing the Lagrange multipliers at the solution x (separated by constraint type).</p></dd></dt></dl></div>
+      <dd><p class="para">Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper and linear equality, inequality constraints.</p></dd></dt></dl></div>
 
 <div class="refsection"><h3 class="title">Description</h3>
    <p class="para">Solves nonnegative least-squares curve fitting problems specified by :</p>
    <p class="para"><span><img src='./_LaTeX_lsqnonneg.xml_1.png' style='position:relative;top:19px;width:197px;height:46px'/></span></p>
-   <p class="para">We are calling IPOpt for solving the nonnegative least-squares curve fitting problems, IPOpt is a library written in C++. The code has been written by ​Andreas Wächter and ​Carl Laird.</p>
+   <p class="para">We are calling IPOpt for solving the nonnegative least-squares curve fitting problems, IPOpt is a library written in C++.</p>
    <p class="para"></p></div>
 
 <div class="refsection"><h3 class="title">Examples</h3>
-   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabid">A</span> <span class="scilabid">basic</span> <span class="scilabid">lsqnonneg</span> <span class="scilabid">problem</span>
+   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabcomment">// A basic lsqnonneg problem</span>
 <span class="scilabid">C</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span>
 <span class="scilabnumber">0.0372</span>    <span class="scilabnumber">0.2869</span>
 <span class="scilabnumber">0.6861</span>    <span class="scilabnumber">0.7071</span>
