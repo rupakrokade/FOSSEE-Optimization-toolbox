@@ -22,16 +22,16 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
   //   Parameters
   //   nbVar : a double, number of variables
   //   nbCon : a double, number of constraints
-  //   Q : a symmetric matrix of doubles, represents coefficients of quadratic in the quadratic problem.
-  //   p : a vector of doubles, represents coefficients of linear in the quadratic problem
-  //   LB : a vector of doubles, contains lower bounds of the variables.
-  //   UB : a vector of doubles, contains upper bounds of the variables.
-  //   conMatrix : a matrix of doubles, contains  matrix representing the constraint matrix 
-  //   conLB : a vector of doubles, contains lower bounds of the constraints. 
-  //   conUB : a vector of doubles, contains upper bounds of the constraints. 
-  //   x0 : a vector of doubles, contains initial guess of variables.
+  //   Q : a symmetric matrix of double, represents coefficients of quadratic in the quadratic problem.
+  //   p : a vector of double, represents coefficients of linear in the quadratic problem
+  //   LB : a vector of double, contains lower bounds of the variables.
+  //   UB : a vector of double, contains upper bounds of the variables.
+  //   conMatrix : a matrix of double, contains  matrix representing the constraint matrix 
+  //   conLB : a vector of double, contains lower bounds of the constraints. 
+  //   conUB : a vector of double, contains upper bounds of the constraints. 
+  //   x0 : a vector of double, contains initial guess of variables.
   //   param : a list containing the the parameters to be set.
-  //   xopt : a vector of doubles, the computed solution of the optimization problem.
+  //   xopt : a vector of double, the computed solution of the optimization problem.
   //   fopt : a double, the function value at x.
   //   exitflag : Integer identifying the reason the algorithm terminated.
   //   output : Structure containing information about the optimization. Right now it contains number of iteration.

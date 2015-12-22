@@ -21,16 +21,16 @@ function [xopt,fopt,status,output] = symphony (varargin)
 	//   Parameters
 	//   nbVar : a double, number of variables.
 	//   nbCon : a double, number of constraints.
-	//   objCoeff : a vector of doubles, represents coefficients of the variables in the objective.
+	//   objCoeff : a vector of double, represents coefficients of the variables in the objective.
 	//   isInt : a vector of boolean, represents wether a variable is constrained to be an integer.
-	//   LB : a vector of doubles, represents lower bounds of the variables.
-	//   UB : a vector of doubles, represents upper bounds of the variables.
-	//   conMatrix : a matrix of doubles, represents  matrix representing the constraint matrix.
-	//   conLB : a vector of doubles, represents lower bounds of the constraints. 
-	//   conUB : a vector of doubles, represents upper bounds of the constraints
+	//   LB : a vector of double, represents lower bounds of the variables.
+	//   UB : a vector of double, represents upper bounds of the variables.
+	//   conMatrix : a matrix of double, represents  matrix representing the constraint matrix.
+	//   conLB : a vector of double, represents lower bounds of the constraints. 
+	//   conUB : a vector of double, represents upper bounds of the constraints
 	//   objSense : The sense (maximization/minimization) of the objective. Use 1(sym_minimize ) or -1 (sym_maximize) here.
 	//   options : a a list containing the the parameters to be set.
-	//   xopt : a vector of doubles, the computed solution of the optimization problem.
+	//   xopt : a vector of double, the computed solution of the optimization problem.
 	//   fopt : a double, the function value at x.
 	//   status : status flag from symphony.
 	//   output : The output data structure contains detailed informations about the optimization process. Right now it contains number of iteration.
@@ -54,7 +54,7 @@ function [xopt,fopt,status,output] = symphony (varargin)
 	//   Examples
 	//    //A basic case : 
 	//    // Objective function
-	//    c = [350*5,330*3,310*4,280*6,500,450,400,100]';
+	//    objCoef = [350*5,330*3,310*4,280*6,500,450,400,100]';
 	//    // Lower Bound of variable
 	//    lb = repmat(0,8,1);
 	//    // Upper Bound of variables

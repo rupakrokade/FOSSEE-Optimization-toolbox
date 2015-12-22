@@ -23,17 +23,17 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 	//   [xopt,fopt,exitflag,output,lamda] = qpipoptmat( ... )
 	//   
 	//   Parameters
-	//   H : a symmetric matrix of doubles, represents coefficients of quadratic in the quadratic problem.
-	//   f : a vector of doubles, represents coefficients of linear in the quadratic problem
-	//   A : a vector of doubles, represents the linear coefficients in the inequality constraints
-	//   b : a vector of doubles, represents the linear coefficients in the inequality constraints
-	//   Aeq : a matrix of doubles, represents the linear coefficients in the equality constraints
-	//   beq : a vector of doubles, represents the linear coefficients in the equality constraints
-	//   LB : a vector of doubles, contains lower bounds of the variables.
-	//   UB : a vector of doubles, contains upper bounds of the variables.
-	//   x0 : a vector of doubles, contains initial guess of variables.
+	//   H : a symmetric matrix of double, represents coefficients of quadratic in the quadratic problem.
+	//   f : a vector of double, represents coefficients of linear in the quadratic problem
+	//   A : a vector of double, represents the linear coefficients in the inequality constraints
+	//   b : a vector of double, represents the linear coefficients in the inequality constraints
+	//   Aeq : a matrix of double, represents the linear coefficients in the equality constraints
+	//   beq : a vector of double, represents the linear coefficients in the equality constraints
+	//   LB : a vector of double, contains lower bounds of the variables.
+	//   UB : a vector of double, contains upper bounds of the variables.
+	//   x0 : a vector of double, contains initial guess of variables.
 	//   param : a list containing the the parameters to be set.
-	//   xopt : a vector of doubles, the computed solution of the optimization problem.
+	//   xopt : a vector of double, the computed solution of the optimization problem.
 	//   fopt : a double, the function value at x.
 	//   exitflag : Integer identifying the reason the algorithm terminated.
 	//   output : Structure containing information about the optimization. Right now it contains number of iteration.
@@ -65,7 +65,7 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 	//    // 0 ≤ x1, 0 ≤ x2.
 	//	H = [1 -1; -1 2]; 
 	//	f = [-2; -6];
-	//    A = [1 1; -1 2; 2 1];
+	//  A = [1 1; -1 2; 2 1];
 	//	b = [2; 2; 3];
 	//	lb = [0; 0];
 	//	ub = [%inf; %inf];
@@ -73,21 +73,21 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 	// // Press ENTER to continue 
 	//
 	// Examples 
-	//      //Find x in R^6 such that:
-	//      Aeq= [1,-1,1,0,3,1;
-	//           -1,0,-3,-4,5,6;
-	//           2,5,3,0,1,0];
-	//      beq=[1; 2; 3];
-	//      A= [0,1,0,1,2,-1;
-	//          -1,0,2,1,1,0];
-	//      b = [-1; 2.5];
-	//      lb=[-1000; -10000; 0; -1000; -1000; -1000];
-	//      ub=[10000; 100; 1.5; 100; 100; 1000];
-	//      x0 = repmat(0,6,1);
+	//  //Find x in R^6 such that:
+	//    Aeq= [1,-1,1,0,3,1;
+	//         -1,0,-3,-4,5,6;
+	//          2,5,3,0,1,0];
+	//    beq=[1; 2; 3];
+	//    A= [0,1,0,1,2,-1;
+	//       -1,0,2,1,1,0];
+	//    b = [-1; 2.5];
+	//    lb=[-1000; -10000; 0; -1000; -1000; -1000];
+	//    ub=[10000; 100; 1.5; 100; 100; 1000];
+	//    x0 = repmat(0,6,1);
 	//	  param = list("MaxIter", 300, "CpuTime", 100);
-	//      //and minimize 0.5*x'*Q*x + p'*x with
-	//      f=[1; 2; 3; 4; 5; 6]; H=eye(6,6);
-	//      [xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f,A,b,Aeq,beq,lb,ub,[],param)
+	//    //and minimize 0.5*x'*H*x + f'*x with
+	//    f=[1; 2; 3; 4; 5; 6]; H=eye(6,6);
+	//    [xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f,A,b,Aeq,beq,lb,ub,[],param)
 	// Authors
 	// Keyur Joshi, Saikiran, Iswarya, Harpreet Singh
     

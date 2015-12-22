@@ -22,19 +22,19 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
 	//   [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin( ... )
 	//   
 	//   Parameters
-	//   C : a matrix of doubles, represents the multiplier of the solution x in the expression C*x - d. C is M-by-N, where M is the number of equations, and N is the number of elements of x.
-	//   d : a vector of doubles, represents the additive constant term in the expression C*x - d. d is M-by-1, where M is the number of equations.
-	//   A : a vector of doubles, represents the linear coefficients in the inequality constraints
-	//   b : a vector of doubles, represents the linear coefficients in the inequality constraints
-	//   Aeq : a matrix of doubles, represents the linear coefficients in the equality constraints
-	//   beq : a vector of doubles, represents the linear coefficients in the equality constraints
-	//   LB : a vector of doubles, contains lower bounds of the variables.
-	//   UB : a vector of doubles,  contains upper bounds of the variables.
-	//   x0 : a vector of doubles, contains initial guess of variables.
+	//   C : a matrix of double, represents the multiplier of the solution x in the expression C*x - d. C is M-by-N, where M is the number of equations, and N is the number of elements of x.
+	//   d : a vector of double, represents the additive constant term in the expression C*x - d. d is M-by-1, where M is the number of equations.
+	//   A : a vector of double, represents the linear coefficients in the inequality constraints
+	//   b : a vector of double, represents the linear coefficients in the inequality constraints
+	//   Aeq : a matrix of double, represents the linear coefficients in the equality constraints
+	//   beq : a vector of double, represents the linear coefficients in the equality constraints
+	//   LB : a vector of double, contains lower bounds of the variables.
+	//   UB : a vector of double,  contains upper bounds of the variables.
+	//   x0 : a vector of double, contains initial guess of variables.
 	//   param : a list containing the the parameters to be set.
-	//   xopt : a vector of doubles, the computed solution of the optimization problem.
+	//   xopt : a vector of double, the computed solution of the optimization problem.
 	//   resnorm : a double, objective value returned as the scalar value norm(C*x-d)^2.
-	//   residual : a vector of doubles, solution residuals returned as the vector C*x-d.
+	//   residual : a vector of double, solution residuals returned as the vector C*x-d.
 	//   exitflag : Integer identifying the reason the algorithm terminated.
 	//   output : Structure containing information about the optimization. Right now it contains number of iteration.
 	//   lambda : Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper and linear equality, inequality constraints.

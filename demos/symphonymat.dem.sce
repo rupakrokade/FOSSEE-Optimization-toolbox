@@ -4,7 +4,7 @@ mode(1)
 //
 
 // Objective function
-c = [350*5,330*3,310*4,280*6,500,450,400,100]';
+C = [350*5,330*3,310*4,280*6,500,450,400,100]';
 // Lower Bound of variable
 lb = repmat(0,1,8);
 // Upper Bound of variables
@@ -30,7 +30,7 @@ halt()   // Press return to continue
 // st   sum{j=1,...,n} r(i,j)x(j) <= b(i)       i=1,...,m
 //                     x(j)=0 or 1
 // The function to be maximize i.e. P(j)
-objCoef = -1*[   504 803 667 1103 834 585 811 856 690 832 846 813 868 793 ..
+C = -1*[   504 803 667 1103 834 585 811 856 690 832 846 813 868 793 ..
 825 1002 860 615 540 797 616 660 707 866 647 746 1006 608 ..
 877 900 573 788 484 853 942 630 591 630 640 1169 932 1034 ..
 957 798 669 625 467 1051 552 717 654 388 559 555 1104 783 ..
@@ -38,7 +38,7 @@ objCoef = -1*[   504 803 667 1103 834 585 811 856 690 832 846 813 868 793 ..
 510 671 575 740 510 675 996 636 826 1022 1140 654 909 799 ..
 1162 653 814 625 599 476 767 954 906 904 649 873 565 853 1008 632]';
 //Constraint Matrix
-conMatrix = [   //Constraint 1
+A = [   //Constraint 1
 42 41 523 215 819 551 69 193 582 375 367 478 162 898 ..
 550 553 298 577 493 183 260 224 852 394 958 282 402 604 ..
 164 308 218 61 273 772 191 117 276 877 415 873 902 465 ..
@@ -80,7 +80,7 @@ conMatrix = [   //Constraint 1
 893 160 785 311 417 748 375 362 617 553 474 915 457 261 350 635 ;
 ];
 nbVar = size(objCoef,1)
-conUB=[11927 13727 11551 13056 13460 ];
+b=[11927 13727 11551 13056 13460 ];
 // Lower Bound of variables
 lb = repmat(0,1,nbVar)
 // Upper Bound of variables
@@ -99,5 +99,5 @@ xopt = [0 1 1 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 1 0 1 1 0 1 ..
 // Optimal value
 fopt = [ 24381 ]
 // Calling Symphony
-[x,f,status,output] = symphonymat(objCoef,intcon,conMatrix,conUB,[],[],lb,ub,options);
+[x,f,status,output] = symphonymat(C,intcon,A,b,[],[],lb,ub,options);
 //========= E N D === O F === D E M O =========//

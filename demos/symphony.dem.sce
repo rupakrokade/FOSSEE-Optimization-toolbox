@@ -5,7 +5,7 @@ mode(1)
 
 //A basic case :
 // Objective function
-c = [350*5,330*3,310*4,280*6,500,450,400,100]';
+objCoef = [350*5,330*3,310*4,280*6,500,450,400,100]';
 // Lower Bound of variable
 lb = repmat(0,8,1);
 // Upper Bound of variables
