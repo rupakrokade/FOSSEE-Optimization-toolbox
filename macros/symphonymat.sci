@@ -235,20 +235,20 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
    end
 
     for i=1:size(intcon,2)
-	if(intcon(i)>nbVar) then
-		errmsg = msprintf(gettext("%s: The values inside intcon should not exceed total number of variable "), "Symphonymat");
-		error(errmsg);
-	end
+		if(intcon(i)>nbVar) then
+			errmsg = msprintf(gettext("%s: The values inside intcon should not exceed total number of variable "), "Symphonymat");
+			error(errmsg);
+		end
 
-	if (intcon(i)<1) then
-		errmsg = msprintf(gettext("%s: The values inside intcon should be greater than 0 "), "Symphonymat");
-		error(errmsg);
-	end
+		if (intcon(i)<0) then
+			errmsg = msprintf(gettext("%s: The values inside intcon should be greater than 0 "), "Symphonymat");
+			error(errmsg);
+		end
 
-	if(modulo(intcon(i),1)) then
-		errmsg = msprintf(gettext("%s: The values inside intcon should be integer "), "Symphonymat");
-		error(errmsg);
-	end
+		if(modulo(intcon(i),1)) then
+			errmsg = msprintf(gettext("%s: The values inside intcon should be integer "), "Symphonymat");
+			error(errmsg);
+		end
     end
 
    //Check the size of inequality constraint which should equal to the number of inequality constraints
