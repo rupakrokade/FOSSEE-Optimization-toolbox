@@ -14,9 +14,12 @@ x0 = repmat(0,6,1);
 param = ["MaxIter", "CpuTime"];
 f=[1; 2; 3; 4; 5; 6]; H=eye(6,6);
 x0 = repmat(0,6,1);
-[xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f,A,b,Aeq,beq,lb,ub,[],param)
 
 // Error
 //qpipopt: param should be a list 
 //at line     147 of function qpipoptmat called by :  
 //[xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f,A,b,Aeq,beq,lb,ub,[],param)
+
+[xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f,A,b,Aeq,beq,lb,ub,[],param)
+
+

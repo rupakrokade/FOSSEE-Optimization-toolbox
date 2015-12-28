@@ -14,9 +14,10 @@ x0 = repmat(0,6,1);
 param = list("MaxIter", 300, "CpuTime", 100);
 f=[1; 2; 3; 4; 5; 6]; H=eye(6,4);
 x0 = repmat(0,6,1);
-[xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f,A,b,Aeq,beq,lb,ub,[],param)
 
 // Error
 //qpipoptmat: H is not a symmetric matrix
 //at line     208 of function qpipoptmat called by :  
 //[xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f,A,b,Aeq,beq,lb,ub,[],param)
+
+[xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f,A,b,Aeq,beq,lb,ub,[],param)

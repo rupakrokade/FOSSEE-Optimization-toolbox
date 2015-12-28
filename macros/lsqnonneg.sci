@@ -19,14 +19,14 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 	//   [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg( ... )
 	//   
 	//   Parameters
-	//   C : a matrix of doubles, represents the multiplier of the solution x in the expression C*x - d. C is M-by-N, where M is the number of equations, and N is the number of elements of x.
-	//   d : a vector of doubles, represents the additive constant term in the expression C*x - d. d is M-by-1, where M is the number of equations.
-	//   xopt : a vector of doubles, the computed solution of the optimization problem.
+	//   C : a matrix of double, represents the multiplier of the solution x in the expression C*x - d. Number of columns in C is equal to the number of elements in x.
+	//   d : a vector of double, represents the additive constant term in the expression C*x - d. Number of elements in d is equal to the number of rows in C matrix.
+	//   xopt : a vector of double, the computed solution of the optimization problem.
 	//   resnorm : a double, objective value returned as the scalar value norm(C*x-d)^2.
-	//   residual : a vector of doubles, solution residuals returned as the vector C*x-d.
-	//   exitflag : Integer identifying the reason the algorithm terminated.
-	//   output : Structure containing information about the optimization. Right now it contains number of iteration.
-	//   lambda : Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper and linear equality, inequality constraints.
+	//   residual : a vector of double, solution residuals returned as the vector C*x-d.
+	//   exitflag : Integer identifying the reason the algorithm terminated. It could be 0, 1 or 2 i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded.
+	//   output : Structure containing information about the optimization. This version only contains number of iterations.
+	//   lambda : Structure containing the Lagrange multipliers at the solution x. It contains lower and upper bound multiplier.
 	//   
 	//   Description
 	//   Solves nonnegative least-squares curve fitting problems specified by :
@@ -34,12 +34,12 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 	//   <latex>
 	//    \begin{eqnarray}
 	//    &\mbox{min}_{x}
-	//    & 1/2||C*x - d||_2^2  \\
+	//    & 1/2||C⋅x - d||_2^2  \\
 	//    & & x \geq 0 \\
 	//    \end{eqnarray}
 	//   </latex>
 	//   
-	//   We are calling IPOpt for solving the nonnegative least-squares curve fitting problems, IPOpt is a library written in C++.
+	//   The routine calls Ipopt for solving the nonnegative least-squares curve fitting problems, Ipopt is a library written in C++.
 	//    
 	// Examples 
 	// // A basic lsqnonneg problem
@@ -63,7 +63,7 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 
 	//To check the number of argument given by user
 	if ( rhs < 2 | rhs > 3 ) then
-		errmsg = msprintf(gettext("%s: Unexpected number of input arguments : %d provided while should be in the set of [2 3]"), "lsqlin", rhs);
+		errmsg = msprintf(gettext("%s: Unexpected number of input arguments : %d provided while should be in the set of [2 3]"), "lsqnonneg", rhs);
 		error(errmsg)
 	end
 
@@ -73,21 +73,21 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 	if ( rhs<3 | size(varargin(3)) ==0 ) then
 		param = list();
 	else
-		param =varargin(10);
+		param =varargin(3);
 	end
 
 	if (type(param) ~= 15) then
-		errmsg = msprintf(gettext("%s: param should be a list "), "lsqlin");
+		errmsg = msprintf(gettext("%s: param should be a list "), "lsqnonneg");
 		error(errmsg);
 	end
 
 
 	if (modulo(size(param),2)) then
-		errmsg = msprintf(gettext("%s: Size of parameters should be even"), "lsqlin");
+		errmsg = msprintf(gettext("%s: Size of parameters should be even"), "lsqnonneg");
 		error(errmsg);
 	end
 
-	options = list(	"MaxIter"     , [3000], ...
+	options = list(	"MaxIter"   , [3000], ...
 					"CpuTime"   , [600] ...
 	);
 
@@ -99,7 +99,7 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 			case "CpuTime" then
 				options(2*i) = param(2*i);
 			else
-				errmsg = msprintf(gettext("%s: Unrecognized parameter name ''%s''."), "lsqlin", param(2*i-1));
+				errmsg = msprintf(gettext("%s: Unrecognized parameter name ''%s''."), "lsqnonneg", param(2*i-1));
 				error(errmsg)
 		end
 	end
@@ -114,7 +114,7 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 
 	//Check the size of f which should equal to the number of variable
 	if ( size(d,1) ~= size(C,1)) then
-		errmsg = msprintf(gettext("%s: The number of rows in C must be equal the number of elements of d"), "lsqlin");
+		errmsg = msprintf(gettext("%s: The number of rows in C must be equal the number of elements of d"), "lsqnonneg");
 		error(errmsg);
 	end
 
@@ -123,14 +123,14 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 	Q = C'*C;
 	p = [-C'*d]';
 	op_add = d'*d;
-	LB = repmat(0,1,nbVar);
-	UB = repmat(%inf,1,nbVar);	
+	lb = repmat(0,1,nbVar);
+	ub = repmat(%inf,1,nbVar);	
 	x0 = repmat(0,1,nbVar);;
 	conMatrix = [];
 	nbCon = size(conMatrix,1);
 	conLB = [];
 	conUB = [] ; 
-	[xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,Q,p,conMatrix,conLB,conUB,LB,UB,x0,options);
+	[xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,Q,p,conMatrix,conLB,conUB,lb,ub,x0,options);
 
 	xopt = xopt';
 	residual = -1*(C*xopt-d);
@@ -170,11 +170,11 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 		case 12 then
 			printf("\nProblem has too few degrees of freedom.\n");
 		case 13 then
-			printf("\nInvalid option thrown back by IPOpt\n");
+			printf("\nInvalid option thrown back by Ipopt\n");
 		case 14 then
 			printf("\nNot enough memory.\n");
 		case 15 then
-			printf("\nINTERNAL ERROR: Unknown SolverReturn value - Notify IPOPT Authors.\n");
+			printf("\nINTERNAL ERROR: Unknown SolverReturn value - Notify Ipopt Authors.\n");
 		else
 			printf("\nInvalid status returned. Notify the Toolbox authors\n");
 		break;

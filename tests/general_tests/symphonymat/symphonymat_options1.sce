@@ -19,10 +19,12 @@ intcon = [1 2 3 4];
 
 options = list("time_limit");
 
-// Calling Symphony
-[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub,options)
-
 //Error
 //Symphonymat: Size of parameters should be even
 //at line     272 of function symphonymat called by :  
 //[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub,options)
+
+// Calling Symphony
+[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub,options)
+
+

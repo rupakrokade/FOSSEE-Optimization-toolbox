@@ -1,4 +1,5 @@
-// Check for size of Objective Coefficient
+// An example with equality constraints and variable bounds
+
 // A basic case :
 
 // Objective function
@@ -22,9 +23,6 @@ b = [ 55;26;30;57]
 // Row Matrix for telling symphony that the is integer or not
 intcon = [];
 
-// Calling Symphony
-[x,f,status,output] = symphonymat(c,intcon,A,b,[],[],lb,ub)
-disp("x",x,"f",f,"status",status,"output",output);
 // Output
 //Problem loaded into environment.
 //
@@ -51,3 +49,8 @@ disp("x",x,"f",f,"status",status,"output",output);
 //    1.6   
 // 
 // x  
+
+// Calling Symphony
+[x,f,status,output] = symphonymat(c,intcon,A,b,[],[],lb,ub)
+disp("x",x,"f",f,"status",status,"output",output);
+

@@ -53,7 +53,7 @@ endfunction
 //endfunction
 
 // Objective function
-c = [350*5,330*3,310*4,280*6,500,450,400,100]
+c = [350*5,330*3,310*4,280*6,500,450,400,100]';
 
 // Lower Bound of variable
 lb = repmat(0,1,8);

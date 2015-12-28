@@ -43,26 +43,26 @@
 
 <div class="refsection"><h3 class="title">Parameters</h3>
    <dl><dt><span class="term">C :</span>
-      <dd><p class="para">a matrix of doubles, represents the multiplier of the solution x in the expression C*x - d. C is M-by-N, where M is the number of equations, and N is the number of elements of x.</p></dd></dt>
+      <dd><p class="para">a matrix of double, represents the multiplier of the solution x in the expression C*x - d. Number of columns in C is equal to the number of elements in x.</p></dd></dt>
    <dt><span class="term">d :</span>
-      <dd><p class="para">a vector of doubles, represents the additive constant term in the expression C*x - d. d is M-by-1, where M is the number of equations.</p></dd></dt>
+      <dd><p class="para">a vector of double, represents the additive constant term in the expression C*x - d. Number of elements in d is equal to the number of rows in C matrix.</p></dd></dt>
    <dt><span class="term">xopt :</span>
-      <dd><p class="para">a vector of doubles, the computed solution of the optimization problem.</p></dd></dt>
+      <dd><p class="para">a vector of double, the computed solution of the optimization problem.</p></dd></dt>
    <dt><span class="term">resnorm :</span>
       <dd><p class="para">a double, objective value returned as the scalar value norm(C*x-d)^2.</p></dd></dt>
    <dt><span class="term">residual :</span>
-      <dd><p class="para">a vector of doubles, solution residuals returned as the vector C*x-d.</p></dd></dt>
+      <dd><p class="para">a vector of double, solution residuals returned as the vector C*x-d.</p></dd></dt>
    <dt><span class="term">exitflag :</span>
-      <dd><p class="para">Integer identifying the reason the algorithm terminated.</p></dd></dt>
+      <dd><p class="para">Integer identifying the reason the algorithm terminated. It could be 0, 1 or 2 i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded.</p></dd></dt>
    <dt><span class="term">output :</span>
-      <dd><p class="para">Structure containing information about the optimization. Right now it contains number of iteration.</p></dd></dt>
+      <dd><p class="para">Structure containing information about the optimization. This version only contains number of iterations.</p></dd></dt>
    <dt><span class="term">lambda :</span>
-      <dd><p class="para">Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper and linear equality, inequality constraints.</p></dd></dt></dl></div>
+      <dd><p class="para">Structure containing the Lagrange multipliers at the solution x. It contains lower and upper bound multiplier.</p></dd></dt></dl></div>
 
 <div class="refsection"><h3 class="title">Description</h3>
    <p class="para">Solves nonnegative least-squares curve fitting problems specified by :</p>
-   <p class="para"><span><img src='./_LaTeX_lsqnonneg.xml_1.png' style='position:relative;top:19px;width:197px;height:46px'/></span></p>
-   <p class="para">We are calling IPOpt for solving the nonnegative least-squares curve fitting problems, IPOpt is a library written in C++.</p>
+   <p class="para"><span><img src='./_LaTeX_lsqnonneg.xml_1.png' style='position:relative;top:19px;width:193px;height:46px'/></span></p>
+   <p class="para">The routine calls Ipopt for solving the nonnegative least-squares curve fitting problems, Ipopt is a library written in C++.</p>
    <p class="para"></p></div>
 
 <div class="refsection"><h3 class="title">Examples</h3>

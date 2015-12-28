@@ -1,4 +1,4 @@
-// Check for size of Objective Coefficients
+// Check if the user provides a value less than 0
 // Objective function
 c = [350*5,330*3,310*4,280*6,500,450,400,100]';
 
@@ -17,10 +17,12 @@ beq = [ 25, 1.25, 1.25]
 
 intcon = [1 2 3 -10];
 
-// Calling Symphony
-[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub)
-
 //Error
 //Symphonymat: The values inside intcon should be greater than 0 
 //at line     218 of function symphonymat called by :  
 //[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub)
+
+// Calling Symphony
+[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub)
+
+

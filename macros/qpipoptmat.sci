@@ -29,14 +29,14 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 	//   b : a vector of double, represents the linear coefficients in the inequality constraints
 	//   Aeq : a matrix of double, represents the linear coefficients in the equality constraints
 	//   beq : a vector of double, represents the linear coefficients in the equality constraints
-	//   LB : a vector of double, contains lower bounds of the variables.
-	//   UB : a vector of double, contains upper bounds of the variables.
+	//   lb : a vector of double, contains lower bounds of the variables.
+	//   ub : a vector of double, contains upper bounds of the variables.
 	//   x0 : a vector of double, contains initial guess of variables.
 	//   param : a list containing the the parameters to be set.
 	//   xopt : a vector of double, the computed solution of the optimization problem.
 	//   fopt : a double, the function value at x.
-	//   exitflag : Integer identifying the reason the algorithm terminated.
-	//   output : Structure containing information about the optimization. Right now it contains number of iteration.
+	//   exitflag : Integer identifying the reason the algorithm terminated.It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the qpipoptmat macro.
+	//   output : Structure containing information about the optimization. This version only contains number of iterations.
 	//   lambda : Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper and linear equality, inequality constraints.
 	//   
 	//   Description
@@ -46,14 +46,14 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 	//   <latex>
 	//    \begin{eqnarray}
 	//    &\mbox{min}_{x}
-	//    & 1/2*x'*H*x + f'*x  \\
-	//    & \text{subject to} & A*x \leq b \\
-	//    & & Aeq*x = beq \\
+	//    & 1/2⋅x^T⋅H⋅x + f^T⋅x  \\
+	//    & \text{subject to} & A⋅x \leq b \\
+	//    & & Aeq⋅x = beq \\
 	//    & & lb \leq x \leq ub \\
 	//    \end{eqnarray}
 	//   </latex>
 	//   
-	//   We are calling IPOpt for solving the quadratic problem, IPOpt is a library written in C++.
+	//   The routine calls Ipopt for solving the quadratic problem, Ipopt is a library written in C++.
 	//
 	// Examples
 	//    //Find the value of x that minimize following function
@@ -101,9 +101,18 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
     error(errmsg)
    end
    
-   H = varargin(1);
-   f = varargin(2);
-   nbVar = size(H,1);
+	H = [];
+	f = [];
+	A = [];
+	b = [];
+	Aeq = [];
+	beq = []; 
+	lb = [];
+	ub = [];
+
+	H = varargin(1);
+	f = varargin(2);
+	nbVar = size(H,1);
 
    
    if ( rhs<3 ) then
@@ -123,11 +132,11 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
   end
   
   if ( rhs<7 ) then
-      LB = repmat(-%inf,nbVar,1);
-      UB = repmat(%inf,nbVar,1);
+      lb = repmat(-%inf,nbVar,1);
+      ub = repmat(%inf,nbVar,1);
    else
-      LB = varargin(7);
-      UB = varargin(8);
+      lb = varargin(7);
+      ub = varargin(8);
   end
 
 
@@ -143,12 +152,12 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
       param =varargin(10);
    end
    
-   if (size(LB,2)==0) then
-        LB = repmat(-%inf,nbVar,1);
+   if (size(lb,2)==0) then
+        lb = repmat(-%inf,nbVar,1);
     end
     
-    if (size(UB,2)==0) then
-        UB = repmat(%inf,nbVar,1);
+    if (size(ub,2)==0) then
+        ub = repmat(%inf,nbVar,1);
     end
 
     if (size(f,2)==0) then
@@ -195,12 +204,12 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
       f=f';
    end
 
-   if (size(LB,2)== [nbVar]) then
-	LB = LB';
+   if (size(lb,2)== [nbVar]) then
+	lb = lb';
    end
 
-   if (size(UB,2)== [nbVar]) then
-	UB = UB';
+   if (size(ub,2)== [nbVar]) then
+	ub = ub';
    end
 
    if (size(b,2)==nbConInEq) then
@@ -228,7 +237,6 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
       error(errmsg);
    end
    
-   
    //Check the size of inequality constraint which should be equal to the number of variables
    if ( size(A,2) ~= nbVar & size(A,2) ~= 0) then
       errmsg = msprintf(gettext("%s: The number of columns in A must be the same as the number of elements of f"), "qpipoptmat");
@@ -243,13 +251,13 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 
 
    //Check the size of Lower Bound which should be equal to the number of variables
-   if ( size(LB,1) ~= nbVar) then
+   if ( size(lb,1) ~= nbVar) then
       errmsg = msprintf(gettext("%s: The Lower Bound is not equal to the number of variables"), "qpipoptmat");
       error(errmsg);
    end
 
    //Check the size of Upper Bound which should equal to the number of variables
-   if ( size(UB,1) ~= nbVar) then
+   if ( size(ub,1) ~= nbVar) then
       errmsg = msprintf(gettext("%s: The Upper Bound is not equal to the number of variables"), "qpipoptmat");
       error(errmsg);
    end
@@ -270,6 +278,7 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
    if ( size(x0,1) ~= nbVar) then
       warnmsg = msprintf(gettext("%s: Ignoring initial guess of variables as it is not equal to the number of variables"), "qpipoptmat");
       warning(warnmsg);
+	  x0 = repmat(0,nbVar,1);
    end
    
    //Check if the user gives a matrix instead of a vector
@@ -279,12 +288,12 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
       error(errmsg); 
    end
    
-   if (size(LB,1)~=1)& (size(LB,2)~=1) then
+   if (size(lb,1)~=1)& (size(ub,2)~=1) then
       errmsg = msprintf(gettext("%s: Lower Bound should be a vector"), "qpipoptmat");
       error(errmsg); 
    end
    
-   if (size(UB,1)~=1)& (size(UB,2)~=1) then
+   if (size(ub,1)~=1)& (size(ub,2)~=1) then
       errmsg = msprintf(gettext("%s: Upper Bound should be a vector"), "qpipoptmat");
       error(errmsg); 
    end
@@ -319,14 +328,14 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
    
    //Converting it into ipopt format
    f = f';
-   LB = LB';
-   UB = UB';
+   lb = lb';
+   ub = ub';
    x0 = x0';
    conMatrix = [Aeq;A];
    nbCon = size(conMatrix,1);
    conLB = [beq; repmat(-%inf,nbConInEq,1)]';
    conUB = [beq;b]' ; 
-   [xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,H,f,conMatrix,conLB,conUB,LB,UB,x0,options);
+   [xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,H,f,conMatrix,conLB,conUB,lb,ub,x0,options);
    
    xopt = xopt';
    exitflag = status;
@@ -369,11 +378,11 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
     case 12 then
         printf("\nProblem has too few degrees of freedom.\n");
     case 13 then
-        printf("\nInvalid option thrown back by IPOpt\n");
+        printf("\nInvalid option thrown back by Ipopt\n");
     case 14 then
         printf("\nNot enough memory.\n");
     case 15 then
-        printf("\nINTERNAL ERROR: Unknown SolverReturn value - Notify IPOPT Authors.\n");
+        printf("\nINTERNAL ERROR: Unknown SolverReturn value - Notify Ipopt Authors.\n");
     else
         printf("\nInvalid status returned. Notify the Toolbox authors\n");
         break;

@@ -24,7 +24,7 @@ b = [0.5251
 // Press ENTER to continue
 halt()   // Press return to continue
  
-//A basic example for equality, inequality and bounds
+//A basic example for equality, inequality constraints and variable bounds
 C = [0.9501    0.7620    0.6153    0.4057
 0.2311    0.4564    0.7919    0.9354
 0.6068    0.0185    0.9218    0.9169

@@ -8,4 +8,12 @@ nbCon = 3;
 isInt = repmat(%f,1,nbVar)
 LB = -1*[%inf %inf]
 UB = [%inf %inf]
+
+// Output
+//Problem loaded into environment.
+//Note: There is no limit on time.
+//This problem is infeasible.
+
 [xopt, fopt, exitflag, output] = symphony(nbVar,nbCon,objCoef,isInt,LB,UB,conMatrix,conLB,conUB);
+
+

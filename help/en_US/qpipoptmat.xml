@@ -50,9 +50,9 @@
       <listitem><para> a matrix of double, represents the linear coefficients in the equality constraints</para></listitem></varlistentry>
    <varlistentry><term>beq :</term>
       <listitem><para> a vector of double, represents the linear coefficients in the equality constraints</para></listitem></varlistentry>
-   <varlistentry><term>LB :</term>
+   <varlistentry><term>lb :</term>
       <listitem><para> a vector of double, contains lower bounds of the variables.</para></listitem></varlistentry>
-   <varlistentry><term>UB :</term>
+   <varlistentry><term>ub :</term>
       <listitem><para> a vector of double, contains upper bounds of the variables.</para></listitem></varlistentry>
    <varlistentry><term>x0 :</term>
       <listitem><para> a vector of double, contains initial guess of variables.</para></listitem></varlistentry>
@@ -63,9 +63,9 @@
    <varlistentry><term>fopt :</term>
       <listitem><para> a double, the function value at x.</para></listitem></varlistentry>
    <varlistentry><term>exitflag :</term>
-      <listitem><para> Integer identifying the reason the algorithm terminated.</para></listitem></varlistentry>
+      <listitem><para> Integer identifying the reason the algorithm terminated.It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the qpipoptmat macro.</para></listitem></varlistentry>
    <varlistentry><term>output :</term>
-      <listitem><para> Structure containing information about the optimization. Right now it contains number of iteration.</para></listitem></varlistentry>
+      <listitem><para> Structure containing information about the optimization. This version only contains number of iterations.</para></listitem></varlistentry>
    <varlistentry><term>lambda :</term>
       <listitem><para> Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper and linear equality, inequality constraints.</para></listitem></varlistentry>
    </variablelist>
@@ -81,15 +81,15 @@ find the minimum of f(x) such that
 <latex>
 \begin{eqnarray}
 &amp;\mbox{min}_{x}
-&amp; 1/2*x'*H*x + f'*x  \\
-&amp; \text{subject to} &amp; A*x \leq b \\
-&amp; &amp; Aeq*x = beq \\
+&amp; 1/2⋅x^T⋅H⋅x + f^T⋅x  \\
+&amp; \text{subject to} &amp; A⋅x \leq b \\
+&amp; &amp; Aeq⋅x = beq \\
 &amp; &amp; lb \leq x \leq ub \\
 \end{eqnarray}
 </latex>
    </para>
    <para>
-We are calling IPOpt for solving the quadratic problem, IPOpt is a library written in C++.
+The routine calls Ipopt for solving the quadratic problem, Ipopt is a library written in C++.
    </para>
    <para>
 </para>

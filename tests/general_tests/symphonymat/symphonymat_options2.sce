@@ -19,10 +19,11 @@ intcon = [1 2 3 4];
 
 options = ["time_limit" 250];
 
-// Calling Symphony
-[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub,options)
-
 //Error
 //Symphonymat: Options should be a list 
 //at line     266 of function symphonymat called by :  
 //[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub,options)
+
+// Calling Symphony
+[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub,options)
+

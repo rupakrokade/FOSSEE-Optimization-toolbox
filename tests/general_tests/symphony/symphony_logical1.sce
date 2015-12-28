@@ -1,4 +1,3 @@
-// Check for size of Objective Coefficient
 // A basic case :
 
 // Objective function
@@ -23,10 +22,6 @@ conub = [ 25; 1.25; 1.25]
 
 // Row Matrix for telling symphony that the is integer or not
 isInt = [repmat(%t,1,4) repmat(%f,1,4)];
-
-// Calling Symphony
-[x,f,status,output] = symphony(8,3,c,isInt,lb,ub,conMatrix,conlb,conub,1)
-disp("x",x,"f",f,"status",status,"output",output);
 
 // Output
 //Problem loaded into environment.
@@ -59,3 +54,9 @@ disp("x",x,"f",f,"status",status,"output",output);
 //    3.5   
 // 
 // x 
+
+// Calling Symphony
+[x,f,status,output] = symphony(8,3,c,isInt,lb,ub,conMatrix,conlb,conub,1)
+disp("x",x,"f",f,"status",status,"output",output);
+
+

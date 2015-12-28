@@ -15,7 +15,6 @@ nbVar = 6;
 nbCon = 5;
 x0 = repmat(0,5,1);
 param = list("MaxIter", 300, "CpuTime", 100);
-[xopt,fopt,exitflag,output,lambda]=qpipopt(nbVar,nbCon,Q,p,lb,ub,conMatrix,conLB,conUB,x0,param)
 
 //Error
 // WARNING: qpipopt: Ignoring initial guess of variables as it is not equal to the number of variables
@@ -41,3 +40,6 @@ param = list("MaxIter", 300, "CpuTime", 100);
 //  - 4.9884023  
 //    0.6054943  
 //  - 3.1155623  
+
+[xopt,fopt,exitflag,output,lambda]=qpipopt(nbVar,nbCon,Q,p,lb,ub,conMatrix,conLB,conUB,x0,param)
+

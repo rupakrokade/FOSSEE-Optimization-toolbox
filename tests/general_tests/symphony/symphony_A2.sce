@@ -1,4 +1,4 @@
-// Check the size for conMatrix
+// Check the size for A
 // A basic case :
 
 // Objective function
@@ -11,7 +11,7 @@ lb = repmat(0,8,1);
 ub = [repmat(1,4,1);repmat(%inf,4,1)];
 
 // Constraint Matrix
-conMatrix = [5,3,4,6,1,1,1,1;
+A = [5,3,4,6,1,1,1,1;
 5*0.05,3*0.04,4*0.05,6*0.03,0.08,0.07,0.06,0.03;]
 
 // Lower Bound of constrains
@@ -23,10 +23,12 @@ conub = [ 25; 1.25; 1.25]
 // Row Matrix for telling symphony that the is integer or not
 isInt = [repmat(%t,1,4) repmat(%f,1,4)];
 
-// Calling Symphony
-[x,f,status,output] = symphony(8,3,c,isInt,lb,ub,conMatrix,conlb,conub,1)
-
 // Error
 //Symphony: The number of rows in constraint should be equal to the number of constraints
 //at line     238 of function symphony called by :  
-//[x,f,status,output] = symphony(8,3,c,isInt,lb,ub,conMatrix,conlb,conub,1)
+//[x,f,status,output] = symphony(8,3,c,isInt,lb,ub,A,conlb,conub,1)
+
+// Calling Symphony
+[x,f,status,output] = symphony(8,3,c,isInt,lb,ub,A,conlb,conub,1)
+
+
