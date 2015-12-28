@@ -17,10 +17,12 @@ beq = [ 25, 1.25, 1.25]
 
 intcon = [1 2 3 4];
 
-// Calling Symphony
-[x,f,status,output] = symphonymat(c,intcon)
-
 //Error
 //Symphony: Unexpected number of input arguments : 2 provided while should be in the set [4 6 8 9]
 //at line     149 of function symphonymat called by :  
 //[x,f,status,output] = symphonymat(c,intcon)
+
+// Calling Symphony
+[x,f,status,output] = symphonymat(c,intcon)
+
+

@@ -14,27 +14,27 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
   // Solves a linear quadratic problem.
   //
   //   Calling Sequence
-  //   xopt = qpipopt(nbVar,nbCon,Q,p,LB,UB,conMatrix,conLB,conUB)
-  //   xopt = qpipopt(nbVar,nbCon,Q,p,LB,UB,conMatrix,conLB,conUB,x0)
-  //   xopt = qpipopt(nbVar,nbCon,Q,p,LB,UB,conMatrix,conLB,conUB,x0,param)
+  //   xopt = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB)
+  //   xopt = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB,x0)
+  //   xopt = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB,x0,param)
   //   [xopt,fopt,exitflag,output,lamda] = qpipopt( ... )
   //   
   //   Parameters
   //   nbVar : a double, number of variables
   //   nbCon : a double, number of constraints
-  //   Q : a symmetric matrix of double, represents coefficients of quadratic in the quadratic problem.
-  //   p : a vector of double, represents coefficients of linear in the quadratic problem
-  //   LB : a vector of double, contains lower bounds of the variables.
-  //   UB : a vector of double, contains upper bounds of the variables.
-  //   conMatrix : a matrix of double, contains  matrix representing the constraint matrix 
+  //   H : a symmetric matrix of double, represents coefficients of quadratic in the quadratic problem.
+  //   f : a vector of double, represents coefficients of linear in the quadratic problem
+  //   lb : a vector of double, contains lower bounds of the variables.
+  //   ub : a vector of double, contains upper bounds of the variables.
+  //   A : a matrix of double, contains  matrix representing the constraint matrix 
   //   conLB : a vector of double, contains lower bounds of the constraints. 
   //   conUB : a vector of double, contains upper bounds of the constraints. 
   //   x0 : a vector of double, contains initial guess of variables.
   //   param : a list containing the the parameters to be set.
   //   xopt : a vector of double, the computed solution of the optimization problem.
   //   fopt : a double, the function value at x.
-  //   exitflag : Integer identifying the reason the algorithm terminated.
-  //   output : Structure containing information about the optimization. Right now it contains number of iteration.
+  //   exitflag : Integer identifying the reason the algorithm terminated. It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the qpipopt macro.
+  //   output : Structure containing information about the optimization. This version only contains number of iterations
   //   lambda : Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper and linear equality, inequality constraints.
   //   
   //   Description
@@ -44,32 +44,32 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
   //   <latex>
   //    \begin{eqnarray}
   //    &\mbox{min}_{x}
-  //    & 1/2*x'*Q*x + p'*x  \\
-  //    & \text{subject to} & conLB \leq C(x) \leq conUB \\
+  //    & 1/2⋅x^T⋅H⋅x + f^T⋅x  \\
+  //    & \text{subject to} & conLB \leq A⋅x \leq conUB \\
   //    & & lb \leq x \leq ub \\
   //    \end{eqnarray}
   //   </latex>
   //   
-  //   We are calling IPOpt for solving the quadratic problem, IPOpt is a library written in C++.
+  //   The routine calls Ipopt for solving the quadratic problem, Ipopt is a library written in C++.
   //
   // Examples
   //      //Find x in R^6 such that:
-  //      conMatrix= [1,-1,1,0,3,1;
-  //                 -1,0,-3,-4,5,6;
-  //                  2,5,3,0,1,0
-  //                  0,1,0,1,2,-1;
-  //                 -1,0,2,1,1,0];
+  //      A= [1,-1,1,0,3,1;
+  //         -1,0,-3,-4,5,6;
+  //          2,5,3,0,1,0
+  //          0,1,0,1,2,-1;
+  //         -1,0,2,1,1,0];
   //      conLB=[1;2;3;-%inf;-%inf];
   //      conUB = [1;2;3;-1;2.5];
   //      lb=[-1000;-10000; 0; -1000; -1000; -1000];
   //      ub=[10000; 100; 1.5; 100; 100; 1000];
-  //      //and minimize 0.5*x'*Q*x + p'*x with
-  //      p=[1; 2; 3; 4; 5; 6]; Q=eye(6,6);
+  //      //and minimize 0.5*x'⋅H⋅x + f'⋅x with
+  //      f=[1; 2; 3; 4; 5; 6]; H=eye(6,6);
   //      nbVar = 6;
   //      nbCon = 5;
   //      x0 = repmat(0,nbVar,1);
   //	  param = list("MaxIter", 300, "CpuTime", 100);
-  //      [xopt,fopt,exitflag,output,lambda]=qpipopt(nbVar,nbCon,Q,p,lb,ub,conMatrix,conLB,conUB,x0,param)
+  //      [xopt,fopt,exitflag,output,lambda]=qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB,x0,param)
   // // Press ENTER to continue
   //    
   // Examples 
@@ -80,16 +80,16 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
   //    // –x1 + 2x2 ≤ 2
   //    // 2x1 + x2 ≤ 3
   //    // 0 ≤ x1, 0 ≤ x2.
-  //	Q = [1 -1; -1 2]; 
-  //	p = [-2; -6];
-  //    conMatrix = [1 1; -1 2; 2 1];
+  //	H = [1 -1; -1 2]; 
+  //	f = [-2; -6];
+  //    A = [1 1; -1 2; 2 1];
   //	conUB = [2; 2; 3];
   //	conLB = [-%inf; -%inf; -%inf];
   //	lb = [0; 0];
   //	ub = [%inf; %inf];
   //	nbVar = 2;
   //	nbCon = 3;
-  //	[xopt,fopt,exitflag,output,lambda] = qpipopt(nbVar,nbCon,Q,p,lb,ub,conMatrix,conLB,conUB)
+  //	[xopt,fopt,exitflag,output,lambda] = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB)
   // Authors
   // Keyur Joshi, Saikiran, Iswarya, Harpreet Singh
     
@@ -103,35 +103,43 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
     error(errmsg)
    end
    
+	nbVar = [];
+	nbCon = [];
+	H = [];
+	f = [];
+	A = [];
+	conLB = [];
+	conUB = [];
+	lb = [];
+	ub = [];
    
-   nbVar = varargin(1);
-   nbCon = varargin(2);
-   Q = varargin(3);
-   p = varargin(4);
-   LB = varargin(5);
-   UB = varargin(6);
-   conMatrix = varargin(7);
-   conLB = varargin(8);
-   conUB = varargin(9);
+	nbVar = varargin(1);
+	nbCon = varargin(2);
+	H = varargin(3);
+	f = varargin(4);
+	lb = varargin(5);
+	ub = varargin(6);
+	A = varargin(7);
+	conLB = varargin(8);
+	conUB = varargin(9);
 
-    if (size(LB,2)==0) then
-        LB = repmat(-%inf,nbVar,1);
+    if (size(lb,2)==0) then
+        lb = repmat(-%inf,nbVar,1);
     end
     
-    if (size(UB,2)==0) then
-        UB = repmat(%inf,nbVar,1);
+    if (size(ub,2)==0) then
+        ub = repmat(%inf,nbVar,1);
     end
 
-    if (size(p,2)==0) then
-        p = repmat(0,nbVar,1);
+    if (size(f,2)==0) then
+        f = repmat(0,nbVar,1);
     end
     
-    
-   if ( rhs<10 | size(varargin(10)) ==0 ) then
-      x0 = repmat(0,nbVar,1);
-   else
-      x0 = varargin(10);
-  end
+	if ( rhs<10 | size(varargin(10)) ==0 ) then
+		x0 = repmat(0,nbVar,1);
+	else
+		x0 = varargin(10);
+	end
    
    if ( rhs<11 | size(varargin(11)) ==0 ) then
       param = list(); 
@@ -144,11 +152,10 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
       error(errmsg);
    end
    
-   if (modulo(size(param),2)) then
-	errmsg = msprintf(gettext("%s: Size of parameters should be even"), "qpipopt");
-	error(errmsg);
-   end
-
+	if (modulo(size(param),2)) then
+		errmsg = msprintf(gettext("%s: Size of parameters should be even"), "qpipopt");
+		error(errmsg);
+	end
 
    options = list(..
       "MaxIter"     , [3000], ...
@@ -171,16 +178,16 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
 // Check if the user gives row vector 
 // and Changing it to a column matrix
 
-   if (size(p,2)== [nbVar]) then
-   	p=p';
-   end
+	if (size(f,2)== [nbVar]) then
+		f=f';
+	end
 
-   if (size(LB,2)== [nbVar]) then
-	LB = LB';
-   end
+	if (size(lb,2)== [nbVar]) then
+		lb = lb';
+	end
 
-   if (size(UB,2)== [nbVar]) then
-      UB = UB';
+   if (size(ub,2)== [nbVar]) then
+      ub = ub';
    end
 
    if (size(conUB,2)== [nbCon]) then
@@ -196,53 +203,53 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
    end
 
    //IPOpt wants it in row matrix form
-   p = p';
-   LB = LB';
-   UB = UB';
+   f = f';
+   lb = lb';
+   ub = ub';
    conLB = conLB';
    conUB = conUB';
    x0 = x0';
    
-   //Checking the Q matrix which needs to be a symmetric matrix
-   if ( ~isequal(Q,Q') ) then
-      errmsg = msprintf(gettext("%s: Q is not a symmetric matrix"), "qpipopt");
+   //Checking the H matrix which needs to be a symmetric matrix
+   if ( ~isequal(H,H') ) then
+      errmsg = msprintf(gettext("%s: H is not a symmetric matrix"), "qpipopt");
       error(errmsg);
    end
 
-   //Check the size of Q which should equal to the number of variable
-   if ( size(Q) ~= [nbVar nbVar]) then
-      errmsg = msprintf(gettext("%s: The Size of Q is not equal to the number of variables"), "qpipopt");
+   //Check the size of H which should equal to the number of variable
+   if ( size(H) ~= [nbVar nbVar]) then
+      errmsg = msprintf(gettext("%s: The Size of H is not equal to the number of variables"), "qpipopt");
       error(errmsg);
    end
    
    //Check the size of p which should equal to the number of variable
-   if ( size(p,2) ~= [nbVar]) then
-      errmsg = msprintf(gettext("%s: The Size of p is not equal to the number of variables"), "qpipopt");
+   if ( size(f,2) ~= [nbVar]) then
+      errmsg = msprintf(gettext("%s: The Size of f is not equal to the number of variables"), "qpipopt");
       error(errmsg);
    end
    
    if (nbCon) then
           //Check the size of constraint which should equal to the number of variables
-       if ( size(conMatrix,2) ~= nbVar) then
+       if ( size(A,2) ~= nbVar) then
           errmsg = msprintf(gettext("%s: The size of constraints is not equal to the number of variables"), "qpipopt");
           error(errmsg);
        end
    end
 
    //Check the number of constraint
-   if ( size(conMatrix,1) ~= nbCon) then
+   if ( size(A,1) ~= nbCon) then
       errmsg = msprintf(gettext("%s: The size of constraint matrix is not equal to the number of constraint given i.e. %d"), "qpipopt", nbCon);
       error(errmsg);
    end
 
    //Check the size of Lower Bound which should equal to the number of variables
-   if ( size(LB,2) ~= nbVar) then
+   if ( size(lb,2) ~= nbVar) then
       errmsg = msprintf(gettext("%s: The size of Lower Bound is not equal to the number of variables"), "qpipopt");
       error(errmsg);
    end
 
    //Check the size of Upper Bound which should equal to the number of variables
-   if ( size(UB,2) ~= nbVar) then
+   if ( size(ub,2) ~= nbVar) then
       errmsg = msprintf(gettext("%s: The size of Upper Bound is not equal to the number of variables"), "qpipopt");
       error(errmsg);
    end
@@ -263,21 +270,22 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
    if ( size(x0,2) ~= nbVar | size(x0,"*")>nbVar) then
       warnmsg = msprintf(gettext("%s: Ignoring initial guess of variables as it is not equal to the number of variables"), "qpipopt");
       warning(warnmsg);
+	  x0 = repmat(0,1,nbVar);
    end
    
    //Check if the user gives a matrix instead of a vector
    
-   if ((size(p,1)~=1)& (size(p,2)~=1)) then
-      errmsg = msprintf(gettext("%s: p should be a vector"), "qpipopt");
+   if ((size(f,1)~=1)& (size(f,2)~=1)) then
+      errmsg = msprintf(gettext("%s: f should be a vector"), "qpipopt");
       error(errmsg); 
    end
    
-   if (size(LB,1)~=1)& (size(LB,2)~=1) then
+   if (size(lb,1)~=1)& (size(lb,2)~=1) then
       errmsg = msprintf(gettext("%s: Lower Bound should be a vector"), "qpipopt");
       error(errmsg); 
    end
    
-   if (size(UB,1)~=1)& (size(UB,2)~=1) then
+   if (size(ub,1)~=1)& (size(ub,2)~=1) then
       errmsg = msprintf(gettext("%s: Upper Bound should be a vector"), "qpipopt");
       error(errmsg); 
    end
@@ -307,7 +315,7 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
 		end	
 	end
 
-   [xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,Q,p,conMatrix,conLB,conUB,LB,UB,x0,options);
+   [xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,H,f,A,conLB,conUB,lb,ub,x0,options);
    
    xopt = xopt';
    exitflag = status;
@@ -348,11 +356,11 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
     case 12 then
         printf("\nProblem has too few degrees of freedom.\n");
     case 13 then
-        printf("\nInvalid option thrown back by IPOpt\n");
+        printf("\nInvalid option thrown back by Ipopt\n");
     case 14 then
         printf("\nNot enough memory.\n");
     case 15 then
-        printf("\nINTERNAL ERROR: Unknown SolverReturn value - Notify IPOPT Authors.\n");
+        printf("\nINTERNAL ERROR: Unknown SolverReturn value - Notify Ipopt Authors.\n");
     else
         printf("\nInvalid status returned. Notify the Toolbox authors\n");
         break;

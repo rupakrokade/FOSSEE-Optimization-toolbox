@@ -17,10 +17,12 @@ beq = [ 25, 1.25, 1.25]
 
 intcon = [1 2 3 4];
 
-// Calling Symphony
-[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub)
-
 //Error
 //Symphonymat: The Lower Bound is not equal to the number of variables
 //at line     245 of function symphonymat called by :  
 //[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub)
+
+// Calling Symphony
+[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub)
+
+

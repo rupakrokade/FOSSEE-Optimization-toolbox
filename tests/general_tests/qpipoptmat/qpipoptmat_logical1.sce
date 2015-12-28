@@ -1,9 +1,9 @@
-// Check for the Q to be a symmetric matrix
+// A simple example without constraints
 
 f=[2 -35 -47]'; 
 H =[5   -2   -1; -2   4   3; -1   3   5];
-[xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f)
-disp("xopt",xopt,"fopt",fopt,"exitflag",exitflag,"output",output,"lambda",lambda)
+[xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f);
+
 
 //Output
 //
@@ -33,3 +33,6 @@ disp("xopt",xopt,"fopt",fopt,"exitflag",exitflag,"output",output,"lambda",lambda
 //    7.  
 // 
 // xopt 
+
+disp("xopt",xopt,"fopt",fopt,"exitflag",exitflag,"output",output,"lambda",lambda)
+

@@ -11,7 +11,7 @@ lb = repmat(0,3,1);
 ub = repmat(%inf,3,1);
 
 // Constraint Matrix
-conMatrix = [3,2,5;
+A = [3,2,5;
              2,1,1;
              1,1,3;
              5,2,4]
@@ -25,9 +25,6 @@ conub = [ 55;26;30;57]
 // Row Matrix for telling symphony that the is integer or not
 isInt = [repmat(%f,1,3)];
 
-// Calling Symphony
-[x,f,status,output] = symphony(3,4,c,isInt,lb,ub,conMatrix,conlb,conub,-1)
-disp("x",x,"f",f,"status",status,"output",output);
 // Output
 //Problem loaded into environment.
 //
@@ -54,3 +51,8 @@ disp("x",x,"f",f,"status",status,"output",output);
 //    1.6   
 // 
 // x 
+
+// Calling Symphony
+[x,f,status,output] = symphony(3,4,c,isInt,lb,ub,A,conlb,conub,-1)
+disp("x",x,"f",f,"status",status,"output",output);
+

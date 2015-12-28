@@ -24,9 +24,9 @@
 <refsynopsisdiv>
    <title>Calling Sequence</title>
    <synopsis>
-   xopt = qpipopt(nbVar,nbCon,Q,p,LB,UB,conMatrix,conLB,conUB)
-   xopt = qpipopt(nbVar,nbCon,Q,p,LB,UB,conMatrix,conLB,conUB,x0)
-   xopt = qpipopt(nbVar,nbCon,Q,p,LB,UB,conMatrix,conLB,conUB,x0,param)
+   xopt = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB)
+   xopt = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB,x0)
+   xopt = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB,x0,param)
    [xopt,fopt,exitflag,output,lamda] = qpipopt( ... )
    
    </synopsis>
@@ -39,15 +39,15 @@
       <listitem><para> a double, number of variables</para></listitem></varlistentry>
    <varlistentry><term>nbCon :</term>
       <listitem><para> a double, number of constraints</para></listitem></varlistentry>
-   <varlistentry><term>Q :</term>
+   <varlistentry><term>H :</term>
       <listitem><para> a symmetric matrix of double, represents coefficients of quadratic in the quadratic problem.</para></listitem></varlistentry>
-   <varlistentry><term>p :</term>
+   <varlistentry><term>f :</term>
       <listitem><para> a vector of double, represents coefficients of linear in the quadratic problem</para></listitem></varlistentry>
-   <varlistentry><term>LB :</term>
+   <varlistentry><term>lb :</term>
       <listitem><para> a vector of double, contains lower bounds of the variables.</para></listitem></varlistentry>
-   <varlistentry><term>UB :</term>
+   <varlistentry><term>ub :</term>
       <listitem><para> a vector of double, contains upper bounds of the variables.</para></listitem></varlistentry>
-   <varlistentry><term>conMatrix :</term>
+   <varlistentry><term>A :</term>
       <listitem><para> a matrix of double, contains  matrix representing the constraint matrix</para></listitem></varlistentry>
    <varlistentry><term>conLB :</term>
       <listitem><para> a vector of double, contains lower bounds of the constraints.</para></listitem></varlistentry>
@@ -62,9 +62,9 @@
    <varlistentry><term>fopt :</term>
       <listitem><para> a double, the function value at x.</para></listitem></varlistentry>
    <varlistentry><term>exitflag :</term>
-      <listitem><para> Integer identifying the reason the algorithm terminated.</para></listitem></varlistentry>
+      <listitem><para> Integer identifying the reason the algorithm terminated. It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the qpipopt macro.</para></listitem></varlistentry>
    <varlistentry><term>output :</term>
-      <listitem><para> Structure containing information about the optimization. Right now it contains number of iteration.</para></listitem></varlistentry>
+      <listitem><para> Structure containing information about the optimization. This version only contains number of iterations</para></listitem></varlistentry>
    <varlistentry><term>lambda :</term>
       <listitem><para> Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper and linear equality, inequality constraints.</para></listitem></varlistentry>
    </variablelist>
@@ -80,14 +80,14 @@ find the minimum of f(x) such that
 <latex>
 \begin{eqnarray}
 &amp;\mbox{min}_{x}
-&amp; 1/2*x'*Q*x + p'*x  \\
-&amp; \text{subject to} &amp; conLB \leq C(x) \leq conUB \\
+&amp; 1/2⋅x^T⋅H⋅x + f^T⋅x  \\
+&amp; \text{subject to} &amp; conLB \leq A⋅x \leq conUB \\
 &amp; &amp; lb \leq x \leq ub \\
 \end{eqnarray}
 </latex>
    </para>
    <para>
-We are calling IPOpt for solving the quadratic problem, IPOpt is a library written in C++.
+The routine calls Ipopt for solving the quadratic problem, Ipopt is a library written in C++.
    </para>
    <para>
 </para>
@@ -97,7 +97,7 @@ We are calling IPOpt for solving the quadratic problem, IPOpt is a library writt
    <title>Examples</title>
    <programlisting role="example"><![CDATA[
 //Find x in R^6 such that:
-conMatrix= [1,-1,1,0,3,1;
+A= [1,-1,1,0,3,1;
 -1,0,-3,-4,5,6;
 2,5,3,0,1,0
 0,1,0,1,2,-1;
@@ -106,13 +106,13 @@ conLB=[1;2;3;-%inf;-%inf];
 conUB = [1;2;3;-1;2.5];
 lb=[-1000;-10000; 0; -1000; -1000; -1000];
 ub=[10000; 100; 1.5; 100; 100; 1000];
-//and minimize 0.5*x'*Q*x + p'*x with
-p=[1; 2; 3; 4; 5; 6]; Q=eye(6,6);
+//and minimize 0.5*x'⋅H⋅x + f'⋅x with
+f=[1; 2; 3; 4; 5; 6]; H=eye(6,6);
 nbVar = 6;
 nbCon = 5;
 x0 = repmat(0,nbVar,1);
 param = list("MaxIter", 300, "CpuTime", 100);
-[xopt,fopt,exitflag,output,lambda]=qpipopt(nbVar,nbCon,Q,p,lb,ub,conMatrix,conLB,conUB,x0,param)
+[xopt,fopt,exitflag,output,lambda]=qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB,x0,param)
 // Press ENTER to continue
 
    ]]></programlisting>
@@ -128,16 +128,16 @@ param = list("MaxIter", 300, "CpuTime", 100);
 // –x1 + 2x2 ≤ 2
 // 2x1 + x2 ≤ 3
 // 0 ≤ x1, 0 ≤ x2.
-Q = [1 -1; -1 2];
-p = [-2; -6];
-conMatrix = [1 1; -1 2; 2 1];
+H = [1 -1; -1 2];
+f = [-2; -6];
+A = [1 1; -1 2; 2 1];
 conUB = [2; 2; 3];
 conLB = [-%inf; -%inf; -%inf];
 lb = [0; 0];
 ub = [%inf; %inf];
 nbVar = 2;
 nbCon = 3;
-[xopt,fopt,exitflag,output,lambda] = qpipopt(nbVar,nbCon,Q,p,lb,ub,conMatrix,conLB,conUB)
+[xopt,fopt,exitflag,output,lambda] = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB)
    ]]></programlisting>
 </refsection>
 

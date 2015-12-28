@@ -17,10 +17,12 @@ beq = [ 25, 1.25, 1.25]
 
 intcon = [1 2 3.5 4];
 
-// Calling Symphony
-[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub)
-
 //Error
 //Symphonymat: The values inside intcon should be integer 
 //at line     223 of function symphonymat called by :  
 //[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub)
+
+// Calling Symphony
+[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub)
+
+

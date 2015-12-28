@@ -1,4 +1,4 @@
-// Check for the size of H matrix
+// Check for the initial guess x0
 //Find x in R^6 such that:
 
 Aeq= [1,-1,1,0,3,1;
@@ -14,7 +14,8 @@ x0 = repmat(0,6,1);
 param = list("MaxIter", 300, "CpuTime", 100);
 f=[1; 2; 3; 4; 5; 6]; H=eye(6,6);
 x0 = repmat(0,5,1);
-[xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f,A,b,Aeq,beq,lb,ub,[],param)
 
 // Warning
 //WARNING: qpipopt: Ignoring initial guess of variables as it is not equal to the number of variables
+
+[xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f,A,b,Aeq,beq,lb,ub,x0,param);

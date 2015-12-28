@@ -1,4 +1,4 @@
-// Check for size of Objective Coefficients
+// Check for size of equality constraint upper bound
 // Objective function
 c = [350*5,330*3,310*4,280*6,500,450,400,100]';
 
@@ -17,10 +17,12 @@ beq = [ 25, 1.25]
 
 intcon = [1 2 3 4];
 
-// Calling Symphony
-[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub)
-
 //Error
 //Symphonymat: The equality constraint upper bound is not equal to the number of equality constraint
 //at line     239 of function symphonymat called by :  
 //[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub)
+
+// Calling Symphony
+[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub)
+
+

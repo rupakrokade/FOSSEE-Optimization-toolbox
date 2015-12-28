@@ -58,9 +58,9 @@
       <dd><p class="para">a matrix of double, represents the linear coefficients in the equality constraints</p></dd></dt>
    <dt><span class="term">beq :</span>
       <dd><p class="para">a vector of double, represents the linear coefficients in the equality constraints</p></dd></dt>
-   <dt><span class="term">LB :</span>
+   <dt><span class="term">lb :</span>
       <dd><p class="para">a vector of double, contains lower bounds of the variables.</p></dd></dt>
-   <dt><span class="term">UB :</span>
+   <dt><span class="term">ub :</span>
       <dd><p class="para">a vector of double, contains upper bounds of the variables.</p></dd></dt>
    <dt><span class="term">x0 :</span>
       <dd><p class="para">a vector of double, contains initial guess of variables.</p></dd></dt>
@@ -71,17 +71,17 @@
    <dt><span class="term">fopt :</span>
       <dd><p class="para">a double, the function value at x.</p></dd></dt>
    <dt><span class="term">exitflag :</span>
-      <dd><p class="para">Integer identifying the reason the algorithm terminated.</p></dd></dt>
+      <dd><p class="para">Integer identifying the reason the algorithm terminated.It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the qpipoptmat macro.</p></dd></dt>
    <dt><span class="term">output :</span>
-      <dd><p class="para">Structure containing information about the optimization. Right now it contains number of iteration.</p></dd></dt>
+      <dd><p class="para">Structure containing information about the optimization. This version only contains number of iterations.</p></dd></dt>
    <dt><span class="term">lambda :</span>
       <dd><p class="para">Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper and linear equality, inequality constraints.</p></dd></dt></dl></div>
 
 <div class="refsection"><h3 class="title">Description</h3>
    <p class="para">Search the minimum of a constrained linear quadratic optimization problem specified by :
 find the minimum of f(x) such that</p>
-   <p class="para"><span><img src='./_LaTeX_qpipoptmat.xml_1.png' style='position:relative;top:40px;width:284px;height:88px'/></span></p>
-   <p class="para">We are calling IPOpt for solving the quadratic problem, IPOpt is a library written in C++.</p>
+   <p class="para"><span><img src='./_LaTeX_qpipoptmat.xml_1.png' style='position:relative;top:41px;width:277px;height:90px'/></span></p>
+   <p class="para">The routine calls Ipopt for solving the quadratic problem, Ipopt is a library written in C++.</p>
    <p class="para"></p></div>
 
 <div class="refsection"><h3 class="title">Examples</h3>

@@ -14,9 +14,10 @@ x0 = repmat(0,6,1);
 param = list("MaxIter", 300, "CpuTime", 100);
 f=[1; 2; 3; 4; 5; 6]; H=eye(6,6);
 x0 = repmat(0,6,1);
-[xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f,A,b,Aeq,beq,lb,ub,[],param)
 
 // Error
 //qpipoptmat: The Lower Bound is not equal to the number of variables
 //at line     235 of function qpipoptmat called by :  
 //[xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f,A,b,Aeq,beq,lb,ub,[],param)
+
+[xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f,A,b,Aeq,beq,lb,ub,[],param)

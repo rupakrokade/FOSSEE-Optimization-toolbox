@@ -1,12 +1,12 @@
 # Symphony Toolbox for Scilab
 
-A toolbox that provides mixed integer linear programming tools in Scilab through the Symphony library
+A toolbox that provides mixed integer linear programming, quadratic programming and non linear programming tools in Scilab through the Symphony and Ipopt libraries.
 
-Tested with Symphony 5.6.10 and scilab 5.5.2
+Tested with Symphony 5.6.10, Ipopt 3.12.4 and Scilab 5.5.2
 
 ## To use:
 1. In Scilab, change the working directory to the root directory of the repository
 2. Run `exec loader.sce`
-3. The library is now ready for use.
+3. The Toolbox is now ready.
 
 ## Note: This library is only for linux.

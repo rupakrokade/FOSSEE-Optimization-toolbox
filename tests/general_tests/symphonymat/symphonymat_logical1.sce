@@ -1,3 +1,5 @@
+// An example with equality constraints, variable bounds and options to set
+
 // Objective function
 c = [350*5,330*3,310*4,280*6,500,450,400,100]';
 
@@ -18,9 +20,6 @@ intcon = [1 2 3 4 4];
 
 options = list("time_limit",250);
 
-// Calling Symphony
-[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub,options)
-disp("x",x,"f",f,"status",status,"output",output);
 //Output
 //setting of double parameter function executed successfully
 //Problem loaded into environment.
@@ -53,3 +52,8 @@ disp("x",x,"f",f,"status",status,"output",output);
 //    3.5   
 // 
 // x  
+
+// Calling Symphony
+[x,f,status,output] = symphonymat(c,intcon,[],[],Aeq,beq,lb,ub,options)
+disp("x",x,"f",f,"status",status,"output",output);
+
