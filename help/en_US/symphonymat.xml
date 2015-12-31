@@ -59,7 +59,7 @@
    <varlistentry><term>fopt :</term>
       <listitem><para> a double, the function value at x</para></listitem></varlistentry>
    <varlistentry><term>status :</term>
-      <listitem><para> status flag from symphony. 227 is optimal, 228 is Time limit exceeded, 230 is iteration limit exceeded.</para></listitem></varlistentry>
+      <listitem><para> status flag returned from symphony. 227 is optimal, 228 is Time limit exceeded, 230 is iteration limit exceeded.</para></listitem></varlistentry>
    <varlistentry><term>output :</term>
       <listitem><para> The output data structure contains detailed information about the optimization process. This version only contains number of iterations.</para></listitem></varlistentry>
    </variablelist>
@@ -69,7 +69,6 @@
    <title>Description</title>
    <para>
 Search the minimum or maximum of a constrained mixed integer linear programming optimization problem specified by :
-find the minimum or maximum of C'⋅x such that
    </para>
    <para>
 <latex>
@@ -94,6 +93,7 @@ The routine calls SYMPHONY written in C by gateway files for the actual computat
    <title>Examples</title>
    <programlisting role="example"><![CDATA[
 // Objective function
+// Reference: Westerberg, Carl-Henrik, Bengt Bjorklund, and Eskil Hultman. "An application of mixed integer programming in a Swedish steel mill." Interfaces 7, no. 2 (1977): 39-43.
 c = [350*5,330*3,310*4,280*6,500,450,400,100]';
 // Lower Bound of variable
 lb = repmat(0,1,8);

@@ -51,13 +51,13 @@
    <dt><span class="term">resnorm :</span>
       <dd><p class="para">a double, objective value returned as the scalar value norm(C*x-d)^2.</p></dd></dt>
    <dt><span class="term">residual :</span>
-      <dd><p class="para">a vector of double, solution residuals returned as the vector C*x-d.</p></dd></dt>
+      <dd><p class="para">a vector of double, solution residuals returned as the vector d-C*x.</p></dd></dt>
    <dt><span class="term">exitflag :</span>
-      <dd><p class="para">Integer identifying the reason the algorithm terminated. It could be 0, 1 or 2 i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded.</p></dd></dt>
+      <dd><p class="para">A flag showing returned exit flag from Ipopt. It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the lsqlin macro.</p></dd></dt>
    <dt><span class="term">output :</span>
       <dd><p class="para">Structure containing information about the optimization. This version only contains number of iterations.</p></dd></dt>
    <dt><span class="term">lambda :</span>
-      <dd><p class="para">Structure containing the Lagrange multipliers at the solution x. It contains lower and upper bound multiplier.</p></dd></dt></dl></div>
+      <dd><p class="para">Structure containing the Lagrange multipliers at the solution xopt. It contains lower, upper bound multiplier and linear equality, inequality constraint multiplier.</p></dd></dt></dl></div>
 
 <div class="refsection"><h3 class="title">Description</h3>
    <p class="para">Solves nonnegative least-squares curve fitting problems specified by :</p>
@@ -67,16 +67,16 @@
 
 <div class="refsection"><h3 class="title">Examples</h3>
    <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabcomment">// A basic lsqnonneg problem</span>
-<span class="scilabid">C</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span>
-<span class="scilabnumber">0.0372</span>    <span class="scilabnumber">0.2869</span>
-<span class="scilabnumber">0.6861</span>    <span class="scilabnumber">0.7071</span>
-<span class="scilabnumber">0.6233</span>    <span class="scilabnumber">0.6245</span>
-<span class="scilabnumber">0.6344</span>    <span class="scilabnumber">0.6170</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
-<span class="scilabid">d</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span>
-<span class="scilabnumber">0.8587</span>
-<span class="scilabnumber">0.1781</span>
-<span class="scilabnumber">0.0747</span>
-<span class="scilabnumber">0.8405</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">C</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">1</span> <span class="scilabnumber">1</span> <span class="scilabnumber">1</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">1</span> <span class="scilabnumber">1</span> <span class="scilabnumber">0</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">0</span> <span class="scilabnumber">1</span> <span class="scilabnumber">1</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">1</span> <span class="scilabnumber">0</span> <span class="scilabnumber">0</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">0</span> <span class="scilabnumber">0</span> <span class="scilabnumber">1</span><span class="scilabopenclose">]</span>
+<span class="scilabid">d</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">89</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">67</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">53</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">35</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">20</span><span class="scilabdefault">;</span><span class="scilabopenclose">]</span>
 <span class="scilabopenclose">[</span><span class="scilabid">xopt</span><span class="scilabdefault">,</span><span class="scilabid">resnorm</span><span class="scilabdefault">,</span><span class="scilabid">residual</span><span class="scilabdefault">,</span><span class="scilabid">exitflag</span><span class="scilabdefault">,</span><span class="scilabid">output</span><span class="scilabdefault">,</span><span class="scilabid">lambda</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span> <span class="scilabid">lsqnonneg</span><span class="scilabopenclose">(</span><span class="scilabid">C</span><span class="scilabdefault">,</span><span class="scilabid">d</span><span class="scilabopenclose">)</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
 
 <div class="refsection"><h3 class="title">Authors</h3>

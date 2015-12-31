@@ -1,108 +1,109 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// Author: Harpreet Singh
-// Organization: FOSSEE, IIT Bombay
-// Email: harpreet.mertia@gmail.com
 // This file must be used under the terms of the CeCILL.
 // This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// Author: Harpreet Singh
+// Organization: FOSSEE, IIT Bombay
+// Email: toolbox@scilab.in
 
 
 function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
-  // Solves a linear quadratic problem.
-  //
-  //   Calling Sequence
-  //   xopt = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB)
-  //   xopt = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB,x0)
-  //   xopt = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB,x0,param)
-  //   [xopt,fopt,exitflag,output,lamda] = qpipopt( ... )
-  //   
-  //   Parameters
-  //   nbVar : a double, number of variables
-  //   nbCon : a double, number of constraints
-  //   H : a symmetric matrix of double, represents coefficients of quadratic in the quadratic problem.
-  //   f : a vector of double, represents coefficients of linear in the quadratic problem
-  //   lb : a vector of double, contains lower bounds of the variables.
-  //   ub : a vector of double, contains upper bounds of the variables.
-  //   A : a matrix of double, contains  matrix representing the constraint matrix 
-  //   conLB : a vector of double, contains lower bounds of the constraints. 
-  //   conUB : a vector of double, contains upper bounds of the constraints. 
-  //   x0 : a vector of double, contains initial guess of variables.
-  //   param : a list containing the the parameters to be set.
-  //   xopt : a vector of double, the computed solution of the optimization problem.
-  //   fopt : a double, the function value at x.
-  //   exitflag : Integer identifying the reason the algorithm terminated. It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the qpipopt macro.
-  //   output : Structure containing information about the optimization. This version only contains number of iterations
-  //   lambda : Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper and linear equality, inequality constraints.
-  //   
-  //   Description
-  //   Search the minimum of a constrained linear quadratic optimization problem specified by :
-  //   find the minimum of f(x) such that 
-  //
-  //   <latex>
-  //    \begin{eqnarray}
-  //    &\mbox{min}_{x}
-  //    & 1/2⋅x^T⋅H⋅x + f^T⋅x  \\
-  //    & \text{subject to} & conLB \leq A⋅x \leq conUB \\
-  //    & & lb \leq x \leq ub \\
-  //    \end{eqnarray}
-  //   </latex>
-  //   
-  //   The routine calls Ipopt for solving the quadratic problem, Ipopt is a library written in C++.
-  //
-  // Examples
-  //      //Find x in R^6 such that:
-  //      A= [1,-1,1,0,3,1;
-  //         -1,0,-3,-4,5,6;
-  //          2,5,3,0,1,0
-  //          0,1,0,1,2,-1;
-  //         -1,0,2,1,1,0];
-  //      conLB=[1;2;3;-%inf;-%inf];
-  //      conUB = [1;2;3;-1;2.5];
-  //      lb=[-1000;-10000; 0; -1000; -1000; -1000];
-  //      ub=[10000; 100; 1.5; 100; 100; 1000];
-  //      //and minimize 0.5*x'⋅H⋅x + f'⋅x with
-  //      f=[1; 2; 3; 4; 5; 6]; H=eye(6,6);
-  //      nbVar = 6;
-  //      nbCon = 5;
-  //      x0 = repmat(0,nbVar,1);
-  //	  param = list("MaxIter", 300, "CpuTime", 100);
-  //      [xopt,fopt,exitflag,output,lambda]=qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB,x0,param)
-  // // Press ENTER to continue
-  //    
-  // Examples 
-  //    //Find the value of x that minimize following function
-  //    // f(x) = 0.5*x1^2 + x2^2 - x1*x2 - 2*x1 - 6*x2
-  //    // Subject to:
-  //    // x1 + x2 ≤ 2
-  //    // –x1 + 2x2 ≤ 2
-  //    // 2x1 + x2 ≤ 3
-  //    // 0 ≤ x1, 0 ≤ x2.
-  //	H = [1 -1; -1 2]; 
-  //	f = [-2; -6];
-  //    A = [1 1; -1 2; 2 1];
-  //	conUB = [2; 2; 3];
-  //	conLB = [-%inf; -%inf; -%inf];
-  //	lb = [0; 0];
-  //	ub = [%inf; %inf];
-  //	nbVar = 2;
-  //	nbCon = 3;
-  //	[xopt,fopt,exitflag,output,lambda] = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB)
-  // Authors
-  // Keyur Joshi, Saikiran, Iswarya, Harpreet Singh
+	// Solves a linear quadratic problem.
+	//
+	//   Calling Sequence
+	//   xopt = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB)
+	//   xopt = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB,x0)
+	//   xopt = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB,x0,param)
+	//   [xopt,fopt,exitflag,output,lamda] = qpipopt( ... )
+	//   
+	//   Parameters
+	//   nbVar : a double, number of variables
+	//   nbCon : a double, number of constraints
+	//   H : a symmetric matrix of double, represents coefficients of quadratic in the quadratic problem.
+	//   f : a vector of double, represents coefficients of linear in the quadratic problem
+	//   lb : a vector of double, contains lower bounds of the variables.
+	//   ub : a vector of double, contains upper bounds of the variables.
+	//   A : a matrix of double, contains  matrix representing the constraint matrix 
+	//   conLB : a vector of double, contains lower bounds of the constraints. 
+	//   conUB : a vector of double, contains upper bounds of the constraints. 
+	//   x0 : a vector of double, contains initial guess of variables.
+	//   param : a list containing the the parameters to be set.
+	//   xopt : a vector of double, the computed solution of the optimization problem.
+	//   fopt : a double, the function value at x.
+	//   exitflag : A flag showing returned exit flag from Ipopt. It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the lsqlin macro. 
+	//   output : Structure containing information about the optimization. This version only contains number of iterations
+	//   lambda : Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper bound multiplier and linear equality, inequality constraint multiplier.
+	//   
+	//   Description
+	//   Search the minimum of a constrained linear quadratic optimization problem specified by :
+	//
+	//   <latex>
+	//    \begin{eqnarray}
+	//    &\mbox{min}_{x}
+	//    & 1/2⋅x^T⋅H⋅x + f^T⋅x  \\
+	//    & \text{subject to} & conLB \leq A⋅x \leq conUB \\
+	//    & & lb \leq x \leq ub \\
+	//    \end{eqnarray}
+	//   </latex>
+	//   
+	//   The routine calls Ipopt for solving the quadratic problem, Ipopt is a library written in C++.
+	//
+	// Examples
+	//		//Ref : example 14 :
+	//		//https://www.me.utexas.edu/~jensen/ORMM/supplements/methods/nlpmethod/S2_quadratic.pdf
+	//		// min. -8*x1*x1 -16*x2*x2 + x1 + 4*x2
+	//		// such that
+	//		//	x1 + x2 <= 5,
+	//		//	x1 <= 3,
+	//		//	x1 >= 0,
+	//		//	x2 >= 0
+	//	H = [2 0
+	//		 0 8]; 
+	//	f = [-8; -16];
+	//  A = [1 1;1 0];
+	//	conUB = [5;3];
+	//	conLB = [-%inf; -%inf];
+	//	lb = [0; 0];
+	//	ub = [%inf; %inf];
+	//	nbVar = 2;
+	//	nbCon = 2;
+	//	[xopt,fopt,exitflag,output,lambda] = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB)
+	//  //Press ENTER to continue
+	//    
+	// Examples 
+	//      //Find x in R^6 such that:
+	//      A= [1,-1,1,0,3,1;
+	//         -1,0,-3,-4,5,6;
+	//          2,5,3,0,1,0
+	//          0,1,0,1,2,-1;
+	//         -1,0,2,1,1,0];
+	//      conLB=[1;2;3;-%inf;-%inf];
+	//      conUB = [1;2;3;-1;2.5];
+	//      lb=[-1000;-10000; 0; -1000; -1000; -1000];
+	//      ub=[10000; 100; 1.5; 100; 100; 1000];
+	//      //and minimize 0.5*x'⋅H⋅x + f'⋅x with
+	//      f=[1; 2; 3; 4; 5; 6]; H=eye(6,6);
+	//      nbVar = 6;
+	//      nbCon = 5;
+	//      x0 = repmat(0,nbVar,1);
+	//	  param = list("MaxIter", 300, "CpuTime", 100);
+	//      [xopt,fopt,exitflag,output,lambda]=qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB,x0,param)
+	// Authors
+	// Keyur Joshi, Saikiran, Iswarya, Harpreet Singh
     
     
-//To check the number of input and output argument
-   [lhs , rhs] = argn();
+	//To check the number of input and output argument
+    [lhs , rhs] = argn();
 	
-//To check the number of argument given by user
-   if ( rhs < 9 | rhs > 11 ) then
-    errmsg = msprintf(gettext("%s: Unexpected number of input arguments : %d provided while should be 9, 10 or 11"), "qpipopt", rhs);
-    error(errmsg)
-   end
-   
+	//To check the number of argument given by user
+	if ( rhs < 9 | rhs > 11 ) then
+		errmsg = msprintf(gettext("%s: Unexpected number of input arguments : %d provided while should be 9, 10 or 11"), "qpipopt", rhs);
+		error(errmsg)
+	end
+
 	nbVar = [];
 	nbCon = [];
 	H = [];

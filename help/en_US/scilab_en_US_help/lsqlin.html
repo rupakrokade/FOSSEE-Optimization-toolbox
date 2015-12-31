@@ -70,13 +70,13 @@
    <dt><span class="term">resnorm :</span>
       <dd><p class="para">a double, objective value returned as the scalar value norm(C*x-d)^2.</p></dd></dt>
    <dt><span class="term">residual :</span>
-      <dd><p class="para">a vector of double, solution residuals returned as the vector C*x-d.</p></dd></dt>
+      <dd><p class="para">a vector of double, solution residuals returned as the vector d-C*x.</p></dd></dt>
    <dt><span class="term">exitflag :</span>
-      <dd><p class="para">Integer identifying the reason the algorithm terminated. It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the lsqlin macro.</p></dd></dt>
+      <dd><p class="para">A flag showing returned exit flag from Ipopt. It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the lsqlin macro.</p></dd></dt>
    <dt><span class="term">output :</span>
       <dd><p class="para">Structure containing information about the optimization. This version only contains number of iterations.</p></dd></dt>
    <dt><span class="term">lambda :</span>
-      <dd><p class="para">Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper bound multiplier and linear equality, inequality constraints.</p></dd></dt></dl></div>
+      <dd><p class="para">Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper bound multiplier and linear equality, inequality constraint multiplier.</p></dd></dt></dl></div>
 
 <div class="refsection"><h3 class="title">Description</h3>
    <p class="para">Search the minimum of a constrained linear least square problem specified by :</p>
@@ -86,47 +86,41 @@
 
 <div class="refsection"><h3 class="title">Examples</h3>
    <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabcomment">//A simple linear least square example</span>
-<span class="scilabid">C</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">0.9501</span>    <span class="scilabnumber">0.7620</span>    <span class="scilabnumber">0.6153</span>    <span class="scilabnumber">0.4057</span>
-<span class="scilabnumber">0.2311</span>    <span class="scilabnumber">0.4564</span>    <span class="scilabnumber">0.7919</span>    <span class="scilabnumber">0.9354</span>
-<span class="scilabnumber">0.6068</span>    <span class="scilabnumber">0.0185</span>    <span class="scilabnumber">0.9218</span>    <span class="scilabnumber">0.9169</span>
-<span class="scilabnumber">0.4859</span>    <span class="scilabnumber">0.8214</span>    <span class="scilabnumber">0.7382</span>    <span class="scilabnumber">0.4102</span>
-<span class="scilabnumber">0.8912</span>    <span class="scilabnumber">0.4447</span>    <span class="scilabnumber">0.1762</span>    <span class="scilabnumber">0.8936</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
-<span class="scilabid">d</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">0.0578</span>
-<span class="scilabnumber">0.3528</span>
-<span class="scilabnumber">0.8131</span>
-<span class="scilabnumber">0.0098</span>
-<span class="scilabnumber">0.1388</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
-<span class="scilabid">A</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">0.2027</span>    <span class="scilabnumber">0.2721</span>    <span class="scilabnumber">0.7467</span>    <span class="scilabnumber">0.4659</span>
-<span class="scilabnumber">0.1987</span>    <span class="scilabnumber">0.1988</span>    <span class="scilabnumber">0.4450</span>    <span class="scilabnumber">0.4186</span>
-<span class="scilabnumber">0.6037</span>    <span class="scilabnumber">0.0152</span>    <span class="scilabnumber">0.9318</span>    <span class="scilabnumber">0.8462</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
-<span class="scilabid">b</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">0.5251</span>
-<span class="scilabnumber">0.2026</span>
-<span class="scilabnumber">0.6721</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">C</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span> <span class="scilabnumber">2</span> <span class="scilabnumber">0</span><span class="scilabdefault">;</span>
+<span class="scilaboperator">-</span><span class="scilabnumber">1</span> <span class="scilabnumber">1</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">0</span> <span class="scilabnumber">2</span><span class="scilabopenclose">]</span>
+<span class="scilabid">d</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">1</span>
+<span class="scilabnumber">0</span>
+<span class="scilaboperator">-</span><span class="scilabnumber">1</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">A</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">10</span> <span class="scilaboperator">-</span><span class="scilabnumber">2</span><span class="scilabdefault">;</span>
+<span class="scilaboperator">-</span><span class="scilabnumber">2</span> <span class="scilabnumber">10</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">b</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">4</span>
+<span class="scilaboperator">-</span><span class="scilabnumber">4</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
 <span class="scilabopenclose">[</span><span class="scilabid">xopt</span><span class="scilabdefault">,</span><span class="scilabid">resnorm</span><span class="scilabdefault">,</span><span class="scilabid">residual</span><span class="scilabdefault">,</span><span class="scilabid">exitflag</span><span class="scilabdefault">,</span><span class="scilabid">output</span><span class="scilabdefault">,</span><span class="scilabid">lambda</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span> <span class="scilabid">lsqlin</span><span class="scilabopenclose">(</span><span class="scilabid">C</span><span class="scilabdefault">,</span><span class="scilabid">d</span><span class="scilabdefault">,</span><span class="scilabid">A</span><span class="scilabdefault">,</span><span class="scilabid">b</span><span class="scilabopenclose">)</span>
 <span class="scilabcomment">// Press ENTER to continue</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
 
 <div class="refsection"><h3 class="title">Examples</h3>
    <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabcomment">//A basic example for equality, inequality constraints and variable bounds</span>
-<span class="scilabid">C</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">0.9501</span>    <span class="scilabnumber">0.7620</span>    <span class="scilabnumber">0.6153</span>    <span class="scilabnumber">0.4057</span>
-<span class="scilabnumber">0.2311</span>    <span class="scilabnumber">0.4564</span>    <span class="scilabnumber">0.7919</span>    <span class="scilabnumber">0.9354</span>
-<span class="scilabnumber">0.6068</span>    <span class="scilabnumber">0.0185</span>    <span class="scilabnumber">0.9218</span>    <span class="scilabnumber">0.9169</span>
-<span class="scilabnumber">0.4859</span>    <span class="scilabnumber">0.8214</span>    <span class="scilabnumber">0.7382</span>    <span class="scilabnumber">0.4102</span>
-<span class="scilabnumber">0.8912</span>    <span class="scilabnumber">0.4447</span>    <span class="scilabnumber">0.1762</span>    <span class="scilabnumber">0.8936</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
-<span class="scilabid">d</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">0.0578</span>
-<span class="scilabnumber">0.3528</span>
-<span class="scilabnumber">0.8131</span>
-<span class="scilabnumber">0.0098</span>
-<span class="scilabnumber">0.1388</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
-<span class="scilabid">A</span> <span class="scilaboperator">=</span><span class="scilabopenclose">[</span><span class="scilabnumber">0.2027</span>    <span class="scilabnumber">0.2721</span>    <span class="scilabnumber">0.7467</span>    <span class="scilabnumber">0.4659</span>
-<span class="scilabnumber">0.1987</span>    <span class="scilabnumber">0.1988</span>    <span class="scilabnumber">0.4450</span>    <span class="scilabnumber">0.4186</span>
-<span class="scilabnumber">0.6037</span>    <span class="scilabnumber">0.0152</span>    <span class="scilabnumber">0.9318</span>    <span class="scilabnumber">0.8462</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
-<span class="scilabid">b</span> <span class="scilaboperator">=</span><span class="scilabopenclose">[</span><span class="scilabnumber">0.5251</span>
-<span class="scilabnumber">0.2026</span>
-<span class="scilabnumber">0.6721</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
-<span class="scilabid">Aeq</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">3</span> <span class="scilabnumber">5</span> <span class="scilabnumber">7</span> <span class="scilabnumber">9</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
-<span class="scilabid">beq</span> <span class="scilaboperator">=</span> <span class="scilabnumber">4</span><span class="scilabdefault">;</span>
-<span class="scilabid">lb</span> <span class="scilaboperator">=</span> <span class="scilaboperator">-</span><span class="scilabnumber">0.1</span><span class="scilaboperator">*</span><a class="scilabcommand" href="scilab://ones">ones</a><span class="scilabopenclose">(</span><span class="scilabnumber">4</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
-<span class="scilabid">ub</span> <span class="scilaboperator">=</span> <span class="scilabnumber">2</span><span class="scilaboperator">*</span><a class="scilabcommand" href="scilab://ones">ones</a><span class="scilabopenclose">(</span><span class="scilabnumber">4</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">C</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">1</span> <span class="scilabnumber">1</span> <span class="scilabnumber">1</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">1</span> <span class="scilabnumber">1</span> <span class="scilabnumber">0</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">0</span> <span class="scilabnumber">1</span> <span class="scilabnumber">1</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">1</span> <span class="scilabnumber">0</span> <span class="scilabnumber">0</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">0</span> <span class="scilabnumber">0</span> <span class="scilabnumber">1</span><span class="scilabopenclose">]</span>
+<span class="scilabid">d</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">89</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">67</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">53</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">35</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">20</span><span class="scilabdefault">;</span><span class="scilabopenclose">]</span>
+<span class="scilabid">A</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">3</span> <span class="scilabnumber">2</span> <span class="scilabnumber">1</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">2</span> <span class="scilabnumber">3</span> <span class="scilabnumber">4</span><span class="scilabdefault">;</span>
+<span class="scilabnumber">1</span> <span class="scilabnumber">2</span> <span class="scilabnumber">3</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">b</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">191</span>
+<span class="scilabnumber">209</span>
+<span class="scilabnumber">162</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">Aeq</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">1</span> <span class="scilabnumber">2</span> <span class="scilabnumber">1</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">beq</span> <span class="scilaboperator">=</span> <span class="scilabnumber">10</span><span class="scilabdefault">;</span>
+<span class="scilabid">lb</span> <span class="scilaboperator">=</span> <a class="scilabmacro" href="scilab://repmat">repmat</a><span class="scilabopenclose">(</span><span class="scilabnumber">0.1</span><span class="scilabdefault">,</span><span class="scilabnumber">3</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">ub</span> <span class="scilaboperator">=</span> <a class="scilabmacro" href="scilab://repmat">repmat</a><span class="scilabopenclose">(</span><span class="scilabnumber">4</span><span class="scilabdefault">,</span><span class="scilabnumber">3</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
 <span class="scilabopenclose">[</span><span class="scilabid">xopt</span><span class="scilabdefault">,</span><span class="scilabid">resnorm</span><span class="scilabdefault">,</span><span class="scilabid">residual</span><span class="scilabdefault">,</span><span class="scilabid">exitflag</span><span class="scilabdefault">,</span><span class="scilabid">output</span><span class="scilabdefault">,</span><span class="scilabid">lambda</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span> <span class="scilabid">lsqlin</span><span class="scilabopenclose">(</span><span class="scilabid">C</span><span class="scilabdefault">,</span><span class="scilabid">d</span><span class="scilabdefault">,</span><span class="scilabid">A</span><span class="scilabdefault">,</span><span class="scilabid">b</span><span class="scilabdefault">,</span><span class="scilabid">Aeq</span><span class="scilabdefault">,</span><span class="scilabid">beq</span><span class="scilabdefault">,</span><span class="scilabid">lb</span><span class="scilabdefault">,</span><span class="scilabid">ub</span><span class="scilabopenclose">)</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
 
 <div class="refsection"><h3 class="title">Authors</h3>

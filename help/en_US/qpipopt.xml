@@ -62,11 +62,11 @@
    <varlistentry><term>fopt :</term>
       <listitem><para> a double, the function value at x.</para></listitem></varlistentry>
    <varlistentry><term>exitflag :</term>
-      <listitem><para> Integer identifying the reason the algorithm terminated. It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the qpipopt macro.</para></listitem></varlistentry>
+      <listitem><para> A flag showing returned exit flag from Ipopt. It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the lsqlin macro.</para></listitem></varlistentry>
    <varlistentry><term>output :</term>
       <listitem><para> Structure containing information about the optimization. This version only contains number of iterations</para></listitem></varlistentry>
    <varlistentry><term>lambda :</term>
-      <listitem><para> Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper and linear equality, inequality constraints.</para></listitem></varlistentry>
+      <listitem><para> Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper bound multiplier and linear equality, inequality constraint multiplier.</para></listitem></varlistentry>
    </variablelist>
 </refsection>
 
@@ -74,7 +74,6 @@
    <title>Description</title>
    <para>
 Search the minimum of a constrained linear quadratic optimization problem specified by :
-find the minimum of f(x) such that
    </para>
    <para>
 <latex>
@@ -91,6 +90,33 @@ The routine calls Ipopt for solving the quadratic problem, Ipopt is a library wr
    </para>
    <para>
 </para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+//Ref : example 14 :
+//https://www.me.utexas.edu/~jensen/ORMM/supplements/methods/nlpmethod/S2_quadratic.pdf
+// min. -8*x1*x1 -16*x2*x2 + x1 + 4*x2
+// such that
+//    x1 + x2 <= 5,
+//    x1 <= 3,
+//    x1 >= 0,
+//    x2 >= 0
+H = [2 0
+0 8];
+f = [-8; -16];
+A = [1 1;1 0];
+conUB = [5;3];
+conLB = [-%inf; -%inf];
+lb = [0; 0];
+ub = [%inf; %inf];
+nbVar = 2;
+nbCon = 2;
+[xopt,fopt,exitflag,output,lambda] = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB)
+//Press ENTER to continue
+
+   ]]></programlisting>
 </refsection>
 
 <refsection>
@@ -113,31 +139,6 @@ nbCon = 5;
 x0 = repmat(0,nbVar,1);
 param = list("MaxIter", 300, "CpuTime", 100);
 [xopt,fopt,exitflag,output,lambda]=qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB,x0,param)
-// Press ENTER to continue
-
-   ]]></programlisting>
-</refsection>
-
-<refsection>
-   <title>Examples</title>
-   <programlisting role="example"><![CDATA[
-//Find the value of x that minimize following function
-// f(x) = 0.5*x1^2 + x2^2 - x1*x2 - 2*x1 - 6*x2
-// Subject to:
-// x1 + x2 ≤ 2
-// –x1 + 2x2 ≤ 2
-// 2x1 + x2 ≤ 3
-// 0 ≤ x1, 0 ≤ x2.
-H = [1 -1; -1 2];
-f = [-2; -6];
-A = [1 1; -1 2; 2 1];
-conUB = [2; 2; 3];
-conLB = [-%inf; -%inf; -%inf];
-lb = [0; 0];
-ub = [%inf; %inf];
-nbVar = 2;
-nbCon = 3;
-[xopt,fopt,exitflag,output,lambda] = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB)
    ]]></programlisting>
 </refsection>
 

@@ -43,13 +43,13 @@
    <varlistentry><term>resnorm :</term>
       <listitem><para> a double, objective value returned as the scalar value norm(C*x-d)^2.</para></listitem></varlistentry>
    <varlistentry><term>residual :</term>
-      <listitem><para> a vector of double, solution residuals returned as the vector C*x-d.</para></listitem></varlistentry>
+      <listitem><para> a vector of double, solution residuals returned as the vector d-C*x.</para></listitem></varlistentry>
    <varlistentry><term>exitflag :</term>
-      <listitem><para> Integer identifying the reason the algorithm terminated. It could be 0, 1 or 2 i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded.</para></listitem></varlistentry>
+      <listitem><para> A flag showing returned exit flag from Ipopt. It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the lsqlin macro.</para></listitem></varlistentry>
    <varlistentry><term>output :</term>
       <listitem><para> Structure containing information about the optimization. This version only contains number of iterations.</para></listitem></varlistentry>
    <varlistentry><term>lambda :</term>
-      <listitem><para> Structure containing the Lagrange multipliers at the solution x. It contains lower and upper bound multiplier.</para></listitem></varlistentry>
+      <listitem><para> Structure containing the Lagrange multipliers at the solution xopt. It contains lower, upper bound multiplier and linear equality, inequality constraint multiplier.</para></listitem></varlistentry>
    </variablelist>
 </refsection>
 
@@ -78,16 +78,16 @@ The routine calls Ipopt for solving the nonnegative least-squares curve fitting 
    <title>Examples</title>
    <programlisting role="example"><![CDATA[
 // A basic lsqnonneg problem
-C = [
-0.0372    0.2869
-0.6861    0.7071
-0.6233    0.6245
-0.6344    0.6170];
-d = [
-0.8587
-0.1781
-0.0747
-0.8405];
+C = [1 1 1;
+1 1 0;
+0 1 1;
+1 0 0;
+0 0 1]
+d = [89;
+67;
+53;
+35;
+20;]
 [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg(C,d)
    ]]></programlisting>
 </refsection>

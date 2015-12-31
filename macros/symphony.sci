@@ -1,13 +1,13 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// Author: Harpreet Singh
-// Organization: FOSSEE, IIT Bombay
-// Email: harpreet.mertia@gmail.com
 // This file must be used under the terms of the CeCILL.
 // This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// Author: Harpreet Singh
+// Organization: FOSSEE, IIT Bombay
+// Email: toolbox@scilab.in
 
 function [xopt,fopt,status,output] = symphony (varargin)
 	// Solves a  mixed integer linear programming constrained optimization problem.
@@ -32,12 +32,11 @@ function [xopt,fopt,status,output] = symphony (varargin)
 	//   options : a list containing the the parameters to be set.
 	//   xopt : a vector of double, the computed solution of the optimization problem.
 	//   fopt : a double, the function value at x.
-	//   status : status flag from symphony. 227 is optimal, 228 is Time limit exceeded, 230 is iteration limit exceeded.
+	//   status : status flag returned from symphony. 227 is optimal, 228 is Time limit exceeded, 230 is iteration limit exceeded.
 	//   output : The output data structure contains detailed information about the optimization process. This version only contains number of iterations
 	//   
 	//   Description
 	//   Search the minimum or maximum of a constrained mixed integer linear programming optimization problem specified by :
-	//   find the minimum or maximum of f(x) such that 
 	//
 	//   <latex>
 	//    \begin{eqnarray}
@@ -52,7 +51,7 @@ function [xopt,fopt,status,output] = symphony (varargin)
 	//   The routine calls SYMPHONY written in C by gateway files for the actual computation.
 	//
 	//   Examples
-	//    //A basic case : 
+	//   //Reference: Westerberg, Carl-Henrik, Bengt Bjorklund, and Eskil Hultman. "An application of mixed integer programming in a Swedish steel mill." Interfaces 7, no. 2 (1977): 39-43.
 	//    // Objective function
 	//    c = [350*5,330*3,310*4,280*6,500,450,400,100]';
 	//    // Lower Bound of variable
@@ -203,8 +202,21 @@ function [xopt,fopt,status,output] = symphony (varargin)
       options = varargin(11);
    end
 
-// Check if the user gives row vector 
-// and Changing it to a column matrix
+	// Check if the user gives empty matrix
+    if (size(lb,2)==0) then
+        lb = repmat(-%inf,nbVar,1);
+    end
+    
+    if (size(isInt,2)==0) then
+        isInt = repmat(%f,nbVar,1);
+    end
+    
+    if (size(ub,2)==0) then
+        ub = repmat(%inf,nbVar,1);
+    end
+
+	// Check if the user gives row vector 
+	// and Changing it to a column matrix
 
    if (size(isInt,2)== [nbVar]) then
 	isInt = isInt';
@@ -262,7 +274,7 @@ function [xopt,fopt,status,output] = symphony (varargin)
    end
 
    //Check the column of constraint which should equal to the number of variables
-   if ( size(A,2) ~= nbVar) then
+   if ( size(A,2) ~= nbVar & size(A,2) ~= 0) then
       errmsg = msprintf(gettext("%s: The number of columns in constraint should equal to the number of variables"), "Symphony");
       error(errmsg);
    end

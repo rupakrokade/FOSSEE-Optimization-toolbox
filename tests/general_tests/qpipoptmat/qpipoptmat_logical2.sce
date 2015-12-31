@@ -11,7 +11,7 @@ b = [-1; 2.5];
 lb=[-1000; -10000; 0; -1000; -1000; -1000];
 ub=[10000; 100; 1.5; 100; 100; 1000];
 param = list("MaxIter", 300, "CpuTime",100);
-//and minimize 0.5*x'*Q*x + p'*x with
+//and minimize 0.5*x'*H*x + f'*x with
 f=[1; 2; 3; 4; 5; 6]; H=eye(6,6);
 [xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f,A,b,Aeq,beq,lb,ub,[],param);
 
