@@ -1,13 +1,13 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// Author: Harpreet Singh
-// Organization: FOSSEE, IIT Bombay
-// Email: harpreet.mertia@gmail.com
 // This file must be used under the terms of the CeCILL.
 // This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// Author: Harpreet Singh
+// Organization: FOSSEE, IIT Bombay
+// Email: toolbox@scilab.in
 
 
 function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
@@ -34,10 +34,10 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
 	//   param : a list containing the the parameters to be set.
 	//   xopt : a vector of double, the computed solution of the optimization problem.
 	//   resnorm : a double, objective value returned as the scalar value norm(C*x-d)^2.
-	//   residual : a vector of double, solution residuals returned as the vector C*x-d.
-	//   exitflag : Integer identifying the reason the algorithm terminated. It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the lsqlin macro. 
+	//   residual : a vector of double, solution residuals returned as the vector d-C*x.
+	//   exitflag : A flag showing returned exit flag from Ipopt. It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the lsqlin macro. 
 	//   output : Structure containing information about the optimization. This version only contains number of iterations.
-	//   lambda : Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper bound multiplier and linear equality, inequality constraints.
+	//   lambda : Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper bound multiplier and linear equality, inequality constraint multiplier.
 	//   
 	//   Description
 	//   Search the minimum of a constrained linear least square problem specified by :
@@ -56,48 +56,42 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
 	//
 	// Examples
 	// //A simple linear least square example
-	// C = [0.9501    0.7620    0.6153    0.4057
-	//     0.2311    0.4564    0.7919    0.9354
-	//     0.6068    0.0185    0.9218    0.9169
-	//     0.4859    0.8214    0.7382    0.4102
-	//     0.8912    0.4447    0.1762    0.8936];
-	// d = [0.0578
-	//     0.3528
-	//     0.8131
-	//     0.0098
-	//     0.1388];
-	// A = [0.2027    0.2721    0.7467    0.4659
-	//     0.1987    0.1988    0.4450    0.4186
-	//     0.6037    0.0152    0.9318    0.8462];
-	// b = [0.5251
-	//     0.2026
-	//     0.6721];
+	// C = [ 2 0;
+	//		-1 1;
+	//		 0 2]
+	// d = [1
+	//		0
+	//	   -1];
+	// A = [10 -2;
+	//		-2 10];
+	// b = [4
+	//     -4];
 	// [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin(C,d,A,b)
 	// // Press ENTER to continue 
 	//    
 	// Examples
 	// //A basic example for equality, inequality constraints and variable bounds
-	// C = [0.9501    0.7620    0.6153    0.4057
-	//     0.2311    0.4564    0.7919    0.9354
-	//     0.6068    0.0185    0.9218    0.9169
-	//     0.4859    0.8214    0.7382    0.4102
-	//     0.8912    0.4447    0.1762    0.8936];
-	// d = [0.0578
-	//     0.3528
-	//     0.8131
-	//     0.0098
-	//     0.1388];
-	// A =[0.2027    0.2721    0.7467    0.4659
-	//     0.1987    0.1988    0.4450    0.4186
-	//     0.6037    0.0152    0.9318    0.8462];
-	// b =[0.5251
-	//     0.2026
-	//     0.6721];
-	// Aeq = [3 5 7 9];
-	// beq = 4;
-	// lb = -0.1*ones(4,1);
-	// ub = 2*ones(4,1);
-	// [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin(C,d,A,b,Aeq,beq,lb,ub)
+	//		C = [1 1 1;
+	//			1 1 0;
+	//			0 1 1;
+	//			1 0 0;
+	//			0 0 1]
+	//		d = [89;
+	//			67;
+	//			53;
+	//			35;
+	//			20;]
+	//		A = [3 2 1;
+	//			2 3 4;
+	//			1 2 3];
+	//		b = [191
+	//			209
+	//			162];
+	//	 Aeq = [1 2 1];
+	//	 beq = 10;
+	//	 lb = repmat(0.1,3,1);
+	//	 ub = repmat(4,3,1);
+	//	 [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin(C,d,A,b,Aeq,beq,lb,ub)
 	// Authors
 	// Harpreet Singh
 
@@ -238,7 +232,7 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
 
 	//Check the size of equality constraint which should be equal to the number of variables
 	if ( size(Aeq,2) ~= nbVar & size(Aeq,2) ~= 0 ) then
-		errmsg = msprintf(gettext("%s: The number of columns in Aeq must be the same as the number of elements of d"), "lsqlin");
+		errmsg = msprintf(gettext("%s: The number of columns in Aeq must be the same as the number of columns in C"), "lsqlin");
 		error(errmsg);
 	end
 
@@ -333,7 +327,7 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
 	[xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,H,f,conMatrix,conLB,conUB,lb,ub,x0,options);
 
 	xopt = xopt';
-	residual = -1*(C*xopt-d);
+	residual = d-C*xopt;
 	resnorm = residual'*residual;
 	exitflag = status;
 	output = struct("Iterations"      , []);

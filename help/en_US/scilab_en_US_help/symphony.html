@@ -70,19 +70,18 @@
    <dt><span class="term">fopt :</span>
       <dd><p class="para">a double, the function value at x.</p></dd></dt>
    <dt><span class="term">status :</span>
-      <dd><p class="para">status flag from symphony. 227 is optimal, 228 is Time limit exceeded, 230 is iteration limit exceeded.</p></dd></dt>
+      <dd><p class="para">status flag returned from symphony. 227 is optimal, 228 is Time limit exceeded, 230 is iteration limit exceeded.</p></dd></dt>
    <dt><span class="term">output :</span>
       <dd><p class="para">The output data structure contains detailed information about the optimization process. This version only contains number of iterations</p></dd></dt></dl></div>
 
 <div class="refsection"><h3 class="title">Description</h3>
-   <p class="para">Search the minimum or maximum of a constrained mixed integer linear programming optimization problem specified by :
-find the minimum or maximum of f(x) such that</p>
+   <p class="para">Search the minimum or maximum of a constrained mixed integer linear programming optimization problem specified by :</p>
    <p class="para"><span><img src='./_LaTeX_symphony.xml_1.png' style='position:relative;top:41px;width:292px;height:90px'/></span></p>
    <p class="para">The routine calls SYMPHONY written in C by gateway files for the actual computation.</p>
    <p class="para"></p></div>
 
 <div class="refsection"><h3 class="title">Examples</h3>
-   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabcomment">//A basic case :</span>
+   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabcomment">//Reference: Westerberg, Carl-Henrik, Bengt Bjorklund, and Eskil Hultman. </span><span class="scilabcomment">&#0034;</span><span class="scilabcomment">An application of mixed integer programming in a Swedish steel mill.</span><span class="scilabcomment">&#0034;</span><span class="scilabcomment"> Interfaces 7, no. 2 (1977): 39-43.</span>
 <span class="scilabcomment">// Objective function</span>
 <span class="scilabid">c</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">350</span><span class="scilaboperator">*</span><span class="scilabnumber">5</span><span class="scilabdefault">,</span><span class="scilabnumber">330</span><span class="scilaboperator">*</span><span class="scilabnumber">3</span><span class="scilabdefault">,</span><span class="scilabnumber">310</span><span class="scilaboperator">*</span><span class="scilabnumber">4</span><span class="scilabdefault">,</span><span class="scilabnumber">280</span><span class="scilaboperator">*</span><span class="scilabnumber">6</span><span class="scilabdefault">,</span><span class="scilabnumber">500</span><span class="scilabdefault">,</span><span class="scilabnumber">450</span><span class="scilabdefault">,</span><span class="scilabnumber">400</span><span class="scilabdefault">,</span><span class="scilabnumber">100</span><span class="scilabopenclose">]</span><span class="scilaboperator">&#0039;</span><span class="scilabdefault">;</span>
 <span class="scilabcomment">// Lower Bound of variable</span>

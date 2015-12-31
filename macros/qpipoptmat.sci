@@ -1,13 +1,13 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// Author: Harpreet Singh
-// Organization: FOSSEE, IIT Bombay
-// Email: harpreet.mertia@gmail.com
 // This file must be used under the terms of the CeCILL.
 // This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// Author: Harpreet Singh
+// Organization: FOSSEE, IIT Bombay
+// Email: toolbox@scilab.in
 
 
 function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
@@ -35,13 +35,13 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 	//   param : a list containing the the parameters to be set.
 	//   xopt : a vector of double, the computed solution of the optimization problem.
 	//   fopt : a double, the function value at x.
-	//   exitflag : Integer identifying the reason the algorithm terminated.It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the qpipoptmat macro.
+	//   residual : a vector of double, solution residuals returned as the vector d-C*x.
+	//   exitflag : A flag showing returned exit flag from Ipopt. It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the lsqlin macro. 
 	//   output : Structure containing information about the optimization. This version only contains number of iterations.
-	//   lambda : Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper and linear equality, inequality constraints.
+	//   lambda : Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper bound multiplier and linear equality, inequality constraint multiplier.
 	//   
 	//   Description
 	//   Search the minimum of a constrained linear quadratic optimization problem specified by :
-	//   find the minimum of f(x) such that 
 	//
 	//   <latex>
 	//    \begin{eqnarray}
@@ -56,17 +56,19 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 	//   The routine calls Ipopt for solving the quadratic problem, Ipopt is a library written in C++.
 	//
 	// Examples
-	//    //Find the value of x that minimize following function
-	//    // f(x) = 0.5*x1^2 + x2^2 - x1*x2 - 2*x1 - 6*x2
-	//    // Subject to:
-	//    // x1 + x2 ≤ 2
-	//    // –x1 + 2x2 ≤ 2
-	//    // 2x1 + x2 ≤ 3
-	//    // 0 ≤ x1, 0 ≤ x2.
-	//	H = [1 -1; -1 2]; 
-	//	f = [-2; -6];
-	//  A = [1 1; -1 2; 2 1];
-	//	b = [2; 2; 3];
+	//		//Ref : example 14 :
+	//		//https://www.me.utexas.edu/~jensen/ORMM/supplements/methods/nlpmethod/S2_quadratic.pdf
+	//		// min. -8*x1*x1 -16*x2*x2 + x1 + 4*x2
+	//		// such that
+	//		//	x1 + x2 <= 5,
+	//		//	x1 <= 3,
+	//		//	x1 >= 0,
+	//		//	x2 >= 0
+	//	H = [2 0
+	//		 0 8]; 
+	//	f = [-8; -16];
+	//  A = [1 1;1 0];
+	//	b = [5;3];
 	//	lb = [0; 0];
 	//	ub = [%inf; %inf];
 	//	[xopt,fopt,exitflag,output,lambda] = qpipoptmat(H,f,A,b,[],[],lb,ub)
@@ -87,7 +89,7 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 	//	  param = list("MaxIter", 300, "CpuTime", 100);
 	//    //and minimize 0.5*x'*H*x + f'*x with
 	//    f=[1; 2; 3; 4; 5; 6]; H=eye(6,6);
-	//    [xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f,A,b,Aeq,beq,lb,ub,[],param)
+	//    [xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f,A,b,Aeq,beq,lb,ub,x0,param)
 	// Authors
 	// Keyur Joshi, Saikiran, Iswarya, Harpreet Singh
     

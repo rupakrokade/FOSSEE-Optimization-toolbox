@@ -1,4 +1,3 @@
-
 // A simple example without constraints
 A= [];
 conLB=[];

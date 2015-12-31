@@ -1,13 +1,13 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// Author: Harpreet Singh
-// Organization: FOSSEE, IIT Bombay
-// Email: harpreet.mertia@gmail.com
 // This file must be used under the terms of the CeCILL.
 // This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// Author: Harpreet Singh
+// Organization: FOSSEE, IIT Bombay
+// Email: toolbox@scilab.in
 
 
 function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
@@ -23,10 +23,10 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 	//   d : a vector of double, represents the additive constant term in the expression C*x - d. Number of elements in d is equal to the number of rows in C matrix.
 	//   xopt : a vector of double, the computed solution of the optimization problem.
 	//   resnorm : a double, objective value returned as the scalar value norm(C*x-d)^2.
-	//   residual : a vector of double, solution residuals returned as the vector C*x-d.
-	//   exitflag : Integer identifying the reason the algorithm terminated. It could be 0, 1 or 2 i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded.
+	//   residual : a vector of double, solution residuals returned as the vector d-C*x.
+	//   exitflag : A flag showing returned exit flag from Ipopt. It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the lsqlin macro. 
 	//   output : Structure containing information about the optimization. This version only contains number of iterations.
-	//   lambda : Structure containing the Lagrange multipliers at the solution x. It contains lower and upper bound multiplier.
+	//   lambda : Structure containing the Lagrange multipliers at the solution xopt. It contains lower, upper bound multiplier and linear equality, inequality constraint multiplier.
 	//   
 	//   Description
 	//   Solves nonnegative least-squares curve fitting problems specified by :
@@ -43,16 +43,16 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 	//    
 	// Examples 
 	// // A basic lsqnonneg problem
-	//	C = [
-	//		0.0372    0.2869
-	//		0.6861    0.7071
-	//		0.6233    0.6245
-	//		0.6344    0.6170];
-	//	d = [
-	//    	0.8587
-	//    	0.1781
-	//   	0.0747
-	//	    0.8405];
+	//		C = [1 1 1;
+	//			1 1 0;
+	//			0 1 1;
+	//			1 0 0;
+	//			0 0 1]
+	//		d = [89;
+	//			67;
+	//			53;
+	//			35;
+	//			20;]
 	// [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg(C,d)
 	// Authors
 	// Harpreet Singh
