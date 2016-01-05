@@ -170,7 +170,7 @@ int sci_solveqp(char *fname)
 
 	////////// Manage the output argument //////////
 
-	if (rstatus == 0 | rstatus == 1 | rstatus == 2){
+	if (rstatus >= 0 | rstatus <= 7){
 		fX = Prob->getX();
 		ObjVal = Prob->getObjVal();
 		iteration = Prob->iterCount();

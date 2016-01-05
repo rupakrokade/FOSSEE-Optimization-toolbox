@@ -1,9 +1,10 @@
 // A simple example without constraints
 
 f=[2 -35 -47]'; 
-H =[5   -2   -1; -2   4   3; -1   3   5];
+H =[5   -2   -1;
+	-2   4   3;
+	-1   3   5];
 [xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f);
-
 
 //Output
 //
@@ -17,7 +18,7 @@ H =[5   -2   -1; -2   4   3; -1   3   5];
 // lambda   
 // 
 //   Iterations: 1
-// 
+//	 ConstrViolation: 0
 // output   
 // 
 //  0  

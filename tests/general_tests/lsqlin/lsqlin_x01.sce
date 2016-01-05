@@ -23,6 +23,7 @@ x0 = [0 0 0];
 // output  =
 // 
 //   Iterations: 13
+//	 ConstrViolation: 0
 // exitflag  =
 // 
 //  0  

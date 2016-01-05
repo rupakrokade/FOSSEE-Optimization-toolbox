@@ -52,23 +52,22 @@ endfunction
 //  if flag <> 1 then pause,end
 //endfunction
 
-//Find the value of x that minimize following function
-// f(x) = 0.5*x1^2 + x2^2 - x1*x2 - 2*x1 - 6*x2
-// Subject to:
-// x1 + x2 ≤ 2
-// –x1 + 2x2 ≤ 2
-// 2x1 + x2 ≤ 3
-// 0 ≤ x1, 0 ≤ x2.
-H = [1 -1; -1 2];
-f = [-2; -6];
-A = [1 1; -1 2; 2 1];
-b = [2; 2; 3];
-lb = [0; 0];
-ub = [%inf; %inf];
-[xopt,fopt,exitflag,output,lambda] = qpipoptmat(H,f,A,b,[],[],lb,ub)
+//Find x in R^6 such that:
+Aeq= [1,-1,1,0,3,1;
+-1,0,-3,-4,5,6;
+2,5,3,0,1,0];
+beq=[1; 2; 3];
+A= [0,1,0,1,2,-1;
+-1,0,2,1,1,0];
+b = [-1; 2.5];
+lb=[-1000; -10000; 0; -1000; -1000; -1000];
+ub=[10000; 100; 1.5; 100; 100; 1000];
+param = list("MaxIter", 300, "CpuTime",100);
+//and minimize 0.5*x'*H*x + f'*x with
+f=[1; 2; 3; 4; 5; 6]; H=eye(6,6);
+[xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f,A,b,Aeq,beq,lb,ub,[],param);
 
-assert_close ( xopt , [0.6666667 1.3333333]' , 1.e-7 );
-assert_close ( fopt , [ - 8.2222223] , 1.e-7 );
+assert_close ( xopt , [1.7975426 -0.3381487 0.1633880 - 4.9884023 0.6054943 -3.1155623]' , 1.e-7 );
+assert_close ( fopt , [ -14.843248] , 1.e-7 );
 assert_checkequal( exitflag , int32(0) );
-
-printf("Test Successfull")
+printf("Test Successful");

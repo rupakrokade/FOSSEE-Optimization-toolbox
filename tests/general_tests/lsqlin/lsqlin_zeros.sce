@@ -14,6 +14,7 @@ b = [0];
 // output  =
 // 
 //   Iterations: 2
+//	 ConstrViolation: 0
 // exitflag  =
 // 
 //  0  

@@ -32,13 +32,13 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 	//   lb : a vector of double, contains lower bounds of the variables.
 	//   ub : a vector of double, contains upper bounds of the variables.
 	//   x0 : a vector of double, contains initial guess of variables.
-	//   param : a list containing the the parameters to be set.
+	//   param : a list containing the parameters to be set.
 	//   xopt : a vector of double, the computed solution of the optimization problem.
-	//   fopt : a double, the function value at x.
+	//   fopt : a double, the value of the function at x.
 	//   residual : a vector of double, solution residuals returned as the vector d-C*x.
-	//   exitflag : A flag showing returned exit flag from Ipopt. It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the lsqlin macro. 
-	//   output : Structure containing information about the optimization. This version only contains number of iterations.
-	//   lambda : Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper bound multiplier and linear equality, inequality constraint multiplier.
+	//   exitflag : The exit status. See below for details.
+	//   output : The structure consist of statistics about the optimization. See below for details.
+	//   lambda : The structure consist of the Lagrange multipliers at the solution of problem. See below for details.
 	//   
 	//   Description
 	//   Search the minimum of a constrained linear quadratic optimization problem specified by :
@@ -54,6 +54,35 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 	//   </latex>
 	//   
 	//   The routine calls Ipopt for solving the quadratic problem, Ipopt is a library written in C++.
+	//
+	// The exitflag allows to know the status of the optimization which is given back by Ipopt.
+	// <itemizedlist>
+	//   <listitem>exitflag=0 : Optimal Solution Found </listitem>
+	//   <listitem>exitflag=1 : Maximum Number of Iterations Exceeded. Output may not be optimal.</listitem>
+	//   <listitem>exitflag=2 : Maximum CPU Time exceeded. Output may not be optimal.</listitem>
+	//   <listitem>exitflag=3 : Stop at Tiny Step.</listitem>
+	//   <listitem>exitflag=4 : Solved To Acceptable Level.</listitem>
+	//   <listitem>exitflag=5 : Converged to a point of local infeasibility.</listitem>
+	// </itemizedlist>
+	// 
+	// For more details on exitflag see the ipopt documentation, go to http://www.coin-or.org/Ipopt/documentation/
+	//
+	// The output data structure contains detailed informations about the optimization process. 
+	// It has type "struct" and contains the following fields.
+	// <itemizedlist>
+	//   <listitem>output.iterations: The number of iterations performed during the search</listitem>
+	//   <listitem>output.constrviolation: The max-norm of the constraint violation.</listitem>
+	// </itemizedlist>
+	//
+	// The lambda data structure contains the Lagrange multipliers at the end 
+	// of optimization. In the current version the values are returned only when the the solution is optimal. 
+	// It has type "struct" and contains the following fields.
+	// <itemizedlist>
+	//   <listitem>lambda.lower: The Lagrange multipliers for the lower bound constraints.</listitem>
+	//   <listitem>lambda.upper: The Lagrange multipliers for the upper bound constraints.</listitem>
+	//   <listitem>lambda.eqlin: The Lagrange multipliers for the linear equality constraints.</listitem>
+	//   <listitem>lambda.ineqlin: The Lagrange multipliers for the linear inequality constraints.</listitem>
+	// </itemizedlist>
 	//
 	// Examples
 	//		//Ref : example 14 :
@@ -94,15 +123,15 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 	// Keyur Joshi, Saikiran, Iswarya, Harpreet Singh
     
     
-//To check the number of input and output argument
-   [lhs , rhs] = argn();
-	
-//To check the number of argument given by user
-   if ( rhs < 2 | rhs == 3 | rhs == 5 | rhs == 7 | rhs > 10 ) then
-    errmsg = msprintf(gettext("%s: Unexpected number of input arguments : %d provided while should be in the set of [2 4 6 8 9 10]"), "qpipoptmat", rhs);
-    error(errmsg)
-   end
-   
+	//To check the number of input and output argument
+	[lhs , rhs] = argn();
+
+	//To check the number of argument given by user
+	if ( rhs < 2 | rhs == 3 | rhs == 5 | rhs == 7 | rhs > 10 ) then
+		errmsg = msprintf(gettext("%s: Unexpected number of input arguments : %d provided while should be in the set of [2 4 6 8 9 10]"), "qpipoptmat", rhs);
+		error(errmsg)
+	end
+
 	H = [];
 	f = [];
 	A = [];
@@ -116,242 +145,240 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 	f = varargin(2);
 	nbVar = size(H,1);
 
-   
-   if ( rhs<3 ) then
-      A = []
-      b = []
-   else
-      A = varargin(3);
-      b = varargin(4);
-  end
-      
-   if ( rhs<5 ) then
-      Aeq = []
-      beq = []
-   else
-      Aeq = varargin(5);
-      beq = varargin(6);
-  end
-  
-  if ( rhs<7 ) then
-      lb = repmat(-%inf,nbVar,1);
-      ub = repmat(%inf,nbVar,1);
-   else
-      lb = varargin(7);
-      ub = varargin(8);
-  end
+
+	if ( rhs<3 ) then
+	  A = []
+	  b = []
+	else
+	  A = varargin(3);
+	  b = varargin(4);
+	end
+	  
+	if ( rhs<5 ) then
+	  Aeq = []
+	  beq = []
+	else
+	  Aeq = varargin(5);
+	  beq = varargin(6);
+	end
+
+	if ( rhs<7 ) then
+		lb = repmat(-%inf,nbVar,1);
+		ub = repmat(%inf,nbVar,1);
+	else
+		lb = varargin(7);
+		ub = varargin(8);
+	end
+
+	if ( rhs<9 | size(varargin(9)) ==0 ) then
+		x0 = repmat(0,nbVar,1)
+	else
+		x0 = varargin(9);
+	end
+
+	if ( rhs<10 | size(varargin(10)) ==0 ) then
+		param = list();
+	else
+		param =varargin(10);
+	end
+
+	if (size(lb,2)==0) then
+		lb = repmat(-%inf,nbVar,1);
+	end
+
+	if (size(ub,2)==0) then
+		ub = repmat(%inf,nbVar,1);
+	end
+
+	if (size(f,2)==0) then
+		f = repmat(0,nbVar,1);
+	end
+
+	if (type(param) ~= 15) then
+		errmsg = msprintf(gettext("%s: param should be a list "), "qpipoptmat");
+		error(errmsg);
+	end
+
+	if (modulo(size(param),2)) then
+		errmsg = msprintf(gettext("%s: Size of parameters should be even"), "qpipoptmat");
+		error(errmsg);
+	end
+
+	options = list(..
+				  "MaxIter"     , [3000], ...
+				  "CpuTime"   , [600] ...
+				  );
+
+	for i = 1:(size(param))/2
+		
+	   	select param(2*i-1)
+		case "MaxIter" then
+		  		options(2*i) = param(2*i);
+	   	case "CpuTime" then
+		  		options(2*i) = param(2*i);
+		else
+			  errmsg = msprintf(gettext("%s: Unrecognized parameter name ''%s''."), "qpipoptmat", param(2*i-1));
+			  error(errmsg)
+		end
+	end
+
+	nbConInEq = size(A,1);
+	nbConEq = size(Aeq,1);
+
+	// Check if the user gives row vector 
+	// and Changing it to a column matrix
+
+	if (size(f,2)== [nbVar]) then
+		f=f';
+	end
+
+	if (size(lb,2)== [nbVar]) then
+		lb = lb';
+	end
+
+	if (size(ub,2)== [nbVar]) then
+		ub = ub';
+	end
+
+	if (size(b,2)==nbConInEq) then
+		b = b';
+	end
+
+	if (size(beq,2)== nbConEq) then
+		beq = beq';
+	end
+
+	if (size(x0,2)== [nbVar]) then
+		x0=x0';
+	end
+
+	//Checking the H matrix which needs to be a symmetric matrix
+	if ( ~isequal(H,H')) then
+		errmsg = msprintf(gettext("%s: H is not a symmetric matrix"), "qpipoptmat");
+		error(errmsg);
+	end
+
+	//Check the size of f which should equal to the number of variable
+	if ( size(f,1) ~= [nbVar]) then
+		errmsg = msprintf(gettext("%s: The number of rows and columns in H must be equal the number of elements of f"), "qpipoptmat");
+		error(errmsg);
+	end
+
+	//Check the size of inequality constraint which should be equal to the number of variables
+	if ( size(A,2) ~= nbVar & size(A,2) ~= 0) then
+		errmsg = msprintf(gettext("%s: The number of columns in A must be the same as the number of elements of f"), "qpipoptmat");
+		error(errmsg);
+	end
+
+	//Check the size of equality constraint which should be equal to the number of variables
+	if ( size(Aeq,2) ~= nbVar & size(Aeq,2) ~= 0 ) then
+		errmsg = msprintf(gettext("%s: The number of columns in Aeq must be the same as the number of elements of f"), "qpipoptmat");
+		error(errmsg);
+	end
 
 
-  if ( rhs<9 | size(varargin(9)) ==0 ) then
-      x0 = repmat(0,nbVar,1)
-  else
-      x0 = varargin(9);
-  end
+	//Check the size of Lower Bound which should be equal to the number of variables
+	if ( size(lb,1) ~= nbVar) then
+		errmsg = msprintf(gettext("%s: The Lower Bound is not equal to the number of variables"), "qpipoptmat");
+		error(errmsg);
+	end
 
-   if ( rhs<10 | size(varargin(10)) ==0 ) then
-      param = list();
-   else
-      param =varargin(10);
-   end
-   
-   if (size(lb,2)==0) then
-        lb = repmat(-%inf,nbVar,1);
-    end
-    
-    if (size(ub,2)==0) then
-        ub = repmat(%inf,nbVar,1);
-    end
+	//Check the size of Upper Bound which should equal to the number of variables
+	if ( size(ub,1) ~= nbVar) then
+		errmsg = msprintf(gettext("%s: The Upper Bound is not equal to the number of variables"), "qpipoptmat");
+		error(errmsg);
+	end
 
-    if (size(f,2)==0) then
-        f = repmat(0,nbVar,1);
-    end
+	//Check the size of constraints of Lower Bound which should equal to the number of constraints
+	if ( size(b,1) ~= nbConInEq & size(b,1) ~= 0) then
+		errmsg = msprintf(gettext("%s: The number of rows in A must be the same as the number of elementsof b"), "qpipoptmat");
+		error(errmsg);
+	end
 
-   if (type(param) ~= 15) then
-      errmsg = msprintf(gettext("%s: param should be a list "), "qpipoptmat");
-      error(errmsg);
-   end
-   
+	//Check the size of constraints of Upper Bound which should equal to the number of constraints
+	if ( size(beq,1) ~= nbConEq & size(beq,1) ~= 0) then
+		errmsg = msprintf(gettext("%s: The number of rows in Aeq must be the same as the number of elements of beq"), "qpipoptmat");
+		error(errmsg);
+	end
 
-   if (modulo(size(param),2)) then
-	errmsg = msprintf(gettext("%s: Size of parameters should be even"), "qpipoptmat");
-	error(errmsg);
-   end
+	//Check the size of initial of variables which should equal to the number of variables
+	if ( size(x0,1) ~= nbVar) then
+		warnmsg = msprintf(gettext("%s: Ignoring initial guess of variables as it is not equal to the number of variables"), "qpipoptmat");
+		warning(warnmsg);
+		x0 = repmat(0,nbVar,1);
+	end
 
-   options = list(..
-      "MaxIter"     , [3000], ...
-      "CpuTime"   , [600] ...
-      );
+	//Check if the user gives a matrix instead of a vector
 
-   for i = 1:(size(param))/2
-        
-       	select param(2*i-1)
-    	case "MaxIter" then
-          		options(2*i) = param(2*i);
-       	case "CpuTime" then
-          		options(2*i) = param(2*i);
-    	else
-    	      errmsg = msprintf(gettext("%s: Unrecognized parameter name ''%s''."), "qpipoptmat", param(2*i-1));
-    	      error(errmsg)
-    	end
-   end
+	if ((size(f,1)~=1)& (size(f,2)~=1)) then
+		errmsg = msprintf(gettext("%s: f should be a vector"), "qpipoptmat");
+		error(errmsg); 
+	end
 
-   nbConInEq = size(A,1);
-   nbConEq = size(Aeq,1);
+	if (size(lb,1)~=1)& (size(ub,2)~=1) then
+		errmsg = msprintf(gettext("%s: Lower Bound should be a vector"), "qpipoptmat");
+		error(errmsg); 
+	end
 
-// Check if the user gives row vector 
-// and Changing it to a column matrix
+	if (size(ub,1)~=1)& (size(ub,2)~=1) then
+		errmsg = msprintf(gettext("%s: Upper Bound should be a vector"), "qpipoptmat");
+		error(errmsg); 
+	end
 
+	if (nbConInEq) then
+		if ((size(b,1)~=1)& (size(b,2)~=1)) then
+		    errmsg = msprintf(gettext("%s: Constraint Lower Bound should be a vector"), "qpipoptmat");
+		    error(errmsg); 
+		end
+	end
 
-   if (size(f,2)== [nbVar]) then
-      f=f';
-   end
+	if (nbConEq) then
+		if (size(beq,1)~=1)& (size(beq,2)~=1) then
+		    errmsg = msprintf(gettext("%s: Constraint should be a vector"), "qpipoptmat");
+		    error(errmsg); 
+		end
+	end
 
-   if (size(lb,2)== [nbVar]) then
-	lb = lb';
-   end
-
-   if (size(ub,2)== [nbVar]) then
-	ub = ub';
-   end
-
-   if (size(b,2)==nbConInEq) then
-	b = b';
-   end
-
-   if (size(beq,2)== nbConEq) then
-	beq = beq';
-   end
-
-   if (size(x0,2)== [nbVar]) then
-	x0=x0';
-   end
-
-   //Checking the H matrix which needs to be a symmetric matrix
-   if ( ~isequal(H,H')) then
-      errmsg = msprintf(gettext("%s: H is not a symmetric matrix"), "qpipoptmat");
-      error(errmsg);
-   end
-
-   
-   //Check the size of f which should equal to the number of variable
-   if ( size(f,1) ~= [nbVar]) then
-      errmsg = msprintf(gettext("%s: The number of rows and columns in H must be equal the number of elements of f"), "qpipoptmat");
-      error(errmsg);
-   end
-   
-   //Check the size of inequality constraint which should be equal to the number of variables
-   if ( size(A,2) ~= nbVar & size(A,2) ~= 0) then
-      errmsg = msprintf(gettext("%s: The number of columns in A must be the same as the number of elements of f"), "qpipoptmat");
-      error(errmsg);
-   end
-
-   //Check the size of equality constraint which should be equal to the number of variables
-   if ( size(Aeq,2) ~= nbVar & size(Aeq,2) ~= 0 ) then
-      errmsg = msprintf(gettext("%s: The number of columns in Aeq must be the same as the number of elements of f"), "qpipoptmat");
-      error(errmsg);
-   end
-
-
-   //Check the size of Lower Bound which should be equal to the number of variables
-   if ( size(lb,1) ~= nbVar) then
-      errmsg = msprintf(gettext("%s: The Lower Bound is not equal to the number of variables"), "qpipoptmat");
-      error(errmsg);
-   end
-
-   //Check the size of Upper Bound which should equal to the number of variables
-   if ( size(ub,1) ~= nbVar) then
-      errmsg = msprintf(gettext("%s: The Upper Bound is not equal to the number of variables"), "qpipoptmat");
-      error(errmsg);
-   end
-
-   //Check the size of constraints of Lower Bound which should equal to the number of constraints
-   if ( size(b,1) ~= nbConInEq & size(b,1) ~= 0) then
-      errmsg = msprintf(gettext("%s: The number of rows in A must be the same as the number of elementsof b"), "qpipoptmat");
-      error(errmsg);
-   end
-
-   //Check the size of constraints of Upper Bound which should equal to the number of constraints
-   if ( size(beq,1) ~= nbConEq & size(beq,1) ~= 0) then
-      errmsg = msprintf(gettext("%s: The number of rows in Aeq must be the same as the number of elements of beq"), "qpipoptmat");
-      error(errmsg);
-   end
-
-   //Check the size of initial of variables which should equal to the number of variables
-   if ( size(x0,1) ~= nbVar) then
-      warnmsg = msprintf(gettext("%s: Ignoring initial guess of variables as it is not equal to the number of variables"), "qpipoptmat");
-      warning(warnmsg);
-	  x0 = repmat(0,nbVar,1);
-   end
-   
-   //Check if the user gives a matrix instead of a vector
-   
-   if ((size(f,1)~=1)& (size(f,2)~=1)) then
-      errmsg = msprintf(gettext("%s: f should be a vector"), "qpipoptmat");
-      error(errmsg); 
-   end
-   
-   if (size(lb,1)~=1)& (size(ub,2)~=1) then
-      errmsg = msprintf(gettext("%s: Lower Bound should be a vector"), "qpipoptmat");
-      error(errmsg); 
-   end
-   
-   if (size(ub,1)~=1)& (size(ub,2)~=1) then
-      errmsg = msprintf(gettext("%s: Upper Bound should be a vector"), "qpipoptmat");
-      error(errmsg); 
-   end
-   
-   if (nbConInEq) then
-        if ((size(b,1)~=1)& (size(b,2)~=1)) then
-            errmsg = msprintf(gettext("%s: Constraint Lower Bound should be a vector"), "qpipoptmat");
-            error(errmsg); 
-        end
-    end
-    
-    if (nbConEq) then
-        if (size(beq,1)~=1)& (size(beq,2)~=1) then
-            errmsg = msprintf(gettext("%s: Constraint should be a vector"), "qpipoptmat");
-            error(errmsg); 
-        end
-   end
-  
 	for i = 1:nbConInEq
 		if (b(i) == -%inf)
 		   	errmsg = msprintf(gettext("%s: Value of b can not be negative infinity"), "qpipoptmat");
-            error(errmsg); 
-        end	
+		    error(errmsg); 
+		end	
 	end
-    
+
 	for i = 1:nbConEq
 		if (beq(i) == -%inf)
 		   	errmsg = msprintf(gettext("%s: Value of beq can not be negative infinity"), "qpipoptmat");
-            error(errmsg); 
-        end	
+		    error(errmsg); 
+		end	
 	end
    
-   //Converting it into ipopt format
-   f = f';
-   lb = lb';
-   ub = ub';
-   x0 = x0';
-   conMatrix = [Aeq;A];
-   nbCon = size(conMatrix,1);
-   conLB = [beq; repmat(-%inf,nbConInEq,1)]';
-   conUB = [beq;b]' ; 
-   [xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,H,f,conMatrix,conLB,conUB,lb,ub,x0,options);
-   
-   xopt = xopt';
-   exitflag = status;
-   output = struct("Iterations"      , []);
-   output.Iterations = iter;
-   lambda = struct("lower"           , [], ..
-                   "upper"           , [], ..
-                   "eqlin"           , [], ..
+	//Converting it into ipopt format
+	f = f';
+	lb = lb';
+	ub = ub';
+	x0 = x0';
+	conMatrix = [Aeq;A];
+	nbCon = size(conMatrix,1);
+	conLB = [beq; repmat(-%inf,nbConInEq,1)]';
+	conUB = [beq;b]' ; 
+
+	[xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,H,f,conMatrix,conLB,conUB,lb,ub,x0,options);
+	xopt = xopt';
+	exitflag = status;
+	output = struct("Iterations"      , [], ..
+					"ConstrViolation" ,[]);
+	output.Iterations = iter;
+	output.ConstrViolation = max([0;norm(Aeq*xopt-beq, 'inf');(lb'-xopt);(xopt-ub');(A*xopt-b)]);
+	lambda = struct("lower"           , [], ..
+		           "upper"           , [], ..
+		           "eqlin"           , [], ..
 				   "ineqlin"         , []);
-   
-   lambda.lower = Zl;
-   lambda.upper = Zu;
-   lambda.eqlin = lmbda(1:nbConEq);
-   lambda.ineqlin = lmbda(nbConEq+1:nbCon);
+
+	lambda.lower = Zl;
+	lambda.upper = Zu;
+	lambda.eqlin = lmbda(1:nbConEq);
+	lambda.ineqlin = lmbda(nbConEq+1:nbCon);
    
     select status
     

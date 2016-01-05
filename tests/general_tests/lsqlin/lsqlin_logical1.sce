@@ -21,6 +21,7 @@ b = [4
 // output  =
 // 
 //   Iterations: 13
+//	 ConstrViolation: 0
 // exitflag  =
 // 
 //  0  

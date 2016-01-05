@@ -6,7 +6,6 @@ A = [-1 0; 0, -1; 1 1];
 b = [-6 -6 11];
 ub = [%inf %inf];
 lb = -1*ub;
-[xopt,fopt,exitflag,output,lamda] = qpipoptmat(H,f,A,b,[],[],lb,ub)
 
 //Output
 //Converged to a point of local infeasibility.
@@ -18,13 +17,17 @@ lb = -1*ub;
 //   ineqlin: [0x0 constant]
 // output  =
 // 
-//   Iterations: 0
+//   Iterations: 105
+//   ConstrViolation: 0.3752562
 // exitflag  =
 // 
 //  5  
 // fopt  =
 // 
-//    0.  
+//  - 21.80307  
 // xopt  =
 // 
-//     []
+//    5.6247453  
+//    5.6247438 
+
+[xopt,fopt,exitflag,output,lamda] = qpipoptmat(H,f,A,b,[],[],lb,ub)

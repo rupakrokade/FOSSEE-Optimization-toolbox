@@ -53,20 +53,20 @@ endfunction
 //endfunction
 
 // A basic lsqnonneg problem
-C = [
-	0.0372    0.2869
-	0.6861    0.7071
-	0.6233    0.6245
-	0.6344    0.6170];
-d = [
-	0.8587
-	0.1781
-	0.0747
-	0.8405];
+C = [1 1 1;
+	1 1 0;
+	0 1 1;
+	1 0 0;
+	0 0 1]
+d = [89;
+	67;
+	53;
+	35;
+	20]
 [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg(C,d)
 
-assert_close ( xopt , [ 0 0.6929344 ]' , 0.0005 );
-assert_close ( residual , [0.6598971 -0.3118739 -0.3580375 0.4129595]' , 0.0005 );
-assert_close ( resnorm , [ 0.8314560] , 0.0005 );
+assert_close ( xopt , [ 35.125 32.5 20.625 ]' , 0.0005 );
+assert_close ( residual , [0.75 -0.625 -0.125 -0.125 -0.625]' , 0.0005 );
+assert_close ( resnorm , [ 1.375] , 0.0005 );
 assert_checkequal( exitflag , int32(0) );
 printf("Test Successful");

@@ -19,15 +19,17 @@ lb = -1*ub;
 //   constraint: [0x0 constant]
 // output  =
 // 
-//   Iterations: 0
+//   Iterations: -1
+//   ConstrViolation: 0.3752562
 // exitflag  =
 // 
 //  5  
 // fopt  =
 // 
-//    0.  
+//  - 21.80307  
 // xopt  =
 // 
-//     []
+//    5.6247453  
+//    5.6247438  
 
 [xopt,fopt,exitflag,output,lamda] = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB)

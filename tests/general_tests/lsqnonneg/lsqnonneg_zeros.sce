@@ -11,6 +11,7 @@ d = [0];
 // output  =
 // 
 //   Iterations: 3
+//	 ConstrViolation: 0
 // exitflag  =
 // 
 //  0  

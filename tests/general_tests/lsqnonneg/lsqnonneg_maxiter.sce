@@ -19,6 +19,7 @@ options = list("MaxIter",1)
 // output  =
 // 
 //   Iterations: 1
+//	 ConstrViolation: 0
 // exitflag  =
 // 
 //  1  
