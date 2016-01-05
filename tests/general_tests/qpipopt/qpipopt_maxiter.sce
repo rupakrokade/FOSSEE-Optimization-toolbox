@@ -26,6 +26,7 @@ param = list("MaxIter", 1);
 // output  =
 // 
 //   Iterations: 1
+//	 ConstrViolation: 1.3770464
 // exitflag  =
 // 
 //  1  

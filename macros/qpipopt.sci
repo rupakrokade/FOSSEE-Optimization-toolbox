@@ -26,16 +26,16 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
 	//   f : a vector of double, represents coefficients of linear in the quadratic problem
 	//   lb : a vector of double, contains lower bounds of the variables.
 	//   ub : a vector of double, contains upper bounds of the variables.
-	//   A : a matrix of double, contains  matrix representing the constraint matrix 
+	//   A : a matrix of double, contains the constraint matrix 
 	//   conLB : a vector of double, contains lower bounds of the constraints. 
 	//   conUB : a vector of double, contains upper bounds of the constraints. 
 	//   x0 : a vector of double, contains initial guess of variables.
-	//   param : a list containing the the parameters to be set.
+	//   param : a list containing the parameters to be set.
 	//   xopt : a vector of double, the computed solution of the optimization problem.
-	//   fopt : a double, the function value at x.
-	//   exitflag : A flag showing returned exit flag from Ipopt. It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the lsqlin macro. 
-	//   output : Structure containing information about the optimization. This version only contains number of iterations
-	//   lambda : Structure containing the Lagrange multipliers at the solution x (separated by constraint type).It contains lower, upper bound multiplier and linear equality, inequality constraint multiplier.
+	//   fopt : a double, the value of the function at x.
+	//   exitflag : The exit status. See below for details.
+	//   output : The structure consist of statistics about the optimization. See below for details.
+	//   lambda : The structure consist of the Lagrange multipliers at the solution of problem. See below for details.
 	//   
 	//   Description
 	//   Search the minimum of a constrained linear quadratic optimization problem specified by :
@@ -50,6 +50,35 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
 	//   </latex>
 	//   
 	//   The routine calls Ipopt for solving the quadratic problem, Ipopt is a library written in C++.
+	//	
+	// The exitflag allows to know the status of the optimization which is given back by Ipopt.
+	// <itemizedlist>
+	//   <listitem>exitflag=0 : Optimal Solution Found </listitem>
+	//   <listitem>exitflag=1 : Maximum Number of Iterations Exceeded. Output may not be optimal.</listitem>
+	//   <listitem>exitflag=2 : Maximum CPU Time exceeded. Output may not be optimal.</listitem>
+	//   <listitem>exitflag=3 : Stop at Tiny Step.</listitem>
+	//   <listitem>exitflag=4 : Solved To Acceptable Level.</listitem>
+	//   <listitem>exitflag=5 : Converged to a point of local infeasibility.</listitem>
+	// </itemizedlist>
+	//
+	// For more details on exitflag see the ipopt documentation, go to http://www.coin-or.org/Ipopt/documentation/
+	//
+	// The output data structure contains detailed informations about the optimization process. 
+	// It has type "struct" and contains the following fields.
+	// <itemizedlist>
+	//   <listitem>output.iterations: The number of iterations performed during the search</listitem>
+	//   <listitem>output.constrviolation: The max-norm of the constraint violation.</listitem>
+	// </itemizedlist>
+	//
+	// The lambda data structure contains the Lagrange multipliers at the end 
+	// of optimization. In the current version the values are returned only when the the solution is optimal. 
+	// It has type "struct" and contains the following fields.
+	// <itemizedlist>
+	//   <listitem>lambda.lower: The Lagrange multipliers for the lower bound constraints.</listitem>
+	//   <listitem>lambda.upper: The Lagrange multipliers for the upper bound constraints.</listitem>
+	//   <listitem>lambda.eqlin: The Lagrange multipliers for the linear equality constraints.</listitem>
+	//   <listitem>lambda.ineqlin: The Lagrange multipliers for the linear inequality constraints.</listitem>
+	// </itemizedlist>
 	//
 	// Examples
 	//		//Ref : example 14 :
@@ -316,12 +345,14 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
 		end	
 	end
 
-   [xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,H,f,A,conLB,conUB,lb,ub,x0,options);
+	[xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,H,f,A,conLB,conUB,lb,ub,x0,options);
    
    xopt = xopt';
    exitflag = status;
-   output = struct("Iterations"      , []);
-   output.Iterations = iter;
+	output = struct("Iterations"      , [], ..
+					"ConstrViolation" ,[]);
+	output.Iterations = iter;
+	output.ConstrViolation = max([0;(conLB'-A*xopt);(A*xopt - conUB');(lb'-xopt);(xopt-ub')]);
    lambda = struct("lower"           , [], ..
                    "upper"           , [], ..
                    "constraint"      , []);
@@ -331,7 +362,6 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
    lambda.constraint = lmbda;
 
     select status
-    
     case 0 then
         printf("\nOptimal Solution Found.\n");
     case 1 then
@@ -367,5 +397,4 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
         break;
     end
     
-
 endfunction

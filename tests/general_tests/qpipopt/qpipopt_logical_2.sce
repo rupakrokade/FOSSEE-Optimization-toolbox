@@ -21,7 +21,7 @@ nbCon = 0;
 // lambda   
 // 
 //   Iterations: 1
-// 
+//	 ConstrViolation: 0
 // output   
 // 
 //  0  

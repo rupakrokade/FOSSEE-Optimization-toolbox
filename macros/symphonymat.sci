@@ -28,11 +28,11 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
 	//   beq : Linear equality constraint vector, specified as a vector of double. beq represents the constant vector in the constraints Aeq*x = beq. beq has size equals to the number of rows in Aeq. 
 	//   lb : Lower bounds, specified as a vector or array of double. lb represents the lower bounds elementwise in lb ≤ x ≤ ub.
 	//   ub : Upper bounds, specified as a vector or array of double. ub represents the upper bounds elementwise in lb ≤ x ≤ ub.
-	//   options : a list containing the the parameters to be set.
+	//   options : a list containing the parameters to be set.
 	//   xopt : a vector of double, the computed solution of the optimization problem.
-	//   fopt : a double, the function value at x
-	//   status : status flag returned from symphony. 227 is optimal, 228 is Time limit exceeded, 230 is iteration limit exceeded.
-	//   output : The output data structure contains detailed information about the optimization process. This version only contains number of iterations.
+	//   fopt : a double, the value of the function at x.
+	//   status : status flag returned from symphony. See below for details.
+	//   output : The output data structure contains detailed information about the optimization process. See below for details.
 	//   
 	//   Description
 	//   Search the minimum or maximum of a constrained mixed integer linear programming optimization problem specified by :
@@ -50,6 +50,22 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
 	//   
 	//   The routine calls SYMPHONY written in C by gateway files for the actual computation.
 	//
+	// The status allows to know the status of the optimization which is given back by Ipopt.
+	// <itemizedlist>
+	//   <listitem>status=227 : Optimal Solution Found </listitem>
+	//   <listitem>status=228 : Maximum CPU Time exceeded.</listitem>
+	//   <listitem>status=229 : Maximum Number of Node Limit Exceeded.</listitem>
+	//   <listitem>status=230 : Maximum Number of Iterations Limit Exceeded.</listitem>
+	// </itemizedlist>
+	//
+	// For more details on status see the symphony documentation, go to http://www.coin-or.org/SYMPHONY/man-5.6/
+	//
+	// The output data structure contains detailed informations about the optimization process. 
+	// It has type "struct" and contains the following fields.
+	// <itemizedlist>
+	//   <listitem>output.iterations: The number of iterations performed during the search</listitem>
+	// </itemizedlist>
+	//
 	// Examples
 	//    // Objective function
 	// 	  // Reference: Westerberg, Carl-Henrik, Bengt Bjorklund, and Eskil Hultman. "An application of mixed integer programming in a Swedish steel mill." Interfaces 7, no. 2 (1977): 39-43.
@@ -60,8 +76,8 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
 	//    ub = [repmat(1,1,4) repmat(%inf,1,4)];
 	//    // Constraint Matrix
 	//    Aeq = [5,3,4,6,1,1,1,1;
-	//                 5*0.05,3*0.04,4*0.05,6*0.03,0.08,0.07,0.06,0.03;
-	//                 5*0.03,3*0.03,4*0.04,6*0.04,0.06,0.07,0.08,0.09;]
+	//           5*0.05,3*0.04,4*0.05,6*0.03,0.08,0.07,0.06,0.03;
+	//           5*0.03,3*0.03,4*0.04,6*0.04,0.06,0.07,0.08,0.09;]
 	//    beq = [ 25, 1.25, 1.25]
 	//    intcon = [1 2 3 4];
 	//    // Calling Symphony
@@ -170,6 +186,7 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
 	beq = [];
 	lb = [];
 	ub = [];
+	options = list();
 	
 	c = varargin(1)
 	intcon = varargin(2)
@@ -212,7 +229,7 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
     end
     
     if (size(intcon,2)==0) then
-        intcon = 0;
+        intcon = [];
     end
     
     if (size(ub,2)==0) then
@@ -309,7 +326,7 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
 
    //Check if the user gives a matrix instead of a vector
    
-   if ((size(intcon,1)~=1)& (size(intcon,2)~=1)) then
+   if (((size(intcon,1)~=1)& (size(intcon,2)~=1))&(size(intcon,2)~=0)) then
       errmsg = msprintf(gettext("%s: intcon should be a vector"), "symphonymat");
       error(errmsg); 
    end

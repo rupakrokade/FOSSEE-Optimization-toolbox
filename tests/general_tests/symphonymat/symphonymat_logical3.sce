@@ -11,14 +11,17 @@ A = [3,2,5;
 
 b = [ 55;26;30;57]
 
+Aeq = [2 3 5]
+
+beq = [5]
 
 intcon = [];
 
 // Output
 //Problem loaded into environment.
-
+//
 //Note: There is no limit on time.
-
+//
 //An optimal solution has been found.
 // output  =
 // 
@@ -28,13 +31,13 @@ intcon = [];
 //    227.  
 // f  =
 // 
-//  - 268.  
+//  - 233.5  
 // x  =
 // 
-//    1.8   
-//    20.8  
-//    1.6  
+//    15.6  
+//    0.1   
+//  - 5.3   
 
 // Calling Symphony
-[x,f,status,output] = symphonymat(c,intcon,A,b)
+[x,f,status,output] = symphonymat(c,intcon,A,b,Aeq,beq)
 

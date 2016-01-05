@@ -29,11 +29,11 @@ function [xopt,fopt,status,output] = symphony (varargin)
 	//   conLB : a vector of double, represents lower bounds of the constraints. 
 	//   conUB : a vector of double, represents upper bounds of the constraints
 	//   objSense : The sense (maximization/minimization) of the objective. Use 1(sym_minimize ) or -1 (sym_maximize) here.
-	//   options : a list containing the the parameters to be set.
+	//   options : a list containing the parameters to be set.
 	//   xopt : a vector of double, the computed solution of the optimization problem.
-	//   fopt : a double, the function value at x.
-	//   status : status flag returned from symphony. 227 is optimal, 228 is Time limit exceeded, 230 is iteration limit exceeded.
-	//   output : The output data structure contains detailed information about the optimization process. This version only contains number of iterations
+	//   fopt : a double, the value of the function at x.
+	//   status : status flag returned from symphony.See below for details.
+	//   output : The output data structure contains detailed information about the optimization process. See below for details.
 	//   
 	//   Description
 	//   Search the minimum or maximum of a constrained mixed integer linear programming optimization problem specified by :
@@ -49,6 +49,22 @@ function [xopt,fopt,status,output] = symphony (varargin)
 	//   </latex>
 	//   
 	//   The routine calls SYMPHONY written in C by gateway files for the actual computation.
+	//
+	// The status allows to know the status of the optimization which is given back by Ipopt.
+	// <itemizedlist>
+	//   <listitem>status=227 : Optimal Solution Found </listitem>
+	//   <listitem>status=228 : Maximum CPU Time exceeded.</listitem>
+	//   <listitem>status=229 : Maximum Number of Node Limit Exceeded.</listitem>
+	//   <listitem>status=230 : Maximum Number of Iterations Limit Exceeded.</listitem>
+	// </itemizedlist>
+	//
+	// For more details on status see the symphony documentation, go to http://www.coin-or.org/SYMPHONY/man-5.6/
+	//
+	// The output data structure contains detailed informations about the optimization process. 
+	// It has type "struct" and contains the following fields.
+	// <itemizedlist>
+	//   <listitem>output.iterations: The number of iterations performed during the search</listitem>
+	// </itemizedlist>
 	//
 	//   Examples
 	//   //Reference: Westerberg, Carl-Henrik, Bengt Bjorklund, and Eskil Hultman. "An application of mixed integer programming in a Swedish steel mill." Interfaces 7, no. 2 (1977): 39-43.
@@ -179,6 +195,7 @@ function [xopt,fopt,status,output] = symphony (varargin)
 	A = [];
 	conLB = [];
 	conUB = [];
+	options = list();
 
 	nbVar = varargin(1);
 	nbCon = varargin(2);

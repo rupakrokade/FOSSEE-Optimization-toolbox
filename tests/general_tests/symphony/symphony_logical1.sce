@@ -1,5 +1,6 @@
 // A basic case :
 
+// Reference: Westerberg, Carl-Henrik, Bengt Bjorklund, and Eskil Hultman. "An application of mixed integer programming in a Swedish steel mill." Interfaces 7, no. 2 (1977): 39-43.
 // Objective function
 c = [350*5,330*3,310*4,280*6,500,450,400,100]';
 

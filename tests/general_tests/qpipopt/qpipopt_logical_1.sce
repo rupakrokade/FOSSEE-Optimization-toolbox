@@ -27,7 +27,7 @@ param = list("MaxIter", 300, "CpuTime", 100);
 // lambda   
 // 
 //   Iterations: 13
-// 
+//	 ConstrViolation: 9.968D-09
 // output   
 // 
 //  0  

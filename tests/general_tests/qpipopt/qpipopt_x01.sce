@@ -26,6 +26,7 @@ param = list("MaxIter", 300, "CpuTime", 100);
 // output  =
 // 
 //   Iterations: 13
+//	 ConstrViolation: 9.968D-09
 // exitflag  =
 // 
 //  0  

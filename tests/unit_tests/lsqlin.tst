@@ -53,30 +53,30 @@ endfunction
 //endfunction
 
  //A simple linear least square example
-C = [0.9501    0.7620    0.6153    0.4057
-     0.2311    0.4564    0.7919    0.9354
-     0.6068    0.0185    0.9218    0.9169
-     0.4859    0.8214    0.7382    0.4102
-     0.8912    0.4447    0.1762    0.8936];
- d = [0.0578
-     0.3528
-     0.8131
-     0.0098
-     0.1388];
- A =[0.2027    0.2721    0.7467    0.4659
-     0.1987    0.1988    0.4450    0.4186
-     0.6037    0.0152    0.9318    0.8462];
- b =[0.5251
-     0.2026
-     0.6721];
- Aeq = [3 5 7 9];
- beq = 4;
- lb = -0.1*ones(4,1);
- ub = 2*ones(4,1);
- [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin(C,d,A,b,Aeq,beq,lb,ub)
+C = [1 1 1;
+	1 1 0;
+	0 1 1;
+	1 0 0;
+	0 0 1]
+d = [89;
+	67;
+	53;
+	35;
+	20;]
+A = [3 2 1;
+	2 3 4;
+	1 2 3];
+b = [191
+	209
+	162];
+Aeq = [1 2 1];
+beq = 10;
+lb = repmat(0.1,3,1);
+ub = repmat(4,3,1);
+[xopt,resnorm,residual,exitflag,output,lambda] = lsqlin(C,d,A,b,Aeq,beq,lb,ub)
 
-assert_close ( xopt , [ -0.1, -0.1, 0.1599089, 0.4089598 ]' , 0.0005 );
-assert_close ( residual , [-0.0352969 -0.0876228 0.3532508 -0.1452700 -0.1212324  ]' , 0.0005 );
-assert_close ( resnorm , [ 0.1695104] , 0.0005 );
+assert_close ( xopt , [ 4 1 4 ]' , 0.0005 );
+assert_close ( residual , [80 62 48 31 16]' , 0.0005 );
+assert_close ( resnorm , [ 13765] , 0.0005 );
 assert_checkequal( exitflag , int32(0) );
 printf("Test Successful");

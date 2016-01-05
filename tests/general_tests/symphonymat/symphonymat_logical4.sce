@@ -11,8 +11,14 @@ A = [3,2,5;
 
 b = [ 55;26;30;57]
 
+Aeq = [2 3 5]
+
+beq = [5]
 
 intcon = [];
+
+lb = repmat(0,3,1);
+ub = repmat(8,3,1);
 
 // Output
 //Problem loaded into environment.
@@ -28,13 +34,13 @@ intcon = [];
 //    227.  
 // f  =
 // 
-//  - 268.  
+//  - 50.  
 // x  =
 // 
-//    1.8   
-//    20.8  
-//    1.6  
+//    2.5  
+//    0.   
+//    0.  
 
 // Calling Symphony
-[x,f,status,output] = symphonymat(c,intcon,A,b)
+[x,f,status,output] = symphonymat(c,intcon,A,b,Aeq,beq,lb,ub)
 

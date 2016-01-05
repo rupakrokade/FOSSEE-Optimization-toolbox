@@ -17,20 +17,23 @@ beq = [-6 -6 11];
 //   ineqlin: [0x0 constant]
 // output  =
 // 
-//   Iterations: 0
+//   Iterations: 105
+//   ConstrViolation: 0.3333333
 // exitflag  =
 // 
 //  5  
 // residual  =
 // 
-//    1.  
-//    0.  
-//  - 1.  
+//  - 10.333333  
+//  - 1.021D-13  
+//  - 12.333333  
 // resnorm  =
 // 
-//    2.  
+//    258.88889  
 // xopt  =
 // 
-//     []
+//    5.6666667  
+//    5.6666667  
+//    0. 
 [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin(C,d,[],[],Aeq,beq)
 

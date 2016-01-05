@@ -24,9 +24,9 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 	//   xopt : a vector of double, the computed solution of the optimization problem.
 	//   resnorm : a double, objective value returned as the scalar value norm(C*x-d)^2.
 	//   residual : a vector of double, solution residuals returned as the vector d-C*x.
-	//   exitflag : A flag showing returned exit flag from Ipopt. It could be 0, 1 or 2 etc. i.e. Optimal, Maximum Number of Iterations Exceeded, CPU time exceeded. Other flags one can see in the lsqlin macro. 
-	//   output : Structure containing information about the optimization. This version only contains number of iterations.
-	//   lambda : Structure containing the Lagrange multipliers at the solution xopt. It contains lower, upper bound multiplier and linear equality, inequality constraint multiplier.
+	//   exitflag : The exit status. See below for details.
+	//   output : The structure consist of statistics about the optimization. See below for details.
+	//   lambda : The structure consist of the Lagrange multipliers at the solution of problem. See below for details.
 	//   
 	//   Description
 	//   Solves nonnegative least-squares curve fitting problems specified by :
@@ -40,6 +40,33 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 	//   </latex>
 	//   
 	//   The routine calls Ipopt for solving the nonnegative least-squares curve fitting problems, Ipopt is a library written in C++.
+	//
+	// The exitflag allows to know the status of the optimization which is given back by Ipopt.
+	// <itemizedlist>
+	//   <listitem>exitflag=0 : Optimal Solution Found </listitem>
+	//   <listitem>exitflag=1 : Maximum Number of Iterations Exceeded. Output may not be optimal.</listitem>
+	//   <listitem>exitflag=2 : Maximum CPU Time exceeded. Output may not be optimal.</listitem>
+	//   <listitem>exitflag=3 : Stop at Tiny Step.</listitem>
+	//   <listitem>exitflag=4 : Solved To Acceptable Level.</listitem>
+	//   <listitem>exitflag=5 : Converged to a point of local infeasibility.</listitem>
+	// </itemizedlist>
+	//
+	// For more details on exitflag see the ipopt documentation, go to http://www.coin-or.org/Ipopt/documentation/
+	//
+	// The output data structure contains detailed informations about the optimization process. 
+	// It has type "struct" and contains the following fields.
+	// <itemizedlist>
+	//   <listitem>output.iterations: The number of iterations performed during the search</listitem>
+	//   <listitem>output.constrviolation: The max-norm of the constraint violation.</listitem>
+	// </itemizedlist>
+	//
+	// The lambda data structure contains the Lagrange multipliers at the end 
+	// of optimization. In the current version the values are returned only when the the solution is optimal. 
+	// It has type "struct" and contains the following fields.
+	// <itemizedlist>
+	//   <listitem>lambda.lower: The Lagrange multipliers for the lower bound constraints.</listitem>
+	//   <listitem>lambda.upper: The Lagrange multipliers for the upper bound constraints.</listitem>
+	// </itemizedlist>
 	//    
 	// Examples 
 	// // A basic lsqnonneg problem
@@ -136,13 +163,15 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 	residual = -1*(C*xopt-d);
 	resnorm = residual'*residual;
 	exitflag = status;
-	output = struct("Iterations"      , []);
+	output = struct("Iterations"      , [], ..
+					"ConstrViolation" ,[]);
 	output.Iterations = iter;
-   lambda = struct("lower"           , [], ..
-                   "upper"           , []);
-   
-   lambda.lower = Zl;
-   lambda.upper = Zu;
+	output.ConstrViolation = max([0;(lb'-xopt);(xopt-ub')]);
+
+	lambda = struct("lower"           , [], ..
+		           "upper"           , []);
+	lambda.lower = Zl;
+	lambda.upper = Zu;
 
 	select status 
 		case 0 then

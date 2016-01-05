@@ -9,7 +9,7 @@
 // Organization: FOSSEE, IIT Bombay
 // Email: toolbox@scilab.in
 
-function [xopt,fopt,status,output] = symphony_call(nbVar,nbCon,objCoef,isInt,LB,UB,conMatrix,conLB,conUB,objSense,options)
+function [xopt,fopt,status,output] = symphony_call(nbVar,nbCon,objCoef,isInt,lb,ub,A,conLB,conUB,objSense,options)
 
     xopt = [];
     fopt = [];
@@ -23,12 +23,12 @@ function [xopt,fopt,status,output] = symphony_call(nbVar,nbCon,objCoef,isInt,LB,
     setOptions(options);
     
    //Choosing to launch basic or advanced version
-    if(~issparse(conMatrix)) then
-        sym_loadProblemBasic(nbVar,nbCon,LB,UB,objCoef,isInt,objSense,conMatrix,conLB,conUB);
+    if(~issparse(A)) then
+        sym_loadProblemBasic(nbVar,nbCon,lb,ub,objCoef,isInt,objSense,A,conLB,conUB);
     else
         // Changing to Constraint Matrix into sparse matrix
-        conMatrix_advanced=sparse(conMatrix);
-        sym_loadProblem(nbVar,nbCon,LB,UB,objCoef,isInt,objSense,conMatrix_advanced,conLB,conUB);
+        A_advanced=sparse(A);
+        sym_loadProblem(nbVar,nbCon,lb,ub,objCoef,isInt,objSense,A_advanced,conLB,conUB);
     end
 
     op = sym_solve();
@@ -44,8 +44,8 @@ function [xopt,fopt,status,output] = symphony_call(nbVar,nbCon,objCoef,isInt,LB,
     
     status = sym_getStatus();
     
-    output = struct("Iterations"      , []);
-      
+	output = struct("Iterations"      , []);
+   
     output.Iterations = sym_getIterCount();
 
 

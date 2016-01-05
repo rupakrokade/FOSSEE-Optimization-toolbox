@@ -19,6 +19,7 @@ d = [89;
 // output  =
 // 
 //   Iterations: 7
+//	 ConstrViolation: 0
 // exitflag  =
 // 
 //  0  
