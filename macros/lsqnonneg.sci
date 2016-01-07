@@ -19,11 +19,11 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 	//   [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg( ... )
 	//   
 	//   Parameters
-	//   C : a matrix of double, represents the multiplier of the solution x in the expression C*x - d. Number of columns in C is equal to the number of elements in x.
-	//   d : a vector of double, represents the additive constant term in the expression C*x - d. Number of elements in d is equal to the number of rows in C matrix.
+	//   C : a matrix of double, represents the multiplier of the solution x in the expression C⋅x - d. Number of columns in C is equal to the number of elements in x.
+	//   d : a vector of double, represents the additive constant term in the expression C⋅x - d. Number of elements in d is equal to the number of rows in C matrix.
 	//   xopt : a vector of double, the computed solution of the optimization problem.
-	//   resnorm : a double, objective value returned as the scalar value norm(C*x-d)^2.
-	//   residual : a vector of double, solution residuals returned as the vector d-C*x.
+	//   resnorm : a double, objective value returned as the scalar value norm(C⋅x-d)^2.
+	//   residual : a vector of double, solution residuals returned as the vector d-C⋅x.
 	//   exitflag : The exit status. See below for details.
 	//   output : The structure consist of statistics about the optimization. See below for details.
 	//   lambda : The structure consist of the Lagrange multipliers at the solution of problem. See below for details.

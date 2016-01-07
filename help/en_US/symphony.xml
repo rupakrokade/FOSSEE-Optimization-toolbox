@@ -48,11 +48,11 @@
    <varlistentry><term>ub :</term>
       <listitem><para> a vector of double, represents upper bounds of the variables.</para></listitem></varlistentry>
    <varlistentry><term>A :</term>
-      <listitem><para> a matrix of double, represents  matrix representing the constraint matrix.</para></listitem></varlistentry>
+      <listitem><para> a matrix of double, represents  matrix representing the constraint matrix conLB ≤ A⋅x ≤ conUB.</para></listitem></varlistentry>
    <varlistentry><term>conLB :</term>
-      <listitem><para> a vector of double, represents lower bounds of the constraints.</para></listitem></varlistentry>
+      <listitem><para> a vector of double, represents lower bounds of the constraints conLB ≤ A⋅x ≤ conUB.</para></listitem></varlistentry>
    <varlistentry><term>conUB :</term>
-      <listitem><para> a vector of double, represents upper bounds of the constraints</para></listitem></varlistentry>
+      <listitem><para> a vector of double, represents upper bounds of the constraints conLB ≤ A⋅x ≤ conUB.</para></listitem></varlistentry>
    <varlistentry><term>objSense :</term>
       <listitem><para> The sense (maximization/minimization) of the objective. Use 1(sym_minimize ) or -1 (sym_maximize) here.</para></listitem></varlistentry>
    <varlistentry><term>options :</term>

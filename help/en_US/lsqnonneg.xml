@@ -35,15 +35,15 @@
    <title>Parameters</title>
    <variablelist>
    <varlistentry><term>C :</term>
-      <listitem><para> a matrix of double, represents the multiplier of the solution x in the expression C*x - d. Number of columns in C is equal to the number of elements in x.</para></listitem></varlistentry>
+      <listitem><para> a matrix of double, represents the multiplier of the solution x in the expression C⋅x - d. Number of columns in C is equal to the number of elements in x.</para></listitem></varlistentry>
    <varlistentry><term>d :</term>
-      <listitem><para> a vector of double, represents the additive constant term in the expression C*x - d. Number of elements in d is equal to the number of rows in C matrix.</para></listitem></varlistentry>
+      <listitem><para> a vector of double, represents the additive constant term in the expression C⋅x - d. Number of elements in d is equal to the number of rows in C matrix.</para></listitem></varlistentry>
    <varlistentry><term>xopt :</term>
       <listitem><para> a vector of double, the computed solution of the optimization problem.</para></listitem></varlistentry>
    <varlistentry><term>resnorm :</term>
-      <listitem><para> a double, objective value returned as the scalar value norm(C*x-d)^2.</para></listitem></varlistentry>
+      <listitem><para> a double, objective value returned as the scalar value norm(C⋅x-d)^2.</para></listitem></varlistentry>
    <varlistentry><term>residual :</term>
-      <listitem><para> a vector of double, solution residuals returned as the vector d-C*x.</para></listitem></varlistentry>
+      <listitem><para> a vector of double, solution residuals returned as the vector d-C⋅x.</para></listitem></varlistentry>
    <varlistentry><term>exitflag :</term>
       <listitem><para> The exit status. See below for details.</para></listitem></varlistentry>
    <varlistentry><term>output :</term>

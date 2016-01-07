@@ -22,10 +22,10 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
 	//   Parameters
 	//   c : a vector of double, contains coefficients of the variables in the objective 
 	//   intcon : Vector of integer constraints, specified as a vector of positive integers. The values in intcon indicate the components of the decision variable x that are integer-valued. intcon has values from 1 through number of variable.
-	//   A : Linear inequality constraint matrix, specified as a matrix of double. A represents the linear coefficients in the constraints A*x ≤ b. A has the size where columns equals to the number of variables.
-	//   b : Linear inequality constraint vector, specified as a vector of double. b represents the constant vector in the constraints A*x ≤ b. b has size equals to the number of rows in A. 
-	//   Aeq : Linear equality constraint matrix, specified as a matrix of double. Aeq represents the linear coefficients in the constraints Aeq*x = beq. Aeq has the size where columns equals to the number of variables.
-	//   beq : Linear equality constraint vector, specified as a vector of double. beq represents the constant vector in the constraints Aeq*x = beq. beq has size equals to the number of rows in Aeq. 
+	//   A : a matrix of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b. 
+	//   b : a vector of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b.
+	//   Aeq : a matrix of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.
+	//   beq : a vector of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.
 	//   lb : Lower bounds, specified as a vector or array of double. lb represents the lower bounds elementwise in lb ≤ x ≤ ub.
 	//   ub : Upper bounds, specified as a vector or array of double. ub represents the upper bounds elementwise in lb ≤ x ≤ ub.
 	//   options : a list containing the parameters to be set.

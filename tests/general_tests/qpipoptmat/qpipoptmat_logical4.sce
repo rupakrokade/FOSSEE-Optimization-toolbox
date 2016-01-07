@@ -1,5 +1,5 @@
 //Find x in R^6 such that:
-// A simple example with constraints
+// An example with equality and inequality constraints
 
 Aeq= [1,-1,1,0,3,1;
 -1,0,-3,-4,5,6;

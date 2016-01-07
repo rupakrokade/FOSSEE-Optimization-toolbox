@@ -1,5 +1,5 @@
 //Find x in R^6 such that:
-// A simple example with constraints
+// An example with constraints, variable bounds, intial guess and param
 A= [1,-1,1,0,3,1;
 -1,0,-3,-4,5,6;
 2,5,3,0,1,0

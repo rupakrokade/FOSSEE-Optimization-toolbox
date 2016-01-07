@@ -22,19 +22,19 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
 	//   [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin( ... )
 	//   
 	//   Parameters
-	//   C : a matrix of double, represents the multiplier of the solution x in the expression C*x - d. Number of columns in C is equal to the number of elements in x.
-	//   d : a vector of double, represents the additive constant term in the expression C*x - d. Number of elements in d is equal to the number of rows in C matrix.
-	//   A : a vector of double, represents the linear coefficients in the inequality constraints
-	//   b : a vector of double, represents the linear coefficients in the inequality constraints
-	//   Aeq : a matrix of double, represents the linear coefficients in the equality constraints
-	//   beq : a vector of double, represents the linear coefficients in the equality constraints
+	//   C : a matrix of double, represents the multiplier of the solution x in the expression C⋅x - d. Number of columns in C is equal to the number of elements in x.
+	//   d : a vector of double, represents the additive constant term in the expression C⋅x - d. Number of elements in d is equal to the number of rows in C matrix.
+	//   A : a matrix of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b. 
+	//   b : a vector of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b.
+	//   Aeq : a matrix of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.
+	//   beq : a vector of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.
 	//   lb : a vector of double, contains lower bounds of the variables.
 	//   ub : a vector of double,  contains upper bounds of the variables.
 	//   x0 : a vector of double, contains initial guess of variables.
 	//   param : a list containing the parameters to be set.
 	//   xopt : a vector of double, the computed solution of the optimization problem.
-	//   resnorm : a double, objective value returned as the scalar value norm(C*x-d)^2.
-	//   residual : a vector of double, solution residuals returned as the vector d-C*x.
+	//   resnorm : a double, objective value returned as the scalar value norm(C⋅x-d)^2.
+	//   residual : a vector of double, solution residuals returned as the vector d-C⋅x.
 	//   exitflag : The exit status. See below for details.
 	//   output : The structure consist of statistics about the optimization. See below for details.
 	//   lambda : The structure consist of the Lagrange multipliers at the solution of problem. See below for details.
@@ -339,6 +339,13 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
 		   	errmsg = msprintf(gettext("%s: Value of beq can not be negative infinity"), "lsqlin");
             error(errmsg); 
         end	
+	end
+
+	for i = 1:nbVar
+		if(lb(i)>ub(i))
+			errmsg = msprintf(gettext("%s: Problem has inconsistent variable bounds"), "lsqlin");
+			error(errmsg);
+		end
 	end
 
 	//Converting it into Quadratic Programming Problem

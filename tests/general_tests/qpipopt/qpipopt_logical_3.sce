@@ -1,5 +1,5 @@
 //Find x in R^6 such that:
-// An example with constraints, variable bounds and intial guess
+// An example with constraints and variable bounds
 A= [1,-1,1,0,3,1;
 -1,0,-3,-4,5,6;
 2,5,3,0,1,0
@@ -13,7 +13,6 @@ ub=[10000; 100; 1.5; 100; 100; 1000];
 f=[1; 2; 3; 4; 5; 6]; H=eye(6,6);
 nbVar = 6;
 nbCon = 5;
-x0 = repmat(0,nbVar,1);
 
 //Output
 //
@@ -46,7 +45,7 @@ x0 = repmat(0,nbVar,1);
 // 
 // xopt 
 
-[xopt,fopt,exitflag,output,lambda]=qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB,x0);
+[xopt,fopt,exitflag,output,lambda]=qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB);
 
 disp("xopt",xopt,"fopt",fopt,"exitflag",exitflag,"output",output,"lambda",lambda)
 
