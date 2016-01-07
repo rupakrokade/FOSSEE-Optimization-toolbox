@@ -1,4 +1,4 @@
-// An example with inequality constraints
+// An example with equality, inequality constraints, variable bounds and initial guess 
 C = [1 1 1;
 	1 1 0;
 	0 1 1;

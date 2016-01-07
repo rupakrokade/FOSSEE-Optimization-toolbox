@@ -1,4 +1,4 @@
-// An example with C and d as input
+// An example with C, d and options
 C = [1 1 1;
 	1 1 0;
 	0 1 1;

@@ -49,13 +49,13 @@
    <dt><span class="term">intcon :</span>
       <dd><p class="para">Vector of integer constraints, specified as a vector of positive integers. The values in intcon indicate the components of the decision variable x that are integer-valued. intcon has values from 1 through number of variable.</p></dd></dt>
    <dt><span class="term">A :</span>
-      <dd><p class="para">Linear inequality constraint matrix, specified as a matrix of double. A represents the linear coefficients in the constraints A*x ≤ b. A has the size where columns equals to the number of variables.</p></dd></dt>
+      <dd><p class="para">a matrix of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b.</p></dd></dt>
    <dt><span class="term">b :</span>
-      <dd><p class="para">Linear inequality constraint vector, specified as a vector of double. b represents the constant vector in the constraints A*x ≤ b. b has size equals to the number of rows in A.</p></dd></dt>
+      <dd><p class="para">a vector of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b.</p></dd></dt>
    <dt><span class="term">Aeq :</span>
-      <dd><p class="para">Linear equality constraint matrix, specified as a matrix of double. Aeq represents the linear coefficients in the constraints Aeq*x = beq. Aeq has the size where columns equals to the number of variables.</p></dd></dt>
+      <dd><p class="para">a matrix of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.</p></dd></dt>
    <dt><span class="term">beq :</span>
-      <dd><p class="para">Linear equality constraint vector, specified as a vector of double. beq represents the constant vector in the constraints Aeq*x = beq. beq has size equals to the number of rows in Aeq.</p></dd></dt>
+      <dd><p class="para">a vector of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.</p></dd></dt>
    <dt><span class="term">lb :</span>
       <dd><p class="para">Lower bounds, specified as a vector or array of double. lb represents the lower bounds elementwise in lb ≤ x ≤ ub.</p></dd></dt>
    <dt><span class="term">ub :</span>

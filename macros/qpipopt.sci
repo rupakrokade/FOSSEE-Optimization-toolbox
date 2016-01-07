@@ -26,9 +26,9 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
 	//   f : a vector of double, represents coefficients of linear in the quadratic problem
 	//   lb : a vector of double, contains lower bounds of the variables.
 	//   ub : a vector of double, contains upper bounds of the variables.
-	//   A : a matrix of double, contains the constraint matrix 
-	//   conLB : a vector of double, contains lower bounds of the constraints. 
-	//   conUB : a vector of double, contains upper bounds of the constraints. 
+	//   A : a matrix of double, contains the constraint matrix conLB ≤ A⋅x ≤ conUB.
+	//   conLB : a vector of double, contains lower bounds of the constraints conLB ≤ A⋅x ≤ conUB. 
+	//   conUB : a vector of double, contains upper bounds of the constraints conLB ≤ A⋅x ≤ conUB. 
 	//   x0 : a vector of double, contains initial guess of variables.
 	//   param : a list containing the parameters to be set.
 	//   xopt : a vector of double, the computed solution of the optimization problem.
@@ -343,6 +343,13 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
 		   	errmsg = msprintf(gettext("%s: Value of Upper Bound can not be negative infinity"), "qpipopt");
     		error(errmsg); 
 		end	
+	end
+
+	for i = 1:nbVar
+		if(lb(i)>ub(i))
+			errmsg = msprintf(gettext("%s: Problem has inconsistent variable bounds"), "lsqlin");
+			error(errmsg);
+		end
 	end
 
 	[xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,H,f,A,conLB,conUB,lb,ub,x0,options);

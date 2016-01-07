@@ -25,9 +25,9 @@ function [xopt,fopt,status,output] = symphony (varargin)
 	//   isInt : a vector of boolean, represents wether a variable is constrained to be an integer.
 	//   lb : a vector of double, represents lower bounds of the variables.
 	//   ub : a vector of double, represents upper bounds of the variables.
-	//   A : a matrix of double, represents  matrix representing the constraint matrix.
-	//   conLB : a vector of double, represents lower bounds of the constraints. 
-	//   conUB : a vector of double, represents upper bounds of the constraints
+	//   A : a matrix of double, represents  matrix representing the constraint matrix conLB ≤ A⋅x ≤ conUB.
+	//   conLB : a vector of double, represents lower bounds of the constraints conLB ≤ A⋅x ≤ conUB.
+	//   conUB : a vector of double, represents upper bounds of the constraints conLB ≤ A⋅x ≤ conUB.
 	//   objSense : The sense (maximization/minimization) of the objective. Use 1(sym_minimize ) or -1 (sym_maximize) here.
 	//   options : a list containing the parameters to be set.
 	//   xopt : a vector of double, the computed solution of the optimization problem.

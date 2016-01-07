@@ -41,13 +41,13 @@
    <varlistentry><term>intcon :</term>
       <listitem><para> Vector of integer constraints, specified as a vector of positive integers. The values in intcon indicate the components of the decision variable x that are integer-valued. intcon has values from 1 through number of variable.</para></listitem></varlistentry>
    <varlistentry><term>A :</term>
-      <listitem><para> Linear inequality constraint matrix, specified as a matrix of double. A represents the linear coefficients in the constraints A*x ≤ b. A has the size where columns equals to the number of variables.</para></listitem></varlistentry>
+      <listitem><para> a matrix of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b.</para></listitem></varlistentry>
    <varlistentry><term>b :</term>
-      <listitem><para> Linear inequality constraint vector, specified as a vector of double. b represents the constant vector in the constraints A*x ≤ b. b has size equals to the number of rows in A.</para></listitem></varlistentry>
+      <listitem><para> a vector of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b.</para></listitem></varlistentry>
    <varlistentry><term>Aeq :</term>
-      <listitem><para> Linear equality constraint matrix, specified as a matrix of double. Aeq represents the linear coefficients in the constraints Aeq*x = beq. Aeq has the size where columns equals to the number of variables.</para></listitem></varlistentry>
+      <listitem><para> a matrix of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.</para></listitem></varlistentry>
    <varlistentry><term>beq :</term>
-      <listitem><para> Linear equality constraint vector, specified as a vector of double. beq represents the constant vector in the constraints Aeq*x = beq. beq has size equals to the number of rows in Aeq.</para></listitem></varlistentry>
+      <listitem><para> a vector of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.</para></listitem></varlistentry>
    <varlistentry><term>lb :</term>
       <listitem><para> Lower bounds, specified as a vector or array of double. lb represents the lower bounds elementwise in lb ≤ x ≤ ub.</para></listitem></varlistentry>
    <varlistentry><term>ub :</term>

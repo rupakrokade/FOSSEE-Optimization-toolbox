@@ -43,13 +43,13 @@
    <varlistentry><term>f :</term>
       <listitem><para> a vector of double, represents coefficients of linear in the quadratic problem</para></listitem></varlistentry>
    <varlistentry><term>A :</term>
-      <listitem><para> a vector of double, represents the linear coefficients in the inequality constraints</para></listitem></varlistentry>
+      <listitem><para> a matrix of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b.</para></listitem></varlistentry>
    <varlistentry><term>b :</term>
-      <listitem><para> a vector of double, represents the linear coefficients in the inequality constraints</para></listitem></varlistentry>
+      <listitem><para> a vector of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b.</para></listitem></varlistentry>
    <varlistentry><term>Aeq :</term>
-      <listitem><para> a matrix of double, represents the linear coefficients in the equality constraints</para></listitem></varlistentry>
+      <listitem><para> a matrix of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.</para></listitem></varlistentry>
    <varlistentry><term>beq :</term>
-      <listitem><para> a vector of double, represents the linear coefficients in the equality constraints</para></listitem></varlistentry>
+      <listitem><para> a vector of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.</para></listitem></varlistentry>
    <varlistentry><term>lb :</term>
       <listitem><para> a vector of double, contains lower bounds of the variables.</para></listitem></varlistentry>
    <varlistentry><term>ub :</term>

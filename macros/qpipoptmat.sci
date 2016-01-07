@@ -25,10 +25,10 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 	//   Parameters
 	//   H : a symmetric matrix of double, represents coefficients of quadratic in the quadratic problem.
 	//   f : a vector of double, represents coefficients of linear in the quadratic problem
-	//   A : a vector of double, represents the linear coefficients in the inequality constraints
-	//   b : a vector of double, represents the linear coefficients in the inequality constraints
-	//   Aeq : a matrix of double, represents the linear coefficients in the equality constraints
-	//   beq : a vector of double, represents the linear coefficients in the equality constraints
+	//   A : a matrix of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b. 
+	//   b : a vector of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b.
+	//   Aeq : a matrix of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.
+	//   beq : a vector of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.
 	//   lb : a vector of double, contains lower bounds of the variables.
 	//   ub : a vector of double, contains upper bounds of the variables.
 	//   x0 : a vector of double, contains initial guess of variables.
@@ -351,6 +351,13 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 		   	errmsg = msprintf(gettext("%s: Value of beq can not be negative infinity"), "qpipoptmat");
 		    error(errmsg); 
 		end	
+	end
+
+	for i = 1:nbVar
+		if(lb(i)>ub(i))
+			errmsg = msprintf(gettext("%s: Problem has inconsistent variable bounds"), "lsqlin");
+			error(errmsg);
+		end
 	end
    
 	//Converting it into ipopt format

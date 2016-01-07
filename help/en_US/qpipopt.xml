@@ -48,11 +48,11 @@
    <varlistentry><term>ub :</term>
       <listitem><para> a vector of double, contains upper bounds of the variables.</para></listitem></varlistentry>
    <varlistentry><term>A :</term>
-      <listitem><para> a matrix of double, contains the constraint matrix</para></listitem></varlistentry>
+      <listitem><para> a matrix of double, contains the constraint matrix conLB ≤ A⋅x ≤ conUB.</para></listitem></varlistentry>
    <varlistentry><term>conLB :</term>
-      <listitem><para> a vector of double, contains lower bounds of the constraints.</para></listitem></varlistentry>
+      <listitem><para> a vector of double, contains lower bounds of the constraints conLB ≤ A⋅x ≤ conUB.</para></listitem></varlistentry>
    <varlistentry><term>conUB :</term>
-      <listitem><para> a vector of double, contains upper bounds of the constraints.</para></listitem></varlistentry>
+      <listitem><para> a vector of double, contains upper bounds of the constraints conLB ≤ A⋅x ≤ conUB.</para></listitem></varlistentry>
    <varlistentry><term>x0 :</term>
       <listitem><para> a vector of double, contains initial guess of variables.</para></listitem></varlistentry>
    <varlistentry><term>param :</term>
