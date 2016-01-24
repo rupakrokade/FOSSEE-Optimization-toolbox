@@ -151,6 +151,11 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
 	b = varargin(4);
 	nbVar = size(C,2);	
 
+	if(nbVar == 0) then
+		errmsg = msprintf(gettext("%s: Cannot determine the number of variables because input objective coefficients is empty"), "lsqlin");
+		error(errmsg);
+	end
+
 	if ( rhs<5 ) then
 		Aeq = []
 		beq = []

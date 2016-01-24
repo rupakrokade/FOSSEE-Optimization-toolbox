@@ -3,6 +3,11 @@
 <map version="1.0">
 <mapID target="index" url="index.html"/>
 <mapID target="section_19f4f1e5726c01d683e8b82be0a7e910" url="section_19f4f1e5726c01d683e8b82be0a7e910.html"/>
+<mapID target="fgoalattain" url="fgoalattain.html"/>
+<mapID target="fminbnd" url="fminbnd.html"/>
+<mapID target="fmincon" url="fmincon.html"/>
+<mapID target="fminunc" url="fminunc.html"/>
+<mapID target="linprog" url="linprog.html"/>
 <mapID target="lsqlin" url="lsqlin.html"/>
 <mapID target="lsqnonneg" url="lsqnonneg.html"/>
 <mapID target="qpipopt" url="qpipopt.html"/>

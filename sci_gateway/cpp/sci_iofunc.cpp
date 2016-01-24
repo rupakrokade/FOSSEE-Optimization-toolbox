@@ -1,20 +1,41 @@
-// Copyright (C) 2015 - IIT Bombay - FOSSEE
-//
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
-// Author: Keyur Joshi, Harpreet Singh
-// Organization: FOSSEE, IIT Bombay
-// Email: toolbox@scilab.in
-
+// Symphony Toolbox for Scilab
+// (Definition of) Functions for input and output from Scilab
+// By Keyur Joshi
 
 #include "api_scilab.h"
 #include "Scierror.h"
 #include "sciprint.h"
 #include "BOOL.h"
 #include <localization.h>
+
+using namespace std;
+
+int getFunctionFromScilab(int argNum, int **dest)
+{	
+	//data declarations
+	SciErr sciErr;
+	int iRet,*varAddress, iType;
+	double inputDouble;
+	const char errMsg[]="Wrong type for input argument #%d: A function is expected.\n";
+	const int errNum=999;
+	//get variable address
+	sciErr = getVarAddressFromPosition(pvApiCtx, 1, dest);
+	if(sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 1;
+	}
+	//check that the variable is necessarily a function
+	sciErr = getVarType(pvApiCtx, *dest, &iType);
+  	if(sciErr.iErr || iType != sci_c_function)
+	{
+		Scierror(errNum,errMsg,argNum);
+		return 1;
+	}
+	return 0;
+	
+}
+
 
 int getDoubleFromScilab(int argNum, double *dest)
 {
@@ -187,6 +208,29 @@ int getFixedSizeDoubleMatrixInList(int argNum, int itemPos, int rows, int cols, 
 		printError(&sciErr, 0);
 		return 1;
 	}
+	return 0;
+}
+
+int getStringFromScilab(int argNum,char **dest)
+{
+	int *varAddress,inputMatrixRows,inputMatrixCols;
+	SciErr sciErr;
+	sciErr = getVarAddressFromPosition(pvApiCtx, argNum, &varAddress);
+
+	//check whether there is an error or not.
+	if (sciErr.iErr)
+    	{
+        	printError(&sciErr, 0);
+        	return 1;
+		}
+	if ( !isStringType(pvApiCtx,varAddress) )
+		{
+			Scierror(999,"Wrong type for input argument 1: A file name is expected.\n");
+			return 1;
+		}
+    //read the value in that pointer pointing to file name
+	getAllocatedSingleString(pvApiCtx, varAddress, dest);
+    
 }
 
 int return0toScilab()
@@ -254,4 +298,5 @@ int returnIntegerMatrixToScilab(int itemPos, int rows, int cols, int *dest)
 
 	return 0;
 }
+
 
