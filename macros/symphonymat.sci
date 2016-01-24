@@ -193,11 +193,15 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
 	A = varargin(3)
 	b = varargin(4)
 
+	if(size(c,2) == 0) then
+		errmsg = msprintf(gettext("%s: Cannot determine the number of variables because input objective coefficients is empty"),"Symphonymat");
+		error(errmsg);
+	end
+
    if (size(c,2)~=1) then
 	errmsg = msprintf(gettext("%s: Objective Coefficients should be a column matrix"), "Symphonymat");
 	error(errmsg);
    end
-
 
    nbVar = size(c,1);
 

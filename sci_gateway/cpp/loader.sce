@@ -68,7 +68,12 @@ list_functions = [ 'sym_open';
                    'sym_getObjVal';
                    'sym_getIterCount';
                    'sym_getConstrActivity';
+                   'linearprog';
+                   'rmps';
                    'solveqp';
+                   'solveminuncp';
+                   'solveminbndp';
+                   'solveminconp';
 ];
 addinter(libFAMOS_path + filesep() + 'libFAMOS' + getdynlibext(), 'libFAMOS', list_functions);
 // remove temp. variables on stack

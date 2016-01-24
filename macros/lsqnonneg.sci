@@ -97,6 +97,12 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 	C = varargin(1);
 	d = varargin(2);
 	nbVar = size(C,2);
+
+	if(nbVar == 0) then
+		errmsg = msprintf(gettext("%s: Cannot determine the number of variables because input objective coefficients is empty"), "lsqnonneg");
+		error(errmsg);
+	end
+
 	if ( rhs<3 | size(varargin(3)) ==0 ) then
 		param = list();
 	else

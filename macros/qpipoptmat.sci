@@ -145,6 +145,10 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 	f = varargin(2);
 	nbVar = size(H,1);
 
+	if(nbVar == 0) then
+		errmsg = msprintf(gettext("%s: Cannot determine the number of variables because input objective coefficients is empty"), "qpipoptmat");
+		error(errmsg);
+	end
 
 	if ( rhs<3 ) then
 	  A = []
@@ -424,5 +428,4 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
         break;
     end
     
-
 endfunction

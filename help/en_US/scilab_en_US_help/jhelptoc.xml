@@ -3,6 +3,11 @@
 <toc version="1.0">
 <tocitem target="index" text="Symphony Toolbox">
 <tocitem target="section_19f4f1e5726c01d683e8b82be0a7e910" text="Symphony Toolbox">
+<tocitem target="fgoalattain" text="fgoalattain"/>
+<tocitem target="fminbnd" text="fminbnd"/>
+<tocitem target="fmincon" text="fmincon"/>
+<tocitem target="fminunc" text="fminunc"/>
+<tocitem target="linprog" text="linprog"/>
 <tocitem target="lsqlin" text="lsqlin"/>
 <tocitem target="lsqnonneg" text="lsqnonneg"/>
 <tocitem target="qpipopt" text="qpipopt"/>
