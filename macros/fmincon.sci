@@ -303,8 +303,8 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
    		nlc      = varargin(9);
 	end
 	
-	//To check whether the 1st Input argument (f) is a function or not
-   	if (type(f) ~= 13 & type(f) ~= 11) then
+	//To check whether the 1st Input argument (fun) is a function or not
+   	if (type(fun) ~= 13 & type(fun) ~= 11) then
    		errmsg = msprintf(gettext("%s: Expected function for Objective (1st Parameter)"), "fmincon");
    		error(errmsg);
    	end

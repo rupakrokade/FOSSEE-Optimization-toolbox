@@ -6,6 +6,7 @@
 <mapID target="fgoalattain" url="fgoalattain.html"/>
 <mapID target="fminbnd" url="fminbnd.html"/>
 <mapID target="fmincon" url="fmincon.html"/>
+<mapID target="fminimax" url="fminimax.html"/>
 <mapID target="fminunc" url="fminunc.html"/>
 <mapID target="linprog" url="linprog.html"/>
 <mapID target="lsqlin" url="lsqlin.html"/>

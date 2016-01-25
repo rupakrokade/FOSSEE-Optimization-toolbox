@@ -153,6 +153,13 @@ function [xopt,fopt,exitflag,output,lambda] = fminbnd (varargin)
    	fun = varargin(1);
    	x1 = varargin(2);
    	x2 = varargin(3);
+	
+	
+	//To check whether the 1st Input argument (fun) is a function or not
+   	if (type(fun) ~= 13 & type(fun) ~= 11) then
+   		errmsg = msprintf(gettext("%s: Expected function for Objective (1st Parameter)"), "fmincon");
+   		error(errmsg);
+   	end
    	
    	//Converting the User defined Objective function into Required form (Error Detectable)
    	function [y,check] = f(x)

@@ -4,6 +4,7 @@
 <!ENTITY a745e19a6383796e6f5680cdcc44cfcce SYSTEM "/home/harpreet/symphony_work/symphony/help/en_US/fgoalattain.xml">
 <!ENTITY a2b24cb19de46f878f11e6be9eb411170 SYSTEM "/home/harpreet/symphony_work/symphony/help/en_US/fminbnd.xml">
 <!ENTITY a52664d077cac340a0384efe1ac107088 SYSTEM "/home/harpreet/symphony_work/symphony/help/en_US/fmincon.xml">
+<!ENTITY a0184dce5b9269d9795f0858d46c1c6f0 SYSTEM "/home/harpreet/symphony_work/symphony/help/en_US/fminimax.xml">
 <!ENTITY a14f1077f437dbe35eb1cac51fed7a9fc SYSTEM "/home/harpreet/symphony_work/symphony/help/en_US/fminunc.xml">
 <!ENTITY aa809ed678033fc05c9b60a71de55b2ce SYSTEM "/home/harpreet/symphony_work/symphony/help/en_US/linprog.xml">
 <!ENTITY a3d4ec65684b561d91f7a255acd23f51c SYSTEM "/home/harpreet/symphony_work/symphony/help/en_US/lsqlin.xml">
@@ -89,6 +90,7 @@
 &a745e19a6383796e6f5680cdcc44cfcce;
 &a2b24cb19de46f878f11e6be9eb411170;
 &a52664d077cac340a0384efe1ac107088;
+&a0184dce5b9269d9795f0858d46c1c6f0;
 &a14f1077f437dbe35eb1cac51fed7a9fc;
 &aa809ed678033fc05c9b60a71de55b2ce;
 &a3d4ec65684b561d91f7a255acd23f51c;

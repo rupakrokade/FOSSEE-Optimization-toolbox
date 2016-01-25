@@ -9,4 +9,4 @@ Tested with Symphony 5.6.10, Ipopt 3.12.4 and Scilab 5.5.2
 2. Run `exec loader.sce`
 3. The Toolbox is now ready.
 
-## Note: This library is only for linux.
+## Note: This version is only for linux.
