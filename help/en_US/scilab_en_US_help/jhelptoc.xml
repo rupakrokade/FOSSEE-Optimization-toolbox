@@ -6,6 +6,7 @@
 <tocitem target="fgoalattain" text="fgoalattain"/>
 <tocitem target="fminbnd" text="fminbnd"/>
 <tocitem target="fmincon" text="fmincon"/>
+<tocitem target="fminimax" text="fminimax"/>
 <tocitem target="fminunc" text="fminunc"/>
 <tocitem target="linprog" text="linprog"/>
 <tocitem target="lsqlin" text="lsqlin"/>

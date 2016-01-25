@@ -152,8 +152,8 @@ function [xopt,fopt,exitflag,output,gradient,hessian] = fminunc (varargin)
    	fun = varargin(1);
    	x0 = varargin(2);
       
-	//To check whether the 1st Input argument(f) is a function or not
-   	if (type(f) ~= 13 & type(f) ~= 11) then
+	//To check whether the 1st Input argument(fun) is a function or not
+   	if (type(fun) ~= 13 & type(fun) ~= 11) then
    		errmsg = msprintf(gettext("%s: Expected function for Objective "), "fminunc");
    		error(errmsg);
    	end

@@ -18,7 +18,8 @@ function [xopt,fopt,exitflag,output,lambda] = linprog (varargin)
 	//   xopt = linprog(c,A,b,Aeq,beq)
 	//   xopt = linprog(c,A,b,Aeq,beq,lb,ub)
 	//   xopt = linprog(c,A,b,Aeq,beq,lb,ub,param)
-	//   [xopt, fopt, exitflag, output, lambda] = linprog(file)
+	//   xopt = linprog(file)
+	//   xopt = linprog(file,param)
 	//   [xopt,fopt,exitflag,output,lambda] = linprog( ... )
 	//   
 	//   Parameters
