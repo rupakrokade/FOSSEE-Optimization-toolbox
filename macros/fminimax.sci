@@ -160,15 +160,15 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
     //      f(4)= -x(1) - x(2);
     //      f(5)= x(1) + x(2) - 8;
     //  endfunction
+    //
     //  // The initial guess
     //  x0 = [0.1,0.1];
     //  // The expected solution : only 4 digits are guaranteed
-    //  //xopt = [4 4]
-    //  //fopt = [0 -64 -2 -8 0]
+    //  xopt = [4 4]
+    //  fopt = [0 -64 -2 -8 0]
     //  maxfopt = 0
     //  // Run fminimax
-    //  [xopt,fopt,maxfval,exitflag,output,lambda] = fminimax(myfun, x0)
-	// // Press ENTER to continue
+    //  [x,fval,maxfval,exitflag,output,lambda] = fminimax(myfun, x0)
     //
     // Examples
     //  // A case where we provide the gradient of the objective
@@ -181,11 +181,14 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
     //      f(4)= -x(1) - x(2);
     //      f(5)= x(1) + x(2) - 8;
     //  endfunction
+    //
     //  // Defining gradient of myfun
     //  function G = myfungrad(x)
     //      G = [ 4*x(1) - 48, -2*x(1), 1, -1, 1;
     //            2*x(2) - 40, -6*x(2), 3, -1, 1; ]'
     //  endfunction
+    //
+    //
     //  // The nonlinear constraints and the Jacobian
     //  // matrix of the constraints
     //  function [c,ceq] = confun(x)
@@ -194,6 +197,8 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
     //      // No nonlinear equality constraints
     //      ceq=[]
     //  endfunction
+    //
+    //
     //  // Defining gradient of confungrad
     //  function [DC,DCeq] = cgrad(x)
     //      // DC(:,i) = gradient of the i-th constraint
@@ -207,34 +212,38 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
     //      ]'
     //      DCeq = []'
     //  endfunction
+    //
     //  // Test with both gradient of objective and gradient of constraints
     //  minimaxOptions = list("GradObj",myfungrad,"GradCon",cgrad);
     //  // The initial guess
     //  x0 = [0,10];
     //  // The expected solution : only 4 digits are guaranteed
-    //  //xopt = [0.92791 7.93551]
-    //  //fopt = [6.73443  -189.778  6.73443  -8.86342  0.86342]
+    //  xopt = [0.92791 7.93551]
+    //  fopt = [6.73443  -189.778  6.73443  -8.86342  0.86342]
     //  maxfopt = 6.73443
     //  // Run fminimax
-    //  [xopt,fopt,maxfval,exitflag,output] = fminimax(myfun,x0,[],[],[],[],[],[], confun, minimaxOptions)
+    //  [x,fval,maxfval,exitflag,output] = fminimax(myfun,x0,[],[],[],[],[],[], confun, minimaxOptions)
+    //
+    //
     // Authors
     // Animesh Baranawal
+    //
 
     // Check number of input and output arguments
     [minmaxLhs,minmaxRhs] = argn()
-    fminimaxCheckrhs("fminimax", minmaxRhs, [2 4 6 8 9 10])
-    fminimaxChecklhs("fminimax", minmaxLhs, 1:7)
+    Checkrhs("fminimax", minmaxRhs, [2 4 6 8 9 10])
+    Checklhs("fminimax", minmaxLhs, 1:7)
 
     // Proper initialisation of objective function
     minmaxObjfun = varargin(1)
-    fminimaxChecktype("fminimax", minmaxObjfun, "minmaxObjfun", 1, "function")
+    Checktype("fminimax", minmaxObjfun, "minmaxObjfun", 1, "function")
 
     // Proper initialisation of starting point
     minmaxStartpoint = varargin(2)
-    fminimaxChecktype("fminimax", minmaxStartpoint, "minmaxStartpoint", 2, "constant")
+    Checktype("fminimax", minmaxStartpoint, "minmaxStartpoint", 2, "constant")
 
     minmaxNumvar = size(minmaxStartpoint,"*")
-    fminimaxCheckvector("fminimax", minmaxStartpoint, "minmaxStartpoint", 2, minmaxNumvar)
+    Checkvector("fminimax", minmaxStartpoint, "minmaxStartpoint", 2, minmaxNumvar)
     minmaxStartpoint = minmaxStartpoint(:)
 
     // Proper initialisation of A and b
@@ -246,8 +255,8 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
         minmaxB = varargin(4)
     end
 
-    fminimaxChecktype("fminimax", minmaxA, "A", 3, "constant")
-    fminimaxChecktype("fminimax", minmaxB, "b", 4, "constant")
+    Checktype("fminimax", minmaxA, "A", 3, "constant")
+    Checktype("fminimax", minmaxB, "b", 4, "constant")
 
     // Check if A and b of proper dimensions
     if(minmaxA <> [] & minmaxB == []) then
@@ -262,8 +271,8 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
 
     minmaxNumrowA = size(minmaxA,"r")
     if(minmaxA <> []) then
-        fminimaxCheckdims("fminimax", minmaxA, "A", 3, [minmaxNumrowA minmaxNumvar])
-        fminimaxCheckvector("fminimax", minmaxB, "b", 4, minmaxNumrowA)
+        Checkdims("fminimax", minmaxA, "A", 3, [minmaxNumrowA minmaxNumvar])
+        Checkvector("fminimax", minmaxB, "b", 4, minmaxNumrowA)
         minmaxB = minmaxB(:)
     end
 
@@ -276,8 +285,8 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
         minmaxBeq = varargin(6)
     end
 
-    fminimaxChecktype("fminimax", minmaxAeq, "Aeq", 5, "constant")
-    fminimaxChecktype("fminimax", minmaxBeq, "beq", 6, "constant")
+    Checktype("fminimax", minmaxAeq, "Aeq", 5, "constant")
+    Checktype("fminimax", minmaxBeq, "beq", 6, "constant")
 
     // Check if Aeq and beq of proper dimensions
     if(minmaxAeq <> [] & minmaxBeq == []) then
@@ -292,8 +301,8 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
 
     minmaxNumrowAeq = size(minmaxAeq,"r")
     if(minmaxAeq <> []) then
-        fminimaxCheckdims("fminimax", minmaxAeq, "Aeq", 5, [minmaxNumrowAeq minmaxNumvar])
-        fminimaxCheckvector("fminimax", minmaxBeq, "beq", 6, minmaxNumrowAeq)
+        Checkdims("fminimax", minmaxAeq, "Aeq", 5, [minmaxNumrowAeq minmaxNumvar])
+        Checkvector("fminimax", minmaxBeq, "beq", 6, minmaxNumrowAeq)
         minmaxBeq = minmaxBeq(:)
     end
 
@@ -306,17 +315,17 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
         minmaxUb = varargin(8)
     end
 
-    fminimaxChecktype("fminimax", minmaxLb, "lb", 7, "constant")
-    fminimaxChecktype("fminimax", minmaxUb, "ub", 8, "constant")
+    Checktype("fminimax", minmaxLb, "lb", 7, "constant")
+    Checktype("fminimax", minmaxUb, "ub", 8, "constant")
 
     // Check dimensions of minmaxLb and minmaxUb
     if(minmaxLb <> []) then
-        fminimaxCheckvector("fminimax", minmaxLb, "lb", 7, minmaxNumvar)
+        Checkvector("fminimax", minmaxLb, "lb", 7, minmaxNumvar)
         minmaxLb = minmaxLb(:)
     end
 
     if(minmaxUb <> []) then
-        fminimaxCheckvector("fminimax", minmaxUb, "ub", 8, minmaxNumvar)
+        Checkvector("fminimax", minmaxUb, "ub", 8, minmaxNumvar)
         minmaxUb = minmaxUb(:)
     end
 
@@ -337,7 +346,7 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
         minmaxNonlinfun = t
     end
 
-    fminimaxChecktype("fminimax", minmaxNonlinfun, "nonlinfun", 9, "function")
+    Checktype("fminimax", minmaxNonlinfun, "nonlinfun", 9, "function")
 
     //To check, Whether minimaxOptions is been entered by user
     if ( minmaxRhs<10 ) then
@@ -376,12 +385,30 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
             minmaxCPU = minmaxUserOptions(2*i);    //Setting the Maximum CPU Time as per user entry
 
         case "GradObj" then
-            flag1=1;
-            minmaxFGrad = minmaxUserOptions(2*i);
+            if (type(minmaxUserOptions(2*i))==10) then
+                if (convstr(minmaxUserOptions(2*i))=="off") then
+                    flag1 = 0;
+                else
+                    errmsg = msprintf(gettext("%s: Unrecognized String %s entered for the option- %s."), "fminimax",minmaxUserOptions(2*i), minmaxUserOptions(2*i-1));
+                    error(errmsg);
+                end
+            else
+                flag1 = 1;
+                minmaxFGrad = minmaxUserOptions(2*i);
+            end
 
         case "GradCon" then
-            flag2=1;
-            minmaxCGrad = minmaxUserOptions(2*i);
+            if (type(minmaxUserOptions(2*i))==10) then
+                if (convstr(minmaxUserOptions(2*i))=="off") then
+                    flag2 = 0;
+                else
+                    errmsg = msprintf(gettext("%s: Unrecognized String %s entered for the option- %s."), "fminimax",minmaxUserOptions(2*i), minmaxUserOptions(2*i-1));
+                    error(errmsg);
+                end
+            else
+                flag2 = 1;
+                minmaxCGrad = minmaxUserOptions(2*i);
+            end
 
         else
             errmsg = msprintf(gettext("%s: Unrecognized minmaxUserOptionseter name ''%s''."), "fminimax", minmaxUserOptions(2*i-1));
@@ -487,6 +514,27 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
             dnc = [dnc; derObjfun]
         end
     endfunction
+
+    //        disp(minmaxStartpoint)
+    //        a = minmaxObjfun(minmaxStartpoint)
+    //        disp(a)
+    //        disp(newObjfun(minmaxStartpoint))
+    //        disp(minmaxA)
+    //        disp(minmaxB)
+    //        disp(minmaxAeq)
+    //        disp(minmaxBeq)
+    //        disp(minmaxLb)
+    //        disp(minmaxUb)
+    //        [a,b] = minmaxNonlinfun(minmaxStartpoint)
+    //        disp(a)
+    //        disp(b)
+    //        [a,b] = newNonlinfun(minmaxStartpoint)
+    //        disp(a)
+    //        disp(b)
+    //        [a,b] = newCGrad(minmaxStartpoint)
+    //        disp(a)
+    //        disp(b)
+    //        disp(newFGrad(minmaxStartpoint))
 
     //    to be passed as minimaxOptions to fmincon
     if(flag1 == 1 | flag2 == 1) then
