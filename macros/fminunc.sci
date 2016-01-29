@@ -264,15 +264,15 @@ function [xopt,fopt,exitflag,output,gradient,hessian] = fminunc (varargin)
  
 	//To check the user entry for options and store it
    	for i = 1:(size(param))/2
-       	select param(2*i-1)
-    		case "MaxIter" then
+       	select convstr(param(2*i-1),'l')
+    		case "maxiter" then
           			options(2*i) = param(2*i);    //Setting the maximum number of iterations as per user entry
-       		case "CpuTime" then
+       		case "cputime" then
           			options(2*i) = param(2*i);    //Setting the maximum CPU time as per user entry
-        	case "Gradient" then
+        	case "gradient" then
 					flag1 = 1;
         			fGrad = param(2*i);        				      
-        	case "Hessian" then
+        	case "hessian" then
         			flag2 = 1;
         			fHess = param(2*i);
         	else

@@ -1,49 +1,47 @@
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// Authors: Animesh Baranawal
-// Organization: FOSSEE, IIT Bombay
-// Email: animeshbaranawal@gmail.com
 // This file must be used under the terms of the CeCILL.
 // This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// Authors: Animesh Baranawal
+// Organization: FOSSEE, IIT Bombay
+// Email: toolbox@scilab.in
 
 function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
     // Solves minimax constraint problem
     //
     // Calling Sequence
-    //  x = fminimax(fun,x0)
-    //  x = fminimax(fun,x0,A,b)
-    //  x = fminimax(fun,x0,A,b,Aeq,beq)
-    //  x = fminimax(fun,x0,A,b,Aeq,beq,lb,ub)
-    //  x = fminimax(fun,x0,A,b,Aeq,beq,lb,ub,nonlinfun)
-    //  x = fminimax(fun,x0,A,b,Aeq,beq,lb,ub,nonlinfun,options)
-    //  [x, fval] = fmincon(.....)
-    //  [x, fval, maxfval]= fmincon(.....)
-    //  [x, fval, maxfval, exitflag]= fmincon(.....)
-    //  [x, fval, maxfval, exitflag, output]= fmincon(.....)
-    //  [x, fval, maxfval, exitflag, output, lambda]= fmincon(.....)
+    //  xopt = fminimax(fun,x0)
+    //  xopt = fminimax(fun,x0,A,b)
+    //  xopt = fminimax(fun,x0,A,b,Aeq,beq)
+    //  xopt = fminimax(fun,x0,A,b,Aeq,beq,lb,ub)
+    //  xopt = fminimax(fun,x0,A,b,Aeq,beq,lb,ub,nonlinfun)
+    //  xopt = fminimax(fun,x0,A,b,Aeq,beq,lb,ub,nonlinfun,options)
+    //  [xopt, fval] = fmincon(.....)
+    //  [xopt, fval, maxfval]= fmincon(.....)
+    //  [xopt, fval, maxfval, exitflag]= fmincon(.....)
+    //  [xopt, fval, maxfval, exitflag, output]= fmincon(.....)
+    //  [xopt, fval, maxfval, exitflag, output, lambda]= fmincon(.....)
     //
     // Parameters
     //  fun: The function to be minimized. fun is a function that accepts a vector x and returns a vector F, the objective functions evaluated at x.
-    //  x0: a nx1 or 1xn matrix of doubles, where n is the number of variables, the initial guess for the optimization algorithm
-    //  A: a nil x n matrix of doubles, where n is the number of variables and nil is the number of linear inequalities. If A==[] and b==[], it is assumed that there is no linear inequality constraints. If (A==[] & b<>[]), fminimax generates an error (the same happens if (A<>[] & b==[]))
-    //  b: a nil x 1 matrix of doubles, where nil is the number of linear inequalities
-    //  Aeq: a nel x n matrix of doubles, where n is the number of variables and nel is the number of linear equalities. If Aeq==[] and beq==[], it is assumed that there is no linear equality constraints. If (Aeq==[] & beq<>[]), fminimax generates an error (the same happens if (Aeq<>[] & beq==[]))
-    //  beq: a nel x 1 matrix of doubles, where nel is the number of linear equalities
-    //  lb: a nx1 or 1xn matrix of doubles, where n is the number of variables. The lower bound for x. If lb==[], then the lower bound is automatically set to -inf
-    //  ub: a nx1 or 1xn matrix of doubles, where n is the number of variables. The upper bound for x. If ub==[], then the upper bound is automatically set to +inf
-    //  nonlinfun: function that computes the nonlinear inequality constraints c(x) <= 0 and nonlinear equality constraints ceq(x) = 0.
-    //  x: a nx1 matrix of doubles, the computed solution of the optimization problem
-    //  fval: a vector of doubles, the value of fun at x
-    //  maxfval: a 1x1 matrix of doubles, the maximum value in vector fval
-    //  exitflag: a 1x1 matrix of floating point integers, the exit status
-    //  output: a struct, the details of the optimization process
-    //  lambda: a struct, the Lagrange multipliers at optimum
-    //  options: a list, containing the option for user to specify. See below for details.
-    //
+	//   x0 : a vector of double, contains initial guess of variables.
+	//   A : a matrix of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b. 
+	//   b : a vector of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b.
+	//   Aeq : a matrix of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.
+	//   beq : a vector of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.
+	//   lb : a vector of double, contains lower bounds of the variables.
+	//   ub : a vector of double,  contains upper bounds of the variables.
+    //  nonlinfun: function that computes the nonlinear inequality constraints c⋅x ≤ 0 and nonlinear equality constraints c⋅x = 0.
+	//   xopt : a vector of double, the computed solution of the optimization problem.
+	//   fopt : a double, the value of the function at x.
+    //   maxfval: a 1x1 matrix of doubles, the maximum value in vector fval
+	//   exitflag : The exit status. See below for details.
+	//   output : The structure consist of statistics about the optimization. See below for details.
+	//   lambda : The structure consist of the Lagrange multipliers at the solution of problem. See below for details.
+	//
     // Description
     //  fminimax minimizes the worst-case (largest) value of a set of multivariable functions, starting at an initial estimate. This is generally referred to as the minimax problem.
     //
@@ -160,7 +158,6 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
     //      f(4)= -x(1) - x(2);
     //      f(5)= x(1) + x(2) - 8;
     //  endfunction
-    //
     //  // The initial guess
     //  x0 = [0.1,0.1];
     //  // The expected solution : only 4 digits are guaranteed
@@ -169,6 +166,7 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
     //  maxfopt = 0
     //  // Run fminimax
     //  [x,fval,maxfval,exitflag,output,lambda] = fminimax(myfun, x0)
+	// // Press ENTER to continue
     //
     // Examples
     //  // A case where we provide the gradient of the objective
@@ -181,14 +179,11 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
     //      f(4)= -x(1) - x(2);
     //      f(5)= x(1) + x(2) - 8;
     //  endfunction
-    //
     //  // Defining gradient of myfun
     //  function G = myfungrad(x)
     //      G = [ 4*x(1) - 48, -2*x(1), 1, -1, 1;
     //            2*x(2) - 40, -6*x(2), 3, -1, 1; ]'
     //  endfunction
-    //
-    //
     //  // The nonlinear constraints and the Jacobian
     //  // matrix of the constraints
     //  function [c,ceq] = confun(x)
@@ -197,8 +192,6 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
     //      // No nonlinear equality constraints
     //      ceq=[]
     //  endfunction
-    //
-    //
     //  // Defining gradient of confungrad
     //  function [DC,DCeq] = cgrad(x)
     //      // DC(:,i) = gradient of the i-th constraint
@@ -212,7 +205,6 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
     //      ]'
     //      DCeq = []'
     //  endfunction
-    //
     //  // Test with both gradient of objective and gradient of constraints
     //  minimaxOptions = list("GradObj",myfungrad,"GradCon",cgrad);
     //  // The initial guess
@@ -223,8 +215,6 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
     //  maxfopt = 6.73443
     //  // Run fminimax
     //  [x,fval,maxfval,exitflag,output] = fminimax(myfun,x0,[],[],[],[],[],[], confun, minimaxOptions)
-    //
-    //
     // Authors
     // Animesh Baranawal
     //
@@ -377,14 +367,14 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
 
     //To check the User Entry for Options and storing it
     for i = 1:(size(minmaxUserOptions))/2
-        select minmaxUserOptions(2*i-1)
-        case "MaxIter" then
+        select convstr(minmaxUserOptions(2*i-1),'l')
+        case "maxiter" then
             minmaxIter = minmaxUserOptions(2*i);    //Setting the Maximum Iteration as per user entry
 
-        case "CpuTime" then
+        case "cputime" then
             minmaxCPU = minmaxUserOptions(2*i);    //Setting the Maximum CPU Time as per user entry
 
-        case "GradObj" then
+        case "gradobj" then
             if (type(minmaxUserOptions(2*i))==10) then
                 if (convstr(minmaxUserOptions(2*i))=="off") then
                     flag1 = 0;
@@ -397,7 +387,7 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
                 minmaxFGrad = minmaxUserOptions(2*i);
             end
 
-        case "GradCon" then
+        case "gradcon" then
             if (type(minmaxUserOptions(2*i))==10) then
                 if (convstr(minmaxUserOptions(2*i))=="off") then
                     flag2 = 0;
@@ -515,27 +505,6 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
         end
     endfunction
 
-    //        disp(minmaxStartpoint)
-    //        a = minmaxObjfun(minmaxStartpoint)
-    //        disp(a)
-    //        disp(newObjfun(minmaxStartpoint))
-    //        disp(minmaxA)
-    //        disp(minmaxB)
-    //        disp(minmaxAeq)
-    //        disp(minmaxBeq)
-    //        disp(minmaxLb)
-    //        disp(minmaxUb)
-    //        [a,b] = minmaxNonlinfun(minmaxStartpoint)
-    //        disp(a)
-    //        disp(b)
-    //        [a,b] = newNonlinfun(minmaxStartpoint)
-    //        disp(a)
-    //        disp(b)
-    //        [a,b] = newCGrad(minmaxStartpoint)
-    //        disp(a)
-    //        disp(b)
-    //        disp(newFGrad(minmaxStartpoint))
-
     //    to be passed as minimaxOptions to fmincon
     if(flag1 == 1 | flag2 == 1) then
         minmaxPassOptions = list("MaxIter", minmaxMaxIter, "CpuTime", minmaxCPU, "GradCon", newCGrad)
@@ -554,6 +523,5 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
         fval = minmaxObjfun(x)
         maxfval = max(fval)
     end
-
 
 endfunction

@@ -1,4 +1,4 @@
-# Symphony Toolbox for Scilab
+# FOSSEE Optimization Toolbox for Scilab
 
 A toolbox that provides mixed integer linear programming, quadratic programming and non linear programming tools in Scilab through the Symphony and Ipopt libraries.
 

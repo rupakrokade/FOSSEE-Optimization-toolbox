@@ -9,7 +9,7 @@
 // Organization: FOSSEE, IIT Bombay
 // Email: toolbox@scilab.in
 
-tbx_build_macros("Symphony", get_absolute_file_path("buildmacros.sce"));
+tbx_build_macros("FOSSEE_Optimization_Toolbox", get_absolute_file_path("buildmacros.sce"));
 
 clear tbx_build_macros;
 

@@ -1,21 +1,23 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// Author: Keyur Joshi, Sai Kiran, Iswarya and Harpreet Singh
-// Organization: FOSSEE, IIT Bombay
-// Email: harpreet.mertia@gmail.com
 // This file must be used under the terms of the CeCILL.
 // This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// Author: Harpreet Singh
+// Organization: FOSSEE, IIT Bombay
+// Email: toolbox@scilab.in
 
 mode(-1)
 lines(0)
 
-toolbox_title = "FAMOS";
+toolbox_title = "FOSSEE_Optimization_Toolbox";
 
 [a, opt] = getversion();
 Version = opt(2);
+
+Build_64Bits = %f;
 
 path_builder = get_absolute_file_path('builder_gateway_cpp.sce');
 

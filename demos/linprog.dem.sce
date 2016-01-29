@@ -60,5 +60,5 @@ halt()   // Press return to continue
  
 filepath = get_absolute_file_path('linprog.dem.sce');
 filepath = filepath + "exmip1.mps"
-[xopt,fopt,exitflag,output,lambda] =linprog(filepath);
+[xopt,fopt,exitflag,output,lambda] =linprog(filepath)
 //========= E N D === O F === D E M O =========//

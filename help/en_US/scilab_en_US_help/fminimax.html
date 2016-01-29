@@ -16,7 +16,7 @@
 
       </td>
       <td width="40%" class="center">
-      	<span class="top"><a href="section_19f4f1e5726c01d683e8b82be0a7e910.html">Symphony Toolbox</a></span>
+      	<span class="top"><a href="section_19f4f1e5726c01d683e8b82be0a7e910.html">FOSSEE Optimization Toolbox</a></span>
 
       </td>
       <td width="30%" class="next">
@@ -29,7 +29,7 @@
 
 
 
-    <span class="path"><a href="index.html">Symphony Toolbox</a> &gt;&gt; <a href="section_19f4f1e5726c01d683e8b82be0a7e910.html">Symphony Toolbox</a> &gt; fminimax</span>
+    <span class="path"><a href="index.html">FOSSEE Optimization Toolbox</a> &gt;&gt; <a href="section_19f4f1e5726c01d683e8b82be0a7e910.html">FOSSEE Optimization Toolbox</a> &gt; fminimax</span>
 
     <br /><br />
     <div class="refnamediv"><h1 class="refname">fminimax</h1>
@@ -37,51 +37,49 @@
 
 
 <div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
-   <div class="synopsis"><pre><span class="default">x</span><span class="default"> = </span><span class="functionid">fminimax</span><span class="default">(</span><span class="default">fun</span><span class="default">,</span><span class="default">x0</span><span class="default">)</span>
-<span class="default">x</span><span class="default"> = </span><span class="functionid">fminimax</span><span class="default">(</span><span class="default">fun</span><span class="default">,</span><span class="default">x0</span><span class="default">,</span><span class="default">A</span><span class="default">,</span><span class="default">b</span><span class="default">)</span>
-<span class="default">x</span><span class="default"> = </span><span class="functionid">fminimax</span><span class="default">(</span><span class="default">fun</span><span class="default">,</span><span class="default">x0</span><span class="default">,</span><span class="default">A</span><span class="default">,</span><span class="default">b</span><span class="default">,</span><span class="default">Aeq</span><span class="default">,</span><span class="default">beq</span><span class="default">)</span>
-<span class="default">x</span><span class="default"> = </span><span class="functionid">fminimax</span><span class="default">(</span><span class="default">fun</span><span class="default">,</span><span class="default">x0</span><span class="default">,</span><span class="default">A</span><span class="default">,</span><span class="default">b</span><span class="default">,</span><span class="default">Aeq</span><span class="default">,</span><span class="default">beq</span><span class="default">,</span><span class="default">lb</span><span class="default">,</span><span class="default">ub</span><span class="default">)</span>
-<span class="default">x</span><span class="default"> = </span><span class="functionid">fminimax</span><span class="default">(</span><span class="default">fun</span><span class="default">,</span><span class="default">x0</span><span class="default">,</span><span class="default">A</span><span class="default">,</span><span class="default">b</span><span class="default">,</span><span class="default">Aeq</span><span class="default">,</span><span class="default">beq</span><span class="default">,</span><span class="default">lb</span><span class="default">,</span><span class="default">ub</span><span class="default">,</span><span class="default">nonlinfun</span><span class="default">)</span>
-<span class="default">x</span><span class="default"> = </span><span class="functionid">fminimax</span><span class="default">(</span><span class="default">fun</span><span class="default">,</span><span class="default">x0</span><span class="default">,</span><span class="default">A</span><span class="default">,</span><span class="default">b</span><span class="default">,</span><span class="default">Aeq</span><span class="default">,</span><span class="default">beq</span><span class="default">,</span><span class="default">lb</span><span class="default">,</span><span class="default">ub</span><span class="default">,</span><span class="default">nonlinfun</span><span class="default">,</span><span class="default">options</span><span class="default">)</span>
-<span class="default">[</span><span class="default">x</span><span class="default">, </span><span class="default">fval</span><span class="default">] = </span><span class="default">fmincon</span><span class="default">(.....)</span>
-<span class="default">[</span><span class="default">x</span><span class="default">, </span><span class="default">fval</span><span class="default">, </span><span class="default">maxfval</span><span class="default">]= </span><span class="default">fmincon</span><span class="default">(.....)</span>
-<span class="default">[</span><span class="default">x</span><span class="default">, </span><span class="default">fval</span><span class="default">, </span><span class="default">maxfval</span><span class="default">, </span><span class="default">exitflag</span><span class="default">]= </span><span class="default">fmincon</span><span class="default">(.....)</span>
-<span class="default">[</span><span class="default">x</span><span class="default">, </span><span class="default">fval</span><span class="default">, </span><span class="default">maxfval</span><span class="default">, </span><span class="default">exitflag</span><span class="default">, </span><span class="default">output</span><span class="default">]= </span><span class="default">fmincon</span><span class="default">(.....)</span>
-<span class="default">[</span><span class="default">x</span><span class="default">, </span><span class="default">fval</span><span class="default">, </span><span class="default">maxfval</span><span class="default">, </span><span class="default">exitflag</span><span class="default">, </span><span class="default">output</span><span class="default">, </span><span class="default">lambda</span><span class="default">]= </span><span class="default">fmincon</span><span class="default">(.....)</span></pre></div></div>
+   <div class="synopsis"><pre><span class="default">xopt</span><span class="default"> = </span><span class="functionid">fminimax</span><span class="default">(</span><span class="default">fun</span><span class="default">,</span><span class="default">x0</span><span class="default">)</span>
+<span class="default">xopt</span><span class="default"> = </span><span class="functionid">fminimax</span><span class="default">(</span><span class="default">fun</span><span class="default">,</span><span class="default">x0</span><span class="default">,</span><span class="default">A</span><span class="default">,</span><span class="default">b</span><span class="default">)</span>
+<span class="default">xopt</span><span class="default"> = </span><span class="functionid">fminimax</span><span class="default">(</span><span class="default">fun</span><span class="default">,</span><span class="default">x0</span><span class="default">,</span><span class="default">A</span><span class="default">,</span><span class="default">b</span><span class="default">,</span><span class="default">Aeq</span><span class="default">,</span><span class="default">beq</span><span class="default">)</span>
+<span class="default">xopt</span><span class="default"> = </span><span class="functionid">fminimax</span><span class="default">(</span><span class="default">fun</span><span class="default">,</span><span class="default">x0</span><span class="default">,</span><span class="default">A</span><span class="default">,</span><span class="default">b</span><span class="default">,</span><span class="default">Aeq</span><span class="default">,</span><span class="default">beq</span><span class="default">,</span><span class="default">lb</span><span class="default">,</span><span class="default">ub</span><span class="default">)</span>
+<span class="default">xopt</span><span class="default"> = </span><span class="functionid">fminimax</span><span class="default">(</span><span class="default">fun</span><span class="default">,</span><span class="default">x0</span><span class="default">,</span><span class="default">A</span><span class="default">,</span><span class="default">b</span><span class="default">,</span><span class="default">Aeq</span><span class="default">,</span><span class="default">beq</span><span class="default">,</span><span class="default">lb</span><span class="default">,</span><span class="default">ub</span><span class="default">,</span><span class="default">nonlinfun</span><span class="default">)</span>
+<span class="default">xopt</span><span class="default"> = </span><span class="functionid">fminimax</span><span class="default">(</span><span class="default">fun</span><span class="default">,</span><span class="default">x0</span><span class="default">,</span><span class="default">A</span><span class="default">,</span><span class="default">b</span><span class="default">,</span><span class="default">Aeq</span><span class="default">,</span><span class="default">beq</span><span class="default">,</span><span class="default">lb</span><span class="default">,</span><span class="default">ub</span><span class="default">,</span><span class="default">nonlinfun</span><span class="default">,</span><span class="default">options</span><span class="default">)</span>
+<span class="default">[</span><span class="default">xopt</span><span class="default">, </span><span class="default">fval</span><span class="default">] = </span><span class="default">fmincon</span><span class="default">(.....)</span>
+<span class="default">[</span><span class="default">xopt</span><span class="default">, </span><span class="default">fval</span><span class="default">, </span><span class="default">maxfval</span><span class="default">]= </span><span class="default">fmincon</span><span class="default">(.....)</span>
+<span class="default">[</span><span class="default">xopt</span><span class="default">, </span><span class="default">fval</span><span class="default">, </span><span class="default">maxfval</span><span class="default">, </span><span class="default">exitflag</span><span class="default">]= </span><span class="default">fmincon</span><span class="default">(.....)</span>
+<span class="default">[</span><span class="default">xopt</span><span class="default">, </span><span class="default">fval</span><span class="default">, </span><span class="default">maxfval</span><span class="default">, </span><span class="default">exitflag</span><span class="default">, </span><span class="default">output</span><span class="default">]= </span><span class="default">fmincon</span><span class="default">(.....)</span>
+<span class="default">[</span><span class="default">xopt</span><span class="default">, </span><span class="default">fval</span><span class="default">, </span><span class="default">maxfval</span><span class="default">, </span><span class="default">exitflag</span><span class="default">, </span><span class="default">output</span><span class="default">, </span><span class="default">lambda</span><span class="default">]= </span><span class="default">fmincon</span><span class="default">(.....)</span></pre></div></div>
 
 <div class="refsection"><h3 class="title">Parameters</h3>
    <dl><dt><span class="term">fun:</span>
       <dd><p class="para">The function to be minimized. fun is a function that accepts a vector x and returns a vector F, the objective functions evaluated at x.</p></dd></dt>
-   <dt><span class="term">x0:</span>
-      <dd><p class="para">a nx1 or 1xn matrix of doubles, where n is the number of variables, the initial guess for the optimization algorithm</p></dd></dt>
-   <dt><span class="term">A:</span>
-      <dd><p class="para">a nil x n matrix of doubles, where n is the number of variables and nil is the number of linear inequalities. If A==[] and b==[], it is assumed that there is no linear inequality constraints. If (A==[] &amp; b&lt;&gt;[]), fminimax generates an error (the same happens if (A&lt;&gt;[] &amp; b==[]))</p></dd></dt>
-   <dt><span class="term">b:</span>
-      <dd><p class="para">a nil x 1 matrix of doubles, where nil is the number of linear inequalities</p></dd></dt>
-   <dt><span class="term">Aeq:</span>
-      <dd><p class="para">a nel x n matrix of doubles, where n is the number of variables and nel is the number of linear equalities. If Aeq==[] and beq==[], it is assumed that there is no linear equality constraints. If (Aeq==[] &amp; beq&lt;&gt;[]), fminimax generates an error (the same happens if (Aeq&lt;&gt;[] &amp; beq==[]))</p></dd></dt>
-   <dt><span class="term">beq:</span>
-      <dd><p class="para">a nel x 1 matrix of doubles, where nel is the number of linear equalities</p></dd></dt>
-   <dt><span class="term">lb:</span>
-      <dd><p class="para">a nx1 or 1xn matrix of doubles, where n is the number of variables. The lower bound for x. If lb==[], then the lower bound is automatically set to -inf</p></dd></dt>
-   <dt><span class="term">ub:</span>
-      <dd><p class="para">a nx1 or 1xn matrix of doubles, where n is the number of variables. The upper bound for x. If ub==[], then the upper bound is automatically set to +inf</p></dd></dt>
+   <dt><span class="term">x0 :</span>
+      <dd><p class="para">a vector of double, contains initial guess of variables.</p></dd></dt>
+   <dt><span class="term">A :</span>
+      <dd><p class="para">a matrix of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b.</p></dd></dt>
+   <dt><span class="term">b :</span>
+      <dd><p class="para">a vector of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b.</p></dd></dt>
+   <dt><span class="term">Aeq :</span>
+      <dd><p class="para">a matrix of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.</p></dd></dt>
+   <dt><span class="term">beq :</span>
+      <dd><p class="para">a vector of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.</p></dd></dt>
+   <dt><span class="term">lb :</span>
+      <dd><p class="para">a vector of double, contains lower bounds of the variables.</p></dd></dt>
+   <dt><span class="term">ub :</span>
+      <dd><p class="para">a vector of double,  contains upper bounds of the variables.</p></dd></dt>
    <dt><span class="term">nonlinfun:</span>
-      <dd><p class="para">function that computes the nonlinear inequality constraints c(x) &lt;= 0 and nonlinear equality constraints ceq(x) = 0.</p></dd></dt>
-   <dt><span class="term">x:</span>
-      <dd><p class="para">a nx1 matrix of doubles, the computed solution of the optimization problem</p></dd></dt>
-   <dt><span class="term">fval:</span>
-      <dd><p class="para">a vector of doubles, the value of fun at x</p></dd></dt>
+      <dd><p class="para">function that computes the nonlinear inequality constraints c⋅x ≤ 0 and nonlinear equality constraints c⋅x = 0.</p></dd></dt>
+   <dt><span class="term">xopt :</span>
+      <dd><p class="para">a vector of double, the computed solution of the optimization problem.</p></dd></dt>
+   <dt><span class="term">fopt :</span>
+      <dd><p class="para">a double, the value of the function at x.</p></dd></dt>
    <dt><span class="term">maxfval:</span>
       <dd><p class="para">a 1x1 matrix of doubles, the maximum value in vector fval</p></dd></dt>
-   <dt><span class="term">exitflag:</span>
-      <dd><p class="para">a 1x1 matrix of floating point integers, the exit status</p></dd></dt>
-   <dt><span class="term">output:</span>
-      <dd><p class="para">a struct, the details of the optimization process</p></dd></dt>
-   <dt><span class="term">lambda:</span>
-      <dd><p class="para">a struct, the Lagrange multipliers at optimum</p></dd></dt>
-   <dt><span class="term">options:</span>
-      <dd><p class="para">a list, containing the option for user to specify. See below for details.</p></dd></dt></dl></div>
+   <dt><span class="term">exitflag :</span>
+      <dd><p class="para">The exit status. See below for details.</p></dd></dt>
+   <dt><span class="term">output :</span>
+      <dd><p class="para">The structure consist of statistics about the optimization. See below for details.</p></dd></dt>
+   <dt><span class="term">lambda :</span>
+      <dd><p class="para">The structure consist of the Lagrange multipliers at the solution of problem. See below for details.</p></dd></dt></dl></div>
 
 <div class="refsection"><h3 class="title">Description</h3>
    <p class="para">fminimax minimizes the worst-case (largest) value of a set of multivariable functions, starting at an initial estimate. This is generally referred to as the minimax problem.</p>
@@ -157,11 +155,11 @@ It has type &#0034;struct&#0034; and contains the following fields.
 <span class="scilabcomment">// The initial guess</span>
 <span class="scilabid">x0</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">0.1</span><span class="scilabdefault">,</span><span class="scilabnumber">0.1</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
 <span class="scilabcomment">// The expected solution : only 4 digits are guaranteed</span>
-<span class="scilabcomment">//xopt = [4 4]</span>
-<span class="scilabcomment">//fopt = [0 -64 -2 -8 0]</span>
+<span class="scilabid">xopt</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">4</span> <span class="scilabnumber">4</span><span class="scilabopenclose">]</span>
+<span class="scilabid">fopt</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">0</span> <span class="scilaboperator">-</span><span class="scilabnumber">64</span> <span class="scilaboperator">-</span><span class="scilabnumber">2</span> <span class="scilaboperator">-</span><span class="scilabnumber">8</span> <span class="scilabnumber">0</span><span class="scilabopenclose">]</span>
 <span class="scilabid">maxfopt</span> <span class="scilaboperator">=</span> <span class="scilabnumber">0</span>
 <span class="scilabcomment">// Run fminimax</span>
-<span class="scilabopenclose">[</span><span class="scilabid">xopt</span><span class="scilabdefault">,</span><span class="scilabid">fopt</span><span class="scilabdefault">,</span><span class="scilabid">maxfval</span><span class="scilabdefault">,</span><span class="scilabid">exitflag</span><span class="scilabdefault">,</span><span class="scilabid">output</span><span class="scilabdefault">,</span><span class="scilabid">lambda</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span> <span class="scilabid">fminimax</span><span class="scilabopenclose">(</span><span class="scilabfunctionid">myfun</span><span class="scilabdefault">,</span> <span class="scilabid">x0</span><span class="scilabopenclose">)</span>
+<span class="scilabopenclose">[</span><span class="scilabid">x</span><span class="scilabdefault">,</span><span class="scilabid">fval</span><span class="scilabdefault">,</span><span class="scilabid">maxfval</span><span class="scilabdefault">,</span><span class="scilabid">exitflag</span><span class="scilabdefault">,</span><span class="scilabid">output</span><span class="scilabdefault">,</span><span class="scilabid">lambda</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span> <span class="scilabid">fminimax</span><span class="scilabopenclose">(</span><span class="scilabfunctionid">myfun</span><span class="scilabdefault">,</span> <span class="scilabid">x0</span><span class="scilabopenclose">)</span>
 <span class="scilabcomment">// Press ENTER to continue</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
 
 <div class="refsection"><h3 class="title">Examples</h3>
@@ -206,11 +204,11 @@ It has type &#0034;struct&#0034; and contains the following fields.
 <span class="scilabcomment">// The initial guess</span>
 <span class="scilabid">x0</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">0</span><span class="scilabdefault">,</span><span class="scilabnumber">10</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
 <span class="scilabcomment">// The expected solution : only 4 digits are guaranteed</span>
-<span class="scilabcomment">//xopt = [0.92791 7.93551]</span>
-<span class="scilabcomment">//fopt = [6.73443  -189.778  6.73443  -8.86342  0.86342]</span>
+<span class="scilabid">xopt</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">0.92791</span> <span class="scilabnumber">7.93551</span><span class="scilabopenclose">]</span>
+<span class="scilabid">fopt</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabnumber">6.73443</span>  <span class="scilaboperator">-</span><span class="scilabnumber">189.778</span>  <span class="scilabnumber">6.73443</span>  <span class="scilaboperator">-</span><span class="scilabnumber">8.86342</span>  <span class="scilabnumber">0.86342</span><span class="scilabopenclose">]</span>
 <span class="scilabid">maxfopt</span> <span class="scilaboperator">=</span> <span class="scilabnumber">6.73443</span>
 <span class="scilabcomment">// Run fminimax</span>
-<span class="scilabopenclose">[</span><span class="scilabid">xopt</span><span class="scilabdefault">,</span><span class="scilabid">fopt</span><span class="scilabdefault">,</span><span class="scilabid">maxfval</span><span class="scilabdefault">,</span><span class="scilabid">exitflag</span><span class="scilabdefault">,</span><span class="scilabid">output</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span> <span class="scilabid">fminimax</span><span class="scilabopenclose">(</span><span class="scilabfunctionid">myfun</span><span class="scilabdefault">,</span><span class="scilabid">x0</span><span class="scilabdefault">,</span><span class="scilabopenclose">[</span><span class="scilabopenclose">]</span><span class="scilabdefault">,</span><span class="scilabopenclose">[</span><span class="scilabopenclose">]</span><span class="scilabdefault">,</span><span class="scilabopenclose">[</span><span class="scilabopenclose">]</span><span class="scilabdefault">,</span><span class="scilabopenclose">[</span><span class="scilabopenclose">]</span><span class="scilabdefault">,</span><span class="scilabopenclose">[</span><span class="scilabopenclose">]</span><span class="scilabdefault">,</span><span class="scilabopenclose">[</span><span class="scilabopenclose">]</span><span class="scilabdefault">,</span> <span class="scilabfunctionid">confun</span><span class="scilabdefault">,</span> <span class="scilabid">minimaxOptions</span><span class="scilabopenclose">)</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
+<span class="scilabopenclose">[</span><span class="scilabid">x</span><span class="scilabdefault">,</span><span class="scilabid">fval</span><span class="scilabdefault">,</span><span class="scilabid">maxfval</span><span class="scilabdefault">,</span><span class="scilabid">exitflag</span><span class="scilabdefault">,</span><span class="scilabid">output</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span> <span class="scilabid">fminimax</span><span class="scilabopenclose">(</span><span class="scilabfunctionid">myfun</span><span class="scilabdefault">,</span><span class="scilabid">x0</span><span class="scilabdefault">,</span><span class="scilabopenclose">[</span><span class="scilabopenclose">]</span><span class="scilabdefault">,</span><span class="scilabopenclose">[</span><span class="scilabopenclose">]</span><span class="scilabdefault">,</span><span class="scilabopenclose">[</span><span class="scilabopenclose">]</span><span class="scilabdefault">,</span><span class="scilabopenclose">[</span><span class="scilabopenclose">]</span><span class="scilabdefault">,</span><span class="scilabopenclose">[</span><span class="scilabopenclose">]</span><span class="scilabdefault">,</span><span class="scilabopenclose">[</span><span class="scilabopenclose">]</span><span class="scilabdefault">,</span> <span class="scilabfunctionid">confun</span><span class="scilabdefault">,</span> <span class="scilabid">minimaxOptions</span><span class="scilabopenclose">)</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
 
 <div class="refsection"><h3 class="title">Authors</h3>
    <ul class="itemizedlist"><li class="member">Animesh Baranawal</li></ul></div>
@@ -225,7 +223,7 @@ It has type &#0034;struct&#0034; and contains the following fields.
 
       </td>
       <td width="40%" class="center">
-      	<span class="top"><a href="section_19f4f1e5726c01d683e8b82be0a7e910.html">Symphony Toolbox</a></span>
+      	<span class="top"><a href="section_19f4f1e5726c01d683e8b82be0a7e910.html">FOSSEE Optimization Toolbox</a></span>
 
       </td>
       <td width="30%" class="next">

@@ -227,6 +227,16 @@ function [xopt,fopt,status,iter] = symphonymat (varargin)
       options = varargin(9);
    end
 
+	//Check type of variables
+	Checktype("symphonymat", c, "c", 1, "constant")
+	Checktype("symphonymat", intcon, "intcon", 2, "constant")
+	Checktype("symphonymat", A, "A", 3, "constant")
+	Checktype("symphonymat", b, "b", 4, "constant")
+	Checktype("symphonymat", Aeq, "Aeq", 5, "constant")
+	Checktype("symphonymat", beq, "beq", 6, "constant")
+	Checktype("symphonymat", lb, "lb", 7, "constant")
+	Checktype("symphonymat", ub, "ub", 8, "constant")
+
 // Check if the user gives empty matrix
     if (size(lb,2)==0) then
         lb = repmat(-%inf,nbVar,1);

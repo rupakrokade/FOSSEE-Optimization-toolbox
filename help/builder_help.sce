@@ -12,10 +12,7 @@
 mode(-1)
 lines(0)
 
-//Symphony toolbox help builder
-//By Keyur Joshi, Sai Kiran and Iswarya
-
-toolbox_title = "Symphony"
+toolbox_title = "FOSSEE_Optimization_Toolbox"
 
 help_dir = get_absolute_file_path('builder_help.sce');
 

@@ -9,7 +9,6 @@
 // Organization: FOSSEE, IIT Bombay
 // Email: toolbox@scilab.in
 
-
 function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
 	// Solves a linear quadratic problem.
 	//
@@ -53,6 +52,15 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
 	//   </latex>
 	//   
 	//   The routine calls Ipopt for solving the linear least square problem, Ipopt is a library written in C++.
+	//
+  	// The options allows the user to set various parameters of the Optimization problem. 
+  	// It should be defined as type "list" and contains the following fields.
+	// <itemizedlist>
+	//   <listitem>Syntax : options= list("MaxIter", [---], "CpuTime", [---]);</listitem>
+	//   <listitem>MaxIter : a Scalar, containing the Maximum Number of Iteration that the solver should take.</listitem>
+	//   <listitem>CpuTime : a Scalar, containing the Maximum amount of CPU Time that the solver should take.</listitem>
+	//   <listitem>Default Values : options = list("MaxIter", [3000], "CpuTime", [600]);</listitem>
+	// </itemizedlist>
 	//
 	// The exitflag allows to know the status of the optimization which is given back by Ipopt.
 	// <itemizedlist>
@@ -198,22 +206,32 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
 		error(errmsg);
 	end
 
+	//Check type of variables
+	Checktype("lsqlin", C, "C", 1, "constant")
+	Checktype("lsqlin", d, "d", 2, "constant")
+	Checktype("lsqlin", A, "A", 3, "constant")
+	Checktype("lsqlin", b, "b", 4, "constant")
+	Checktype("lsqlin", Aeq, "Aeq", 5, "constant")
+	Checktype("lsqlin", beq, "beq", 6, "constant")
+	Checktype("lsqlin", lb, "lb", 7, "constant")
+	Checktype("lsqlin", ub, "ub", 8, "constant")
+	Checktype("lsqlin", x0, "x0", 9, "constant")
 
 	if (modulo(size(param),2)) then
 		errmsg = msprintf(gettext("%s: Size of parameters should be even"), "lsqlin");
 		error(errmsg);
 	end
 
-	options = list(	"MaxIter"     , [3000], ...
+	options = list(	"MaxIter"   , [3000], ...
 					"CpuTime"   , [600] ...
-	);
+					);
 
 	for i = 1:(size(param))/2
 
-		select param(2*i-1)
-			case "MaxIter" then
+		select convstr(param(2*i-1),'l')
+			case "maxiter" then
 				options(2*i) = param(2*i);
-			case "CpuTime" then
+			case "cputime" then
 				options(2*i) = param(2*i);
 			else
 				errmsg = msprintf(gettext("%s: Unrecognized parameter name ''%s''."), "lsqlin", param(2*i-1));
@@ -226,7 +244,6 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
 
 	// Check if the user gives row vector 
 	// and Changing it to a column matrix
-
 
 	if (size(d,2)== [nbVar]) then
 		d=d';

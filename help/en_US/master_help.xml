@@ -81,12 +81,12 @@
       xmlns:mml="http://www.w3.org/1998/Math/MathML"
       xmlns:html="http://www.w3.org/1999/xhtml"
       xmlns:db="http://docbook.org/ns/docbook">
-  <info xml:id='symphony_toolbox_manual'>
-    <title>Symphony Toolbox</title>
+  <info xml:id='fossee_optimization_toolbox_manual'>
+    <title>FOSSEE Optimization Toolbox</title>
   </info>
 
 <part xml:id='section_19f4f1e5726c01d683e8b82be0a7e910'>
-<title>Symphony Toolbox</title>
+<title>FOSSEE Optimization Toolbox</title>
 &a745e19a6383796e6f5680cdcc44cfcce;
 &a2b24cb19de46f878f11e6be9eb411170;
 &a52664d077cac340a0384efe1ac107088;

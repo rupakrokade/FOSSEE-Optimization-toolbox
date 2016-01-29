@@ -23,6 +23,7 @@ endfunction
 options=list("MaxIter", [1500], "CpuTime", [500], "Gradient", fGrad, "Hessian", fHess);
 //Calling Ipopt
 [xopt,fopt,exitflag,output,gradient,hessian]=fminunc(f,x0,options)
+// Press ENTER to continue
 halt()   // Press return to continue
  
 //Find x in R^2 such that the below function is minimum
@@ -35,6 +36,7 @@ endfunction
 x0=[2,1];
 //Calling Ipopt
 [xopt,fopt]=fminunc(f,x0)
+// Press ENTER to continue
 halt()   // Press return to continue
  
 //The below problem is an unbounded problem:

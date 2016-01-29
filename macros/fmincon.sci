@@ -673,22 +673,22 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
    	
 	//To check the user entry for options and storing it
    	for i = 1:(size(param))/2
-       	select param(2*i-1)
-    		case "MaxIter" then
+       	select convstr(param(2*i-1),'l')
+    		case "maxiter" then
           			options(2*i) = param(2*i);    //Setting the maximum number of iterations as per user entry
-       		case "CpuTime" then
+       		case "cputime" then
           			options(2*i) = param(2*i);    //Setting the maximum CPU time as per user entry
-        	case "GradObj" then
+        	case "gradobj" then
         			flag1=1;
         			fGrad=param(2*i);
-        	case "Hessian" then
+        	case "hessian" then
         			flag2=1;
         			lHess=param(2*i);
-        	case "GradCon" then
+        	case "gradcon" then
         			flag3=1;
        				cGrad=param(2*i);
        		else
-    	     	 	errmsg = msprintf(gettext("%s: Unrecognized parameter name %s."), "fminbnd", param(2*i-1));
+    	     	 	errmsg = msprintf(gettext("%s: Unrecognized parameter name %s."), "fmincon", param(2*i-1));
     	      		error(errmsg);
         end        					
      end 	       				      

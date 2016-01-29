@@ -68,9 +68,9 @@ nbVar = 6;
 nbCon = 5;
 x0 = repmat(0,nbVar,1);
 param = list("MaxIter", 300, "CpuTime", 100);
-[xopt,fopt,exitflag,output,lambda] = qpipopt(nbVar,nbCon,Q,p,lb,ub,conMatrix,conLB,conUB,x0,param)
+[xopt,fopt,exitflag,output,lambda] = qpipopt(nbVar,nbCon,H,f,lb,ub,A,conLB,conUB,x0,param)
 
-assert_close ( xopt , [1.7975426 -0.3381487 0.1633880 - 4.9884023 0.6054943 -3.1155623]' , 1.e-7 );
+assert_close ( xopt , [1.7975426 -0.3381487 0.1633880 -4.9884023 0.6054943 -3.1155623]' , 1.e-7 );
 assert_close ( fopt , [ -14.843248] , 1.e-7 );
 assert_checkequal( exitflag , int32(0) );
 printf("Test Successful");

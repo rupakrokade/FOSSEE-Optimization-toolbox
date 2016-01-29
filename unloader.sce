@@ -7,7 +7,7 @@ catch
  error("Scilab 5.4 or more is required.");
 end;
 
-fileQuit = get_absolute_file_path("unloader.sce") + "etc/" + "Symphony.quit";
+fileQuit = get_absolute_file_path("unloader.sce") + "etc/" + "FOSSEE_Optimization_Toolbox.quit";
 if isfile(fileQuit) then
   exec(fileQuit);
 end

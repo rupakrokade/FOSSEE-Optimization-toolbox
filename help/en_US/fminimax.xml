@@ -24,17 +24,17 @@
 <refsynopsisdiv>
    <title>Calling Sequence</title>
    <synopsis>
-   x = fminimax(fun,x0)
-   x = fminimax(fun,x0,A,b)
-   x = fminimax(fun,x0,A,b,Aeq,beq)
-   x = fminimax(fun,x0,A,b,Aeq,beq,lb,ub)
-   x = fminimax(fun,x0,A,b,Aeq,beq,lb,ub,nonlinfun)
-   x = fminimax(fun,x0,A,b,Aeq,beq,lb,ub,nonlinfun,options)
-   [x, fval] = fmincon(.....)
-   [x, fval, maxfval]= fmincon(.....)
-   [x, fval, maxfval, exitflag]= fmincon(.....)
-   [x, fval, maxfval, exitflag, output]= fmincon(.....)
-   [x, fval, maxfval, exitflag, output, lambda]= fmincon(.....)
+   xopt = fminimax(fun,x0)
+   xopt = fminimax(fun,x0,A,b)
+   xopt = fminimax(fun,x0,A,b,Aeq,beq)
+   xopt = fminimax(fun,x0,A,b,Aeq,beq,lb,ub)
+   xopt = fminimax(fun,x0,A,b,Aeq,beq,lb,ub,nonlinfun)
+   xopt = fminimax(fun,x0,A,b,Aeq,beq,lb,ub,nonlinfun,options)
+   [xopt, fval] = fmincon(.....)
+   [xopt, fval, maxfval]= fmincon(.....)
+   [xopt, fval, maxfval, exitflag]= fmincon(.....)
+   [xopt, fval, maxfval, exitflag, output]= fmincon(.....)
+   [xopt, fval, maxfval, exitflag, output, lambda]= fmincon(.....)
    
    </synopsis>
 </refsynopsisdiv>
@@ -44,36 +44,34 @@
    <variablelist>
    <varlistentry><term>fun:</term>
       <listitem><para> The function to be minimized. fun is a function that accepts a vector x and returns a vector F, the objective functions evaluated at x.</para></listitem></varlistentry>
-   <varlistentry><term>x0:</term>
-      <listitem><para> a nx1 or 1xn matrix of doubles, where n is the number of variables, the initial guess for the optimization algorithm</para></listitem></varlistentry>
-   <varlistentry><term>A:</term>
-      <listitem><para> a nil x n matrix of doubles, where n is the number of variables and nil is the number of linear inequalities. If A==[] and b==[], it is assumed that there is no linear inequality constraints. If (A==[] &amp; b&lt;&gt;[]), fminimax generates an error (the same happens if (A&lt;&gt;[] &amp; b==[]))</para></listitem></varlistentry>
-   <varlistentry><term>b:</term>
-      <listitem><para> a nil x 1 matrix of doubles, where nil is the number of linear inequalities</para></listitem></varlistentry>
-   <varlistentry><term>Aeq:</term>
-      <listitem><para> a nel x n matrix of doubles, where n is the number of variables and nel is the number of linear equalities. If Aeq==[] and beq==[], it is assumed that there is no linear equality constraints. If (Aeq==[] &amp; beq&lt;&gt;[]), fminimax generates an error (the same happens if (Aeq&lt;&gt;[] &amp; beq==[]))</para></listitem></varlistentry>
-   <varlistentry><term>beq:</term>
-      <listitem><para> a nel x 1 matrix of doubles, where nel is the number of linear equalities</para></listitem></varlistentry>
-   <varlistentry><term>lb:</term>
-      <listitem><para> a nx1 or 1xn matrix of doubles, where n is the number of variables. The lower bound for x. If lb==[], then the lower bound is automatically set to -inf</para></listitem></varlistentry>
-   <varlistentry><term>ub:</term>
-      <listitem><para> a nx1 or 1xn matrix of doubles, where n is the number of variables. The upper bound for x. If ub==[], then the upper bound is automatically set to +inf</para></listitem></varlistentry>
+   <varlistentry><term>x0 :</term>
+      <listitem><para> a vector of double, contains initial guess of variables.</para></listitem></varlistentry>
+   <varlistentry><term>A :</term>
+      <listitem><para> a matrix of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b.</para></listitem></varlistentry>
+   <varlistentry><term>b :</term>
+      <listitem><para> a vector of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b.</para></listitem></varlistentry>
+   <varlistentry><term>Aeq :</term>
+      <listitem><para> a matrix of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.</para></listitem></varlistentry>
+   <varlistentry><term>beq :</term>
+      <listitem><para> a vector of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.</para></listitem></varlistentry>
+   <varlistentry><term>lb :</term>
+      <listitem><para> a vector of double, contains lower bounds of the variables.</para></listitem></varlistentry>
+   <varlistentry><term>ub :</term>
+      <listitem><para> a vector of double,  contains upper bounds of the variables.</para></listitem></varlistentry>
    <varlistentry><term>nonlinfun:</term>
-      <listitem><para> function that computes the nonlinear inequality constraints c(x) &lt;= 0 and nonlinear equality constraints ceq(x) = 0.</para></listitem></varlistentry>
-   <varlistentry><term>x:</term>
-      <listitem><para> a nx1 matrix of doubles, the computed solution of the optimization problem</para></listitem></varlistentry>
-   <varlistentry><term>fval:</term>
-      <listitem><para> a vector of doubles, the value of fun at x</para></listitem></varlistentry>
+      <listitem><para> function that computes the nonlinear inequality constraints c⋅x ≤ 0 and nonlinear equality constraints c⋅x = 0.</para></listitem></varlistentry>
+   <varlistentry><term>xopt :</term>
+      <listitem><para> a vector of double, the computed solution of the optimization problem.</para></listitem></varlistentry>
+   <varlistentry><term>fopt :</term>
+      <listitem><para> a double, the value of the function at x.</para></listitem></varlistentry>
    <varlistentry><term>maxfval:</term>
       <listitem><para> a 1x1 matrix of doubles, the maximum value in vector fval</para></listitem></varlistentry>
-   <varlistentry><term>exitflag:</term>
-      <listitem><para> a 1x1 matrix of floating point integers, the exit status</para></listitem></varlistentry>
-   <varlistentry><term>output:</term>
-      <listitem><para> a struct, the details of the optimization process</para></listitem></varlistentry>
-   <varlistentry><term>lambda:</term>
-      <listitem><para> a struct, the Lagrange multipliers at optimum</para></listitem></varlistentry>
-   <varlistentry><term>options:</term>
-      <listitem><para> a list, containing the option for user to specify. See below for details.</para></listitem></varlistentry>
+   <varlistentry><term>exitflag :</term>
+      <listitem><para> The exit status. See below for details.</para></listitem></varlistentry>
+   <varlistentry><term>output :</term>
+      <listitem><para> The structure consist of statistics about the optimization. See below for details.</para></listitem></varlistentry>
+   <varlistentry><term>lambda :</term>
+      <listitem><para> The structure consist of the Lagrange multipliers at the solution of problem. See below for details.</para></listitem></varlistentry>
    </variablelist>
 </refsection>
 
@@ -222,11 +220,11 @@ endfunction
 // The initial guess
 x0 = [0.1,0.1];
 // The expected solution : only 4 digits are guaranteed
-//xopt = [4 4]
-//fopt = [0 -64 -2 -8 0]
+xopt = [4 4]
+fopt = [0 -64 -2 -8 0]
 maxfopt = 0
 // Run fminimax
-[xopt,fopt,maxfval,exitflag,output,lambda] = fminimax(myfun, x0)
+[x,fval,maxfval,exitflag,output,lambda] = fminimax(myfun, x0)
 // Press ENTER to continue
 
    ]]></programlisting>
@@ -276,11 +274,11 @@ minimaxOptions = list("GradObj",myfungrad,"GradCon",cgrad);
 // The initial guess
 x0 = [0,10];
 // The expected solution : only 4 digits are guaranteed
-//xopt = [0.92791 7.93551]
-//fopt = [6.73443  -189.778  6.73443  -8.86342  0.86342]
+xopt = [0.92791 7.93551]
+fopt = [6.73443  -189.778  6.73443  -8.86342  0.86342]
 maxfopt = 6.73443
 // Run fminimax
-[xopt,fopt,maxfval,exitflag,output] = fminimax(myfun,x0,[],[],[],[],[],[], confun, minimaxOptions)
+[x,fval,maxfval,exitflag,output] = fminimax(myfun,x0,[],[],[],[],[],[], confun, minimaxOptions)
    ]]></programlisting>
 </refsection>
 

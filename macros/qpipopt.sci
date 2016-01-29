@@ -51,6 +51,15 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
 	//   
 	//   The routine calls Ipopt for solving the quadratic problem, Ipopt is a library written in C++.
 	//	
+  	// The options allows the user to set various parameters of the Optimization problem. 
+  	// It should be defined as type "list" and contains the following fields.
+	// <itemizedlist>
+	//   <listitem>Syntax : options= list("MaxIter", [---], "CpuTime", [---]);</listitem>
+	//   <listitem>MaxIter : a Scalar, containing the Maximum Number of Iteration that the solver should take.</listitem>
+	//   <listitem>CpuTime : a Scalar, containing the Maximum amount of CPU Time that the solver should take.</listitem>
+	//   <listitem>Default Values : options = list("MaxIter", [3000], "CpuTime", [600]);</listitem>
+	// </itemizedlist>
+	//
 	// The exitflag allows to know the status of the optimization which is given back by Ipopt.
 	// <itemizedlist>
 	//   <listitem>exitflag=0 : Optimal Solution Found </listitem>
@@ -187,23 +196,36 @@ function [xopt,fopt,exitflag,output,lambda] = qpipopt (varargin)
 		error(errmsg);
 	end
 
+	//Check type of variables
+	Checktype("qpipopt", nbVar, "nbVar", 1, "constant")
+	Checktype("qpipopt", nbCon, "nbCon", 2, "constant")
+	Checktype("qpipopt", H, "H", 3, "constant")
+	Checktype("qpipopt", f, "f", 4, "constant")
+	Checktype("qpipopt", lb, "lb", 5, "constant")
+	Checktype("qpipopt", ub, "lb", 6, "constant")
+	Checktype("qpipopt", A, "A", 7, "constant")
+	Checktype("qpipopt", conLB, "conlb", 8, "constant")
+	Checktype("qpipopt", conUB, "conub", 9, "constant")
+	Checktype("qpipopt", x0, "x0", 10, "constant")
+
    options = list(..
       "MaxIter"     , [3000], ...
       "CpuTime"   , [600] ...
       );
       
 
-   for i = 1:(size(param))/2
-       	select param(2*i-1)
-    	case "MaxIter" then
-          		options(2*i) = param(2*i);
-       	case "CpuTime" then
-          		options(2*i) = param(2*i);
-    	else
-    	      errmsg = msprintf(gettext("%s: Unrecognized parameter name ''%s''."), "qpipopt", param(2*i-1));
-    	      error(errmsg)
-    	end
-   end
+	for i = 1:(size(param))/2
+
+		select convstr(param(2*i-1),'l')
+			case "maxiter" then
+				options(2*i) = param(2*i);
+			case "cputime" then
+				options(2*i) = param(2*i);
+			else
+				errmsg = msprintf(gettext("%s: Unrecognized parameter name ''%s''."), "lsqlin", param(2*i-1));
+				error(errmsg)
+		end
+	end
 
 // Check if the user gives row vector 
 // and Changing it to a column matrix

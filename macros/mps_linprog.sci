@@ -35,21 +35,27 @@ function [xopt,fopt,exitflag,output,lambda] =mps_linprog(varargin)
    end 
 
    if (type(param) ~= 15) then
-      errmsg = msprintf(gettext("%s: options should be a list "), "mps_linprog");
+      errmsg = msprintf(gettext("%s: options should be a list "), "linprog");
       error(errmsg);
    end
 
+	//Check type of variables
+	Checktype("linprog", mpsFile, "mpsFile", 1, "string")
+
    if (modulo(size(param),2)) then
-   errmsg = msprintf(gettext("%s: Size of parameters should be even"), "mps_linprog");
+   errmsg = msprintf(gettext("%s: Size of parameters should be even"), "linprog");
    error(errmsg);
    end
    options = list("MaxIter"     , [3000],);
 
    for i = 1:(size(param))/2
-         select param(2*i-1)
-            case "MaxIter" then
+        select convstr(param(2*i-1),'l')
+            case "maxiter" then
         		options(2*i) = param(2*i);
-         end 
+        	else
+			  errmsg = msprintf(gettext("%s: Unrecognized parameter name ''%s''."), "linprog", param(2*i-1));
+			  error(errmsg)
+		end		
    end
    //Calling the function by passing the required parameters 
    

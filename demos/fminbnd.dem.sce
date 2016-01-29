@@ -20,6 +20,7 @@ x2 = [2, 2, 2, 2, 2, 2];
 options=list("MaxIter",[1500],"CpuTime", [100],"TolX",[1e-6])
 //Calling Ipopt
 [x,fval] =fminbnd(f, x1, x2, options)
+// Press ENTER to continue
 halt()   // Press return to continue
  
 //Find x in R such that it minimizes:
@@ -34,6 +35,7 @@ x1 = [0];
 x2 = [1000];
 //Calling Ipopt
 [x,fval,exitflag,output,lambda] =fminbnd(f, x1, x2)
+// Press ENTER to continue
 halt()   // Press return to continue
  
 //The below problem is an unbounded problem:
