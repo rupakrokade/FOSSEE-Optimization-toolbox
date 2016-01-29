@@ -1,58 +1,47 @@
-// Scilab ( http://www.scilab.org/ ) - This file is part of Scilab
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// Authors: Prajwala TM,Sheetal Shalini
-// Organization: FOSSEE, IIT Bombay
-// Email: prajwala.tm@gmail.com,sheetalsh456@gmail.com
 // This file must be used under the terms of the CeCILL.
 // This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// Authors: Prajwala TM,Sheetal Shalini
+// Organization: FOSSEE, IIT Bombay
+// Email: toolbox@scilab.in
 
 function [x,fval,attainfactor,exitflag,output,lambda] = fgoalattain(varargin)
     // Solves a multiobjective goal attainment problem
     //
     // Calling Sequence
-    //  x = fgoalattain(fun,x0,goal,weight)
-    //  x = fgoalattain(fun,x0,goal,weight,A,b)
-    //  x = fgoalattain(fun,x0,goal,weight,A,b,Aeq,beq)
-    //  x = fgoalattain(fun,x0,goal,weight,A,b,Aeq,beq,lb,ub)
-    //  x = fgoalattain(fun,x0,goal,weight,A,b,Aeq,beq,lb,ub,nonlcon)
-    //  x = fgoalattain(fun,x0,goal,weight,A,b,Aeq,beq,lb,ub,nonlcon,options)
-    //  [x,fval] = fgoalattain(...)
-    //  [x,fval,attainfactor] = fgoalattain(...)
-    //  [x,fval,attainfactor,exitflag] = fgoalattain(...)
-    //  [x,fval,attainfactor,exitflag,output] = fgoalattain(...)
-    //  [x,fval,attainfactor,exitflag,output,lambda] = fgoalattain(...)
+    //  xopt = fgoalattain(fun,x0,goal,weight)
+    //  xopt = fgoalattain(fun,x0,goal,weight,A,b)
+    //  xopt = fgoalattain(fun,x0,goal,weight,A,b,Aeq,beq)
+    //  xopt = fgoalattain(fun,x0,goal,weight,A,b,Aeq,beq,lb,ub)
+    //  xopt = fgoalattain(fun,x0,goal,weight,A,b,Aeq,beq,lb,ub,nonlcon)
+    //  xopt = fgoalattain(fun,x0,goal,weight,A,b,Aeq,beq,lb,ub,nonlcon,options)
+    //  [xopt,fval] = fgoalattain(...)
+    //  [xopt,fval,attainfactor] = fgoalattain(...)
+    //  [xopt,fval,attainfactor,exitflag] = fgoalattain(...)
+    //  [xopt,fval,attainfactor,exitflag,output] = fgoalattain(...)
+    //  [xopt,fval,attainfactor,exitflag,output,lambda] = fgoalattain(...)
     //
     // Parameters
     //  fun: a function that accepts a vector x and returns a vector F
-    //  x0: a nx1 or 1xn matrix of double, where n is the number of variables.
-    //      The initial guess for the optimization algorithm
-    //  A: a nil x n matrix of double, where n is the number of variables and
-    //      nil is the number of linear inequalities.
-    //
-    //  b: a nil x 1 matrix of double, where nil is the number of linear
-    //      inequalities
-    //  Aeq: a nel x n matrix of double, where n is the number of variables
-    //      and nel is the number of linear equalities.
-    //  beq: a nel x 1 matrix of double, where nel is the number of linear
-    //      equalities
-    //  lb: a nx1 or 1xn matrix of double, where n is the number of variables.
-    //      The lower bound for x. If lb==[], then the lower bound is
-    //      automatically set to -inf
-    //  ub: a nx1 or 1xn matrix of double, where n is the number of variables.
-    //      The upper bound for x. If ub==[], then the upper bound is
-    //      automatically set to +inf
-    //  nonlcon: a function, the nonlinear constraints
-    //  options : a list, containing the option for user to specify. See below for details.
-    //  x: a nx1 matrix of double, the computed solution of the optimization problem
-    //  fval: a vector of double, the value of functions at x
-    //  attainfactor: The amount of over- or underachievement of the goals,γ at the solution.
-    //  exitflag: a 1x1 matrix of floating point integers, the exit status
-    //  output: a struct, the details of the optimization process
-    //  lambda: a struct, the Lagrange multipliers at optimum
+	//   x0 : a vector of double, contains initial guess of variables.
+	//   A : a matrix of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b. 
+	//   b : a vector of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b.
+	//   Aeq : a matrix of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.
+	//   beq : a vector of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.
+	//   lb : a vector of double, contains lower bounds of the variables.
+	//   ub : a vector of double,  contains upper bounds of the variables.
+    //   nonlcon: a function, the nonlinear constraints
+    //   options : a list, containing the option for user to specify. See below for details.
+	//   xopt : a vector of double, the computed solution of the optimization problem.
+	//   fopt : a double, the value of the function at x.
+    //   attainfactor: The amount of over- or underachievement of the goals,γ at the solution.
+	//   exitflag : The exit status. See below for details.
+	//   output : The structure consist of statistics about the optimization. See below for details.
+	//   lambda : The structure consist of the Lagrange multipliers at the solution of problem. See below for details.
     //
     // Description
     // fgoalattain solves the goal attainment problem, which is one formulation for minimizing a multiobjective optimization problem.
@@ -164,21 +153,12 @@ function [x,fval,attainfactor,exitflag,output,lambda] = fgoalattain(varargin)
     //      f1(5)=x(1)+x(2)-8
     //  endfunction
     //  x0=[-1,1];
-    //
     //  goal=[-5,-3,-2,-1,-4];
     //  weight=abs(goal)
-    //  gval  =
-    //  [- 0.0000011
-    //  - 63.999998
-    //  - 2.0000002
-    //  - 8.
-    //  3.485D-08]
-    //  z  =
-    //  [4.    3.99]
-    //
-    //  Run fgoalattain
-    //      [x,fval,attainfactor,exitflag,output,lambda]=fgoalattain(gattainObjfun,x0,goal,weight)
-    //
+    //  //gval  =[- 0.0000011 -63.999998 -2.0000002 -8 3.485D-08]
+    //  //z  = [4 3.99]
+    //  //Run fgoalattain
+    //  [x,fval,attainfactor,exitflag,output,lambda]=fgoalattain(gattainObjfun,x0,goal,weight)
     // Authors
     // Prajwala TM, Sheetal Shalini , 2015
 
@@ -311,14 +291,14 @@ function [x,fval,attainfactor,exitflag,output,lambda] = fgoalattain(varargin)
 
     //To check the User Entry for Options and storing it
     for i = 1:(size(gattainUserOptions))/2
-        select gattainUserOptions(2*i-1)
-        case "MaxIter" then
+        select convstr(gattainUserOptions(2*i-1),'l')
+        case "maxiter" then
             fgaMaxIter = gattainUserOptions(2*i);    //Setting the Maximum Iteration as per user entry
 
-        case "CpuTime" then
+        case "cputime" then
             fgaCPU = gattainUserOptions(2*i);    //Setting the Maximum CPU Time as per user entry
 
-        case "GradObj" then
+        case "gradobj" then
             if (type(gattainUserOptions(2*i))==10) then
                 if (convstr(gattainUserOptions(2*i))=="off") then
                     flag1 = 0;
@@ -331,7 +311,7 @@ function [x,fval,attainfactor,exitflag,output,lambda] = fgoalattain(varargin)
                 gattainFGrad = gattainUserOptions(2*i);
             end
 
-        case "GradCon" then
+        case "gradcon" then
             if (type(gattainUserOptions(2*i))==10) then
                 if (convstr(gattainUserOptions(2*i))=="off") then
                     flag2 = 0;
@@ -478,49 +458,6 @@ function [x,fval,attainfactor,exitflag,output,lambda] = fgoalattain(varargin)
             dnc = [dnc; deraddineq]
         end
     endfunction
-
-
-    //    disp(gattainStartpoint)
-    //    disp(gattainObjfun(gattainStartpoint))
-    //    disp(newObjfun(gattainStartpoint))
-    //    disp(goal)
-    //    disp(weight)
-    //
-    //    disp(gattainA)
-    //    disp(gattainB)
-    //    disp(gattainAeq)
-    //    disp(gattainBeq)
-    //    disp(gattainLb)
-    //    disp(gattainUb)
-    //
-    //    [f,g] = gattainNonlinfun(gattainStartpoint)
-    //    disp(f)
-    //    disp(g)
-    //    [f,g] = newNonlinfun(gattainStartpoint)
-    //    disp(f)
-    //    disp(g)
-    //
-    //    //    function foo = CgattainC(z)
-    //    //        [foo,tmp1] = newNonlinfun(z)
-    //    //    endfunction
-    //    //
-    //    //    function foo = CgattainCEQ(z)
-    //    //        [tmp1,foo] = newNonlinfun(z)
-    //    //    endfunction
-    //    //
-    //    //    // function handle defining gattainNonlinfun derivative using numderivative
-    //    //    function [dc,dceq] = derrNonlinApp(z)
-    //    //        dc = numderivative(CgattainC,z)
-    //    //        dceq = numderivative(CgattainCEQ,z)
-    //    //    endfunction
-    //
-    //    //    [f,g] = derrNonlinApp(gattainStartpoint)
-    //    //    disp(f)
-    //    //    disp(g)
-    //
-    //    [f,g] = newCGrad(gattainStartpoint)
-    //    disp(f)
-    //    disp(g)
 
     //to be passed as options to fmincon
     if (flag1 == 1 | flag2 == 1) then

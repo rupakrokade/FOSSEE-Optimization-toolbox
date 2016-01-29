@@ -16,7 +16,7 @@
 
       </td>
       <td width="40%" class="center">
-      	<span class="top"><a href="section_19f4f1e5726c01d683e8b82be0a7e910.html">Symphony Toolbox</a></span>
+      	<span class="top"><a href="section_19f4f1e5726c01d683e8b82be0a7e910.html">FOSSEE Optimization Toolbox</a></span>
 
       </td>
       <td width="30%" class="next">
@@ -29,7 +29,7 @@
 
 
 
-    <span class="path"><a href="index.html">Symphony Toolbox</a> &gt;&gt; <a href="section_19f4f1e5726c01d683e8b82be0a7e910.html">Symphony Toolbox</a> &gt; lsqnonneg</span>
+    <span class="path"><a href="index.html">FOSSEE Optimization Toolbox</a> &gt;&gt; <a href="section_19f4f1e5726c01d683e8b82be0a7e910.html">FOSSEE Optimization Toolbox</a> &gt; lsqnonneg</span>
 
     <br /><br />
     <div class="refnamediv"><h1 class="refname">lsqnonneg</h1>
@@ -63,6 +63,12 @@
    <p class="para">Solves nonnegative least-squares curve fitting problems specified by :</p>
    <p class="para"><span><img src='./_LaTeX_lsqnonneg.xml_1.png' style='position:relative;top:19px;width:193px;height:46px'/></span></p>
    <p class="para">The routine calls Ipopt for solving the nonnegative least-squares curve fitting problems, Ipopt is a library written in C++.</p>
+   <p class="para">The options allows the user to set various parameters of the Optimization problem.
+It should be defined as type &#0034;list&#0034; and contains the following fields.
+<ul class="itemizedlist"><li>Syntax : options= list(&#0034;MaxIter&#0034;, [---], &#0034;CpuTime&#0034;, [---]);</li>
+<li>MaxIter : a Scalar, containing the Maximum Number of Iteration that the solver should take.</li>
+<li>CpuTime : a Scalar, containing the Maximum amount of CPU Time that the solver should take.</li>
+<li>Default Values : options = list(&#0034;MaxIter&#0034;, [3000], &#0034;CpuTime&#0034;, [600]);</li></ul></p>
    <p class="para">The exitflag allows to know the status of the optimization which is given back by Ipopt.
 <ul class="itemizedlist"><li>exitflag=0 : Optimal Solution Found</li>
 <li>exitflag=1 : Maximum Number of Iterations Exceeded. Output may not be optimal.</li>
@@ -109,7 +115,7 @@ It has type &#0034;struct&#0034; and contains the following fields.
 
       </td>
       <td width="40%" class="center">
-      	<span class="top"><a href="section_19f4f1e5726c01d683e8b82be0a7e910.html">Symphony Toolbox</a></span>
+      	<span class="top"><a href="section_19f4f1e5726c01d683e8b82be0a7e910.html">FOSSEE Optimization Toolbox</a></span>
 
       </td>
       <td width="30%" class="next">

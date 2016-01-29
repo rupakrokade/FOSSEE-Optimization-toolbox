@@ -41,6 +41,15 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 	//   
 	//   The routine calls Ipopt for solving the nonnegative least-squares curve fitting problems, Ipopt is a library written in C++.
 	//
+  	// The options allows the user to set various parameters of the Optimization problem. 
+  	// It should be defined as type "list" and contains the following fields.
+	// <itemizedlist>
+	//   <listitem>Syntax : options= list("MaxIter", [---], "CpuTime", [---]);</listitem>
+	//   <listitem>MaxIter : a Scalar, containing the Maximum Number of Iteration that the solver should take.</listitem>
+	//   <listitem>CpuTime : a Scalar, containing the Maximum amount of CPU Time that the solver should take.</listitem>
+	//   <listitem>Default Values : options = list("MaxIter", [3000], "CpuTime", [600]);</listitem>
+	// </itemizedlist>
+	//
 	// The exitflag allows to know the status of the optimization which is given back by Ipopt.
 	// <itemizedlist>
 	//   <listitem>exitflag=0 : Optimal Solution Found </listitem>
@@ -114,6 +123,9 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 		error(errmsg);
 	end
 
+	//Check type of variables
+	Checktype("lsqnonneg", C, "C", 1, "constant")
+	Checktype("lsqnonneg", d, "d", 2, "constant")
 
 	if (modulo(size(param),2)) then
 		errmsg = msprintf(gettext("%s: Size of parameters should be even"), "lsqnonneg");
@@ -126,13 +138,13 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 
 	for i = 1:(size(param))/2
 
-		select param(2*i-1)
-			case "MaxIter" then
+		select convstr(param(2*i-1),'l')
+			case "maxiter" then
 				options(2*i) = param(2*i);
-			case "CpuTime" then
+			case "cputime" then
 				options(2*i) = param(2*i);
 			else
-				errmsg = msprintf(gettext("%s: Unrecognized parameter name ''%s''."), "lsqnonneg", param(2*i-1));
+				errmsg = msprintf(gettext("%s: Unrecognized parameter name ''%s''."), "lsqlin", param(2*i-1));
 				error(errmsg)
 		end
 	end

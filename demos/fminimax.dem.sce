@@ -16,11 +16,11 @@ endfunction
 // The initial guess
 x0 = [0.1,0.1];
 // The expected solution : only 4 digits are guaranteed
-//xopt = [4 4]
-//fopt = [0 -64 -2 -8 0]
+xopt = [4 4]
+fopt = [0 -64 -2 -8 0]
 maxfopt = 0
 // Run fminimax
-[xopt,fopt,maxfval,exitflag,output,lambda] = fminimax(myfun, x0)
+[x,fval,maxfval,exitflag,output,lambda] = fminimax(myfun, x0)
 // Press ENTER to continue
 halt()   // Press return to continue
  
@@ -65,9 +65,9 @@ minimaxOptions = list("GradObj",myfungrad,"GradCon",cgrad);
 // The initial guess
 x0 = [0,10];
 // The expected solution : only 4 digits are guaranteed
-//xopt = [0.92791 7.93551]
-//fopt = [6.73443  -189.778  6.73443  -8.86342  0.86342]
+xopt = [0.92791 7.93551]
+fopt = [6.73443  -189.778  6.73443  -8.86342  0.86342]
 maxfopt = 6.73443
 // Run fminimax
-[xopt,fopt,maxfval,exitflag,output] = fminimax(myfun,x0,[],[],[],[],[],[], confun, minimaxOptions)
+[x,fval,maxfval,exitflag,output] = fminimax(myfun,x0,[],[],[],[],[],[], confun, minimaxOptions)
 //========= E N D === O F === D E M O =========//

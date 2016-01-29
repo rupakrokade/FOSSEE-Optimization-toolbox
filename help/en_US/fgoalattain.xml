@@ -24,17 +24,17 @@
 <refsynopsisdiv>
    <title>Calling Sequence</title>
    <synopsis>
-   x = fgoalattain(fun,x0,goal,weight)
-   x = fgoalattain(fun,x0,goal,weight,A,b)
-   x = fgoalattain(fun,x0,goal,weight,A,b,Aeq,beq)
-   x = fgoalattain(fun,x0,goal,weight,A,b,Aeq,beq,lb,ub)
-   x = fgoalattain(fun,x0,goal,weight,A,b,Aeq,beq,lb,ub,nonlcon)
-   x = fgoalattain(fun,x0,goal,weight,A,b,Aeq,beq,lb,ub,nonlcon,options)
-   [x,fval] = fgoalattain(...)
-   [x,fval,attainfactor] = fgoalattain(...)
-   [x,fval,attainfactor,exitflag] = fgoalattain(...)
-   [x,fval,attainfactor,exitflag,output] = fgoalattain(...)
-   [x,fval,attainfactor,exitflag,output,lambda] = fgoalattain(...)
+   xopt = fgoalattain(fun,x0,goal,weight)
+   xopt = fgoalattain(fun,x0,goal,weight,A,b)
+   xopt = fgoalattain(fun,x0,goal,weight,A,b,Aeq,beq)
+   xopt = fgoalattain(fun,x0,goal,weight,A,b,Aeq,beq,lb,ub)
+   xopt = fgoalattain(fun,x0,goal,weight,A,b,Aeq,beq,lb,ub,nonlcon)
+   xopt = fgoalattain(fun,x0,goal,weight,A,b,Aeq,beq,lb,ub,nonlcon,options)
+   [xopt,fval] = fgoalattain(...)
+   [xopt,fval,attainfactor] = fgoalattain(...)
+   [xopt,fval,attainfactor,exitflag] = fgoalattain(...)
+   [xopt,fval,attainfactor,exitflag,output] = fgoalattain(...)
+   [xopt,fval,attainfactor,exitflag,output,lambda] = fgoalattain(...)
    
    </synopsis>
 </refsynopsisdiv>
@@ -44,36 +44,36 @@
    <variablelist>
    <varlistentry><term>fun:</term>
       <listitem><para> a function that accepts a vector x and returns a vector F</para></listitem></varlistentry>
-   <varlistentry><term>x0:</term>
-      <listitem><para> a nx1 or 1xn matrix of double, where n is the number of variables.</para></listitem></varlistentry>
-   <varlistentry><term>A:</term>
-      <listitem><para> a nil x n matrix of double, where n is the number of variables and</para></listitem></varlistentry>
-   <varlistentry><term>b:</term>
-      <listitem><para> a nil x 1 matrix of double, where nil is the number of linear</para></listitem></varlistentry>
-   <varlistentry><term>Aeq:</term>
-      <listitem><para> a nel x n matrix of double, where n is the number of variables</para></listitem></varlistentry>
-   <varlistentry><term>beq:</term>
-      <listitem><para> a nel x 1 matrix of double, where nel is the number of linear</para></listitem></varlistentry>
-   <varlistentry><term>lb:</term>
-      <listitem><para> a nx1 or 1xn matrix of double, where n is the number of variables.</para></listitem></varlistentry>
-   <varlistentry><term>ub:</term>
-      <listitem><para> a nx1 or 1xn matrix of double, where n is the number of variables.</para></listitem></varlistentry>
+   <varlistentry><term>x0 :</term>
+      <listitem><para> a vector of double, contains initial guess of variables.</para></listitem></varlistentry>
+   <varlistentry><term>A :</term>
+      <listitem><para> a matrix of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b.</para></listitem></varlistentry>
+   <varlistentry><term>b :</term>
+      <listitem><para> a vector of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b.</para></listitem></varlistentry>
+   <varlistentry><term>Aeq :</term>
+      <listitem><para> a matrix of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.</para></listitem></varlistentry>
+   <varlistentry><term>beq :</term>
+      <listitem><para> a vector of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.</para></listitem></varlistentry>
+   <varlistentry><term>lb :</term>
+      <listitem><para> a vector of double, contains lower bounds of the variables.</para></listitem></varlistentry>
+   <varlistentry><term>ub :</term>
+      <listitem><para> a vector of double,  contains upper bounds of the variables.</para></listitem></varlistentry>
    <varlistentry><term>nonlcon:</term>
       <listitem><para> a function, the nonlinear constraints</para></listitem></varlistentry>
    <varlistentry><term>options :</term>
       <listitem><para> a list, containing the option for user to specify. See below for details.</para></listitem></varlistentry>
-   <varlistentry><term>x:</term>
-      <listitem><para> a nx1 matrix of double, the computed solution of the optimization problem</para></listitem></varlistentry>
-   <varlistentry><term>fval:</term>
-      <listitem><para> a vector of double, the value of functions at x</para></listitem></varlistentry>
+   <varlistentry><term>xopt :</term>
+      <listitem><para> a vector of double, the computed solution of the optimization problem.</para></listitem></varlistentry>
+   <varlistentry><term>fopt :</term>
+      <listitem><para> a double, the value of the function at x.</para></listitem></varlistentry>
    <varlistentry><term>attainfactor:</term>
       <listitem><para> The amount of over- or underachievement of the goals,γ at the solution.</para></listitem></varlistentry>
-   <varlistentry><term>exitflag:</term>
-      <listitem><para> a 1x1 matrix of floating point integers, the exit status</para></listitem></varlistentry>
-   <varlistentry><term>output:</term>
-      <listitem><para> a struct, the details of the optimization process</para></listitem></varlistentry>
-   <varlistentry><term>lambda:</term>
-      <listitem><para> a struct, the Lagrange multipliers at optimum</para></listitem></varlistentry>
+   <varlistentry><term>exitflag :</term>
+      <listitem><para> The exit status. See below for details.</para></listitem></varlistentry>
+   <varlistentry><term>output :</term>
+      <listitem><para> The structure consist of statistics about the optimization. See below for details.</para></listitem></varlistentry>
+   <varlistentry><term>lambda :</term>
+      <listitem><para> The structure consist of the Lagrange multipliers at the solution of problem. See below for details.</para></listitem></varlistentry>
    </variablelist>
 </refsection>
 
@@ -119,7 +119,7 @@ It should be defined as type "list" and contains the following fields.
 </itemizedlist>
    </para>
    <para>
-By default, the gradient options for fminimax are turned off and and fmincon does the gradient opproximation of minmaxObjfun. In case the GradObj option is off and GradConstr option is on, fminimax approximates minmaxObjfun gradient using numderivative toolbox.
+By default, the gradient options for fminimax are turned off and and fmincon does the gradient opproximation of gattainObjfun. In case the GradObj option is off and GradConstr option is on, fminimax approximates gattainObjfun gradient using numderivative toolbox.
    </para>
    <para>
 If we can provide exact gradients, we should do so since it improves the convergence speed of the optimization algorithm.
@@ -136,7 +136,7 @@ The constraint function must have header :
 <programlisting>
 [c, ceq] = confun(x)
 </programlisting>
-where x is a n x 1 matrix of dominmaxUbles, c is a 1 x nni matrix of doubles and ceq is a 1 x nne matrix of doubles (nni : number of nonlinear inequality constraints, nne : number of nonlinear equality constraints).
+where x is a n x 1 matrix of doubles, c is a 1 x nni matrix of doubles and ceq is a 1 x nne matrix of doubles (nni : number of nonlinear inequality constraints, nne : number of nonlinear equality constraints).
 On input, the variable x contains the current point and, on output, the variable c must contain the nonlinear inequality constraints and ceq must contain the nonlinear equality constraints.
    </para>
    <para>
@@ -203,7 +203,7 @@ It has type "struct" and contains the following fields.
 <refsection>
    <title>Examples</title>
    <programlisting role="example"><![CDATA[
-function f1 = fun(x)
+function f1 = gattainObjfun(x)
 f1(1)=2*x(1)*x(1)+x(2)*x(2)-48*x(1)-40*x(2)+304
 f1(2)=-x(1)*x(1)-3*x(2)*x(2)
 f1(3)=x(1)+3*x(2)-18
@@ -211,15 +211,12 @@ f1(4)=-x(1)-x(2)
 f1(5)=x(1)+x(2)-8
 endfunction
 x0=[-1,1];
-
 goal=[-5,-3,-2,-1,-4];
 weight=abs(goal)
-//xopt  = [-0.0000011 -63.999998 -2.0000002 -8 3.485D-08]
-//fval  = [4 3.99]
-
+//gval  =[- 0.0000011 -63.999998 -2.0000002 -8 3.485D-08]
+//z  = [4 3.99]
 //Run fgoalattain
-[xopt,fval,attainfactor,exitflag,output,lambda]=fgoalattain(fun,x0,goal,weight)
-
+[x,fval,attainfactor,exitflag,output,lambda]=fgoalattain(gattainObjfun,x0,goal,weight)
    ]]></programlisting>
 </refsection>
 

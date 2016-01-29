@@ -51,9 +51,18 @@ function [xopt,fopt,exitflag,output,lambda] = linprog (varargin)
 	//    & & lb \leq x \leq ub \\
 	//    \end{eqnarray}
 	//   </latex>
+	//
 	//   The routine calls Clp for solving the linear programming problem, Clp is a library written in C++.
 	//
-	// The exitflag allows to know the status of the optimization which is given back by Ipopt.
+  	// The options allows the user to set various parameters of the Optimization problem. 
+  	// It should be defined as type "list" and contains the following fields. In the current version it only contains maxiter.
+	// <itemizedlist>
+	//   <listitem>Syntax : options= list("MaxIter", [---]);</listitem>
+	//   <listitem>MaxIter : a Scalar, containing the Maximum Number of Iteration that the solver should take.</listitem>
+	//   <listitem>Default Values : options = list("MaxIter", [3000]);</listitem>
+	// </itemizedlist>
+	//
+	// The exitflag allows to know the status of the optimization which is given back by CLP.
 	// <itemizedlist>
 	//   <listitem>exitflag=0 : Optimal Solution Found </listitem>
 	//   <listitem>exitflag=1 : Primal Infeasible </listitem>
@@ -64,8 +73,6 @@ function [xopt,fopt,exitflag,output,lambda] = linprog (varargin)
 	//   <listitem>exitflag=6 : Dual objective limit reached.</listitem>
 	// </itemizedlist>
 	// 
-	// For more details on exitflag see the ipopt documentation, go to http://www.coin-or.org/Ipopt/documentation/
-	//
 	// The output data structure contains detailed informations about the optimization process. 
 	// It has type "struct" and contains the following fields.
 	// <itemizedlist>
@@ -77,8 +84,6 @@ function [xopt,fopt,exitflag,output,lambda] = linprog (varargin)
 	// of optimization. In the current version the values are returned only when the the solution is optimal. 
 	// It has type "struct" and contains the following fields.
 	// <itemizedlist>
-	//   <listitem>lambda.lower: The Lagrange multipliers for the lower bound constraints.</listitem>
-	//   <listitem>lambda.upper: The Lagrange multipliers for the upper bound constraints.</listitem>
 	//   <listitem>lambda.eqlin: The Lagrange multipliers for the linear equality constraints.</listitem>
 	//   <listitem>lambda.ineqlin: The Lagrange multipliers for the linear inequality constraints.</listitem>
 	// </itemizedlist>

@@ -35,7 +35,6 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 	//   param : a list containing the parameters to be set.
 	//   xopt : a vector of double, the computed solution of the optimization problem.
 	//   fopt : a double, the value of the function at x.
-	//   residual : a vector of double, solution residuals returned as the vector d-C*x.
 	//   exitflag : The exit status. See below for details.
 	//   output : The structure consist of statistics about the optimization. See below for details.
 	//   lambda : The structure consist of the Lagrange multipliers at the solution of problem. See below for details.
@@ -54,6 +53,15 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 	//   </latex>
 	//   
 	//   The routine calls Ipopt for solving the quadratic problem, Ipopt is a library written in C++.
+	//
+  	// The options allows the user to set various parameters of the Optimization problem. 
+  	// It should be defined as type "list" and contains the following fields.
+	// <itemizedlist>
+	//   <listitem>Syntax : options= list("MaxIter", [---], "CpuTime", [---]);</listitem>
+	//   <listitem>MaxIter : a Scalar, containing the Maximum Number of Iteration that the solver should take.</listitem>
+	//   <listitem>CpuTime : a Scalar, containing the Maximum amount of CPU Time that the solver should take.</listitem>
+	//   <listitem>Default Values : options = list("MaxIter", [3000], "CpuTime", [600]);</listitem>
+	// </itemizedlist>
 	//
 	// The exitflag allows to know the status of the optimization which is given back by Ipopt.
 	// <itemizedlist>
@@ -208,21 +216,32 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 		error(errmsg);
 	end
 
+	//Check type of variables
+	Checktype("qpipoptmat", H, "H", 1, "constant")
+	Checktype("qpipoptmat", f, "f", 2, "constant")
+	Checktype("qpipoptmat", A, "A", 3, "constant")
+	Checktype("qpipoptmat", b, "b", 4, "constant")
+	Checktype("qpipoptmat", Aeq, "Aeq", 5, "constant")
+	Checktype("qpipoptmat", beq, "beq", 6, "constant")
+	Checktype("qpipoptmat", lb, "lb", 7, "constant")
+	Checktype("qpipoptmat", ub, "ub", 8, "constant")
+	Checktype("qpipoptmat", x0, "x0", 9, "constant")
+
 	options = list(..
 				  "MaxIter"     , [3000], ...
 				  "CpuTime"   , [600] ...
 				  );
 
 	for i = 1:(size(param))/2
-		
-	   	select param(2*i-1)
-		case "MaxIter" then
-		  		options(2*i) = param(2*i);
-	   	case "CpuTime" then
-		  		options(2*i) = param(2*i);
-		else
-			  errmsg = msprintf(gettext("%s: Unrecognized parameter name ''%s''."), "qpipoptmat", param(2*i-1));
-			  error(errmsg)
+
+		select convstr(param(2*i-1),'l')
+			case "maxiter" then
+				options(2*i) = param(2*i);
+			case "cputime" then
+				options(2*i) = param(2*i);
+			else
+				errmsg = msprintf(gettext("%s: Unrecognized parameter name ''%s''."), "lsqlin", param(2*i-1));
+				error(errmsg)
 		end
 	end
 

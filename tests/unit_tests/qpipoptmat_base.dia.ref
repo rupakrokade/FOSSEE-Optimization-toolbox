@@ -67,7 +67,7 @@ param = list("MaxIter", 300, "CpuTime",100);
 f=[1; 2; 3; 4; 5; 6]; H=eye(6,6);
 [xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f,A,b,Aeq,beq,lb,ub,[],param);
 
-assert_close ( xopt , [1.7975426 -0.3381487 0.1633880 - 4.9884023 0.6054943 -3.1155623]' , 1.e-7 );
+assert_close ( xopt , [1.7975426 -0.3381487 0.1633880 -4.9884023 0.6054943 -3.1155623]' , 1.e-7 );
 assert_close ( fopt , [ -14.843248] , 1.e-7 );
 assert_checkequal( exitflag , int32(0) );
 printf("Test Successful");

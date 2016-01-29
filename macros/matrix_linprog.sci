@@ -31,15 +31,15 @@ function [xopt,fopt,exitflag,output,lambda] = matrix_linprog (varargin)
    
    c = varargin(1);
 
-   if (size(c,2)~=1) then
-	errmsg = msprintf(gettext("%s: Objective Coefficients should be a column matrix"), "linprog");
-	error(errmsg);
-   end
-
 	if(size(c,2) == 0) then
 		errmsg = msprintf(gettext("%s: Cannot determine the number of variables because input objective coefficients is empty"), "linprog");
 		error(errmsg);
 	end
+
+   if (size(c,2)~=1) then
+	errmsg = msprintf(gettext("%s: Objective Coefficients should be a column matrix"), "linprog");
+	error(errmsg);
+   end
 
    nbVar = size(c,1);
    A = varargin(2);
@@ -67,25 +67,22 @@ function [xopt,fopt,exitflag,output,lambda] = matrix_linprog (varargin)
 	  	param =varargin(8);
    	end
 
+	//Check type of variables
+	Checktype("linprog", c, "c", 1, "constant")
+	Checktype("linprog", A, "A", 2, "constant")
+	Checktype("linprog", b, "b", 3, "constant")
+	Checktype("linprog", Aeq, "Aeq", 4, "constant")
+	Checktype("linprog", beq, "beq", 5, "constant")
+	Checktype("linprog", lb, "lb", 6, "constant")
+	Checktype("linprog", ub, "ub", 7, "constant")
+
    nbConInEq = size(A,1);
    nbConEq = size(Aeq,1);
 
-	if (size(lb,2)== [nbVar]) then
-		lb = lb';
-	end
-
-	if (size(ub,2)== [nbVar]) then
-		ub = ub';
-	end
-
-	if (size(b,2)== [nbConInEq]) then
-		b = b';
-	end
-
-	if (size(beq,2)== [nbConEq]) then
-		beq = beq';
-	end
-
+    lb = lb(:);
+    ub = ub(:)
+    b = b(:);
+    beq = beq(:);
 
    	if (size(lb,2)==0) then
         lb = repmat(-%inf,nbVar,1);
@@ -110,11 +107,11 @@ function [xopt,fopt,exitflag,output,lambda] = matrix_linprog (varargin)
 
    for i = 1:(size(param))/2
         
-      	select param(2*i-1)
-    	case "MaxIter" then
+      	select convstr(param(2*i-1),'l')
+    	case "maxiter" then
        		options(2*i) = param(2*i);
 		else
-			  errmsg = msprintf(gettext("%s: Unrecognized parameter name ''%s''."), "qpipoptmat", param(2*i-1));
+			  errmsg = msprintf(gettext("%s: Unrecognized parameter name ''%s''."), "linprog", param(2*i-1));
 			  error(errmsg)
 		end
      end
@@ -155,7 +152,6 @@ function [xopt,fopt,exitflag,output,lambda] = matrix_linprog (varargin)
    end
 
    //Check if the user gives a matrix instead of a vector
-   
    if (size(lb,1)~=1)& (size(lb,2)~=1) then
       errmsg = msprintf(gettext("%s: Lower Bound should be a vector"), "linprog");
       error(errmsg); 
@@ -194,10 +190,6 @@ function [xopt,fopt,exitflag,output,lambda] = matrix_linprog (varargin)
         end	
 	end
 
-    lb = lb(:);
-    ub = ub(:)
-    b = b(:);
-    beq = beq(:);
 	nbVar = size(c,1);
 	c = c';
 	conMatrix = [Aeq;A];

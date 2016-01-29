@@ -16,7 +16,7 @@
 
       </td>
       <td width="40%" class="center">
-      	<span class="top"><a href="section_19f4f1e5726c01d683e8b82be0a7e910.html">Symphony Toolbox</a></span>
+      	<span class="top"><a href="section_19f4f1e5726c01d683e8b82be0a7e910.html">FOSSEE Optimization Toolbox</a></span>
 
       </td>
       <td width="30%" class="next">
@@ -29,7 +29,7 @@
 
 
 
-    <span class="path"><a href="index.html">Symphony Toolbox</a> &gt;&gt; <a href="section_19f4f1e5726c01d683e8b82be0a7e910.html">Symphony Toolbox</a> &gt; linprog</span>
+    <span class="path"><a href="index.html">FOSSEE Optimization Toolbox</a> &gt;&gt; <a href="section_19f4f1e5726c01d683e8b82be0a7e910.html">FOSSEE Optimization Toolbox</a> &gt; linprog</span>
 
     <br /><br />
     <div class="refnamediv"><h1 class="refname">linprog</h1>
@@ -41,7 +41,8 @@
 <span class="default">xopt</span><span class="default"> = </span><span class="functionid">linprog</span><span class="default">(</span><span class="default">c</span><span class="default">,</span><span class="default">A</span><span class="default">,</span><span class="default">b</span><span class="default">,</span><span class="default">Aeq</span><span class="default">,</span><span class="default">beq</span><span class="default">)</span>
 <span class="default">xopt</span><span class="default"> = </span><span class="functionid">linprog</span><span class="default">(</span><span class="default">c</span><span class="default">,</span><span class="default">A</span><span class="default">,</span><span class="default">b</span><span class="default">,</span><span class="default">Aeq</span><span class="default">,</span><span class="default">beq</span><span class="default">,</span><span class="default">lb</span><span class="default">,</span><span class="default">ub</span><span class="default">)</span>
 <span class="default">xopt</span><span class="default"> = </span><span class="functionid">linprog</span><span class="default">(</span><span class="default">c</span><span class="default">,</span><span class="default">A</span><span class="default">,</span><span class="default">b</span><span class="default">,</span><span class="default">Aeq</span><span class="default">,</span><span class="default">beq</span><span class="default">,</span><span class="default">lb</span><span class="default">,</span><span class="default">ub</span><span class="default">,</span><span class="default">param</span><span class="default">)</span>
-<span class="default">[</span><span class="default">xopt</span><span class="default">, </span><span class="default">fopt</span><span class="default">, </span><span class="default">exitflag</span><span class="default">, </span><span class="default">output</span><span class="default">, </span><span class="default">lambda</span><span class="default">] = </span><span class="functionid">linprog</span><span class="default">(</span><span class="default">file</span><span class="default">)</span>
+<span class="default">xopt</span><span class="default"> = </span><span class="functionid">linprog</span><span class="default">(</span><span class="default">file</span><span class="default">)</span>
+<span class="default">xopt</span><span class="default"> = </span><span class="functionid">linprog</span><span class="default">(</span><span class="default">file</span><span class="default">,</span><span class="default">param</span><span class="default">)</span>
 <span class="default">[</span><span class="default">xopt</span><span class="default">,</span><span class="default">fopt</span><span class="default">,</span><span class="default">exitflag</span><span class="default">,</span><span class="default">output</span><span class="default">,</span><span class="default">lambda</span><span class="default">] = </span><span class="functionid">linprog</span><span class="default">( ... )</span></pre></div></div>
 
 <div class="refsection"><h3 class="title">Parameters</h3>
@@ -77,9 +78,14 @@
 <div class="refsection"><h3 class="title">Description</h3>
    <p class="para">OSI-CLP is used for solving the linear programming problems, OSI-CLP is a library written in C++.
 Search the minimum of a constrained linear programming problem specified by :</p>
-   <p class="para"><span><img src='./_LaTeX_linprog.xml_1.png' style='position:relative;top:40px;width:212px;height:88px'/></span>
-The routine calls Clp for solving the linear programming problem, Clp is a library written in C++.</p>
-   <p class="para">The exitflag allows to know the status of the optimization which is given back by Ipopt.
+   <p class="para"><span><img src='./_LaTeX_linprog.xml_1.png' style='position:relative;top:40px;width:212px;height:88px'/></span></p>
+   <p class="para">The routine calls Clp for solving the linear programming problem, Clp is a library written in C++.</p>
+   <p class="para">The options allows the user to set various parameters of the Optimization problem.
+It should be defined as type &#0034;list&#0034; and contains the following fields. In the current version it only contains maxiter.
+<ul class="itemizedlist"><li>Syntax : options= list(&#0034;MaxIter&#0034;, [---]);</li>
+<li>MaxIter : a Scalar, containing the Maximum Number of Iteration that the solver should take.</li>
+<li>Default Values : options = list(&#0034;MaxIter&#0034;, [3000]);</li></ul></p>
+   <p class="para">The exitflag allows to know the status of the optimization which is given back by CLP.
 <ul class="itemizedlist"><li>exitflag=0 : Optimal Solution Found</li>
 <li>exitflag=1 : Primal Infeasible</li>
 <li>exitflag=2 : Dual Infeasible</li>
@@ -87,7 +93,6 @@ The routine calls Clp for solving the linear programming problem, Clp is a libra
 <li>exitflag=4 : Solution Abandoned</li>
 <li>exitflag=5 : Primal objective limit reached.</li>
 <li>exitflag=6 : Dual objective limit reached.</li></ul></p>
-   <p class="para">For more details on exitflag see the ipopt documentation, go to http://www.coin-or.org/Ipopt/documentation/</p>
    <p class="para">The output data structure contains detailed informations about the optimization process.
 It has type &#0034;struct&#0034; and contains the following fields.
 <ul class="itemizedlist"><li>output.iterations: The number of iterations performed during the search</li>
@@ -95,9 +100,7 @@ It has type &#0034;struct&#0034; and contains the following fields.
    <p class="para">The lambda data structure contains the Lagrange multipliers at the end
 of optimization. In the current version the values are returned only when the the solution is optimal.
 It has type &#0034;struct&#0034; and contains the following fields.
-<ul class="itemizedlist"><li>lambda.lower: The Lagrange multipliers for the lower bound constraints.</li>
-<li>lambda.upper: The Lagrange multipliers for the upper bound constraints.</li>
-<li>lambda.eqlin: The Lagrange multipliers for the linear equality constraints.</li>
+<ul class="itemizedlist"><li>lambda.eqlin: The Lagrange multipliers for the linear equality constraints.</li>
 <li>lambda.ineqlin: The Lagrange multipliers for the linear inequality constraints.</li></ul></p>
    <p class="para"></p></div>
 
@@ -159,7 +162,7 @@ It has type &#0034;struct&#0034; and contains the following fields.
 <div class="refsection"><h3 class="title">Examples</h3>
    <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabid">filepath</span> <span class="scilaboperator">=</span> <a class="scilabcommand" href="scilab://get_absolute_file_path">get_absolute_file_path</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0039;</span><span class="scilabstring">linprog.dem.sce</span><span class="scilabstring">&#0039;</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
 <span class="scilabid">filepath</span> <span class="scilaboperator">=</span> <span class="scilabid">filepath</span> <span class="scilaboperator">+</span> <span class="scilabstring">&#0034;</span><span class="scilabstring">exmip1.mps</span><span class="scilabstring">&#0034;</span>
-<span class="scilabopenclose">[</span><span class="scilabid">xopt</span><span class="scilabdefault">,</span><span class="scilabid">fopt</span><span class="scilabdefault">,</span><span class="scilabid">exitflag</span><span class="scilabdefault">,</span><span class="scilabid">output</span><span class="scilabdefault">,</span><span class="scilabid">lambda</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span><span class="scilabid">linprog</span><span class="scilabopenclose">(</span><span class="scilabid">filepath</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
+<span class="scilabopenclose">[</span><span class="scilabid">xopt</span><span class="scilabdefault">,</span><span class="scilabid">fopt</span><span class="scilabdefault">,</span><span class="scilabid">exitflag</span><span class="scilabdefault">,</span><span class="scilabid">output</span><span class="scilabdefault">,</span><span class="scilabid">lambda</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span><span class="scilabid">linprog</span><span class="scilabopenclose">(</span><span class="scilabid">filepath</span><span class="scilabopenclose">)</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
 
 <div class="refsection"><h3 class="title">Authors</h3>
    <ul class="itemizedlist"><li class="member">Bhanu Priya Sayal, Guru Pradeep Reddy</li></ul></div>
@@ -174,7 +177,7 @@ It has type &#0034;struct&#0034; and contains the following fields.
 
       </td>
       <td width="40%" class="center">
-      	<span class="top"><a href="section_19f4f1e5726c01d683e8b82be0a7e910.html">Symphony Toolbox</a></span>
+      	<span class="top"><a href="section_19f4f1e5726c01d683e8b82be0a7e910.html">FOSSEE Optimization Toolbox</a></span>
 
       </td>
       <td width="30%" class="next">

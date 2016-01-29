@@ -38,6 +38,7 @@ endfunction
 options=list("GradObj", fGrad, "Hessian", lHess);
 //Calling Ipopt
 [x,fval,exitflag,output,lambda,grad,hessian] =fmincon(f, x0,A,b,Aeq,beq,lb,ub,nlc,options)
+// Press ENTER to continue
 halt()   // Press return to continue
  
 //Find x in R^3 such that it minimizes:
@@ -79,6 +80,7 @@ endfunction
 options=list("MaxIter", [1500], "CpuTime", [500], "GradObj", fGrad, "Hessian", lHess,"GradCon", cGrad);
 //Calling Ipopt
 [x,fval,exitflag,output] =fmincon(f, x0,A,b,Aeq,beq,lb,ub,nlc,options)
+// Press ENTER to continue
 halt()   // Press return to continue
  
 //The below problem is an unbounded problem:
@@ -104,6 +106,7 @@ ub=[0,0,0];
 options=list("MaxIter", [1500], "CpuTime", [500]);
 //Calling Ipopt
 [x,fval,exitflag,output,lambda,grad,hessian] =fmincon(f, x0,A,b,Aeq,beq,lb,ub,[],options)
+// Press ENTER to continue
 halt()   // Press return to continue
  
 //The below problem is an infeasible problem:
