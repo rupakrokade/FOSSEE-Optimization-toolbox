@@ -84,6 +84,7 @@ function [xopt,fopt,exitflag,output,lambda] = linprog (varargin)
 	// of optimization. In the current version the values are returned only when the the solution is optimal. 
 	// It has type "struct" and contains the following fields.
 	// <itemizedlist>
+	//   <listitem>lambda.lower: The Lagrange multipliers for variable lower bounds.</listitem>
 	//   <listitem>lambda.eqlin: The Lagrange multipliers for the linear equality constraints.</listitem>
 	//   <listitem>lambda.ineqlin: The Lagrange multipliers for the linear inequality constraints.</listitem>
 	// </itemizedlist>
