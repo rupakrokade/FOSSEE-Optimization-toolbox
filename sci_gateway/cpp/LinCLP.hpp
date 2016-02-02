@@ -43,13 +43,15 @@ class LinCLP
 
 		double objValue_ =0 ;		//Optimal values of objective
 
-		double status_ = 0; 			//Return Status
+		double status_ = 0; 		//Return Status
 
 		double iterations_ = 0;		//Number of iteration 
 
-		double* reducedCost_ = NULL;	//Reduced cost
+		double* Zl_ = NULL;			//Reduced cost
 
-		double* dual_ = NULL;			// Dual of the solution
+		double* Zu_ = NULL;			//Reduced cost
+
+		double* dual_ = NULL;		// Dual of the solution
 
 
 	public:

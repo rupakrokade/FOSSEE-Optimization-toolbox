@@ -206,11 +206,11 @@ function [xopt,fopt,exitflag,output,lambda] = matrix_linprog (varargin)
                   
    output.Iterations = iter;
    output.constrviolation = max([0;norm(Aeq*xopt-beq, 'inf');(lb-xopt);(xopt-ub);(A*xopt-b)]);
-   lambda = struct("reduced_cost"           , [], ..
+   lambda = struct("lower"           , [], ..
                    "ineqlin"           , [], ..
                    "eqlin"      , []);
    
-    lambda.reduced_cost = Zl;
+    lambda.lower = Zl;
 	lambda.eqlin = dual(1:nbConEq);
 	lambda.ineqlin = dual(nbConEq+1:nbCon);
 	select status

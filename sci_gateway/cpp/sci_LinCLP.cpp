@@ -26,7 +26,7 @@ LinCLP::~LinCLP()
 		 	free(lb_);
 		 	free(ub_);
 			free(xValue_);
-			free(reducedCost_);
+			free(Zl_);
 			free(dual_);}
 
 //Clp Solver function definition
@@ -104,8 +104,8 @@ LinCLP::LinCLP(int numVars_ , int numCons_ ,double objMatrix_[] , double conMatr
    //get lower vector
    const double* LinCLP::getReducedCost()
 	{
-		reducedCost_ = si->getReducedCost();
-		return reducedCost_;
+		Zl_ = si->getReducedCost();
+		return Zl_;
 	}
 
    //get dual vector

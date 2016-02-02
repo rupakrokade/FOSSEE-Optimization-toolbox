@@ -130,7 +130,7 @@ int sci_linearprog(char *fname)
 	double iterations = Prob->iterCount();
 
 	//get reduced cost
-	double* reducedCost = Prob->getReducedCost();
+	double* Zl = Prob->getReducedCost();
 
 	//get dual vector
 	double* dual = Prob->getDual();
@@ -139,7 +139,7 @@ int sci_linearprog(char *fname)
 	returnDoubleMatrixToScilab(2 , 1 , 1 , &objValue);
 	returnDoubleMatrixToScilab(3 , 1 , 1 , &status);
 	returnDoubleMatrixToScilab(4 , 1 , 1 , &iterations);
-	returnDoubleMatrixToScilab(5 , 1 , nVars , reducedCost);
+	returnDoubleMatrixToScilab(5 , 1 , nVars , Zl);
 	returnDoubleMatrixToScilab(6 , 1 , nCons , dual);
 
 	}
