@@ -176,7 +176,6 @@ function [x,fval,attainfactor,exitflag,output,lambda] = fgoalattain(varargin)
     Checktype("fgoalattain", gattainStartpoint, "x0", 2, "constant")
 
     gattainNumvar = size(gattainStartpoint,"*")
-    Checkvector("fgoalattain", gattainStartpoint, "x0", 2, gattainNumvar)
     gattainStartpoint = gattainStartpoint(:)
 
     // initialisation of goal

@@ -268,14 +268,9 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
    	[lhs , rhs] = argn();
 	
 	//To check the number of arguments given by the user
-   	if ( rhs<4 | rhs>13 ) then
-    		errmsg = msprintf(gettext("%s: Unexpected number of input arguments : %d provided while it should be 4,6,8,9,10,11,12,13"), "fmincon", rhs);
+   	if ( rhs<4 | rhs==5 | rhs==7 | rhs>10 ) then
+    		errmsg = msprintf(gettext("%s: Unexpected number of input arguments : %d provided while it should be 4,6,8,9,10"), "fmincon", rhs);
     		error(errmsg)
-   	end
-    	
-	if (rhs==5 | rhs==7) then
-    	errmsg = msprintf(gettext("%s: Unexpected number of input arguments : %d provided while it should be 4,6,8,9,10,11,12,13"), "fmincon", rhs);
-    	error(errmsg)
    	end
  
 	//Storing the Input Parameters  
@@ -862,7 +857,7 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
 			lambda.ineqlin (j) = lambda1(i)
 			j= j+1;
 		end
-		lambda.ineqlin = lambda.ineqlin'
+		lambda.ineqlin = lambda.ineqlin';
 	end
 	
     //Converting hessian of order (1 x (numberOfVariables)^2) received from Ipopt to order (numberOfVariables x numberOfVariables)
@@ -924,5 +919,4 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
         	break;
         end
  
-    		
 endfunction
