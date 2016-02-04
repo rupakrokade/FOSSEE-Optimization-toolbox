@@ -206,11 +206,6 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 		f = repmat(0,nbVar,1);
 	end
 
-	if (type(param) ~= 15) then
-		errmsg = msprintf(gettext("%s: param should be a list "), "qpipoptmat");
-		error(errmsg);
-	end
-
 	if (modulo(size(param),2)) then
 		errmsg = msprintf(gettext("%s: Size of parameters should be even"), "qpipoptmat");
 		error(errmsg);
@@ -226,11 +221,10 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 	Checktype("qpipoptmat", lb, "lb", 7, "constant")
 	Checktype("qpipoptmat", ub, "ub", 8, "constant")
 	Checktype("qpipoptmat", x0, "x0", 9, "constant")
+	Checktype("qpipoptmat", param, "param", 10, "list")
 
-	options = list(..
-				  "MaxIter"     , [3000], ...
-				  "CpuTime"   , [600] ...
-				  );
+	options = list("MaxIter"     , [3000], ...
+				  "CpuTime"   , [600]);
 
 	for i = 1:(size(param))/2
 
@@ -299,7 +293,6 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 		error(errmsg);
 	end
 
-
 	//Check the size of Lower Bound which should be equal to the number of variables
 	if ( size(lb,1) ~= nbVar) then
 		errmsg = msprintf(gettext("%s: The Lower Bound is not equal to the number of variables"), "qpipoptmat");
@@ -314,7 +307,7 @@ function [xopt,fopt,exitflag,output,lambda] = qpipoptmat (varargin)
 
 	//Check the size of constraints of Lower Bound which should equal to the number of constraints
 	if ( size(b,1) ~= nbConInEq & size(b,1) ~= 0) then
-		errmsg = msprintf(gettext("%s: The number of rows in A must be the same as the number of elementsof b"), "qpipoptmat");
+		errmsg = msprintf(gettext("%s: The number of rows in A must be the same as the number of elements of b"), "qpipoptmat");
 		error(errmsg);
 	end
 
