@@ -93,6 +93,7 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
 	//   <listitem>output.Cpu_Time: The total cpu-time spend during the search</listitem>
 	//   <listitem>output.Objective_Evaluation: The number of Objective Evaluations performed during the search</listitem>
 	//   <listitem>output.Dual_Infeasibility: The Dual Infeasiblity of the final soution</listitem>
+	//	 <listitem>output.Message: The output message for the problem</listitem>
 	// </itemizedlist>
 	//
 	// The lambda data structure contains the Lagrange multipliers at the end 
@@ -260,6 +261,7 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
   	//	options=list("MaxIter", [1500], "CpuTime", [500], "GradObj", fGrad, "Hessian", lHess,"GradCon", cGrad);
   	//    //Calling Ipopt
   	//	[x,fval,exitflag,output,lambda,grad,hessian] =fmincon(f, x0,A,b,Aeq,beq,lb,ub,nlc,options)
+ 	// // Press ENTER to continue
   	// Authors
   	// 	R.Vidyadhar , Vignesh Kannan
  	
@@ -268,9 +270,14 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
    	[lhs , rhs] = argn();
 	
 	//To check the number of arguments given by the user
-   	if ( rhs<4 | rhs==5 | rhs==7 | rhs>10 ) then
+   	if ( rhs<4 | rhs>10 ) then
     		errmsg = msprintf(gettext("%s: Unexpected number of input arguments : %d provided while it should be 4,6,8,9,10"), "fmincon", rhs);
     		error(errmsg)
+   	end
+    	
+	if (rhs==5 | rhs==7) then
+    	errmsg = msprintf(gettext("%s: Unexpected number of input arguments : %d provided while it should be 4,6,8,9,10s"), "fmincon", rhs);
+    	error(errmsg)
    	end
  
 	//Storing the Input Parameters  
@@ -299,16 +306,10 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
 	end
 	
 	//To check whether the 1st Input argument (fun) is a function or not
-   	if (type(fun) ~= 13 & type(fun) ~= 11) then
-   		errmsg = msprintf(gettext("%s: Expected function for Objective (1st Parameter)"), "fmincon");
-   		error(errmsg);
-   	end
+    Checktype("fmincon", fun, "f", 1, "function");
    
 	//To check whether the 2nd Input argument (x0) is a vector/scalar
-   	if (type(x0) ~= 1) then
-   		errmsg = msprintf(gettext("%s: Expected Vector/Scalar for Starting Point (2nd Parameter)"), "fmincon");
-   		error(errmsg);
-  	end
+  	Checktype("fmincon", x0, "x0", 2, "constant");
   	
   	//To check and convert the 2nd Input argument (x0) to a row vector 
    	if((size(x0,1)~=1) & (size(x0,2)~=1)) then
@@ -346,10 +347,7 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
 	endfunction
    	
   	//To check whether the 3rd Input argument (A) is a Matrix/Vector
-   	if (type(A) ~= 1) then
-   		errmsg = msprintf(gettext("%s: Expected Matrix/Vector for Constraint Matrix A (3rd parameter)"), "fmincon");
-   		error(errmsg);
-  	end
+  	Checktype("fmincon", A, "A", 3, "constant");
 
 	//To check for correct size of A(3rd paramter)
    	if(size(A,2)~=s(2) & size(A,2)~=0) then
@@ -360,10 +358,7 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
    	s1=size(A);
    	
 	//To check whether the 4th Input argument (b) is a vector/scalar
-   	if (type(b) ~= 1) then
-   		errmsg = msprintf(gettext("%s: Expected Vector/Scalar for b (4th Parameter)"), "fmincon");
-   		error(errmsg);
-  	end
+  	Checktype("fmincon", b, "b", 4, "constant");
   	
   	//To check for the correct size of b (4th paramter) and convert it into a column vector which is required for Ipopt
     if(s1(2)==0) then
@@ -389,10 +384,7 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
    	end
   	
   	//To check whether the 5th Input argument (Aeq) is a matrix/vector
-   	if (type(Aeq) ~= 1) then
-   		errmsg = msprintf(gettext("%s: Expected Matrix/Vector for Equality Constraint Matrix Aeq (5th Parameter)"), "fmincon");
-   		error(errmsg);
-  	end
+  	Checktype("fmincon", Aeq, "Aeq", 5, "constant");
   	
   	//To check for the correct size of Aeq (5th paramter)
    	if(size(Aeq,2)~=s(2) & size(Aeq,2)~=0) then
@@ -403,10 +395,7 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
    	s2=size(Aeq);
 
 	//To check whether the 6th Input argument(beq) is a vector/scalar
-   	if (type(beq) ~= 1) then
-   		errmsg = msprintf(gettext("%s: Expected Vector/Scalar for beq (6th Parameter)"), "fmincon");
-   		error(errmsg);
-  	end
+	Checktype("fmincon", beq, "beq", 6, "constant");
   	
   	//To check for the correct size of beq(6th paramter) and convert it into a column vector which is required for Ipopt
     if(s2(2)==0) then
@@ -433,10 +422,7 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
    	
   	
   	//To check whether the 7th Input argument (lb) is a vector/scalar
-   	if (type(lb) ~= 1) then
-   		errmsg = msprintf(gettext("%s: Expected Vector/Scalar for Lower Bound Vector (7th Parameter)"), "fmincon");
-   		error(errmsg);
-  	end
+	Checktype("fmincon", lb, "lb", 7, "constant");
   	
   	//To check for the correct size and data of lb (7th paramter) and convert it into a column vector as required by Ipopt
    	if (size(lb,2)==0) then
@@ -459,10 +445,7 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
    	end 
    	
    	//To check whether the 8th Input argument (ub) is a vector/scalar
-   	if (type(ub) ~= 1) then
-   		errmsg = msprintf(gettext("%s: Expected Vector/Scalar for Upper Bound Vector (8th Parameter)"), "fmincon");
-   		error(errmsg);
-  	end
+   	Checktype("fmincon", ub, "ub", 8, "constant");
    	
    	//To check for the correct size and data of ub (8th paramter) and convert it into a column vector as required by Ipopt
     if (size(ub,2)==0) then
@@ -497,7 +480,7 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
 		end	
 
 		if(ub(i)-lb(i)<=1e-6) then
-			errmsg = msprintf(gettext("%s: Difference between Upper Bound and Lower bound should be atleast > 10^6 for variable number= %d "), "fmincon", i);
+			errmsg = msprintf(gettext("%s: Difference between Upper Bound and Lower bound should be atleast > 10^-6 for variable number= %d "), "fmincon", i);
     		error(errmsg)
     	end
 	end
@@ -530,7 +513,6 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
   		no_nlic = size(sample_c,2);
   		no_nlec = size(sample_ceq,2);
   		no_nlc = no_nlic + no_nlec;
-  		
   		//Constructing a single output variable function for nlc
   		function y = addnlc(x)
   			[c,ceq] = nlc(x);
@@ -580,74 +562,13 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
     end
    
 	//If options has been entered, then check its type for 'list'   
-   	if (type(param) ~= 15) then
-   		errmsg = msprintf(gettext("%s: Options (10th parameter) should be a list"), "fmincon");
-   		error(errmsg);
-   	end
+   Checktype("fmincon", param, "options", 10, "list");
    
 	//If options has been entered, then check whether an even number of entires has been entered   
    	if (modulo(size(param),2)) then
 		errmsg = msprintf(gettext("%s: Size of Options (list) should be even"), "fmincon");
 		error(errmsg);
    	end
-
-	
-	//Defining a function to calculate Gradient or Hessian if the respective user entry is OFF 
-   	function [y,check] = gradhess(x,t)
-		if t==1 then	//To return Gradient
-			if(execstr('y=numderivative(fun,x)','errcatch')==10000)
-				y=0;
-				check=1;
-			else
-				y=numderivative(fun,x);
-				if (isreal(y)==%F) then
-					y=0;
-					check=1;
-  				else
-					check=0;
-				end
-			end		
-		elseif t==2 then		//To return Hessian
-			if(execstr('[grad,y]=numderivative(fun,x)','errcatch')==10000)
-				y=0;
-				check=1;
-			else
-				[grad,y]=numderivative(fun,x);
-				if (isreal(y)==%F) then
-					y=0;
-					check=1;
-  				else
-					check=0;
-				end	
-			end
-		elseif t==3 then	//To return Gradient
-			if(execstr('y=numderivative(addnlc,x)','errcatch')==10000)
-				y=0;
-				check=1;
-			else
-				y=numderivative(addnlc,x);
-				if (isreal(y)==%F) then
-					y=0;
-					check=1;
-  				else
-					check=0;
-				end
-			end		
-		elseif t==4 then		//To return Hessian
-			if(execstr('[grad,y]=numderivative(addnlc,x)','errcatch')==10000)
-				y=0;
-				check=1;
-			else
-				[grad,y]=numderivative(addnlc,x);
-				if (isreal(y)==%F) then
-					y=0;
-					check=1;
-  				else
-					check=0;
-				end	
-			end
-		end
-   	endfunction
    	
    	//To set default values for options, if user doesn't enter options
 	options = list("MaxIter", [3000], "CpuTime", [600]);
@@ -669,31 +590,65 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
 	//To check the user entry for options and storing it
    	for i = 1:(size(param))/2
        	select convstr(param(2*i-1),'l')
-    		case "maxiter" then
-          			options(2*i) = param(2*i);    //Setting the maximum number of iterations as per user entry
+          	case "maxiter" then
+          			if (type(param(2*i))~=1) then
+          				errmsg = msprintf(gettext("%s: Value for Maximum Iteration should be a Constant"), "fmincon");
+    	      			error(errmsg);
+          			else
+          				options(2*i) = param(2*i);    //Setting the maximum number of iterations as per user entry
+          			end
        		case "cputime" then
-          			options(2*i) = param(2*i);    //Setting the maximum CPU time as per user entry
+          			if (type(param(2*i))~=1) then
+          				errmsg = msprintf(gettext("%s: Value for Maximum Cpu-time should be a Constant"), "fmincon");
+    	      			error(errmsg);
+          			else
+          				options(2*i) = param(2*i);    //Setting the maximum CPU time as per user entry
+          			end
         	case "gradobj" then
-        			flag1=1;
-        			fGrad=param(2*i);
+        			if (type(param(2*i))==10) then
+        				if (convstr(param(2*i))=="off") then
+        					flag1 =0;
+        				else
+        					errmsg = msprintf(gettext("%s: Unrecognized String [%s] entered for the option- %s."), "fmincon",param(2*i), param(2*i-1));
+    	      				error(errmsg);
+        				end
+        			else
+						flag1 = 1;
+        				fGrad = param(2*i);        				      
+        			end
         	case "hessian" then
-        			flag2=1;
-        			lHess=param(2*i);
+        			if (type(param(2*i))==10) then
+        				if (convstr(param(2*i))=="off") then
+        					flag2 =0;
+        				else
+        					errmsg = msprintf(gettext("%s: Unrecognized String [%s] entered for the option- %s."), "fmincon",param(2*i), param(2*i-1));
+    	      				error(errmsg);
+        				end
+        			else
+						flag2 = 1;
+        				lHess = param(2*i);        				      
+        			end
         	case "gradcon" then
-        			flag3=1;
-       				cGrad=param(2*i);
+        			if (type(param(2*i))==10) then
+        				if (convstr(param(2*i))=="off") then
+        					flag3 =0;
+        				else
+        					errmsg = msprintf(gettext("%s: Unrecognized String [%s] entered for the option- %s."), "fmincon",param(2*i), param(2*i-1));
+    	      				error(errmsg);
+        				end
+        			else
+						flag3 = 1;
+        				cGrad = param(2*i);        				      
+        			end
        		else
     	     	 	errmsg = msprintf(gettext("%s: Unrecognized parameter name %s."), "fmincon", param(2*i-1));
     	      		error(errmsg);
         end        					
      end 	       				      
 	
-   //To check for correct input of Gradient and Hessian functions from the user	     	
+   //To check for correct input of Objective Gradient function from the user	     	
    if (flag1==1) then
-   		if (type(fGrad) ~= 11 & type(fGrad) ~= 13) then
-  			errmsg = msprintf(gettext("%s: Expected function for Gradient of Objective"), "fmincon");
-   			error(errmsg);
-   		end
+   		Checktype("fmincon", fGrad, "fGrad", 10, "function");
    		
    		if(execstr('sample_fGrad=fGrad(x0)','errcatch')==21)
 			errmsg = msprintf(gettext("%s: Gradient function of Objective and x0 did not match "), "fmincon");
@@ -704,32 +659,16 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
 		
 		if (size(sample_fGrad,1)==s(2) & size(sample_fGrad,2)==1) then
 		elseif (size(sample_fGrad,1)==1 & size(sample_fGrad,2)==s(2)) then
-		elseif (size(sample_fGrad,1)~=1 & size(sample_fGrad,2)~=1) then
-   			errmsg = msprintf(gettext("%s: Wrong Input for Objective Gradient function(10th Parameter)---->Vector function is Expected"), "fmincon");
+		else
+   			errmsg = msprintf(gettext("%s: Wrong Input for Objective Gradient function(3rd Parameter)---->Row Vector function of size [1 X %d] is Expected"), "fmincon",s(2));
    			error(errmsg);
-   		end
-   		
-   		function [y,check] = fGrad1(x)
-   			if(execstr('y=fGrad(x)','errcatch')==32 | execstr('y=fGrad(x)','errcatch')==27)
-				y = 0;
-				check=1;
-			else
-				y=fGrad(x);
-				if (isreal(y)==%F) then
-					y = 0;
-					check=1;
-  				else
-					check=0;
-				end
-			end
-  		endfunction
-  		
+   		end  		
    end
+   
+   //To check for correct input of Lagrangian Hessian function from the user
    if (flag2==1) then
-   		if (type(lHess) ~= 11 & type(lHess) ~= 13) then
-  			errmsg = msprintf(gettext("%s: Expected function for Hessian of Objective"), "fmincon");
-   			error(errmsg);
-   		end
+   		Checktype("fmincon", lHess, "lHess", 10, "function");
+   		
    		if(execstr('sample_lHess=lHess(x0,1,1:no_nlc)','errcatch')==21)
 			errmsg = msprintf(gettext("%s: Hessian function of Objective and x0 did not match "), "fmincon");
    			error(errmsg);
@@ -738,29 +677,12 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
    		if(size(sample_lHess,1)~=s(2) | size(sample_lHess,2)~=s(2)) then
    			errmsg = msprintf(gettext("%s: Wrong Input for Objective Hessian function(10th Parameter)---->Symmetric Matrix function is Expected "), "fmincon");
    			error(errmsg);
-   		end
-   		
-   		function [y,check] = lHess1(x,obj,lambda)
-   			if(execstr('y=lHess(x,obj,lambda)','errcatch')==32 | execstr('y=lHess(x,obj,lambda)','errcatch')==27)
-				y = 0;
-				check=1;
-			else
-				y=lHess(x,obj,lambda);
-				if (isreal(y)==%F) then
-					y = 0;
-					check=1;
-  				else
-					check=0;
-				end
-			end
-  		endfunction
-  		
+   		end 		
    	end
+   	
+   	//To check for correct input of Constraint Gradient function from the user
    	if (flag3==1) then
-   		if (type(cGrad) ~= 11 & type(cGrad) ~= 13) then
-  			errmsg = msprintf(gettext("%s: Expected function for Gradient of Constraint function"), "fmincon");
-   			error(errmsg);
-   		end
+   		Checktype("fmincon", cGrad, "cGrad", 10, "function");
    		
    		if(execstr('[sample_cGrad,sample_ceqg]=cGrad(x0)','errcatch')==21)
 			errmsg = msprintf(gettext("%s: Gradient function of Constraint and x0 did not match "), "fmincon");
@@ -790,36 +712,149 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
    			errmsg = msprintf(gettext("%s:  Wrong Input for Constraint Gradient function(10th Parameter) (Refer Help)"), "fmincon");
    			error(errmsg);
    		end
-   		
-   		function [y,check] = addcGrad1(x)
-   			if(execstr('y=addcGrad(x)','errcatch')==32 | execstr('y=addcGrad(x)','errcatch')==27)
-				y = 0;
-				check=1;
-			else
-				y=addcGrad(x);
-				if (isreal(y)==%F) then
-					y = 0;
-					check=1;
-  				else
-					check=0;
-				end
-			end
-  		endfunction
    	end
    	
-   	//To Convert the Gradient and Hessian into Error Debugable form
+   	//Defining an inbuilt Objective gradient function 
+   	function [y,check] = fGrad1(x) 
+   			if flag1==1 then
+   			    if(execstr('y=fGrad(x)','errcatch')==32 | execstr('y=fGrad(x)','errcatch')==27)
+			    	y = 0;
+			    	check=1;
+			    else
+			    	y=fGrad(x);
+			    	if (isreal(y)==%F) then
+			    		y = 0;
+			    		check=1;
+  			    	else
+			    		check=0;
+			    	end
+			    end
+		    else
+		        if(execstr('y=numderivative(fun,x)','errcatch')==10000)
+			    	y=0;
+			    	check=1;
+			    else
+			    	y=numderivative(fun,x);
+			    	if (isreal(y)==%F) then
+			        	y=0;
+			    		check=1;
+  			    	else
+			    		check=0;
+			    	end
+			    end		
+		    end
+  	endfunction
+  	
+  	//Defining an inbuilt Lagrangian Hessian function 
+  	function [y,check] = lHess1(x,obj,lambda)
+   			if flag2==1 then
+   				if(execstr('y=lHess(x,obj,lambda)','errcatch')==32 | execstr('y=lHess(x,obj,lambda)','errcatch')==27)
+					y = 0;
+					check=1;
+				else
+					y=lHess(x,obj,lambda);
+					if (isreal(y)==%F) then
+						y = 0;
+						check=1;
+  					else
+						check=0;
+					end
+				end
+			else
+				if(execstr('[grad,y]=numderivative(fun,x)','errcatch')==10000)
+					check1=1;
+				else
+					[grad,y1]=numderivative(fun,x);
+					if (isreal(y1)==%F) then
+						check1=1;
+  					else
+						check1=0;
+					end	
+				end	
+				
+				
+				if check1==0 then
+					if no_nlc~=0 then
+						if(execstr('[grad,y]=numderivative(addnlc,x)','errcatch')==10000)
+							check2=1;
+						else
+							[grad,y2]=numderivative(addnlc,x);
+							if (isreal(y2)==%F) then
+								check2=1;
+  							else
+								check2=0;
+							end	
+						end
+						if check2==0 then
+							y2=matrix(y2, no_nlc*s(2)*s(2),1)
+							for i = 1:s(2)*s(2)
+								y(i)=0;
+								for j = 1:no_nlc
+									y(i)= y(i) + lambda(j)*y2((i-1)*no_nlc+j);
+								end
+							end
+					
+							for i = 1:s(2)*s(2)
+								y(i) = y(i)+ obj*y1(i);
+							end
+							check=0;
+						else
+							check=1;
+						end
+					else
+						check=0;
+						for i = 1:s(2)*s(2)
+							y(i) = obj*y1(i);
+						end
+					end
+				else
+					check=1;
+					y=[0];	
+				end				
+			end
+  	endfunction
    	
+   	//Defining an inbuilt Constraint gradient function 
+   	function [y,check] = addcGrad1(x)
+   			if flag3==1 then
+   			    if(execstr('y=addcGrad(x)','errcatch')==32 | execstr('y=addcGrad(x)','errcatch')==27)
+			    	y = 0;
+			    	check=1;
+			    else
+			    	y=addcGrad(x);
+			    	if (isreal(y)==%F) then
+			    		y = 0;
+			    		check=1;
+  			    	else
+			    		check=0;
+			    	end
+			    end
+			else
+			    if(execstr('y=numderivative(addnlc,x)','errcatch')==10000)
+			    	y=0;
+			    	check=1;
+			    else
+			    	y=numderivative(addnlc,x);
+			    	if (isreal(y)==%F) then
+			    		y=0;
+			    		check=1;
+  			    	else
+			    		check=0;
+			       	end
+			    end
+			end		
+  	endfunction
+  	
+   	//Creating a Dummy Variable for IPopt use
+   	empty=[0];
    	
-   	//Dummy variable which is used by Ipopt
-   	empty=0;
-
    	//Calling the Ipopt function for solving the above problem
-    [xopt,fopt,status,iter,cpu,obj_eval,dual,lambda1,zl,zu,gradient,hessian1] = solveminconp 					(f,gradhess,A,b,Aeq,beq,lb,ub,no_nlc,no_nlic,addnlc1,flag1,fGrad1,flag2,lHess1,flag3,addcGrad1,x0,options,empty)	
+    [xopt,fopt,status,iter,cpu,obj_eval,dual,lambda1,zl,zu,gradient,hessian1] = solveminconp(f,A,b,Aeq,beq,lb,ub,no_nlc,no_nlic,addnlc1,fGrad1,lHess1,addcGrad1,x0,options,empty)	
    
 	//Calculating the values for the output   	
    	xopt = xopt';
     exitflag = status;
-    output = struct("Iterations", [],"Cpu_Time",[],"Objective_Evaluation",[],"Dual_Infeasibility",[]);
+    output = struct("Iterations", [],"Cpu_Time",[],"Objective_Evaluation",[],"Dual_Infeasibility",[],"Message","");
    	output.Iterations = iter;
     output.Cpu_Time = cpu;
     output.Objective_Evaluation = obj_eval;
@@ -857,7 +892,7 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
 			lambda.ineqlin (j) = lambda1(i)
 			j= j+1;
 		end
-		lambda.ineqlin = lambda.ineqlin';
+		lambda.ineqlin = lambda.ineqlin'
 	end
 	
     //Converting hessian of order (1 x (numberOfVariables)^2) received from Ipopt to order (numberOfVariables x numberOfVariables)
@@ -872,7 +907,7 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
     if( status~=0 & status~=1 & status~=2 & status~=3 & status~=4 & status~=7 ) then
 		xopt=[];
 		fopt=[];
-		output = struct("Iterations", [],"Cpu_Time",[]);
+		output = struct("Iterations", [],"Cpu_Time",[],"Message","");
 		output.Iterations = iter;
     	output.Cpu_Time = cpu;
 		lambda = struct("lower",[],"upper",[],"ineqlin",[],"eqlin",[],"ineqnonlin",[],"eqnonlin",[]);
@@ -886,37 +921,54 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
     
     	case 0 then
         	printf("\nOptimal Solution Found.\n");
+        	output.Message="Optimal Solution Found";
     	case 1 then
         	printf("\nMaximum Number of Iterations Exceeded. Output may not be optimal.\n");
+        	output.Message="Maximum Number of Iterations Exceeded. Output may not be optimal";
     	case 2 then
        		printf("\nMaximum CPU Time exceeded. Output may not be optimal.\n");
+       		output.Message="Maximum CPU Time exceeded. Output may not be optimal";
     	case 3 then
         	printf("\nStop at Tiny Step\n");
+        	output.Message="Stop at Tiny Step";
     	case 4 then
         	printf("\nSolved To Acceptable Level\n");
+        	output.Message="Solved To Acceptable Level";
     	case 5 then
         	printf("\nConverged to a point of local infeasibility.\n");
+        	output.Message="Converged to a point of local infeasibility";
     	case 6 then
         	printf("\nStopping optimization at current point as requested by user.\n");
+        	output.Message="Stopping optimization at current point as requested by user";
     	case 7 then
         	printf("\nFeasible point for square problem found.\n");
+        	output.Message="Feasible point for square problem found";
     	case 8 then 
         	printf("\nIterates diverging; problem might be unbounded.\n");
+        	output.Message="Iterates diverging; problem might be unbounded";
     	case 9 then
         	printf("\nRestoration Failed!\n");
+        	output.Message="Restoration Failed!";
     	case 10 then
         	printf("\nError in step computation (regularization becomes too large?)!\n");
+        	output.Message="Error in step computation (regularization becomes too large?)!";
     	case 11 then
         	printf("\nProblem has too few degrees of freedom.\n");
+        	output.Message="Problem has too few degrees of freedom";
     	case 12 then
         	printf("\nInvalid option thrown back by Ipopt\n");
+        	output.Message="Invalid option thrown back by Ipopt";
     	case 13 then
         	printf("\nNot enough memory.\n");
+        	output.Message="Not enough memory";
     	case 15 then
         	printf("\nINTERNAL ERROR: Unknown SolverReturn value - Notify Ipopt Authors.\n");
+        	output.Message="INTERNAL ERROR: Unknown SolverReturn value - Notify Ipopt Authors";
     	else
         	printf("\nInvalid status returned. Notify the Toolbox authors\n");
+        	output.Message="Invalid status returned. Notify the Toolbox authors";
         	break;
         end
  
+    		
 endfunction

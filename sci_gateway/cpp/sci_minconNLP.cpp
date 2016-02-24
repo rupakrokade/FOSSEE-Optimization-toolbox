@@ -1,4 +1,4 @@
-// Copyright (C) 2015 - IIT Bombay - FOSSEE
+// Copyright (C) 1815 - IIT Bombay - FOSSEE
 //
 // Author: R.Vidyadhar & Vignesh Kannan
 // Organization: FOSSEE, IIT Bombay
@@ -49,7 +49,7 @@ bool minconNLP::get_nlp_info(Index& n, Index& m, Index& nnz_jac_g, Index& nnz_h_
 	m=numConstr_; // Number of constraints
 
 	nnz_jac_g = n*m; // No. of elements in Jacobian of constraints 
-	nnz_h_lag = n*(n+1)/2; // No. of elements in lower traingle of Hessian of the Lagrangian.
+	nnz_h_lag = n*n; // No. of elements in lower traingle of Hessian of the Lagrangian.
 
 	index_style=C_STYLE; // Index style of matrices
 	return true;
@@ -80,7 +80,7 @@ bool minconNLP::get_bounds_info(Index n, Number* x_l, Number* x_u, Index m, Numb
 		//bounds of non-linear inequality constraints
 		for(i=0;i<nonlinIneqCon_;i++)
 		{
-			g_l[c]=-1.0e19;
+			g_l[c]=-1.0e17;
 			g_u[c]=0;
 			c++;
 		}
@@ -102,7 +102,7 @@ bool minconNLP::get_bounds_info(Index n, Number* x_l, Number* x_u, Index m, Numb
 		//bounds of linear inequality constraints
 		for(i=0;i<Arows_;i++)
 		{
-			g_l[c]=-1.0e19;
+			g_l[c]=-1.0e17;
 			g_u[c]=b_[i];
 			
 			c++;
@@ -113,11 +113,121 @@ bool minconNLP::get_bounds_info(Index n, Number* x_l, Number* x_u, Index m, Numb
 	return true;
 }
 
+// This method sets initial values for required vectors . For now we are assuming 0 to all values. 
+bool minconNLP::get_starting_point(Index n, bool init_x, Number* x,bool init_z, Number* z_L, Number* z_U,Index m, bool init_lambda,Number* lambda)
+{	
+ 	assert(init_x == true);
+  	assert(init_z == false);
+  	assert(init_lambda == false);
+	if (init_x == true)
+	{ //we need to set initial values for vector x
+		for (Index var=0;var<n;var++)
+			x[var]=varGuess_[var];
+	}
+
+	return true;
+}
+
+//get value of objective function at vector x
+bool minconNLP::eval_f(Index n, const Number* x, bool new_x, Number& obj_value)
+{	
+  	int* funptr=NULL;  
+  	if(getFunctionFromScilab(1,&funptr))
+  	{
+		return 1;
+ 	}
+  	char name[18]="f";
+  	double obj=0;
+  	double *xNew=x;
+  	double check;
+  	createMatrixOfDouble(pvApiCtx, 14, 1, numVars_, xNew);
+  	int positionFirstElementOnStackForScilabFunction = 14;
+  	int numberOfRhsOnScilabFunction = 1;
+  	int numberOfLhsOnScilabFunction = 2;
+  	int pointerOnScilabFunction     = *funptr;
+   
+  	C2F(scistring)(&positionFirstElementOnStackForScilabFunction,name,
+                                                               &numberOfLhsOnScilabFunction,
+                                                               &numberOfRhsOnScilabFunction,(unsigned long)strlen(name));
+                              
+  	if(getDoubleFromScilab(15,&check))
+  	{
+		return true;
+	}
+	if (check==1)
+	{
+		
+		return true;
+	}	
+	else
+	{    
+  		if(getDoubleFromScilab(14,&obj))
+  		{
+			sciprint("No obj value");
+			return 1;
+  		}
+  		obj_value=obj;  
+	
+  		return true;
+	}
+}
+
+//get value of gradient of objective function at vector x.
+bool minconNLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* grad_f)
+{
+  	
+
+  		int* gradptr=NULL;
+  		if(getFunctionFromScilab(11,&gradptr))
+  		{
+			return 1;
+  		}  
+  		double *xNew=x;
+	  	createMatrixOfDouble(pvApiCtx, 14, 1, numVars_, xNew);
+  		int positionFirstElementOnStackForScilabFunction = 14;
+  		int numberOfRhsOnScilabFunction = 1;
+  		int numberOfLhsOnScilabFunction = 2;
+  		int pointerOnScilabFunction     = *gradptr;
+		char name[18]="fGrad1";
+ 
+  		C2F(scistring)(&positionFirstElementOnStackForScilabFunction,name,
+        	                                                       &numberOfLhsOnScilabFunction,
+        	                                                       &numberOfRhsOnScilabFunction,(unsigned long)strlen(name));
+
+	double* resg;
+	double check;
+  	int x0_rows,x0_cols;                           
+   	if(getDoubleFromScilab(15,&check))
+  	{
+		return true;
+	}
+	if (check==1)
+	{
+		return true;
+	}	
+	else
+	{ 	
+  	 	if(getDoubleMatrixFromScilab(14, &x0_rows, &x0_cols, &resg))
+  		{
+			sciprint("No results");
+			return 1;
+		}
+
+
+  		Index i;
+  		for(i=0;i<numVars_;i++)
+  		{
+			grad_f[i]=resg[i];
+        	finalGradient_[i]=resg[i];
+  		}
+	}		
+  		return true;
+}
+
 // return the value of the constraints: g(x)
 bool minconNLP::eval_g(Index n, const Number* x, bool new_x, Index m, Number* g)
 {
   	// return the value of the constraints: g(x)
-
 	unsigned int i;
 	unsigned int j;
 
@@ -132,26 +242,27 @@ bool minconNLP::eval_g(Index n, const Number* x, bool new_x, Index m, Number* g)
 		if(nonlinCon_!=0)
 		{
 			int* constr=NULL;  
-	  		if(getFunctionFromScilab(11,&constr))
+	  		if(getFunctionFromScilab(10,&constr))
 	  		{
 				return 1;
 	 		}
-	  		char name[20]="addnlc1";
+	  		
 		  	double *xNew=x;
 		  	double check;
-  			createMatrixOfDouble(pvApiCtx, 18, 1, numVars_, xNew);
-  			int positionFirstElementOnStackForScilabFunction = 18;
+  			createMatrixOfDouble(pvApiCtx, 14, 1, numVars_, xNew);
+  			int positionFirstElementOnStackForScilabFunction = 14;
   			int numberOfRhsOnScilabFunction = 1;
   			int numberOfLhsOnScilabFunction = 2;
   			int pointerOnScilabFunction     = *constr;
-  
+  			char name[18]="addnlc1";
+  			
  		 	C2F(scistring)(&positionFirstElementOnStackForScilabFunction,name,
                                                                &numberOfLhsOnScilabFunction,
                                                                &numberOfRhsOnScilabFunction,(unsigned long)strlen(name));
 
 			double* resc;  
 		  	int xC_rows,xC_cols;                           
-		  	if(getDoubleFromScilab(19,&check))
+		  	if(getDoubleFromScilab(15,&check))
   			{
 				return true;
 			}
@@ -161,7 +272,7 @@ bool minconNLP::eval_g(Index n, const Number* x, bool new_x, Index m, Number* g)
 			}	
 			else
 			{        
-		  		if(getDoubleMatrixFromScilab(18, &xC_rows, &xC_cols, &resc))
+		  		if(getDoubleMatrixFromScilab(14, &xC_rows, &xC_cols, &resc))
 		  		{
 					sciprint("No results");
 					return 1;
@@ -201,11 +312,11 @@ bool minconNLP::eval_g(Index n, const Number* x, bool new_x, Index m, Number* g)
 
 // return the structure or values of the jacobian
 bool minconNLP::eval_jac_g(Index n, const Number* x, bool new_x,Index m, Index nele_jac, Index* iRow, Index *jCol,Number* values)
-{
+{	
  	if (values == NULL) 
  	{
-    		if(m==0)// return the structure of the jacobian of the constraints
-    		{
+    	if(m==0)// return the structure of the jacobian of the constraints
+    	{
 			iRow=NULL; 
     			jCol=NULL;
   		}
@@ -235,71 +346,19 @@ bool minconNLP::eval_jac_g(Index n, const Number* x, bool new_x,Index m, Index n
 			//jacobian of non-linear constraints
 			if(nonlinCon_!=0)
 			{
-				if(flag3_==0)
-				{
-					int* gradhessptr=NULL;
-  					if(getFunctionFromScilab(2,&gradhessptr))
-  					{
-						return 1;
-  					}  
-  					double *xNew=x;
-  					double t=3;
-  					createMatrixOfDouble(pvApiCtx, 18, 1, numVars_, xNew);
-  					createScalarDouble(pvApiCtx, 19,t);
-  					int positionFirstElementOnStackForScilabFunction = 18;
-  					int numberOfRhsOnScilabFunction = 2;
-  					int numberOfLhsOnScilabFunction = 2;
-  					int pointerOnScilabFunction     = *gradhessptr;
-					char name[20]="gradhess";
- 	
-  					C2F(scistring)(&positionFirstElementOnStackForScilabFunction,name,
-                        	                                       &numberOfLhsOnScilabFunction,
-                        	                                       &numberOfRhsOnScilabFunction,(unsigned long)strlen(name));
-	
-					double* resj;  
-  					int xJ_rows,xJ_cols;
-  					if(getDoubleFromScilab(19,&check))
-  					{
-						return true;
-					}
-					if (check==1)
-					{
-						return true;
-					}	
-					else
-					{                                   
-  						if(getDoubleMatrixFromScilab(18, &xJ_rows, &xJ_cols, &resj))
-  						{
-							sciprint("No results");
-							return 1;
-						}
-		
-				        for(i=0;i<nonlinCon_;i++)
-						{
-							for(j=0;j<n;j++)
-							{
-								values[c] = resj[j*(int)nonlinCon_+i];
-								c++;
-							}	
-						}
-					}			
-				}
-			
-				else
-				{
 					int* jacptr=NULL;
-  					if(getFunctionFromScilab(17,&jacptr))
+  					if(getFunctionFromScilab(13,&jacptr))
   					{
 						return 1;
   					}  
 	
   					double *xNew=x;
-  					createMatrixOfDouble(pvApiCtx, 18, 1, numVars_, xNew);
-  					int positionFirstElementOnStackForScilabFunction = 18;
+  					createMatrixOfDouble(pvApiCtx, 14, 1, numVars_, xNew);
+  					int positionFirstElementOnStackForScilabFunction = 14;
   					int numberOfRhsOnScilabFunction = 1;
   					int numberOfLhsOnScilabFunction = 2;
   					int pointerOnScilabFunction     = *jacptr;
-					char name[20]="addcGrad1";
+					char name[18]="addcGrad1";
  	
   					C2F(scistring)(&positionFirstElementOnStackForScilabFunction,name,
                         	                                       &numberOfLhsOnScilabFunction,
@@ -307,7 +366,7 @@ bool minconNLP::eval_jac_g(Index n, const Number* x, bool new_x,Index m, Index n
 	
 					double* resj;  
   					int xJ_rows,xJ_cols;
-  					if(getDoubleFromScilab(19,&check))
+  					if(getDoubleFromScilab(15,&check))
   					{
 						return true;
 					}
@@ -317,7 +376,7 @@ bool minconNLP::eval_jac_g(Index n, const Number* x, bool new_x,Index m, Index n
 					}	
 					else
 					{                                 
-  						if(getDoubleMatrixFromScilab(18, &xJ_rows, &xJ_cols, &resj))
+  						if(getDoubleMatrixFromScilab(14, &xJ_rows, &xJ_cols, &resj))
   						{
 							sciprint("No results");
 							return 1;
@@ -330,7 +389,6 @@ bool minconNLP::eval_jac_g(Index n, const Number* x, bool new_x,Index m, Index n
 							c++;
 						}
 					}			
-				}
 			}
 
 			//jacobian of linear equality constraints
@@ -359,139 +417,6 @@ bool minconNLP::eval_jac_g(Index n, const Number* x, bool new_x,Index m, Index n
   	return true;
 }
 
-//get value of objective function at vector x
-bool minconNLP::eval_f(Index n, const Number* x, bool new_x, Number& obj_value)
-{
-  	int* funptr=NULL;  
-  	if(getFunctionFromScilab(1,&funptr))
-  	{
-		return 1;
- 	}
-  	char name[20]="f";
-  	double obj=0;
-  	double *xNew=x;
-  	double check;
-  	createMatrixOfDouble(pvApiCtx, 18, 1, numVars_, xNew);
-  	int positionFirstElementOnStackForScilabFunction = 18;
-  	int numberOfRhsOnScilabFunction = 1;
-  	int numberOfLhsOnScilabFunction = 2;
-  	int pointerOnScilabFunction     = *funptr;
-  
-  	C2F(scistring)(&positionFirstElementOnStackForScilabFunction,name,
-                                                               &numberOfLhsOnScilabFunction,
-                                                               &numberOfRhsOnScilabFunction,(unsigned long)strlen(name));
-                               
-  	if(getDoubleFromScilab(19,&check))
-  	{
-		return true;
-	}
-	if (check==1)
-	{
-		return true;
-	}	
-	else
-	{    
-  		if(getDoubleFromScilab(18,&obj))
-  		{
-			sciprint("No obj value");
-			return 1;
-  		}
-  		obj_value=obj;  
-	
-  		return true;
-	}
-}
-
-//get value of gradient of objective function at vector x.
-bool minconNLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* grad_f)
-{
-  	if (flag1_==0)
-  	{	
-  		int* gradhessptr=NULL;
-  		if(getFunctionFromScilab(2,&gradhessptr))
-  		{
-			return 1;
-  		}  
-  		double *xNew=x;
-  		double t=1;
-  		createMatrixOfDouble(pvApiCtx, 18, 1, numVars_, xNew);
-  		createScalarDouble(pvApiCtx, 19,t);
-  		int positionFirstElementOnStackForScilabFunction = 18;
-  		int numberOfRhsOnScilabFunction = 2;
-  		int numberOfLhsOnScilabFunction = 2;
-  		int pointerOnScilabFunction     = *gradhessptr;
-		char name[20]="gradhess";
- 
-  		C2F(scistring)(&positionFirstElementOnStackForScilabFunction,name,
-                                                               &numberOfLhsOnScilabFunction,
-                                                               &numberOfRhsOnScilabFunction,(unsigned long)strlen(name));
-  	}
-
-  	else 
-  	{
-  		int* gradptr=NULL;
-  		if(getFunctionFromScilab(13,&gradptr))
-  		{
-			return 1;
-  		}  
-  		double *xNew=x;
-	  	createMatrixOfDouble(pvApiCtx, 18, 1, numVars_, xNew);
-  		int positionFirstElementOnStackForScilabFunction = 18;
-  		int numberOfRhsOnScilabFunction = 1;
-  		int numberOfLhsOnScilabFunction = 2;
-  		int pointerOnScilabFunction     = *gradptr;
-		char name[20]="fGrad1";
- 	
-  		C2F(scistring)(&positionFirstElementOnStackForScilabFunction,name,
-        	                                                       &numberOfLhsOnScilabFunction,
-        	                                                       &numberOfRhsOnScilabFunction,(unsigned long)strlen(name));
-   	}
-
-	double* resg;
-	double check;
-  	int x0_rows,x0_cols;                           
-   	if(getDoubleFromScilab(19,&check))
-  	{
-		return true;
-	}
-	if (check==1)
-	{
-		return true;
-	}	
-	else
-	{ 
-  	 	if(getDoubleMatrixFromScilab(18, &x0_rows, &x0_cols, &resg))
-  		{
-			sciprint("No results");
-			return 1;
-		}
-
-
-  		Index i;
-  		for(i=0;i<numVars_;i++)
-  		{
-			grad_f[i]=resg[i];
-        	finalGradient_[i]=resg[i];
-  		}
-	}		
-  		return true;
-}
-
-// This method sets initial values for required vectors . For now we are assuming 0 to all values. 
-bool minconNLP::get_starting_point(Index n, bool init_x, Number* x,bool init_z, Number* z_L, Number* z_U,Index m, bool init_lambda,Number* lambda)
-{
- 	assert(init_x == true);
-  	assert(init_z == false);
-  	assert(init_lambda == false);
-	if (init_x == true)
-	{ //we need to set initial values for vector x
-		for (Index var=0;var<n;var++)
-			x[var]=varGuess_[var];
-	}
-
-	return true;
-}
-
 /*
  * Return either the sparsity structure of the Hessian of the Lagrangian, 
  * or the values of the Hessian of the Lagrangian  for the given values for
@@ -505,7 +430,7 @@ bool minconNLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor, I
 		Index idx=0;
 		for (Index row = 0; row < numVars_; row++) 
 		{
-			for (Index col = 0; col <= row; col++)
+			for (Index col = 0; col < numVars_; col++)
 			{
 				iRow[idx] = row;
 				jCol[idx] = col;
@@ -517,145 +442,23 @@ bool minconNLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor, I
 	else 
 	{
 		double check;
-		//hessian of the objective function		
-		if(flag2_==0)
-	  	{
-			int* gradhessptr=NULL;
-			if(getFunctionFromScilab(2,&gradhessptr))
-			{
-				return 1;
-			}          	
-			double *xNew=x;
-  			double t=2;
-			createMatrixOfDouble(pvApiCtx, 18, 1, numVars_, xNew);
-  			createScalarDouble(pvApiCtx, 19,t);
-  			int positionFirstElementOnStackForScilabFunction = 18;
-  			int numberOfRhsOnScilabFunction = 2;
-  			int numberOfLhsOnScilabFunction = 2;
-  			int pointerOnScilabFunction     = *gradhessptr;
-			char name[20]="gradhess";
-  	
-  			C2F(scistring)(&positionFirstElementOnStackForScilabFunction,name,
-                	                                               &numberOfLhsOnScilabFunction,
-                	                                               &numberOfRhsOnScilabFunction,(unsigned long)strlen(name));
-
-			double* resTemph;  
-  			int x0_rows,x0_cols;
-  			if(getDoubleFromScilab(19,&check))
-  			{
-				return true;
-			}
-			if (check==1)
-			{
-				return true;
-			}	
-			else
-			{                        
-  				if(getDoubleMatrixFromScilab(18, &x0_rows, &x0_cols, &resTemph))
-				{
-					sciprint("No results");
-					return 1;
-				}
-
-				double* resh=(double*)malloc(sizeof(double)*n*n);
-				Index i;
-				for(i=0;i<numVars_*numVars_;i++)
-				{
-       				resh[i]=resTemph[i];
-				}
-
-				//sum of hessians of constraints each multiplied by its own lambda factor
-				double* sum=(double*)malloc(sizeof(double)*n*n);
-				if(nonlinCon_!=0)
-				{	
-					
-					int* gradhessptr=NULL;
-					if(getFunctionFromScilab(2,&gradhessptr))
-					{
-						return 1;
-					}          	
-				
-					double *xNew=x;
-	  				double t=4;
-					createMatrixOfDouble(pvApiCtx, 18, 1, numVars_, xNew);
-	  				createScalarDouble(pvApiCtx, 19,t);
-	  				int positionFirstElementOnStackForScilabFunction = 18;
-	  				int numberOfRhsOnScilabFunction = 2;
-	  				int numberOfLhsOnScilabFunction = 2;
-	  				int pointerOnScilabFunction     = *gradhessptr;
-					char name[20]="gradhess";
-	  			
-	  				C2F(scistring)(&positionFirstElementOnStackForScilabFunction,name,
-	                		                                               &numberOfLhsOnScilabFunction,
-	                	                                               &numberOfRhsOnScilabFunction,(unsigned long)strlen(name));
 		
-	  				double* resCh;
-	  				int xCh_rows,xCh_cols;                           
-	  				if(getDoubleFromScilab(19,&check))
-  					{
-						return true;
-					}
-					if (check==1)
-					{
-						return true;
-					}	
-					else
-					{ 
-	  					if(getDoubleMatrixFromScilab(18, &xCh_rows, &xCh_cols, &resCh))
-						{
-							sciprint("No results");
-							return 1;
-						}
-				
-						Index j;
-					
-						for(i=0;i<numVars_*numVars_;i++)
-						{
-							sum[i]=0;
-							for(j=0;j<nonlinCon_;j++)
-								sum[i]+=lambda[j]*resCh[i*(int)nonlinCon_+j];
-						}
-					}
-				}		
-			
-				else	
-				{	
-						for(i=0;i<numVars_*numVars_;i++)	
-							sum[i]=0;
-				}	
-		
-				//computing the lagrangian
-				Index index=0;
-				for (Index row=0;row < numVars_ ;++row)
-				{
-					for (Index col=0; col <= row; ++col)
-					{
-						values[index++]=obj_factor*(resh[numVars_*row+col])+sum[numVars_*row+col];
-					}
-				}	
-	
-				free(resh);
-				free(sum);	
- 	    		}	
-			}
- 	    	else
- 	    	{		
 				int* hessptr=NULL;
-				if(getFunctionFromScilab(15,&hessptr))
+				if(getFunctionFromScilab(12,&hessptr))
 				{
 					return 1;
 				}          	
 				double *xNew=x;	
 				double *lambdaNew=lambda;
 				double objfac=obj_factor;
-  				createMatrixOfDouble(pvApiCtx, 18, 1, numVars_, xNew);
-				createScalarDouble(pvApiCtx, 19,objfac);
-				createMatrixOfDouble(pvApiCtx, 20, 1, numConstr_, lambdaNew);
-				int positionFirstElementOnStackForScilabFunction = 18;
+  				createMatrixOfDouble(pvApiCtx, 14, 1, numVars_, xNew);
+				createScalarDouble(pvApiCtx, 15,objfac);
+				createMatrixOfDouble(pvApiCtx, 16, 1, numConstr_, lambdaNew);
+				int positionFirstElementOnStackForScilabFunction = 14;
   				int numberOfRhsOnScilabFunction = 3;
   				int numberOfLhsOnScilabFunction = 2;
   				int pointerOnScilabFunction     = *hessptr;
-				char name[20]="lHess1";
+				char name[18]="lHess1";
   		
   				C2F(scistring)(&positionFirstElementOnStackForScilabFunction,name,
             	    	                                               &numberOfLhsOnScilabFunction,
@@ -663,7 +466,7 @@ bool minconNLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor, I
 	
 				double* resCh;
   				int xCh_rows,xCh_cols;
-  				if(getDoubleFromScilab(19,&check))
+  				if(getDoubleFromScilab(15,&check))
   				{
 					return true;
 				}
@@ -673,7 +476,7 @@ bool minconNLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor, I
 				}	
 				else
 				{                           
-  					if(getDoubleMatrixFromScilab(18, &xCh_rows, &xCh_cols, &resCh))
+  					if(getDoubleMatrixFromScilab(14, &xCh_rows, &xCh_cols, &resCh))
 					{
 						sciprint("No results");
 						return 1;
@@ -682,14 +485,12 @@ bool minconNLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor, I
 					Index index=0;
 					for (Index row=0;row < numVars_ ;++row)
 					{
-						for (Index col=0; col <= row; ++col)
+						for (Index col=0; col < numVars_; ++col)
 						{
 							values[index++]=resCh[numVars_*row+col];
 						}
 					}
 				}
-			}
-
 
 		Index index=0;
 	        for (Index row=0;row < numVars_ ;++row)
@@ -700,14 +501,6 @@ bool minconNLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor, I
 			}
 		}
 			
-		index=0;
-		for (Index col=0;col < numVars_ ;++col)
-		{
-			for (Index row=0; row <= col; ++row)	
-			{
-				finalHessian_[n*row+col]=values[index++];
-			}
-		}	
 	}	
 
     return true;
