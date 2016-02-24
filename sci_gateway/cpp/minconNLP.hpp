@@ -24,12 +24,6 @@ class minconNLP : public TNLP
 
   	Index numConstr_;                //Number of constraints 
 
-	Number flag1_;                   //Gradient of objective ON or OFF
-
-        Number flag2_;			 //Hessian of objective ON or OFF
-
-	Number flag3_;                   //Jacobian of constraints ON or OFF
-
 	Number nonlinCon_;               //Number of non-linear constraints
 
 	Number nonlinIneqCon_;		 //Number of non-linear inequality constraints
@@ -101,7 +95,7 @@ class minconNLP : public TNLP
 	public:
 
   	/** user defined constructor */
-  	minconNLP(Index nV, Index nC, Number *x0 ,Number *A, Number *b, Number* Aeq, Number *beq, Index Arows, Index Acols, Index brows, Index bcols, Index Aeqrows, Index Aeqcols, Index beqrows, Index beqcols, Number* LB, Number* UB, Number nlC, Number nlIC, Number f1, Number f2, Number f3) : numVars_(nV), numConstr_(nC), varGuess_(x0), A_(A), b_(b), Aeq_(Aeq), beq_(beq), Arows_(Arows), Acols_(Acols), brows_(brows), bcols_(bcols), Aeqrows_(Aeqrows), Aeqcols_(Aeqcols), beqrows_(beqrows), beqcols_(beqcols), varLB_(LB), varUB_(UB), nonlinCon_(nlC), nonlinIneqCon_(nlIC), flag1_(f1), flag2_(f2), flag3_(f3), finalX_(0), finalZl_(0), finalZu_(0), finalGradient_(0), finalHessian_(0), finalObjVal_(1e20){	}
+  	minconNLP(Index nV, Index nC, Number *x0 ,Number *A, Number *b, Number* Aeq, Number *beq, Index Arows, Index Acols, Index brows, Index bcols, Index Aeqrows, Index Aeqcols, Index beqrows, Index beqcols, Number* LB, Number* UB, Number nlC, Number nlIC) : numVars_(nV), numConstr_(nC), varGuess_(x0), A_(A), b_(b), Aeq_(Aeq), beq_(beq), Arows_(Arows), Acols_(Acols), brows_(brows), bcols_(bcols), Aeqrows_(Aeqrows), Aeqcols_(Aeqcols), beqrows_(beqrows), beqcols_(beqcols), varLB_(LB), varUB_(UB), nonlinCon_(nlC), nonlinIneqCon_(nlIC), finalX_(0), finalZl_(0), finalZu_(0), finalGradient_(0), finalHessian_(0), finalObjVal_(1e20){	}
 
   	/** default destructor */
   	virtual ~minconNLP();

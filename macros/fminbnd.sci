@@ -75,6 +75,7 @@ function [xopt,fopt,exitflag,output,lambda] = fminbnd (varargin)
 	//   <listitem>output.Cpu_Time: The total cpu-time spend during the search</listitem>
 	//   <listitem>output.Objective_Evaluation: The number of Objective Evaluations performed during the search</listitem>
 	//   <listitem>output.Dual_Infeasibility: The Dual Infeasiblity of the final soution</listitem>
+	//	 <listitem>output.Message: The output message for the problem</listitem>
 	// </itemizedlist>
 	//
 	// The lambda data structure contains the Lagrange multipliers at the end 
@@ -157,7 +158,7 @@ function [xopt,fopt,exitflag,output,lambda] = fminbnd (varargin)
 	
 	//To check whether the 1st Input argument (fun) is a function or not
    	if (type(fun) ~= 13 & type(fun) ~= 11) then
-   		errmsg = msprintf(gettext("%s: Expected function for Objective (1st Parameter)"), "fmincon");
+   		errmsg = msprintf(gettext("%s: Expected function for Objective (1st Parameter)"), "fminbnd");
    		error(errmsg);
    	end
    	
@@ -198,6 +199,12 @@ function [xopt,fopt,exitflag,output,lambda] = fminbnd (varargin)
    	end
    	s=size(x1);
    	
+   	//To check the match between f (1st Parameter) and x1 (2nd Parameter)
+   	if(execstr('init=fun(x1)','errcatch')==21) then
+		errmsg = msprintf(gettext("%s: Objective function and x1 did not match"), "fminbnd");
+   		error(errmsg);
+	end
+   	
    	//To check whether the 3rd Input argument (x2) is a vector/scalar
    	if (type(x2) ~= 1) then
    		errmsg = msprintf(gettext("%s: Expected Vector/Scalar for Upper Bound Vector (3rd Parameter)"), "fminbnd");
@@ -225,9 +232,15 @@ function [xopt,fopt,exitflag,output,lambda] = fminbnd (varargin)
    		x2=x2';
    	end 
     
+    //To check the match between f (1st Parameter) and x2 (3rd Parameter)
+   	if(execstr('init=fun(x2)','errcatch')==21) then
+		errmsg = msprintf(gettext("%s: Objective function and x2 did not match"), "fminbnd");
+   		error(errmsg);
+	end
+	
     //To check the contents of x1 and x2 (2nd & 3rd Parameter)
     
-    for i = 1:s(2)
+    for i = 1:s(1)
 		if (x1(i) == %inf) then
 		   	errmsg = msprintf(gettext("%s: Value of Lower Bound can not be infinity"), "fminbnd");
     		error(errmsg); 
@@ -237,7 +250,7 @@ function [xopt,fopt,exitflag,output,lambda] = fminbnd (varargin)
     		error(errmsg); 
 		end	
 		if(x2(i)-x1(i)<=1e-6) then
-			errmsg = msprintf(gettext("%s: Difference between Upper Bound and Lower bound should be atleast > 10^6 for variable number= %d "), "fminbnd", i);
+			errmsg = msprintf(gettext("%s: Difference between Upper Bound and Lower bound should be atleast > 10^-6 for variable number=	 %d "), "fminbnd", i);
     		error(errmsg)
     	end
 	end
@@ -255,11 +268,26 @@ function [xopt,fopt,exitflag,output,lambda] = fminbnd (varargin)
    	for i = 1:(size(param))/2
        	select convstr(param(2*i-1),'l')
     		case "maxiter" then
-          			options(2*i) = param(2*i);
+          			if (type(param(2*i))~=1) then
+          				errmsg = msprintf(gettext("%s: Value for Maximum Iteration should be a Constant"), "fminbnd");
+    	      			error(errmsg);
+          			else
+          				options(2*i) = param(2*i);    //Setting the maximum number of iterations as per user entry
+          			end
        		case "cputime" then
-          			options(2*i) = param(2*i);
+          			if (type(param(2*i))~=1) then
+          				errmsg = msprintf(gettext("%s: Value for Maximum Cpu-time should be a Constant"), "fminbnd");
+    	      			error(errmsg);
+          			else
+          				options(2*i) = param(2*i);    //Setting the maximum CPU time as per user entry
+          			end
         	case "tolx" then
-          			options(2*i) = param(2*i); 
+          			if (type(param(2*i))~=1) then
+          				errmsg = msprintf(gettext("%s: Value for Tolerance should be a Constant"), "fminbnd");
+    	      			error(errmsg);
+          			else
+          				options(2*i) = param(2*i);    //Setting the tolerance as per user entry
+          			end
     		else
     	     	 	errmsg = msprintf(gettext("%s: Unrecognized parameter name %s."), "fminbnd", param(2*i-1));
     	      		error(errmsg)
@@ -304,7 +332,7 @@ function [xopt,fopt,exitflag,output,lambda] = fminbnd (varargin)
    	//Calculating the values for the output
    	xopt = xopt';
    	exitflag = status;
-   	output = struct("Iterations", [],"Cpu_Time",[],"Objective_Evaluation",[],"Dual_Infeasibility",[]);
+   	output = struct("Iterations", [],"Cpu_Time",[],"Objective_Evaluation",[],"Dual_Infeasibility",[],"Message","");
    	output.Iterations = iter;
     output.Cpu_Time = cpu;
     output.Objective_Evaluation = obj_eval;
@@ -315,7 +343,7 @@ function [xopt,fopt,exitflag,output,lambda] = fminbnd (varargin)
 	if( status~=0 & status~=1 & status~=2 & status~=3 & status~=4 & status~=7 ) then
 		xopt=[]
 		fopt=[]
-		output = struct("Iterations", [],"Cpu_Time",[]);
+		output = struct("Iterations", [],"Cpu_Time",[],"Message","");
 		output.Iterations = iter;
     	output.Cpu_Time = cpu;
 		lambda = struct("lower",[],"upper",[]);
@@ -326,38 +354,54 @@ function [xopt,fopt,exitflag,output,lambda] = fminbnd (varargin)
     
     	case 0 then
         	printf("\nOptimal Solution Found.\n");
+        	output.Message="Optimal Solution Found";
     	case 1 then
         	printf("\nMaximum Number of Iterations Exceeded. Output may not be optimal.\n");
+        	output.Message="Maximum Number of Iterations Exceeded. Output may not be optimal";
     	case 2 then
-        	printf("\nMaximum CPU Time exceeded. Output may not be optimal.\n");
+       		printf("\nMaximum CPU Time exceeded. Output may not be optimal.\n");
+       		output.Message="Maximum CPU Time exceeded. Output may not be optimal";
     	case 3 then
         	printf("\nStop at Tiny Step\n");
+        	output.Message="Stop at Tiny Step";
     	case 4 then
         	printf("\nSolved To Acceptable Level\n");
+        	output.Message="Solved To Acceptable Level";
     	case 5 then
         	printf("\nConverged to a point of local infeasibility.\n");
+        	output.Message="Converged to a point of local infeasibility";
     	case 6 then
         	printf("\nStopping optimization at current point as requested by user.\n");
+        	output.Message="Stopping optimization at current point as requested by user";
     	case 7 then
         	printf("\nFeasible point for square problem found.\n");
+        	output.Message="Feasible point for square problem found";
     	case 8 then 
         	printf("\nIterates diverging; problem might be unbounded.\n");
+        	output.Message="Iterates diverging; problem might be unbounded";
     	case 9 then
         	printf("\nRestoration Failed!\n");
+        	output.Message="Restoration Failed!";
     	case 10 then
         	printf("\nError in step computation (regularization becomes too large?)!\n");
-    	case 12 then
+        	output.Message="Error in step computation (regularization becomes too large?)!";
+    	case 11 then
         	printf("\nProblem has too few degrees of freedom.\n");
+        	output.Message="Problem has too few degrees of freedom";
+    	case 12 then
+        	printf("\nInvalid option thrown back by Ipopt\n");
+        	output.Message="Invalid option thrown back by Ipopt";
     	case 13 then
-       		printf("\nInvalid option thrown back by Ipopt\n");
-    	case 14 then
         	printf("\nNot enough memory.\n");
+        	output.Message="Not enough memory";
     	case 15 then
         	printf("\nINTERNAL ERROR: Unknown SolverReturn value - Notify Ipopt Authors.\n");
+        	output.Message="INTERNAL ERROR: Unknown SolverReturn value - Notify Ipopt Authors";
     	else
         	printf("\nInvalid status returned. Notify the Toolbox authors\n");
+        	output.Message="Invalid status returned. Notify the Toolbox authors";
         	break;
-    	end
+        end
     
 
 endfunction
