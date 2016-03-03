@@ -10,6 +10,7 @@
 <tocitem target="fminunc" text="fminunc"/>
 <tocitem target="linprog" text="linprog"/>
 <tocitem target="lsqlin" text="lsqlin"/>
+<tocitem target="lsqnonlin" text="lsqnonlin"/>
 <tocitem target="lsqnonneg" text="lsqnonneg"/>
 <tocitem target="qpipopt" text="qpipopt"/>
 <tocitem target="qpipoptmat" text="qpipoptmat"/>
