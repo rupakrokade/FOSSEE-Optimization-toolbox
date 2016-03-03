@@ -10,6 +10,7 @@
 <mapID target="fminunc" url="fminunc.html"/>
 <mapID target="linprog" url="linprog.html"/>
 <mapID target="lsqlin" url="lsqlin.html"/>
+<mapID target="lsqnonlin" url="lsqnonlin.html"/>
 <mapID target="lsqnonneg" url="lsqnonneg.html"/>
 <mapID target="qpipopt" url="qpipopt.html"/>
 <mapID target="qpipoptmat" url="qpipoptmat.html"/>

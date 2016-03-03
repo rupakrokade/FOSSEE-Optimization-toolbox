@@ -9,8 +9,8 @@ fmincon
 fminimax
 fminunc
 linprog
-lsqcurvefit
 lsqlin
+lsqnonlin
 lsqnonneg
 matrix_linprog
 mps_linprog
