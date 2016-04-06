@@ -271,14 +271,14 @@ function [xopt,fopt,exitflag,output,gradient,hessian] = fminunc (varargin)
           				errmsg = msprintf(gettext("%s: Value for Maximum Iteration should be a Constant"), "fminunc");
     	      			error(errmsg);
           			else
-          				options(2*i) = param(2*i);    //Setting the maximum number of iterations as per user entry
+          				options(2) = param(2*i);    //Setting the maximum number of iterations as per user entry
           			end
        		case "cputime" then
           			if (type(param(2*i))~=1) then
           				errmsg = msprintf(gettext("%s: Value for Maximum Cpu-time should be a Constant"), "fminunc");
     	      			error(errmsg);
           			else
-          				options(2*i) = param(2*i);    //Setting the maximum CPU time as per user entry
+          				options(4) = param(2*i);    //Setting the maximum CPU time as per user entry
           			end
         	case "gradient" then
 					if (type(param(2*i))==10) then

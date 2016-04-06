@@ -51,7 +51,7 @@ function [xopt,fopt,exitflag,output,lambda] =mps_linprog(varargin)
    for i = 1:(size(param))/2
         select convstr(param(2*i-1),'l')
             case "maxiter" then
-        		options(2*i) = param(2*i);
+        		options(2) = param(2*i);
         	else
 			  errmsg = msprintf(gettext("%s: Unrecognized parameter name ''%s''."), "linprog", param(2*i-1));
 			  error(errmsg)

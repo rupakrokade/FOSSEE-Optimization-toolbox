@@ -189,16 +189,12 @@ function [xopt,resnorm,residual,exitflag,output,lambda,gradient] = lsqnonlin (va
 		ub = repmat(%inf,nbVar,1);
 	end
 
-	if (type(param) ~= 15) then
-		errmsg = msprintf(gettext("%s: param should be a list "), "lsqnonlin");
-		error(errmsg);
-	end
-
 	//Check type of variables
 	Checktype("lsqnonlin", _fun, "fun", 1, "function")
 	Checktype("lsqnonlin", x0, "x0", 2, "constant")
 	Checktype("lsqnonlin", lb, "lb", 3, "constant")
 	Checktype("lsqnonlin", ub, "ub", 4, "constant")
+	Checktype("lsqnonlin", param, "param", 5, "list")
 
 	if (modulo(size(param),2)) then
 		errmsg = msprintf(gettext("%s: Size of parameters should be even"), "lsqnonlin");
@@ -213,14 +209,14 @@ function [xopt,resnorm,residual,exitflag,output,lambda,gradient] = lsqnonlin (va
 
 		select convstr(param(2*i-1),'l')
 			case "maxiter" then
-				options(2*i) = param(2*i);
+				options(2) = param(2*i);
 				Checktype("lsqcurvefit", param(2*i), "maxiter", i, "constant")
 			case "cputime" then
-				options(2*i) = param(2*i);
+				options(4) = param(2*i);
 				Checktype("lsqcurvefit", param(2*i), "cputime", i, "constant")
         	case "gradobj" then
         		if (convstr(param(2*i))=="on") then
-    				options(2*i) = "on";
+    				options(6) = "on";
         		else
 					errmsg = msprintf(gettext("%s: Unrecognized String [%s] entered for gradobj."), "lsqnonlin",param(2*i));
       				error(errmsg);
@@ -288,8 +284,8 @@ function [xopt,resnorm,residual,exitflag,output,lambda,gradient] = lsqnonlin (va
 
 	//Converting it into fmincon Problem
 	function [y] = __fun(x)
-		[xVal] = _fun(x);
-		y = sum(xVal.^2);
+		[yVal] = _fun(x);
+		y = sum(yVal.^2);
 	endfunction
 
 	if (options(6) == "on")
@@ -300,12 +296,18 @@ function [xopt,resnorm,residual,exitflag,output,lambda,gradient] = lsqnonlin (va
         error(msprintf(gettext(lclmsg), "lsqnonlin", lamsg));
         end
 		function [dy] = __fGrad(x)
-			[x_user,dx_user] = _fun(x)
-			dy = 2*dx_user*(x_user');
+			[y_user,dy_user] = _fun(x)
+			dy = 2*y_user'*dy_user;
 		endfunction
-	    options(6) = __fGrad;
+	else
+		function [dy] = __fGrad(x)
+			y_user = _fun(x);
+			dy_nd = numderivative(_fun,x);
+			dy = 2*y_user'*dy_nd;
+		endfunction
 	end
-
+	
+    options(6) = __fGrad;
 	
 	[xopt,fopt,exitflag,output,lambda_fmincon,gradient] = fmincon(__fun,x0,[],[],[],[],lb,ub,[],options);
 	
