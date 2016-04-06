@@ -47,6 +47,15 @@ else
     link(lib_path + "/libCgl.so");
     link(lib_path + "/libSym.so");
     link(lib_path + "/libOsiSym.so");
+    try
+        link(lib_path + "/libcoinblas.so");
+    catch
+        if(~isfile('/usr/lib/x86_64-linux-gnu/libstdc++.so.6') | ~isfile('/usr/lib/x86_64-linux-gnu/libgfortran.so.3')) then
+            errmsg = msprintf(gettext("%s: Please install gfortran"), "FOSSEE_Optimization_Toolbox");
+            error(errmsg); 
+        end
+        unix_s('export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6:/usr/lib/x86_64-linux-gnu/libgfortran.so.3')
+    end
     link(lib_path + "/libcoinblas.so");
     link(lib_path + "/libcoinlapack.so");
     link(lib_path + "/libcoinmumps.so");

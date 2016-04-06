@@ -500,9 +500,17 @@ bool minconNLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor, I
 				finalHessian_[n*row+col]=values[index++];
 			}
 		}
+
+		index=0;
+		for (Index col=0;col < numVars_ ;++col)
+		{
+			for (Index row=0; row <= col; ++row)	
+			{
+				finalHessian_[n*row+col]=values[index++];
+			}
+		}
 			
 	}	
-
     return true;
 }
 
@@ -585,6 +593,4 @@ int minconNLP::returnStatus()
 }
 
 }
-
-
 

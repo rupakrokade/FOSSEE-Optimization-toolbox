@@ -595,14 +595,14 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
           				errmsg = msprintf(gettext("%s: Value for Maximum Iteration should be a Constant"), "fmincon");
     	      			error(errmsg);
           			else
-          				options(2*i) = param(2*i);    //Setting the maximum number of iterations as per user entry
+          				options(2) = param(2*i);    //Setting the maximum number of iterations as per user entry
           			end
        		case "cputime" then
           			if (type(param(2*i))~=1) then
           				errmsg = msprintf(gettext("%s: Value for Maximum Cpu-time should be a Constant"), "fmincon");
     	      			error(errmsg);
           			else
-          				options(2*i) = param(2*i);    //Setting the maximum CPU time as per user entry
+          				options(4) = param(2*i);    //Setting the maximum CPU time as per user entry
           			end
         	case "gradobj" then
         			if (type(param(2*i))==10) then
@@ -761,7 +761,7 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
 					end
 				end
 			else
-				if(execstr('[grad,y]=numderivative(fun,x)','errcatch')==10000)
+				if(execstr('[grad,y1]=numderivative(fun,x)','errcatch')==10000)
 					check1=1;
 				else
 					[grad,y1]=numderivative(fun,x);
@@ -772,10 +772,9 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
 					end	
 				end	
 				
-				
 				if check1==0 then
 					if no_nlc~=0 then
-						if(execstr('[grad,y]=numderivative(addnlc,x)','errcatch')==10000)
+						if(execstr('[grad,y2]=numderivative(addnlc,x)','errcatch')==10000)
 							check2=1;
 						else
 							[grad,y2]=numderivative(addnlc,x);
@@ -813,7 +812,7 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
 				end				
 			end
   	endfunction
-   	
+
    	//Defining an inbuilt Constraint gradient function 
    	function [y,check] = addcGrad1(x)
    			if flag3==1 then
@@ -842,12 +841,12 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
 			    		check=0;
 			       	end
 			    end
-			end		
+			end	
   	endfunction
-  	
+
    	//Creating a Dummy Variable for IPopt use
    	empty=[0];
-   	
+
    	//Calling the Ipopt function for solving the above problem
     [xopt,fopt,status,iter,cpu,obj_eval,dual,lambda1,zl,zu,gradient,hessian1] = solveminconp(f,A,b,Aeq,beq,lb,ub,no_nlc,no_nlic,addnlc1,fGrad1,lHess1,addcGrad1,x0,options,empty)	
    
@@ -972,3 +971,4 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
  
     		
 endfunction
+

@@ -1,7 +1,7 @@
 // Example with objective function using exponential input
 
 function y=fun(x)
-y=exp(x(2)*x(1));
+    y=exp(x(2)*x(1));
 endfunction
 
 x0 = [1,2];

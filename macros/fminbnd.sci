@@ -272,21 +272,21 @@ function [xopt,fopt,exitflag,output,lambda] = fminbnd (varargin)
           				errmsg = msprintf(gettext("%s: Value for Maximum Iteration should be a Constant"), "fminbnd");
     	      			error(errmsg);
           			else
-          				options(2*i) = param(2*i);    //Setting the maximum number of iterations as per user entry
+          				options(2) = param(2*i);    //Setting the maximum number of iterations as per user entry
           			end
        		case "cputime" then
           			if (type(param(2*i))~=1) then
           				errmsg = msprintf(gettext("%s: Value for Maximum Cpu-time should be a Constant"), "fminbnd");
     	      			error(errmsg);
           			else
-          				options(2*i) = param(2*i);    //Setting the maximum CPU time as per user entry
+          				options(4) = param(2*i);    //Setting the maximum CPU time as per user entry
           			end
         	case "tolx" then
           			if (type(param(2*i))~=1) then
           				errmsg = msprintf(gettext("%s: Value for Tolerance should be a Constant"), "fminbnd");
     	      			error(errmsg);
           			else
-          				options(2*i) = param(2*i);    //Setting the tolerance as per user entry
+          				options(6) = param(2*i);    //Setting the tolerance as per user entry
           			end
     		else
     	     	 	errmsg = msprintf(gettext("%s: Unrecognized parameter name %s."), "fminbnd", param(2*i-1));
