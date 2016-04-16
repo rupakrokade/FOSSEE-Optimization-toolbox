@@ -1,10 +1,7 @@
 // Example with objective function and inequality constraints
 
 function y=fun(x)
-    y=0
-    for i = 1:20
-       y = y + exp(x(i)) 
-    end
+    y=-sum(exp(x));
 endfunction
 
 x0 = repmat(1,1,20);
