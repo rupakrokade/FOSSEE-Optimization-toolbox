@@ -1,7 +1,7 @@
 // Example with objective function, inequality constraints and non linear constraints
 
 function y=fun(x)
-    y=-sum(exp(x))
+       y = cos(prod(x))
 endfunction
 
 x0 = repmat(1,1,20);
@@ -12,7 +12,7 @@ b=[-100 -50]';
 
 //Nonlinear constraints
 function [c,ceq]=nlc(x)
-    c = [ sum(2*exp(x)) + 1];
+    c = [ sum(2*cos(x)) - 1];
     ceq = [];
 endfunction
 

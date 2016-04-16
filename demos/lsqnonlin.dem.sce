@@ -53,5 +53,5 @@ v = wm.*exp(-x(2)*tm)
 dy = [v , -x(1)*tm.*v]
 endfunction
 options = list("GradObj", "on")
-[xopt,resnorm,residual,exitflag,output,lambda,gradient] = lsqnonlin(myfun,x0,[],[],options)
+[xopt,resnorm,residual,exitflag,output,lambda,gradient] = lsqnonlin(myfun,x0,[],[])
 //========= E N D === O F === D E M O =========//

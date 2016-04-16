@@ -1,7 +1,7 @@
 // Example with objective function, inequality constraints and non linear constraints
 
 function y=fun(x)
-    y=-sum(exp(x))
+       y = -prod(exp(x))
 endfunction
 
 x0 = repmat(1,1,20);

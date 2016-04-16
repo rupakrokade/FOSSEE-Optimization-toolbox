@@ -175,7 +175,7 @@ function [xopt,resnorm,residual,exitflag,output,lambda,gradient] = lsqnonlin (va
 		ub = varargin(4);
 	end
 
-	if ( rhs<7 | size(varargin(5)) ==0 ) then
+	if ( rhs<5 | size(varargin(5)) ==0 ) then
 		param = list();
 	else
 		param =varargin(5);
@@ -240,7 +240,7 @@ function [xopt,resnorm,residual,exitflag,output,lambda,gradient] = lsqnonlin (va
 
   	//To check the match between fun (1st Parameter) and x0 (2nd Parameter)
    	if(execstr('init=_fun(x0)','errcatch')==21) then
-		errmsg = msprintf(gettext("%s: Objective function and x0 did not match"), "fmincon");
+		errmsg = msprintf(gettext("%s: Objective function and x0 did not match"), "lsqnonlin");
    		error(errmsg);
 	end
 	
@@ -309,7 +309,12 @@ function [xopt,resnorm,residual,exitflag,output,lambda,gradient] = lsqnonlin (va
 	
     options(6) = __fGrad;
 	
-	[xopt,fopt,exitflag,output,lambda_fmincon,gradient] = fmincon(__fun,x0,[],[],[],[],lb,ub,[],options);
+    function [c, ceq] = nlc(x)
+        c = [];
+        ceq = [];
+	endfunction
+
+	[xopt,fopt,exitflag,output,lambda_fmincon,gradient] = fmincon(__fun,x0,[],[],[],[],lb,ub,nlc,options);
 	
 	lambda = struct("lower", lambda_fmincon.lower,"upper",lambda_fmincon.upper);
 	

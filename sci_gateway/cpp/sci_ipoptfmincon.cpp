@@ -147,7 +147,7 @@ int sci_solveminconp(char *fname)
 
 	///////// Initialize the IpoptApplication and process the options /////////
 	ApplicationReturnStatus status;
- 	status = app->Initialize();
+	status = app->Initialize();
 	if (status != Solve_Succeeded) 
 	{
 	  	sciprint("\n*** Error during initialization!\n");
