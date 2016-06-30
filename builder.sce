@@ -23,10 +23,6 @@ if ~with_module("development_tools") then
   error(msprintf(gettext("%s module not installed."),"development_tools"));
 end
 // ====================================================================
-if getos()=="Windows" then
-  error(msprintf(gettext("Module is not availabe on Windows.")));
-end
-// ====================================================================
 TOOLBOX_NAME = "FOSSEE_Optimization_Toolbox";
 TOOLBOX_TITLE = "FOSSEE Optimization Toolbox";
 // ====================================================================

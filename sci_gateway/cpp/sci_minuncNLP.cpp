@@ -11,7 +11,6 @@
 
 
 #include "minuncNLP.hpp"
-#include "IpIpoptData.hpp"
 #include "sci_iofunc.hpp"
 
 extern "C"
@@ -24,7 +23,6 @@ extern "C"
 #include <sciprint.h>
 #include <string.h>
 #include <assert.h>
-#include <iostream>
 
 using namespace std;
 using namespace Ipopt;
@@ -100,7 +98,7 @@ bool minuncNLP::eval_f(Index n, const Number* x, bool new_x, Number& obj_value)
  	}
   	char name[20]="f";
   	double obj=0;
-  	double *xNew=x;
+  	const Number *xNew=x;
   	createMatrixOfDouble(pvApiCtx, 7, 1, numVars_, xNew);
   	int positionFirstElementOnStackForScilabFunction = 7;
   	int numberOfRhsOnScilabFunction = 1;
@@ -142,7 +140,7 @@ bool minuncNLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* grad_f
   		{
 			return 1;
   		}  
-  		double *xNew=x;
+  		const Number *xNew=x;
   		double t=1;
   		createMatrixOfDouble(pvApiCtx, 7, 1, numVars_, xNew);
   		createScalarDouble(pvApiCtx, 8,t);
@@ -164,7 +162,7 @@ bool minuncNLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* grad_f
   		{
 			return 1;
   		}  
-  		double *xNew=x;
+  		const Number *xNew=x;
 	  	createMatrixOfDouble(pvApiCtx, 7, 1, numVars_, xNew);
   		int positionFirstElementOnStackForScilabFunction = 7;
   		int numberOfRhsOnScilabFunction = 1;
@@ -253,7 +251,7 @@ bool minuncNLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor, I
 			{
 				return 1;
 			}          	
-			double *xNew=x;
+			const Number *xNew=x;
   			double t=2;
 			createMatrixOfDouble(pvApiCtx, 7, 1, numVars_, xNew);
   			createScalarDouble(pvApiCtx, 8,t);
@@ -275,7 +273,7 @@ bool minuncNLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor, I
 			{
 				return 1;
 			}          	
-			double *xNew=x;	
+			const Number *xNew=x;	
   			createMatrixOfDouble(pvApiCtx, 7, 1, numVars_, xNew);
   			int positionFirstElementOnStackForScilabFunction = 7;
   			int numberOfRhsOnScilabFunction = 1;
@@ -337,7 +335,6 @@ void minuncNLP::finalize_solution(SolverReturn status,Index n, const Number* x, 
 
 	finalObjVal_ = obj_value;
 	status_ = status;
-	iter_ = ip_data->iter_count();
 }
 
 
@@ -359,11 +356,6 @@ const double * minuncNLP::getHess()
 double minuncNLP::getObjVal()
 {	
 	return finalObjVal_;
-}
-
-double minuncNLP::iterCount()
-{	
-	return (double)iter_;
 }
 
 int minuncNLP::returnStatus()

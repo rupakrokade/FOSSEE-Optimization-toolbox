@@ -136,6 +136,7 @@ It has type "struct" and contains the following fields.
 <listitem>output.Cpu_Time: The total cpu-time spend during the search</listitem>
 <listitem>output.Objective_Evaluation: The number of Objective Evaluations performed during the search</listitem>
 <listitem>output.Dual_Infeasibility: The Dual Infeasiblity of the final soution</listitem>
+<listitem>output.Message: The output message for the problem</listitem>
 </itemizedlist>
    </para>
    <para>
@@ -325,6 +326,7 @@ endfunction
 options=list("MaxIter", [1500], "CpuTime", [500], "GradObj", fGrad, "Hessian", lHess,"GradCon", cGrad);
 //Calling Ipopt
 [x,fval,exitflag,output,lambda,grad,hessian] =fmincon(f, x0,A,b,Aeq,beq,lb,ub,nlc,options)
+// Press ENTER to continue
    ]]></programlisting>
 </refsection>
 

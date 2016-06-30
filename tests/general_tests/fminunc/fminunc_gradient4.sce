@@ -8,7 +8,7 @@ x0 = [1,2];
 function y = grad(x)
 	y=[2*x(1)];
 endfunction
-options=list("MaxIter", [1000], "CpuTime", [100], "Gradient", grad, "Hessian", "OFF");
+options=list("MaxIter", [1000], "CpuTime", [100], "GradObj", grad, "Hessian", "OFF");
 
 //Error
 //fminunc: Expected function for Hessian of Objective

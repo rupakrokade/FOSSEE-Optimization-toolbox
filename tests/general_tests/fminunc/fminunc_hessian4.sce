@@ -8,7 +8,7 @@ x0 = [1,2];
 function y = hess(x)
 	y=[2,0];
 endfunction
-options=list("MaxIter", [1000], "CpuTime", [100], "Gradient", "OFF", "Hessian", hess);
+options=list("MaxIter", [1000], "CpuTime", [100], "GradObj", "OFF", "Hessian", hess);
 
 //Error
 //fminunc: Wrong Input for Objective Hessian function(3rd Parameter)---->Symmetric Matrix function of size [2 X 2] is Expected 

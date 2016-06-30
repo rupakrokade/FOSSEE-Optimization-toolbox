@@ -50,10 +50,10 @@ int sci_solveminuncp(char *fname)
 	int x0_rows, x0_cols;
 	
 	// Output arguments
-	double *fX = NULL, ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;
+	double ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;
 	double dual_inf, constr_viol, complementarity, kkt_error;
-	double *fGrad=  NULL;
-	double *fHess=  NULL;
+	const double *fX = NULL, *fGrad=  NULL;
+	const double *fHess=  NULL;
 	int rstatus = 0;
 	int int_fobj_eval, int_constr_eval, int_fobj_grad_eval, int_constr_jac_eval, int_hess_eval;
 
@@ -110,7 +110,6 @@ int sci_solveminuncp(char *fname)
 
 	SmartPtr<minuncNLP> Prob = new minuncNLP(nVars, nCons, x0ptr, flag1, flag2);
 	SmartPtr<IpoptApplication> app = IpoptApplicationFactory();
-	app->RethrowNonIpoptException(true);
 
 	////////// Managing the parameters //////////
 
@@ -128,7 +127,7 @@ int sci_solveminuncp(char *fname)
  	 }
 	 // Ask Ipopt to solve the problem
 	
-	 status = app->OptimizeTNLP(Prob);
+	 status = app->OptimizeTNLP((SmartPtr<TNLP>&)Prob);
 	 
 	 cpuTime = app->Statistics()->TotalCPUTime();
 
@@ -144,7 +143,7 @@ int sci_solveminuncp(char *fname)
 	fGrad = Prob->getGrad();
 	fHess = Prob->getHess();
 	ObjVal = Prob->getObjVal();
-	iteration = Prob->iterCount();
+	iteration = (double)app->Statistics()->IterationCount();
 	fobj_eval  = (double)int_fobj_eval;
 	
 	if (returnDoubleMatrixToScilab(1, 1, nVars, fX))

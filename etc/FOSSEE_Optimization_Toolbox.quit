@@ -27,10 +27,8 @@ function quitModule()
     if getscilabmode() == "STD" then
     removeModulePreferences(root_tlbx);
     end
-
+	ulink();
 endfunction
 
-
-quitModule();
 clear quitModule;
 

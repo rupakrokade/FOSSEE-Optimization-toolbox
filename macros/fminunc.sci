@@ -280,7 +280,7 @@ function [xopt,fopt,exitflag,output,gradient,hessian] = fminunc (varargin)
           			else
           				options(4) = param(2*i);    //Setting the maximum CPU time as per user entry
           			end
-        	case "gradient" then
+        	case "gradobj" then
 					if (type(param(2*i))==10) then
         				if (convstr(param(2*i))=="off") then
         					flag1 =0;

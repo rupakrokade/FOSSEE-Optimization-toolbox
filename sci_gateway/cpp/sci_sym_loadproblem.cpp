@@ -198,6 +198,9 @@ static int commonCodePart2()
 			cleanupBeforeExit();
 			return 1;
 		}
+		#ifdef _MSC_VER
+  	        double INFINITY = sym_get_infinity();
+		#endif
 		if(conLower[rowIter]==(-INFINITY) && conUpper[rowIter]==INFINITY){
 			conType[rowIter]='N';
 			conRange[rowIter]=0;

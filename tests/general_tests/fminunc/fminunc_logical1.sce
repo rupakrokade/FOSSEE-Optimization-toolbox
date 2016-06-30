@@ -5,7 +5,7 @@ function y = fun(x)
 	y = -(x(1)^2 + x(2)^2);
 endfunction
 x0 = [1,2];
-options=list("MaxIter", [1500], "CpuTime", [500], "Gradient", "OFF", "Hessian", "OFF");
+options=list("MaxIter", [1500], "CpuTime", [500], "GradObj", "OFF", "Hessian", "OFF");
 
 //Output
 //

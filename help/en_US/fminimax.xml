@@ -30,11 +30,11 @@
    xopt = fminimax(fun,x0,A,b,Aeq,beq,lb,ub)
    xopt = fminimax(fun,x0,A,b,Aeq,beq,lb,ub,nonlinfun)
    xopt = fminimax(fun,x0,A,b,Aeq,beq,lb,ub,nonlinfun,options)
-   [xopt, fval] = fminimax(.....)
-   [xopt, fval, maxfval]= fminimax(.....)
-   [xopt, fval, maxfval, exitflag]= fminimax(.....)
-   [xopt, fval, maxfval, exitflag, output]= fminimax(.....)
-   [xopt, fval, maxfval, exitflag, output, lambda]= fminimax(.....)
+   [xopt, fval] = fmincon(.....)
+   [xopt, fval, maxfval]= fmincon(.....)
+   [xopt, fval, maxfval, exitflag]= fmincon(.....)
+   [xopt, fval, maxfval, exitflag, output]= fmincon(.....)
+   [xopt, fval, maxfval, exitflag, output, lambda]= fmincon(.....)
    
    </synopsis>
 </refsynopsisdiv>

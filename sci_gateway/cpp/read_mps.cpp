@@ -102,12 +102,8 @@ int sci_rmps(char *fname)
     returnDoubleMatrixToScilab(5 , 1 , numVars_ , reducedCost);
     returnDoubleMatrixToScilab(6 , 1 , numCons_ , dual);
 	
-	free(xValue);
-	free(dual);
-	free(reducedCost);
+	free((double *)xValue);
+	free((double *)dual);
+	free((double *)reducedCost);
+  }
 }
-}
-
-
-  	
-   

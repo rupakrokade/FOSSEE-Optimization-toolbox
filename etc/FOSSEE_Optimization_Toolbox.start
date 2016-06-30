@@ -11,11 +11,6 @@
 
 mprintf("Start FOSSEE Optimization Toolbox\n");
 
-if ( isdef("sym_open") ) then
-        warning("Library is already loaded");
-        return;
-end
-
 etc_tlbx  = get_absolute_file_path("FOSSEE_Optimization_Toolbox.start");
 etc_tlbx  = getshortpathname(etc_tlbx);
 root_tlbx = strncpy( etc_tlbx, length(etc_tlbx)-length("\etc\") );
@@ -35,7 +30,9 @@ mprintf("\tLoad gateways\n");
 Version = opt(2);
 ilib_verbose(0);
 if getos()=="Windows" then
-    error(msprintf(gettext("Module is not for Windows.")));
+    lib_path = root_tlbx + "/thirdparty/windows/lib/" + Version;
+    link(lib_path+filesep()+"IpOptFSS.dll");
+    link(lib_path+filesep()+"IpOpt-vc10.dll");
 else
     lib_path = root_tlbx + "/thirdparty/linux/lib/" + Version;
     link(lib_path + "/libCoinUtils.so");
@@ -47,15 +44,6 @@ else
     link(lib_path + "/libCgl.so");
     link(lib_path + "/libSym.so");
     link(lib_path + "/libOsiSym.so");
-    try
-        link(lib_path + "/libcoinblas.so");
-    catch
-        if(~isfile('/usr/lib/x86_64-linux-gnu/libstdc++.so.6') | ~isfile('/usr/lib/x86_64-linux-gnu/libgfortran.so.3')) then
-            errmsg = msprintf(gettext("%s: Please install gfortran"), "FOSSEE_Optimization_Toolbox");
-            error(errmsg); 
-        end
-        unix_s('export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6:/usr/lib/x86_64-linux-gnu/libgfortran.so.3')
-    end
     link(lib_path + "/libcoinblas.so");
     link(lib_path + "/libcoinlapack.so");
     link(lib_path + "/libcoinmumps.so");
@@ -91,6 +79,4 @@ end
 
 // =============================================================================
 
-clear root_tlbx;
-clear etc_tlbx;
-
+clear etc_tlbx root_tlbx Version a opt lib_path;

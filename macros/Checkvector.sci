@@ -49,7 +49,7 @@ function errmsg = Checkvector ( funname , var , varname , ivar , nbval )
   ncols = size(var,"c")
   if ( nrows <> 1 & ncols <> 1 ) then
     strcomp = strcat(string(size(var))," ")
-    errmsg = msprintf(gettext("%s: Expected a vector matrix for input argument %s at input #%d, but current dimensions are [%s] instead."), funname, varname , ivar , strcomp );
+    errmsg = msprintf(gettext("%s: Expected a vector matrix for input argument %s at input #%d, but got [%s] instead."), funname, varname , ivar , strcomp );
     error(errmsg)
   end
   if ( ( nrows == 1 & ncols <> nbval ) | ( ncols == 1 & nrows <> nbval ) ) then

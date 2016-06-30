@@ -267,7 +267,7 @@ int returnDoubleToScilab(double retVal)
 	return 0;
 }
 
-int returnDoubleMatrixToScilab(int itemPos, int rows, int cols, double *dest)
+int returnDoubleMatrixToScilab(int itemPos, int rows, int cols, const double *dest)
 {
 	SciErr sciErr;
 	//same steps as above

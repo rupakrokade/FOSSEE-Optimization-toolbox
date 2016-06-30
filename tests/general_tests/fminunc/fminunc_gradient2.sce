@@ -5,7 +5,7 @@ function y = fun(x)
 	y = x(1)^2 + x(2)^2;
 endfunction
 x0 = [1,2];
-options=list("MaxIter", [1000], "CpuTime", [100], "Gradient", "", "Hessian", "OFF");
+options=list("MaxIter", [1000], "CpuTime", [100], "GradObj", "", "Hessian", "OFF");
 
 //Error
 //fminunc: Unrecognized String [] entered for the option- Gradient.

@@ -5,7 +5,7 @@ function y = fun(x)
 	y = log(x);
 endfunction
 x0 = [1];
-options=list("MaxIter", [1500], "CpuTime", [500], "Gradient", "OFF", "Hessian", "OFF");
+options=list("MaxIter", [1500], "CpuTime", [500], "GradObj", "OFF", "Hessian", "OFF");
 
 //Output
 //

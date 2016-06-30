@@ -48,13 +48,13 @@ int sci_solveminconp(char *fname)
 	int x0_rows=0, x0_cols=0, lb_rows=0, lb_cols=0, ub_rows=0, ub_cols=0, A_rows=0, A_cols=0, b_rows=0, b_cols=0, Aeq_rows=0, Aeq_cols=0, beq_rows=0, beq_cols=0;
 	
 	// Output arguments	
-	double *fX = NULL, ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;
+	double  ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;
 	double dual_inf, constr_viol, complementarity, kkt_error;
-	double *fGrad =  NULL;
-	double *fHess =  NULL;
-	double *fLambda = NULL;
-	double *fZl=NULL;
-	double *fZu=NULL;
+	const double *fX = NULL, *fGrad =  NULL;
+	const double *fHess =  NULL;
+	const double *fLambda = NULL;
+	const double *fZl=NULL;
+	const double *fZu=NULL;
 	int rstatus = 0;
 	int int_fobj_eval, int_constr_eval, int_fobj_grad_eval, int_constr_jac_eval, int_hess_eval;
 
@@ -136,7 +136,6 @@ int sci_solveminconp(char *fname)
 
 	SmartPtr<minconNLP> Prob = new minconNLP(nVars, nCons, x0ptr, Aptr, bptr, Aeqptr, beqptr, A_rows, A_cols, b_rows, b_cols, Aeq_rows, Aeq_cols, beq_rows, beq_cols, lbptr, ubptr, nonlinCon, nonlinIneqCon);
 	SmartPtr<IpoptApplication> app = IpoptApplicationFactory();
-	app->RethrowNonIpoptException(true);
 
 	////////// Managing the parameters //////////
 
@@ -155,7 +154,7 @@ int sci_solveminconp(char *fname)
  	 }
 	 
 	 // Ask Ipopt to solve the problem
-	 status = app->OptimizeTNLP(Prob);
+	 status = app->OptimizeTNLP((SmartPtr<TNLP>&)Prob);
 	 
 	 //Get the solve statistics
 	 cpuTime = app->Statistics()->TotalCPUTime();
@@ -173,7 +172,7 @@ int sci_solveminconp(char *fname)
 	fZl = Prob->getZl();
 	fZu = Prob->getZu();
 	ObjVal = Prob->getObjVal();
-	iteration = Prob->iterCount();
+	iteration = (double)app->Statistics()->IterationCount();
 
 	if (returnDoubleMatrixToScilab(1, 1, nVars, fX))
 	{

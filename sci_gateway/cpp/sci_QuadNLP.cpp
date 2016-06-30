@@ -10,7 +10,11 @@
 // Email: toolbox@scilab.in
 
 #include "QuadNLP.hpp"
-#include "IpIpoptData.hpp"
+#include <IpIpoptApplication.hpp>
+#include <IpSolveStatistics.hpp>
+#include <IpTNLP.hpp>
+#include <IpIpoptCalculatedQuantities.hpp>
+#include <IpSmartPtr.hpp>
 
 extern "C"{
 #include <api_scilab.h>
@@ -18,7 +22,11 @@ extern "C"{
 #include <BOOL.h>
 #include <localization.h>
 #include <sciprint.h>
-
+#if defined(_MSC_VER)
+#include "config_ipopt.h"
+#else
+#include "IpoptConfig.h"
+#endif
 
 double x_static,i, *op_obj_x = NULL,*op_obj_value = NULL;
 
@@ -214,9 +222,6 @@ void QuadNLP::finalize_solution(SolverReturn status,
 
 	finalObjVal_ = obj_value;
 	status_ = status;
-	if (status_ == 0 | status_ == 1 | status_ == 2){
-		iter_ = ip_data->iter_count();
-	}
    }
 
 	const double * QuadNLP::getX()
@@ -242,11 +247,6 @@ void QuadNLP::finalize_solution(SolverReturn status,
 	double QuadNLP::getObjVal()
 	{	
 		return finalObjVal_;
-	}
-
-	double QuadNLP::iterCount()
-	{	
-		return (double)iter_;
 	}
 
 	int QuadNLP::returnStatus()
