@@ -5,7 +5,7 @@ function y = fun(x)
 	y = x(1)^2 + x(2)^2;
 endfunction
 x0 = [1,2];
-options=list("MaxIter", [1000], "CpuTime", , "Gradient", "OFF", "Hessian", "OFF");
+options=list("MaxIter", [1000], "CpuTime", , "GradObj", "OFF", "Hessian", "OFF");
 
 //Error
 //fminunc: Value for Maximum Cpu-time should be a Constant

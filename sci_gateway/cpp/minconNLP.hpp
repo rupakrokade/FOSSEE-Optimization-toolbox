@@ -28,13 +28,13 @@ class minconNLP : public TNLP
 
 	Number nonlinIneqCon_;		 //Number of non-linear inequality constraints
 
-	const Number *A_= NULL;		 //Matrix for linear inequality constraints
+	const Number *A_;		 //Matrix for linear inequality constraints
 
-	const Number *b_= NULL;		 //Matrix for bounds of linear inequality constraints
+	const Number *b_;		 //Matrix for bounds of linear inequality constraints
 
-	const Number *Aeq_= NULL;	 //Matrix for linear equality constraints
+	const Number *Aeq_;	 //Matrix for linear equality constraints
 
-	const Number *beq_= NULL;        //Matrix for bounds of linear equality constraints
+	const Number *beq_;        //Matrix for bounds of linear equality constraints
 
 	Index Arows_;			 //Number of rows of linear inequality constraints
 
@@ -53,38 +53,36 @@ class minconNLP : public TNLP
 	Index beqcols_;			 //Number of columns of bounds of linear equality constraints
 	
 
-  	const Number *varGuess_= NULL;	 //varGuess_ is a pointer to a matrix of size of 1*numVars_
+  	const Number *varGuess_;	 //varGuess_ is a pointer to a matrix of size of 1*numVars_
 				         //with initial guess of all variables.
 
-	const Number *varUB_= NULL;	 //varUB_ is a pointer to a matrix of size of 1*numVar_ 
+	const Number *varUB_;	 //varUB_ is a pointer to a matrix of size of 1*numVar_ 
 					 // with upper bounds of all variables.
 
-	const Number *varLB_= NULL;	 //varLB_ is a pointer to a matrix of size of 1*numVar_
+	const Number *varLB_;	 //varLB_ is a pointer to a matrix of size of 1*numVar_
 					 // with lower bounds of all variables.
 
-	Number *finalZl_= NULL;		 //finalZl_ is a pointer to a matrix of size of 1*numVar_
+	Number *finalZl_;		 //finalZl_ is a pointer to a matrix of size of 1*numVar_
 					 // with final values for the lower bound multipliers
 
-	Number *finalZu_= NULL;		 //finalZu_ is a pointer to a matrix of size of 1*numVar_
+	Number *finalZu_;		 //finalZu_ is a pointer to a matrix of size of 1*numVar_
 					 // with final values for the upper bound multipliers
 
-	Number *finalLambda_= NULL;	 //finalLambda_ is a pointer to a matrix of size of 1*numConstr_
+	Number *finalLambda_;	 //finalLambda_ is a pointer to a matrix of size of 1*numConstr_
 					 // with final values for the upper bound multipliers
 
-	Number *finalX_= NULL;           //finalX_ is a pointer to a matrix of size of 1*numVars_
+	Number *finalX_;           //finalX_ is a pointer to a matrix of size of 1*numVars_
 				         //with final value for the primal variables.
 
-  	Number *finalGradient_=NULL;     //finalGradient_ is a pointer to a matrix of size of numVars_*numVars_
+  	Number *finalGradient_;     //finalGradient_ is a pointer to a matrix of size of numVars_*numVars_
 				         //with final value of gradient for the primal variables.
 
 
-  	Number *finalHessian_=NULL;      //finalHessian_ is a pointer to a matrix of size of 1*numVar_
+  	Number *finalHessian_;      //finalHessian_ is a pointer to a matrix of size of 1*numVar_
 				         //with final value of hessian for the primal variables.
 
 
   	Number finalObjVal_;          	 //finalObjVal_ is a scalar with the final value of the objective.
-
-  	int iter_;			 //Number of iteration.
 
   	int status_;			 //Solver return status
 
@@ -157,8 +155,6 @@ class minconNLP : public TNLP
 					//with final values for the constraint multipliers
 
 	double getObjVal();		//Returns the output of the final value of the objective.
-
-  	double iterCount();		//Returns the iteration count
 
   	int returnStatus();		//Returns the status count
 

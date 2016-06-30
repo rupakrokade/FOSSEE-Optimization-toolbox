@@ -49,9 +49,9 @@ int sci_solveminbndp(char *fname)
 	int x1_rows, x1_cols, x2_rows, x2_cols;
 	
 	// Output arguments
-	double *fX = NULL, ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;
-	double *fZl=NULL;
-	double *fZu=NULL;
+	double  ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;
+	const double *fX = NULL,*fZl=NULL;
+	const double *fZu=NULL;
 	double dual_inf, constr_viol, complementarity, kkt_error;
 	int rstatus = 0;
 	int int_fobj_eval, int_constr_eval, int_fobj_grad_eval, int_constr_jac_eval, int_hess_eval;
@@ -110,7 +110,6 @@ int sci_solveminbndp(char *fname)
 	SmartPtr<minbndNLP> Prob = new minbndNLP(nVars,nCons,varLB,varUB);
 	
 	SmartPtr<IpoptApplication> app = IpoptApplicationFactory();
-	app->RethrowNonIpoptException(true);
 
 	////////// Managing the parameters //////////
 
@@ -126,7 +125,7 @@ int sci_solveminbndp(char *fname)
    	 return (int) status;
  	 }
 	 // Ask Ipopt to solve the problem
-	 status = app->OptimizeTNLP(Prob);
+	 status = app->OptimizeTNLP((SmartPtr<TNLP>&)Prob);
 	 
 	 //Get the solve statistics
 	 cpuTime = app->Statistics()->TotalCPUTime();
@@ -139,7 +138,7 @@ int sci_solveminbndp(char *fname)
 
 	fX = Prob->getX();
 	ObjVal = Prob->getObjVal();
-	iteration = Prob->iterCount();
+	iteration = (double)app->Statistics()->IterationCount();
 	fobj_eval=(double)int_fobj_eval;
 	fZl = Prob->getZl();
 	fZu = Prob->getZu();

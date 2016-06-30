@@ -3,7 +3,7 @@
 
 fun = [];
 x0 = [1,2,3,4,5,6];
-options=list("MaxIter", [1500], "CpuTime", [500], "Gradient", "OFF", "Hessian", "OFF");
+options=list("MaxIter", [1500], "CpuTime", [500], "GradObj", "OFF", "Hessian", "OFF");
 
 //Error
 //fminbnd: Expected function for Objective (1st Parameter)

@@ -11,6 +11,7 @@
 
 #include "sci_iofunc.hpp"
 #include "IpIpoptApplication.hpp"
+#include "IpSolveStatistics.hpp"
 #include "QuadNLP.hpp"
 
 extern "C"{
@@ -33,11 +34,12 @@ int sci_solveqp(char *fname)
 	// Input arguments
 	double *QItems=NULL,*PItems=NULL,*ConItems=NULL,*conUB=NULL,*conLB=NULL;
 	double *cpu_time=NULL,*max_iter=NULL,*varUB=NULL,*varLB=NULL,*init_guess=NULL;
-	static unsigned int nVars = 0,nCons = 0;
+	static int nVars = 0,nCons = 0;
 	unsigned int temp1 = 0,temp2 = 0, iret = 0;
 
 	// Output arguments
-	double *fX = NULL, ObjVal=0,iteration=0, *Zl=NULL, *Zu=NULL, *Lambda=NULL;
+	const double *fX = NULL, *Zl=NULL, *Zu=NULL, *Lambda=NULL;
+    double ObjVal=0,iteration=0;
 	int rstatus = 0;
 
 	////////// Manage the input argument //////////
@@ -140,7 +142,6 @@ int sci_solveqp(char *fname)
 	new QuadNLP(nVars,nCons,QItems,PItems,ConItems,conUB,conLB,varUB,varLB,init_guess);
 
 	SmartPtr<IpoptApplication> app = IpoptApplicationFactory();
-	app->RethrowNonIpoptException(true);
 
 	////////// Managing the parameters //////////
 
@@ -164,7 +165,7 @@ int sci_solveqp(char *fname)
  	 }
 	 // Ask Ipopt to solve the problem
 	
-	 status = app->OptimizeTNLP(Prob);
+	 status = app->OptimizeTNLP((SmartPtr<TNLP>&)Prob);
 
 	rstatus = Prob->returnStatus();
 
@@ -173,7 +174,7 @@ int sci_solveqp(char *fname)
 	if (rstatus >= 0 | rstatus <= 7){
 		fX = Prob->getX();
 		ObjVal = Prob->getObjVal();
-		iteration = Prob->iterCount();
+		iteration = (double)app->Statistics()->IterationCount();
 
 		if (returnDoubleMatrixToScilab(1, 1, nVars, fX))
 		{

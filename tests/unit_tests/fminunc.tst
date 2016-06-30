@@ -69,7 +69,7 @@ function y= fHess(x)
 y= [1200*x(1)^2- 400*x(2) + 2, -400*x(1);-400*x(1), 200 ];
 endfunction
 //Options
-options=list("MaxIter", [1500], "CpuTime", [500], "Gradient", fGrad, "Hessian", fHess);
+options=list("MaxIter", [1500], "CpuTime", [500], "GradObj", fGrad, "Hessian", fHess);
 //Calling Ipopt
 [xopt,fopt,exitflag,output,gradient,hessian]=fminunc(f,x0,options)
 

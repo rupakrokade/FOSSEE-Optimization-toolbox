@@ -9,6 +9,7 @@ fmincon
 fminimax
 fminunc
 fseminf
+intlinprog
 linprog
 lsqlin
 lsqnonlin

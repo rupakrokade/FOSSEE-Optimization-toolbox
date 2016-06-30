@@ -155,4 +155,5 @@ endfunction
 options=list("MaxIter", [1500], "CpuTime", [500], "GradObj", fGrad, "Hessian", lHess,"GradCon", cGrad);
 //Calling Ipopt
 [x,fval,exitflag,output,lambda,grad,hessian] =fmincon(f, x0,A,b,Aeq,beq,lb,ub,nlc,options)
+// Press ENTER to continue
 //========= E N D === O F === D E M O =========//

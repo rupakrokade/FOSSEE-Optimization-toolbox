@@ -110,6 +110,7 @@ It has type "struct" and contains the following fields.
 <listitem>output.Cpu_Time: The total cpu-time spend during the search</listitem>
 <listitem>output.Objective_Evaluation: The number of Objective Evaluations performed during the search</listitem>
 <listitem>output.Dual_Infeasibility: The Dual Infeasiblity of the final soution</listitem>
+<listitem>output.Message: The output message for the problem</listitem>
 </itemizedlist>
    </para>
    <para>

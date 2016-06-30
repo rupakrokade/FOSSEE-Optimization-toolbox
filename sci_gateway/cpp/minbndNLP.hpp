@@ -24,26 +24,24 @@ class minbndNLP : public TNLP
 
   	Index numConstr_;                //Number of constraints 
 
-  	Number *finalX_= NULL;           //finalX_ is a pointer to a matrix of size of 1*1
+  	Number *finalX_;           //finalX_ is a pointer to a matrix of size of 1*1
 				         //with final value for the primal variable.
 
-	Number *finalZl_= NULL;		 //finalZl_ is a pointer to a matrix of size of 1*numVar_
+	Number *finalZl_;		 //finalZl_ is a pointer to a matrix of size of 1*numVar_
 					 // with final values for the lower bound multipliers
 
-	Number *finalZu_= NULL;		 //finalZu_ is a pointer to a matrix of size of 1*numVar_
+	Number *finalZu_;		 //finalZu_ is a pointer to a matrix of size of 1*numVar_
 					 // with final values for the upper bound multipliers
 
   	Number finalObjVal_;          	 //finalObjVal_ is a scalar with the final value of the objective.
 
-  	int iter_;			 //Number of iteration.
-
   	int status_;			 //Solver return status
 
 
-  	const Number *varUB_= NULL;	 //varUB_ is a pointer to a matrix of size of 1*1 
+  	const Number *varUB_;	 //varUB_ is a pointer to a matrix of size of 1*1 
 					 // with upper bounds of all variable.
 
-  	const Number *varLB_= NULL;	 //varLB_ is a pointer to a matrix of size of 1*1
+  	const Number *varLB_;	 //varLB_ is a pointer to a matrix of size of 1*1
 					 // with lower bounds of all variable.
 	
   	minbndNLP(const minbndNLP&);
@@ -105,8 +103,6 @@ class minbndNLP : public TNLP
 					//with final values for the upper bound multipliers
 
   	double getObjVal();		//Returns the output of the final value of the objective.
-
-  	double iterCount();		//Returns the iteration count
 
   	int returnStatus();		//Returns the status count
 

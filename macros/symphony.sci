@@ -170,7 +170,7 @@ function [xopt,fopt,status,output] = symphony (varargin)
 	//            0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 1 1 0 0 1 0 ..
 	//            0 1 0 1 0 0 1 0 0 1 0 1 0 0 0 0 0 1 1 0 0 0 0 0 1 1 0 0 1 0 0 1 0]
 	//    // Optimal value
-	//    fopt = [ 24381 ]
+	//    fopt = [ -24381 ]
 	//    // Calling Symphony
 	//    [x,f,status,output] = symphony(nbVar,nbCon,c,isInt,lb,ub,A,conLB,conUB,-1,options);
 	// Authors

@@ -6,7 +6,10 @@
 */
 
 #include "sci_iofunc.hpp"
-#include "LinCLP.hpp"
+#include"OsiSolverInterface.hpp"
+#include "OsiClpSolverInterface.hpp"
+#include "CoinPackedMatrix.hpp"
+#include "CoinPackedVector.hpp"
 
 extern "C"{
 #include <api_scilab.h>
@@ -33,8 +36,6 @@ int sci_linearprog(char *fname)
 	double* options;
 	//Flag for Mps
 	double flagMps;
-	//mps file path
-	char * mpsFile;
 	//Error structure in Scilab  
 	SciErr sciErr;
 	//Number of rows and columns in objective function
@@ -113,35 +114,70 @@ int sci_linearprog(char *fname)
 		return 1;      
 	}
 
-	//Call to the Clp Solver
-	LinCLP* Prob = new LinCLP(nVars,nCons,obj,conMatrix,conlb,conub,lb,ub,options);
+	OsiSolverInterface* si = new OsiClpSolverInterface();
+   //Defining the constraint matrix
+   CoinPackedMatrix *matrix =  new CoinPackedMatrix(false , 0 , 0);
+   matrix->setDimensions(0 , nVars);
+   for(int i=0 ; i<nCons ; i++)
+   	{
+    	CoinPackedVector row;
+	 	for(int j=0 ; j<nVars; j++)
+	 		{
+   				row.insert(j, conMatrix[i+j*nCons]);
+   	 		}
+        matrix->appendRow(row);
+   	}
+	//setting options for maximum iterations
+    si->setIntParam(OsiMaxNumIteration,options[0]);
 
+    //Load the problem to OSI
+    si->loadProblem(*matrix , lb , ub, obj , conlb , conub);
+
+    //Solve the problem
+    si->initialSolve();
 	//Output the solution to Scilab
 	//get solution for x
-	double* xValue = Prob->getX();
-
+	const double* xValue = si->getColSolution();
+	for(int i=0;i<nVars;i++)
+	{
+		sciprint("%lf",xValue[i]);
+	}
 	//get objective value
-	double objValue = Prob->getObjVal();
-
-	//get Status value
-	double status = Prob->returnStatus();
-
+	double objValue = si->getObjValue();
+	
+		//get Status value
+	double status_ = 0;
+	if(si->isProvenOptimal())
+			status_=0;
+	else if(si->isProvenPrimalInfeasible())
+			status_=1;
+	else if(si->isProvenDualInfeasible())
+			status_=2;
+	else if(si->isIterationLimitReached())
+			status_=3;
+	else if(si->isAbandoned())
+			status_=4;
+	else if(si->isPrimalObjectiveLimitReached())
+			status_=5;
+	else if(si->isDualObjectiveLimitReached())
+			status_=6;
+		
 	//get number of iterations
-	double iterations = Prob->iterCount();
-
+	double iterations  = si->getIterationCount(); 	
+	
 	//get reduced cost
-	double* Zl = Prob->getReducedCost();
-
+	const double* Zl = si->getReducedCost();
+	
 	//get dual vector
-	double* dual = Prob->getDual();
+	const double* dual = si->getRowPrice();
 
 	returnDoubleMatrixToScilab(1 , 1 , nVars , xValue);
 	returnDoubleMatrixToScilab(2 , 1 , 1 , &objValue);
-	returnDoubleMatrixToScilab(3 , 1 , 1 , &status);
+	returnDoubleMatrixToScilab(3 , 1 , 1 , &status_);
 	returnDoubleMatrixToScilab(4 , 1 , 1 , &iterations);
 	returnDoubleMatrixToScilab(5 , 1 , nVars , Zl);
 	returnDoubleMatrixToScilab(6 , 1 , nCons , dual);
-
+	
 	}
 }
 

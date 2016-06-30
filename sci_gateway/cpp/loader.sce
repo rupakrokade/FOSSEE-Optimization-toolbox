@@ -48,7 +48,6 @@ list_functions = [ 'sym_open';
                    'sym_setConstrUpper';
                    'sym_setConstrType';
                    'sym_getMatrix';
-                   'sym_getConstrSense';
                    'sym_addConstr';
                    'sym_addVar';
                    'sym_deleteVars';

@@ -6,7 +6,7 @@ function y = fun(x)
 endfunction
 x0 = [1,2];
 grad = [];
-options=list("MaxIter", [1000], "CpuTime", [100], "Gradient", grad, "Hessian", "OFF");
+options=list("MaxIter", [1000], "CpuTime", [100], "GradObj", grad, "Hessian", "OFF");
 
 //Error
 //fminunc: Expected function for Gradient of Objective

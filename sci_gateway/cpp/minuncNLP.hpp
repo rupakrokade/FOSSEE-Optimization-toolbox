@@ -28,17 +28,15 @@ class minuncNLP : public TNLP
 	
 	Number flag2_;                   //Used for Hessian ON/OFF
  
-  	const Number *varGuess_= NULL;	 //varGuess_ is a pointer to a matrix of size of 1*numVars_ with initial guess of all variables.
+  	const Number *varGuess_;	 //varGuess_ is a pointer to a matrix of size of 1*numVars_ with initial guess of all variables.
 
-  	Number *finalX_= NULL;           //finalX_ is a pointer to a matrix of size of 1*numVars_ with final value for the primal variables.
+  	Number *finalX_;           //finalX_ is a pointer to a matrix of size of 1*numVars_ with final value for the primal variables.
 
-  	Number *finalGradient_=NULL;     //finalGradient_ is a pointer to a matrix of size of numVars_*numVars_ with final value of gradient for the primal variables.
+  	Number *finalGradient_;     //finalGradient_ is a pointer to a matrix of size of numVars_*numVars_ with final value of gradient for the primal variables.
 
-  	Number *finalHessian_=NULL;      //finalHessian_ is a pointer to a matrix of size of 1*numVar_ with final value of hessian for the primal variables.
+  	Number *finalHessian_;      //finalHessian_ is a pointer to a matrix of size of 1*numVar_ with final value of hessian for the primal variables.
 
   	Number finalObjVal_;          	 //finalObjVal_ is a scalar with the final value of the objective.
-
-  	int iter_;			 			//Number of iteration.
 
   	int status_;			 		//Solver return status
 
@@ -102,8 +100,6 @@ class minuncNLP : public TNLP
 					//with final value of hessian for the primal variables.
 
   	double getObjVal();		//Returns the output of the final value of the objective.
-
-  	double iterCount();		//Returns the iteration count
 
   	int returnStatus();		//Returns the status count
 

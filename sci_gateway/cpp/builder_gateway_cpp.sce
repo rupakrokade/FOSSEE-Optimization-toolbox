@@ -14,19 +14,9 @@ lines(0)
 
 toolbox_title = "FOSSEE_Optimization_Toolbox";
 
-[a, opt] = getversion();
-Version = opt(2);
-
-Build_64Bits = %f;
+Build_64Bits = %t;
 
 path_builder = get_absolute_file_path('builder_gateway_cpp.sce');
-
-tools_path  = path_builder + "../../thirdparty/linux/";
-
-C_Flags=["-D__USE_DEPRECATED_STACK_FUNCTIONS__ -w -fpermissive -I"+tools_path+"include/coin -Wl,-rpath="+tools_path+"lib/"+Version+filesep()+" "]
-
-Linker_Flag = ["-L"+tools_path+"lib/"+Version+filesep()+"libSym"+" "+"-L"+tools_path+"lib/"+Version+filesep()+"libipopt"+" "+"-L"+tools_path+"lib/"+Version+filesep()+"libClp"+" "+"-L"+tools_path+"lib/"+Version+filesep()+"libOsiClp"+" "+"-L"+tools_path+"lib/"+Version+filesep()+"libCoinUtils" ]
-
 
 //Name of All the Functions
 Function_Names = [
@@ -79,7 +69,6 @@ Function_Names = [
 		"sym_setConstrUpper","sci_sym_setConstrBound";
 		"sym_setConstrType","sci_sym_setConstrType";
 		"sym_getMatrix","sci_sym_get_matrix";
-		"sym_getConstrSense","sci_sym_get_row_sense";
 		
 		//add/remove variables and constraints
 		"sym_addConstr","sci_sym_addConstr";
@@ -126,18 +115,20 @@ Function_Names = [
 //Name of all the files to be compiled
 Files = [
 		"globals.cpp",
-		"sci_iofunc.hpp",
 		"sci_iofunc.cpp",
 		"sci_sym_openclose.cpp",
 		"sci_solver_status_query_functions.cpp",
-		"sci_sym_solve.cpp",
+		"sci_sym_solve.cpp",                    
 		"sci_sym_loadproblem.cpp",
 		"sci_sym_isenvactive.cpp",
 		"sci_sym_load_mps.cpp",
 		"sci_vartype.cpp",
 		"sci_sym_getinfinity.cpp",
 		"sci_sym_solution.cpp",
-		"sym_data_query_functions.cpp"
+		"sci_sym_get_dbl_arr.cpp",
+		"sci_sym_get_iteration_count.cpp",
+		"sci_sym_get_matrix.cpp",
+		"sci_sym_get_num_int.cpp",
 		"sci_sym_set_variables.cpp",
 		"sci_sym_setobj.cpp",
 		"sci_sym_varbounds.cpp",
@@ -150,24 +141,42 @@ Files = [
 		"sci_sym_getobjsense.cpp",
 		"sci_sym_remove.cpp",
 		"sci_QuadNLP.cpp",
-		"QuadNLP.hpp",
 		"sci_ipopt.cpp",
-		"minuncNLP.hpp",
+		"sci_QuadNLP.cpp",
+		"sci_ipopt.cpp",
 		"sci_minuncNLP.cpp",
 		"sci_ipoptfminunc.cpp",
-		"minbndNLP.hpp",
 		"sci_minbndNLP.cpp",
 		"sci_ipoptfminbnd.cpp",
-		"minconNLP.hpp",
 		"sci_minconNLP.cpp",
 		"sci_ipoptfmincon.cpp",
-		"sci_ipopt.cpp",
 		"sci_LinProg.cpp",
-        "sci_LinCLP.cpp",
-        "LinCLP.hpp",
         "read_mps.cpp"
 	]
 
-tbx_build_gateway(toolbox_title,Function_Names,Files,get_absolute_file_path("builder_gateway_cpp.sce"), [], Linker_Flag, C_Flags, [], "g++");
+[a, opt] = getversion();
+Version = opt(2);
 
-clear WITHOUT_AUTO_PUTLHSVAR toolbox_title Function_Names Files Linker_Flag C_Flags;
+//Build_64Bits = %f;
+
+if getos()=="Windows" then
+	third_dir = path_builder+filesep()+'..'+filesep()+'..'+filesep()+'thirdparty';
+	lib_base_dir = third_dir + filesep() + 'windows' + filesep() + 'lib' + filesep() + Version + filesep();
+	inc_base_dir = third_dir + filesep() + 'windows' + filesep() + 'include' + filesep() + 'coin';
+    C_Flags=['-D__USE_DEPRECATED_STACK_FUNCTIONS__ -w -I '+path_builder+' '+ '-I '+inc_base_dir+' ']
+    Linker_Flag  = [lib_base_dir+"libClp.lib "+lib_base_dir+"libCgl.lib "+lib_base_dir+"libOsi.lib "+lib_base_dir+"libOsiClp.lib "+lib_base_dir+"libCoinUtils.lib "+lib_base_dir+"libSymphony.lib "+lib_base_dir+"IpOptFSS.lib "+lib_base_dir+"IpOpt-vc10.lib "]
+
+else
+	third_dir = path_builder+filesep()+'..'+filesep()+'..'+filesep()+'thirdparty';
+	lib_base_dir = third_dir + filesep() + 'linux' + filesep() + 'lib' + filesep() + Version + filesep();
+	inc_base_dir = third_dir + filesep() + 'linux' + filesep() + 'include' + filesep() + 'coin';
+    
+    C_Flags=["-D__USE_DEPRECATED_STACK_FUNCTIONS__ -w -fpermissive -I"+path_builder+" -I"+inc_base_dir+" -Wl,-rpath="+lib_base_dir+" "]
+    
+    Linker_Flag = ["-L"+lib_base_dir+"libSym"+" "+"-L"+lib_base_dir+"libipopt"+" "+"-L"+lib_base_dir+"libClp"+" "+"-L"+lib_base_dir+"libOsiClp"+" "+"-L"+lib_base_dir+"libCoinUtils" ]
+    
+end
+
+tbx_build_gateway(toolbox_title,Function_Names,Files,get_absolute_file_path("builder_gateway_cpp.sce"), [], Linker_Flag, C_Flags);
+
+clear toolbox_title Function_Names Files Linker_Flag C_Flags;

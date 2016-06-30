@@ -41,11 +41,8 @@ function [xopt,fopt,status,output] = symphony_call(nbVar,nbCon,objCoef,isInt,lb,
             
             fopt = sym_getObjVal();
     end
-    
     status = sym_getStatus();
-    
-	output = struct("Iterations"      , []);
-   
+	output = struct("Iterations", []);
     output.Iterations = sym_getIterCount();
 
 

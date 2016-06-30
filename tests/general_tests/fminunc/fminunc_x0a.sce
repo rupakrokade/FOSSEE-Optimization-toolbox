@@ -5,7 +5,7 @@ function y = fun(x)
 	y = x(1)^2 + x(2)^2;
 endfunction
 x0 = [];
-options=list("MaxIter", [1500], "CpuTime", [500], "Gradient", "OFF", "Hessian", "OFF");
+options=list("MaxIter", [1500], "CpuTime", [500], "GradObj", "OFF", "Hessian", "OFF");
 
 //Error
 //fminunc: Expected Row Vector or Column Vector for x0 (Initial Value) 

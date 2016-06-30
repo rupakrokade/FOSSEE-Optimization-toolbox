@@ -11,7 +11,6 @@
 
 
 #include "minbndNLP.hpp"
-#include "IpIpoptData.hpp"
 #include "sci_iofunc.hpp"
 
 extern "C"
@@ -23,7 +22,6 @@ extern "C"
 #include <sciprint.h>
 #include <string.h>
 #include <assert.h>
-#include <iostream>
 
 using namespace std;
 using namespace Ipopt;
@@ -98,7 +96,7 @@ bool minbndNLP::eval_f(Index n, const Number* x, bool new_x, Number& obj_value)
  	}
   	char name[20]="f";
   	double obj=0;
-  	double *xNew=x;
+  	const Number *xNew=x;
   	createMatrixOfDouble(pvApiCtx, 3, 1, numVars_, xNew);
   	int positionFirstElementOnStackForScilabFunction = 3;
   	int numberOfRhsOnScilabFunction = 1;
@@ -137,7 +135,7 @@ bool minbndNLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* grad_f
   	{
 		return 1;
   	}  
-  	double *xNew=x;
+  	const Number *xNew=x;
   	Index i;
   	double t=1;
   	createMatrixOfDouble(pvApiCtx, 3, 1, numVars_, xNew);
@@ -230,7 +228,7 @@ bool minbndNLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor, I
 			return 1;
 		}  
 
-		double *xNew=x;
+		const Number *xNew=x;
 		Index i;
   		double t=2;
 	
@@ -312,10 +310,7 @@ void minbndNLP::finalize_solution(SolverReturn status,Index n, const Number* x, 
 
 	finalObjVal_ = obj_value;
 	status_ = status;
-	if (status_ == 0 | status_ == 1 | status_ == 2)
-	{
-		iter_ = ip_data->iter_count();
-	}
+
 }
 
 
@@ -337,11 +332,6 @@ const double * minbndNLP::getZl()
 const double * minbndNLP::getZu()
 {	
 	return finalZu_;
-}
-
-double minbndNLP::iterCount()
-{	
-	return (double)iter_;
 }
 
 int minbndNLP::returnStatus()

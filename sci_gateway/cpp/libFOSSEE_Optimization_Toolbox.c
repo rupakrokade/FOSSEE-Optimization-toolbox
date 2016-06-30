@@ -44,7 +44,6 @@ extern Gatefunc sci_sym_setConstrBound;
 extern Gatefunc sci_sym_setConstrBound;
 extern Gatefunc sci_sym_setConstrType;
 extern Gatefunc sci_sym_get_matrix;
-extern Gatefunc sci_sym_get_row_sense;
 extern Gatefunc sci_sym_addConstr;
 extern Gatefunc sci_sym_addVar;
 extern Gatefunc sci_sym_delete_cols;
@@ -109,7 +108,6 @@ static GenericTable Tab[]={
   {(Myinterfun)sci_gateway,sci_sym_setConstrBound,"sym_setConstrUpper"},
   {(Myinterfun)sci_gateway,sci_sym_setConstrType,"sym_setConstrType"},
   {(Myinterfun)sci_gateway,sci_sym_get_matrix,"sym_getMatrix"},
-  {(Myinterfun)sci_gateway,sci_sym_get_row_sense,"sym_getConstrSense"},
   {(Myinterfun)sci_gateway,sci_sym_addConstr,"sym_addConstr"},
   {(Myinterfun)sci_gateway,sci_sym_addVar,"sym_addVar"},
   {(Myinterfun)sci_gateway,sci_sym_delete_cols,"sym_deleteVars"},
