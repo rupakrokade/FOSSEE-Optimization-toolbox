@@ -1,8 +1,8 @@
 // Copyright (C) 2004, 2007 International Business Machines and others.
 // All Rights Reserved.
-// This code is published under the Common Public License.
+// This code is published under the Eclipse Public License.
 //
-// $Id: IpRegOptions.hpp 1587 2009-10-27 16:09:21Z andreasw $
+// $Id: IpRegOptions.hpp 2189 2013-03-31 15:06:11Z stefan $
 //
 // Authors:  Carl Laird, Andreas Waechter     IBM    2005-06-18
 
@@ -33,20 +33,32 @@ namespace Ipopt
   class RegisteredOption : public ReferencedObject
   {
   public:
+    /** class to hold the valid string settings for a string option */
+    class string_entry
+    {
+    public:
+      string_entry(const std::string& value, const std::string& description)
+          : value_(value), description_(description)
+      {}
+      std::string value_;
+      std::string description_;
+    };
+
     /** Constructors / Destructors */
     //@{
-    RegisteredOption()
+    RegisteredOption(Index counter)
         :
         type_(OT_Unknown),
         has_lower_(false),
         has_upper_(false),
-        counter_(0)
+        counter_(counter)
     {}
 
     RegisteredOption(const std::string& name,
                      const std::string& short_description,
                      const std::string& long_description,
-                     const std::string& registering_category)
+                     const std::string& registering_category,
+                     Index counter)
         :
         name_(name),
         short_description_(short_description),
@@ -55,7 +67,7 @@ namespace Ipopt
         type_(OT_Unknown),
         has_lower_(false),
         has_upper_(false),
-        counter_(next_counter_++)
+        counter_(counter)
     {}
 
     RegisteredOption(const RegisteredOption& copy)
@@ -284,6 +296,12 @@ namespace Ipopt
       DBG_ASSERT(type_ == OT_String);
       default_string_ = default_value;
     }
+    /** get the valid string settings - can be called for OT_String */
+    virtual std::vector<string_entry> GetValidStrings() const
+    {
+      DBG_ASSERT(type_ == OT_String);
+      return valid_strings_;
+    }
     /** Check if the Number value is a valid setting - can be called
      *  for OT_Number */
     virtual bool IsValidNumberSetting(const Number& value) const
@@ -358,25 +376,12 @@ namespace Ipopt
     bool string_equal_insensitive(const std::string& s1,
                                   const std::string& s2) const;
 
-    /** class to hold the valid string settings for a string option */
-    class string_entry
-    {
-    public:
-      string_entry(const std::string& value, const std::string& description)
-          : value_(value), description_(description)
-      {}
-      std::string value_;
-      std::string description_;
-    };
-
     std::vector<string_entry> valid_strings_;
     std::string default_string_;
 
     /** Has the information as how many-th option this one was
      *  registered. */
     const Index counter_;
-
-    static Index next_counter_;
   };
 
   /** Class for storing registered options. Used for validation and
@@ -390,6 +395,7 @@ namespace Ipopt
     /** Standard Constructor */
     RegisteredOptions()
         :
+        next_counter_(0),
         current_registering_category_("Uncategorized")
     {}
 
@@ -643,6 +649,7 @@ namespace Ipopt
     }
 
   private:
+    Index next_counter_;
     std::string current_registering_category_;
     std::map<std::string, SmartPtr<RegisteredOption> > registered_options_;
   };

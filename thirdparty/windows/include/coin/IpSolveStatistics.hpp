@@ -1,8 +1,8 @@
-// Copyright (C) 2005, 2006 International Business Machines and others.
+// Copyright (C) 2005, 2009 International Business Machines and others.
 // All Rights Reserved.
-// This code is published under the Common Public License.
+// This code is published under the Eclipse Public License.
 //
-// $Id: IpSolveStatistics.hpp 1587 2009-10-27 16:09:21Z andreasw $
+// $Id: IpSolveStatistics.hpp 1861 2010-12-21 21:34:47Z andreasw $
 //
 // Authors:  Carl Laird, Andreas Waechter          IBM    2005-08-15
 
@@ -48,7 +48,17 @@ namespace Ipopt
     /** Iteration counts. */
     virtual Index IterationCount() const;
     /** Total CPU time, including function evaluations. */
-    virtual Number TotalCPUTime() const;
+    virtual Number TotalCpuTime() const;
+    /** Total CPU time, including function evaluations. Included for
+     *  backward compatibility. */
+    Number TotalCPUTime() const
+    {
+      return TotalCpuTime();
+    }
+    /** Total System time, including function evaluations. */
+    virtual Number TotalSysTime() const;
+    /** Total wall clock time, including function evaluations. */
+    virtual Number TotalWallclockTime() const;
     /** Number of NLP function evaluations. */
     virtual void NumberOfEvaluations(Index& num_obj_evals,
                                      Index& num_constr_evals,
@@ -96,6 +106,10 @@ namespace Ipopt
     Index num_iters_;
     /* Total CPU time */
     Number total_cpu_time_;
+    /* Total system time */
+    Number total_sys_time_;
+    /* Total wall clock time */
+    Number total_wallclock_time_;
     /** Number of objective function evaluations. */
     Index num_obj_evals_;
     /** Number of constraints evaluations (max of equality and

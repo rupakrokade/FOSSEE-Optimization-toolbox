@@ -1,8 +1,8 @@
 // Copyright (C) 2004, 2006 International Business Machines and others.
 // All Rights Reserved.
-// This code is published under the Common Public License.
+// This code is published under the Eclipse Public License.
 //
-// $Id: IpOptionsList.hpp 1587 2009-10-27 16:09:21Z andreasw $
+// $Id: IpOptionsList.hpp 1861 2010-12-21 21:34:47Z andreasw $
 //
 // Authors:  Carl Laird, Andreas Waechter     IBM    2004-08-13
 

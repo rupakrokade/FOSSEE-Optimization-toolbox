@@ -1,8 +1,8 @@
 // Copyright (C) 2004, 2008 International Business Machines and others.
 // All Rights Reserved.
-// This code is published under the Common Public License.
+// This code is published under the Eclipse Public License.
 //
-// $Id: IpMatrix.hpp 1280 2008-08-10 21:19:31Z andreasw $
+// $Id: IpMatrix.hpp 2276 2013-05-05 12:33:44Z stefan $
 //
 // Authors:  Carl Laird, Andreas Waechter     IBM    2004-08-13
 
@@ -35,8 +35,7 @@ namespace Ipopt
     Matrix(const MatrixSpace* owner_space)
         :
         TaggedObject(),
-        owner_space_(owner_space),
-        valid_cache_tag_(0)
+        owner_space_(owner_space)
     {}
 
     /** Destructor */
@@ -92,9 +91,11 @@ namespace Ipopt
     /** @name Information about the size of the matrix */
     //@{
     /** Number of rows */
+    inline
     Index  NRows() const;
 
     /** Number of columns */
+    inline
     Index  NCols() const;
     //@}
 
@@ -139,6 +140,7 @@ namespace Ipopt
     //@}
 
     /** Return the owner MatrixSpace*/
+    inline
     SmartPtr<const MatrixSpace> OwnerSpace() const;
 
   protected:

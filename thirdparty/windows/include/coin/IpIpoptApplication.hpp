@@ -1,8 +1,8 @@
-// Copyright (C) 2004, 2009 International Business Machines and others.
+// Copyright (C) 2004, 2010 International Business Machines and others.
 // All Rights Reserved.
-// This code is published under the Common Public License.
+// This code is published under the Eclipse Public License.
 //
-// $Id: IpIpoptApplication.hpp 1587 2009-10-27 16:09:21Z andreasw $
+// $Id: IpIpoptApplication.hpp 2173 2013-03-30 17:25:39Z stefan $
 //
 // Authors:  Carl Laird, Andreas Waechter     IBM    2004-08-13
 
@@ -147,6 +147,12 @@ namespace Ipopt
     SmartPtr<IpoptAlgorithm> AlgorithmObject();
     //@}
 
+    /** Method for printing Ipopt copyright message now instead of
+     *  just before the optimization.  If you want to have the copy
+     *  right message printed earlier than by default, call this
+     *  method at the convenient time.  */
+    void PrintCopyrightMessage();
+
     /** @name Methods for IpoptTypeInfo */
     //@{
     static void RegisterOptions(SmartPtr<RegisteredOptions> roptions);
@@ -227,9 +233,6 @@ namespace Ipopt
     /** Flag indicating if all bounds should be replaced by inequality
      *  constraints.  This is necessary for the inexact algorithm. */
     bool replace_bounds_;
-    /** Flag indicating if the NLP:FinalizeSolution method should not
-     *  be called after optimization. */
-    bool skip_finalize_solution_call_;
     //@}
   };
 

@@ -106,16 +106,16 @@ class QuadNLP : public TNLP
 						   const IpoptData* ip_data,
 						   IpoptCalculatedQuantities* ip_cq);
 		
-		const double * getX();		//Returns a pointer to a matrix of size of 1*numVar 
+		double * getX();		//Returns a pointer to a matrix of size of 1*numVar 
 						// with final value for the primal variables.
 
-		const double * getZu();		//Returns a pointer to a matrix of size of 1*numVars
+		double * getZu();		//Returns a pointer to a matrix of size of 1*numVars
 						// with final values for the upper bound multipliers
 
-		const double * getZl();		//Returns a pointer to a matrix of size of 1*numVars
+		double * getZl();		//Returns a pointer to a matrix of size of 1*numVars
 						// with final values for the upper bound multipliers
 
-		const double * getLambda();	//Returns a pointer to a matrix of size of 1*numConstr
+		double * getLambda();	//Returns a pointer to a matrix of size of 1*numConstr
 						// with final values for the constraint multipliers
 
 

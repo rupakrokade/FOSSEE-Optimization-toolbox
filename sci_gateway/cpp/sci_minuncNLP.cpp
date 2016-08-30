@@ -1,14 +1,13 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// Author: R.Vidyadhar & Vignesh Kannan
-// Organization: FOSSEE, IIT Bombay
-// Email: rvidhyadar@gmail.com & vignesh2496@gmail.com
 // This file must be used under the terms of the CeCILL.
 // This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
-
+// Author: R.Vidyadhar & Vignesh Kannan
+// Organization: FOSSEE, IIT Bombay
+// Email: toolbox@scilab.in
 
 #include "minuncNLP.hpp"
 #include "sci_iofunc.hpp"
@@ -29,9 +28,7 @@ using namespace Ipopt;
 
 minuncNLP::~minuncNLP()
 {
-	free(finalX_);
-	free(finalGradient_);
-	free(finalHessian_);
+	if(finalX_) delete[] finalX_;
 }
 
 //get NLP info such as number of variables,constraints,no.of elements in jacobian and hessian to allocate memory
@@ -327,8 +324,8 @@ bool minuncNLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor, I
 
 void minuncNLP::finalize_solution(SolverReturn status,Index n, const Number* x, const Number* z_L, const Number* z_U,Index m, const Number* g, const Number* lambda, Number obj_value,const IpoptData* ip_data,IpoptCalculatedQuantities* ip_cq)
 {
-	finalX_ = (double*)malloc(sizeof(double) * numVars_ * 1);
-	for (Index i=0; i<numVars_; i++) 
+	finalX_ = new double[n];
+	for (Index i=0; i<n; i++) 
 	{
     		 finalX_[i] = x[i];
 	}

@@ -250,7 +250,9 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
   	//	endfunction
   	//    //Hessian of the Lagrange Function
   	//	function y= lHess(x,obj,lambda)
-  	//		y= obj*[0,1,0;1,0,1;0,1,0] + lambda(1)*[2,0,0;0,0,0;0,0,0] + lambda(2)*[2,0,0;0,2,0;0,0,0] +lambda(3)*[0,0,0;0,0,0;0,0,2] + lambda(4)*[6*x(1	),0,0;0,0,0;0,0,0] + lambda(5)*[0,0,0;0,2,0;0,0,2];
+  	//		y= obj*[0,1,0;1,0,1;0,1,0] + lambda(1)*[2,0,0;0,0,0;0,0,0] + ..
+	//				lambda(2)*[2,0,0;0,2,0;0,0,0] +lambda(3)*[0,0,0;0,0,0;0,0,2] + ..
+	//				lambda(4)*[6*x(1),0,0;0,0,0;0,0,0] + lambda(5)*[0,0,0;0,2,0;0,0,2];
   	//	endfunction
   	//    //Gradient of Non-Linear Constraints
   	//	function [cg,ceqg] = cGrad(x)

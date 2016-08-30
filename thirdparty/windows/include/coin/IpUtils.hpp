@@ -1,8 +1,8 @@
 // Copyright (C) 2004, 2009 International Business Machines and others.
 // All Rights Reserved.
-// This code is published under the Common Public License.
+// This code is published under the Eclipse Public License.
 //
-// $Id: IpUtils.hpp 1521 2009-07-15 22:26:15Z andreasw $
+// $Id: IpUtils.hpp 2167 2013-03-08 11:15:38Z stefan $
 //
 // Authors:  Carl Laird, Andreas Waechter     IBM    2004-08-13
 
@@ -104,11 +104,14 @@ namespace Ipopt
   /** Function resetting the random number generator */
   void IpResetRandom01();
 
-  /** method determining CPU executed since start of program */
+  /** method determining CPU time */
   Number CpuTime();
 
-  /** Function for getting a string with the current wallclock time */
-  double WallclockTime();
+  /** method determining system time */
+  Number SysTime();
+
+  /** method determining wallclock time since first call */
+  Number WallclockTime();
 
   /** Method for comparing two numbers within machine precision.  The
    *  return value is true if lhs is less or equal the rhs, relaxing

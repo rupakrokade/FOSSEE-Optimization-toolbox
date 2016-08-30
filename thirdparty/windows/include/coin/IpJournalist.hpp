@@ -1,8 +1,8 @@
 // Copyright (C) 2004, 2009 International Business Machines and others.
 // All Rights Reserved.
-// This code is published under the Common Public License.
+// This code is published under the Eclipse Public License.
 //
-// $Id: IpJournalist.hpp 1587 2009-10-27 16:09:21Z andreasw $
+// $Id: IpJournalist.hpp 2204 2013-04-13 13:49:26Z stefan $
 //
 // Authors:  Carl Laird, Andreas Waechter     IBM    2004-08-13
 
@@ -20,7 +20,17 @@
 # ifdef HAVE_STDARG_H
 #  include <stdarg.h>
 # else
-#  error "don't have header file for stdarg"
+#  include <cstdarg>  // if this header is included by someone who does not define HAVE_CSTDARG or HAVE_STDARG, let's hope that cstdarg is available
+# endif
+#endif
+
+#ifdef HAVE_CSTDIO
+# include <cstdio>
+#else
+# ifdef HAVE_STDIO_H
+#  include <stdio.h>
+# else
+#  include <cstdio>  // if this header is included by someone who does not define HAVE_CSTDIO or HAVE_STDIO, let's hope that cstdio is available
 # endif
 #endif
 
@@ -219,9 +229,9 @@ namespace Ipopt
      *  was a problem creating a new Journal.    
      */
     virtual SmartPtr<Journal> AddFileJournal(
-      const std::string& location_name,    /** identifier */
-      const std::string& fname,
-      EJournalLevel default_level = J_WARNING
+      const std::string& location_name,        /**< journal identifier */
+      const std::string& fname,                /**< file name */
+      EJournalLevel default_level = J_WARNING  /**< default journal level */
     );
 
     /** Get an existing journal.  You can use this method to change

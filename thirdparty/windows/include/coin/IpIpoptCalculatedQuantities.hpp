@@ -1,8 +1,8 @@
-// Copyright (C) 2004, 2008 International Business Machines and others.
+// Copyright (C) 2004, 2011 International Business Machines and others.
 // All Rights Reserved.
-// This code is published under the Common Public License.
+// This code is published under the Eclipse Public License.
 //
-// $Id: IpIpoptCalculatedQuantities.hpp 1586 2009-10-27 15:55:03Z andreasw $
+// $Id: IpIpoptCalculatedQuantities.hpp 2020 2011-06-16 20:46:16Z andreasw $
 //
 // Authors:  Carl Laird, Andreas Waechter     IBM    2004-08-13
 
@@ -187,6 +187,8 @@ namespace Ipopt
     SmartPtr<const Vector> unscaled_curr_c();
     /** c(x) (at trial point) */
     SmartPtr<const Vector> trial_c();
+    /** unscaled c(x) (at trial point) */
+    SmartPtr<const Vector> unscaled_trial_c();
     /** d(x) (at current point) */
     SmartPtr<const Vector> curr_d();
     /** unscaled d(x) (at current point) */
@@ -251,6 +253,10 @@ namespace Ipopt
      *  iterate).  This considers the inequality constraints without
      *  slacks. */
     virtual Number unscaled_curr_nlp_constraint_violation(ENormType NormType);
+    /** Unscaled real constraint violation in a given norm (at trial
+     *  iterate).  This considers the inequality constraints without
+     *  slacks. */
+    virtual Number unscaled_trial_nlp_constraint_violation(ENormType NormType);
     //@}
 
     /** @name Hessian matrices */
@@ -501,6 +507,8 @@ namespace Ipopt
     /** Flag indicating whether the TNLP with identical structure has
      *  already been solved before. */
     bool warm_start_same_structure_;
+    /** Desired value of the barrier parameter */
+    Number mu_target_;
     //@}
 
     /** @name Caches for slacks */
@@ -559,6 +567,7 @@ namespace Ipopt
     CachedResults<Number> trial_constraint_violation_cache_;
     CachedResults<Number> curr_nlp_constraint_violation_cache_;
     CachedResults<Number> unscaled_curr_nlp_constraint_violation_cache_;
+    CachedResults<Number> unscaled_trial_nlp_constraint_violation_cache_;
     //@}
 
     /** Cache for the exact Hessian */

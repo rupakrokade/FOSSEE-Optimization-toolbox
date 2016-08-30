@@ -1,8 +1,8 @@
 // Copyright (C) 2004, 2007 International Business Machines and others.
 // All Rights Reserved.
-// This code is published under the Common Public License.
+// This code is published under the Eclipse Public License.
 //
-// $Id: IpDebug.hpp 1000 2007-06-16 06:52:34Z andreasw $
+// $Id: IpDebug.hpp 2005 2011-06-06 12:55:16Z stefan $
 //
 // Authors:  Carl Laird, Andreas Waechter     IBM    2004-08-13
 
@@ -12,6 +12,7 @@
 #include "IpoptConfig.h"
 #include "IpTypes.hpp"
 
+#ifdef COIN_IPOPT_CHECKLEVEL
 #ifdef HAVE_CASSERT
 # include <cassert>
 #else
@@ -20,6 +21,9 @@
 # else
 #  error "don't have header file for assert"
 # endif
+#endif
+#else
+#define COIN_IPOPT_CHECKLEVEL 0
 #endif
 
 #if COIN_IPOPT_CHECKLEVEL > 0
@@ -34,6 +38,10 @@
 # define DBG_ASSERT(test)
 # define DBG_ASSERT_EXCEPTION(__condition, __except_type, __msg)
 # define DBG_DO(__cmd)
+#endif
+
+#ifndef COIN_IPOPT_VERBOSITY
+#define COIN_IPOPT_VERBOSITY 0
 #endif
 
 #if COIN_IPOPT_VERBOSITY < 1

@@ -1,9 +1,9 @@
 /*************************************************************************
-   Copyright (C) 2004, 2006 International Business Machines and others.
+   Copyright (C) 2004, 2010 International Business Machines and others.
    All Rights Reserved.
-   This code is published under the Common Public License.
+   This code is published under the Eclipse Public License.
  
-   $Id: IpStdCInterface.h 1586 2009-10-27 15:55:03Z andreasw $
+   $Id: IpStdCInterface.h 2082 2012-02-16 03:00:34Z andreasw $
  
    Authors:  Carl Laird, Andreas Waechter     IBM    2004-09-02
  *************************************************************************/
@@ -97,6 +97,21 @@ extern "C"
                             Index m, Number *lambda, Bool new_lambda,
                             Index nele_hess, Index *iRow, Index *jCol,
                             Number *values, UserDataPtr user_data);
+
+  /** Type defining the callback function for giving intermediate
+   *  execution control to the user.  If set, it is called once per
+   *  iteration, providing the user with some information on the state
+   *  of the optimization.  This can be used to print some
+   *  user-defined output.  It also gives the user a way to terminate
+   *  the optimization prematurely.  If this method returns false,
+   *  Ipopt will terminate the optimization. */
+  typedef Bool (*Intermediate_CB)(Index alg_mod, /* 0 is regular, 1 is resto */
+				  Index iter_count, Number obj_value,
+				  Number inf_pr, Number inf_du,
+				  Number mu, Number d_norm,
+				  Number regularization_size,
+				  Number alpha_du, Number alpha_pr,
+				  Index ls_trials, UserDataPtr user_data);
 
   /** Function for creating a new Ipopt Problem object.  This function
    *  returns an object that can be passed to the IpoptSolve call.  It
@@ -196,6 +211,18 @@ extern "C"
 			      Number* x_scaling,
 			      Number* g_scaling);
 
+  /** Setting a callback function for the "intermediate callback"
+   *  method in the TNLP.  This gives control back to the user once
+   *  per iteration.  If set, it provides the user with some
+   *  information on the state of the optimization.  This can be used
+   *  to print some user-defined output.  It also gives the user a way
+   *  to terminate the optimization prematurely.  If the callback
+   *  method returns false, Ipopt will terminate the optimization.
+   *  Calling this set method to set the CB pointer to NULL disables
+   *  the intermediate callback functionality. */
+  IPOPT_EXPORT(Bool) SetIntermediateCallback(IpoptProblem ipopt_problem,
+					     Intermediate_CB intermediate_cb);
+
   /** Function calling the Ipopt optimization algorithm for a problem
       previously defined with CreateIpoptProblem.  The return
       specified outcome of the optimization procedure (e.g., success,
@@ -212,16 +239,25 @@ extern "C"
                              (output only - ignored if set to NULL) */
     , Number* obj_val    /** Final value of objective function
                              (output only - ignored if set to NULL) */
-    , Number* mult_g     /** Final multipliers for constraints
-                             (output only - ignored if set to NULL) */
-    , Number* mult_x_L   /** Final multipliers for lower variable bounds
-                             (output only - ignored if set to NULL) */
-    , Number* mult_x_U   /** Final multipliers for upper variable bounds
-                             (output only - ignored if set to NULL) */
+    , Number* mult_g     /** Input: Initial values for the constraint
+                                    multipliers (only if warm start option
+                                    is chosen)
+                             Output: Final multipliers for constraints
+                                     (ignored if set to NULL) */
+    , Number* mult_x_L   /** Input: Initial values for the multipliers for
+                                    lower variable bounds (only if warm start
+                                    option is chosen)
+                             Output: Final multipliers for lower variable
+                                     bounds (ignored if set to NULL) */
+    , Number* mult_x_U   /** Input: Initial values for the multipliers for
+                                    upper variable bounds (only if warm start
+                                    option is chosen)
+                             Output: Final multipliers for upper variable
+                                     bounds (ignored if set to NULL) */
     , UserDataPtr user_data
-    /** Pointer to user data.  This will be
-    passed unmodified to the callback
-    functions. */
+                         /** Pointer to user data.  This will be
+                             passed unmodified to the callback
+                             functions. */
   );
 
   /**

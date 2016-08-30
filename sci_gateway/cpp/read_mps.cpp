@@ -1,9 +1,13 @@
-/*
- * Linear Solver Toolbox for Scilab using CLP library
- * Authors :
-	Guru Pradeep Reddy
-        Bhanu Priya Sayal
-*/
+// Copyright (C) 2015 - IIT Bombay - FOSSEE
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// Author: Guru Pradeep Reddy Bhanu Priya Sayal
+// Organization: FOSSEE, IIT Bombay
+// Email: toolbox@scilab.in
 
 #include "sci_iofunc.hpp"
 #include "OsiClpSolverInterface.hpp"
