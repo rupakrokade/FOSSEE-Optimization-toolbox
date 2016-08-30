@@ -19,11 +19,11 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
     //  xopt = fminimax(fun,x0,A,b,Aeq,beq,lb,ub)
     //  xopt = fminimax(fun,x0,A,b,Aeq,beq,lb,ub,nonlinfun)
     //  xopt = fminimax(fun,x0,A,b,Aeq,beq,lb,ub,nonlinfun,options)
-    //  [xopt, fval] = fmincon(.....)
-    //  [xopt, fval, maxfval]= fmincon(.....)
-    //  [xopt, fval, maxfval, exitflag]= fmincon(.....)
-    //  [xopt, fval, maxfval, exitflag, output]= fmincon(.....)
-    //  [xopt, fval, maxfval, exitflag, output, lambda]= fmincon(.....)
+    //  [xopt, fval] = fminimax(.....)
+    //  [xopt, fval, maxfval]= fminimax(.....)
+    //  [xopt, fval, maxfval, exitflag]= fminimax(.....)
+    //  [xopt, fval, maxfval, exitflag, output]= fminimax(.....)
+    //  [xopt, fval, maxfval, exitflag, output, lambda]= fminimax(.....)
     //
     // Parameters
     //  fun: The function to be minimized. fun is a function that accepts a vector x and returns a vector F, the objective functions evaluated at x.

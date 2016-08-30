@@ -1,14 +1,13 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// Author: R.Vidyadhar & Vignesh Kannan
-// Organization: FOSSEE, IIT Bombay
-// Email: rvidhyadar@gmail.com & vignesh2496@gmail.com
 // This file must be used under the terms of the CeCILL.
 // This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
-
+// Author: R.Vidyadhar & Vignesh Kannan
+// Organization: FOSSEE, IIT Bombay
+// Email: toolbox@scilab.in
 
 #include "sci_iofunc.hpp"
 #include "IpIpoptApplication.hpp"
@@ -22,9 +21,6 @@ extern "C"
 #include <BOOL.h>
 #include <localization.h>
 #include <sciprint.h>
-#include <iostream>
-
-using namespace std;
 
 int sci_solveminconp(char *fname)
 {
@@ -155,7 +151,6 @@ int sci_solveminconp(char *fname)
 	 
 	 // Ask Ipopt to solve the problem
 	 status = app->OptimizeTNLP((SmartPtr<TNLP>&)Prob);
-	 
 	 //Get the solve statistics
 	 cpuTime = app->Statistics()->TotalCPUTime();
 	 app->Statistics()->NumberOfEvaluations(int_fobj_eval, int_constr_eval, int_fobj_grad_eval, int_constr_jac_eval, int_hess_eval);
@@ -237,7 +232,7 @@ int sci_solveminconp(char *fname)
 	// As the SmartPtrs go out of scope, the reference count
 	// will be decremented and the objects will automatically
 	// be deleted.*/
-
+	
 	return 0;
 }
 }

@@ -1,14 +1,13 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// Author: R.Vidyadhar & Vignesh Kannan
-// Organization: FOSSEE, IIT Bombay
-// Email: rvidhyadar@gmail.com & vignesh2496@gmail.com
 // This file must be used under the terms of the CeCILL.
 // This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
-
+// Author: R.Vidyadhar & Vignesh Kannan
+// Organization: FOSSEE, IIT Bombay
+// Email: toolbox@scilab.in
 
 #ifndef __minconNLP_HPP__
 #define __minconNLP_HPP__
@@ -86,18 +85,15 @@ class minconNLP : public TNLP
 
   	int status_;			 //Solver return status
 
-
+	public:
   	minconNLP(const minconNLP&);
   	minconNLP& operator=(const minconNLP&);
-
-	public:
 
   	/** user defined constructor */
   	minconNLP(Index nV, Index nC, Number *x0 ,Number *A, Number *b, Number* Aeq, Number *beq, Index Arows, Index Acols, Index brows, Index bcols, Index Aeqrows, Index Aeqcols, Index beqrows, Index beqcols, Number* LB, Number* UB, Number nlC, Number nlIC) : numVars_(nV), numConstr_(nC), varGuess_(x0), A_(A), b_(b), Aeq_(Aeq), beq_(beq), Arows_(Arows), Acols_(Acols), brows_(brows), bcols_(bcols), Aeqrows_(Aeqrows), Aeqcols_(Aeqcols), beqrows_(beqrows), beqcols_(beqcols), varLB_(LB), varUB_(UB), nonlinCon_(nlC), nonlinIneqCon_(nlIC), finalX_(0), finalZl_(0), finalZu_(0), finalGradient_(0), finalHessian_(0), finalObjVal_(1e20){	}
 
-  	/** default destructor */
   	virtual ~minconNLP();
-
+  	
   	/** Method to return some info about the nlp */
   	virtual bool get_nlp_info(Index& n, Index& m, Index& nnz_jac_g,
                             Index& nnz_h_lag, IndexStyleEnum& index_style);
