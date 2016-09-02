@@ -970,7 +970,5 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
         	output.Message="Invalid status returned. Notify the Toolbox authors";
         	break;
         end
- 
-    		
 endfunction
 
