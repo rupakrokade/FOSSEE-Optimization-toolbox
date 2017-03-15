@@ -36,6 +36,8 @@ int sci_sym_open(char *fname, unsigned long fname_len){
 
 	//check environment
 	if(global_sym_env==NULL){
+	// 	sciprint("Warning: Symphony environment is already initialized.\n");
+	// }else{
 		global_sym_env = sym_open_environment();//open an environment
 		if (!global_sym_env)
 			sciprint("Error: Unable to create symphony environment.\n");

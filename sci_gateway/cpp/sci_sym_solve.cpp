@@ -38,9 +38,9 @@ int sci_sym_solve(char *fname, unsigned long fname_len){
 		status = sym_get_dbl_param(global_sym_env,"time_limit",&time_limit);
 
 		if (status == FUNCTION_TERMINATED_NORMALLY) {
-			if ( time_limit < 0.0 )
-				sciprint("\nNote: There is no limit on time.\n");
-			else sciprint("\nNote: Time limit has been set to %lf.\n",time_limit);
+			if ( time_limit >= 0.0 )
+				// sciprint("\nNote: There is no limit on time.\n");
+			sciprint("\nNote: Time limit has been set to %lf.\n",time_limit);
 			status=process_ret_val(sym_solve(global_sym_env));// Call function	
 			}
 		else {
