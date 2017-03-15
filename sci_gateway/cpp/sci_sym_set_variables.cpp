@@ -233,7 +233,7 @@ int sci_sym_set_dbl_param(char *fname, unsigned long fname_len){
 	else {
 		output=sym_set_dbl_param(global_sym_env,ptr,num);//symphony function to set the variable name pointed by the ptr pointer to the double value stored in 'value' variable.
 		if(output==FUNCTION_TERMINATED_NORMALLY){		
-			sciprint("setting of double parameter function executed successfully\n");
+			// sciprint("setting of double parameter function executed successfully\n");
 			status=0.0;
 		}
 		else

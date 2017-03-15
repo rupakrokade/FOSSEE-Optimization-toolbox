@@ -235,7 +235,7 @@ static int commonCodePart2()
 	
 	//call problem loader
 	sym_explicit_load_problem(global_sym_env,numVars,numConstr,conMatrixColStart,conMatrixRowIndex,conMatrix,lowerBounds,upperBounds,isIntVar,objective,NULL,conType,conRHS,conRange,TRUE);
-	sciprint("Problem loaded into environment.\n");
+	// sciprint("Problem loaded into environment.\n");
 	
 	//code to give output
 	cleanupBeforeExit();
