@@ -142,10 +142,7 @@ int sci_linearprog(char *fname)
 	//Output the solution to Scilab
 	//get solution for x
 	const double* xValue = si->getColSolution();
-	for(int i=0;i<nVars;i++)
-	{
-		sciprint("%lf",xValue[i]);
-	}
+	
 	//get objective value
 	double objValue = si->getObjValue();
 	
