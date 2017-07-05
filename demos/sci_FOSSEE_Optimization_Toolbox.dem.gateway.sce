@@ -5,12 +5,12 @@
 // you should have received as part of this distribution.  The terms
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
-// Author: Harpreet Singh
+// Author: Harpreet Singh and Georgey John
 // Organization: FOSSEE, IIT Bombay
 // Email: toolbox@scilab.in
 
 demopath = get_absolute_file_path("sci_FOSSEE_Optimization_Toolbox.dem.gateway.sce");
 
-subdemolist = ["Linprog","linprog.dem.sce";"Symphony", "symphony.dem.sce"; "SymphonyMat", "symphonymat.dem.sce"; "Qpipopt", "qpipopt.dem.sce"; "QpipoptMat", "qpipoptmat.dem.sce";"Lsqlin","lsqlin.dem.sce";"Lsqnonneg","lsqnonneg.dem.sce";"Fminunc","fminunc.dem.sce";"Fminbnd","fminbnd.dem.sce";"Fmincon","fmincon.dem.sce"];
+subdemolist = ["Linprog","linprog.dem.sce";"Cbcintlinprog","cbcintlinprog.dem.sce";"Symphony", "symphony.dem.sce"; "SymphonyMat", "symphonymat.dem.sce"; "Qpipopt", "qpipopt.dem.sce"; "QpipoptMat", "qpipoptmat.dem.sce";"Intqpipopt","intqpipopt.dem.sce";"Lsqlin","lsqlin.dem.sce";"Lsqnonneg","lsqnonneg.dem.sce";"Fminunc","fminunc.dem.sce";"Intfminunc","intfminunc.dem.sce";"Fminbnd","fminbnd.dem.sce";"Intfminbnd","intfminbnd.dem.sce";"Fmincon","fmincon.dem.sce";"Intfmincon","intfmincon.dem.sce"];
 
 subdemolist(:,2) = demopath + subdemolist(:,2);
