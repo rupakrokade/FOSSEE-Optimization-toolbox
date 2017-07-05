@@ -1,22 +1,17 @@
-// Copyright (C) 2015 - IIT Bombay - FOSSEE
-//
-// This file must be used under the terms of the CeCILL.
-// This source file is licensed as described in the file COPYING, which
-// you should have received as part of this distribution.  The terms
-// are also available at
-// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
-// Author: Harpreet Singh and Keyur Joshi
-// Organization: FOSSEE, IIT Bombay
-// Email: toolbox@scilab.in
+// Symphony Toolbox for Scilab
+// (Definition of) Functions for input and output from Scilab
+// By Keyur Joshi
 
 #include "api_scilab.h"
 #include "Scierror.h"
 #include "sciprint.h"
 #include "BOOL.h"
 #include <localization.h>
+#include "call_scilab.h"
+#include <string.h>
+
 
 using namespace std;
-
 int getFunctionFromScilab(int argNum, int **dest)
 {	
 	//data declarations
@@ -42,7 +37,6 @@ int getFunctionFromScilab(int argNum, int **dest)
 	return 0;
 	
 }
-
 
 int getDoubleFromScilab(int argNum, double *dest)
 {
@@ -240,6 +234,88 @@ int getStringFromScilab(int argNum,char **dest)
     
 }
 
+bool getFunctionFromScilab1(int n,char name[], double *x,int posFirstElementOnStackForSF,int nOfRhsOnSF,int nOfLhsOnSF, double **dest)
+{	
+	double check;
+  	createMatrixOfDouble(pvApiCtx, posFirstElementOnStackForSF, 1, n, x);  
+  	C2F(scistring)(&posFirstElementOnStackForSF,name,&nOfLhsOnSF,&nOfRhsOnSF,(unsigned long)strlen(name));
+    
+  	if(getDoubleFromScilab(posFirstElementOnStackForSF+1,&check))
+  	{
+		return true;
+	}
+	if (check==1)
+	{
+		return true;
+	}	
+	else
+	{ 
+		int x_rows, x_cols;
+		if(getDoubleMatrixFromScilab(posFirstElementOnStackForSF, &x_rows, &x_cols, dest))
+  		{
+			sciprint("No results ");
+			return true;
+			
+  		}
+	}	
+	return 0;
+}
+
+bool getHessFromScilab(int n,int numConstr_,char name[], double *x,double *obj,double *lambda,int posFirstElementOnStackForSF,int nOfRhsOnSF,int nOfLhsOnSF, double **dest)
+{	
+	double check;
+  	createMatrixOfDouble(pvApiCtx, posFirstElementOnStackForSF, 1, n, x);
+  	createMatrixOfDouble(pvApiCtx, posFirstElementOnStackForSF+1, 1, 1, obj);
+	createMatrixOfDouble(pvApiCtx, posFirstElementOnStackForSF+2, 1, numConstr_, lambda);
+  	C2F(scistring)(&posFirstElementOnStackForSF,name,&nOfLhsOnSF,&nOfRhsOnSF,(unsigned long)strlen(name));
+                               
+  	if(getDoubleFromScilab(posFirstElementOnStackForSF+1,&check))
+  	{
+		return true;
+	}
+	if (check==1)
+	{
+		return true;
+	}	
+	else
+	{ 
+		int x_rows, x_cols;
+		if(getDoubleMatrixFromScilab(posFirstElementOnStackForSF, &x_rows, &x_cols, dest))
+  		{
+			sciprint("No results ");
+			return 1;	
+  		}
+	}	
+	return 0;
+}
+
+int getIntMatrixFromScilab(int argNum, int *rows, int *cols, int **dest)
+{
+	int *varAddress;
+	SciErr sciErr;
+	const char errMsg[]="Wrong type for input argument #%d: A matrix of integer is expected.\n";
+	const int errNum=999;
+	//same steps as above
+	sciErr = getVarAddressFromPosition(pvApiCtx, argNum, &varAddress);
+	if (sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 1;
+	}
+	// if ( !isIntegerType(pvApiCtx,varAddress) ||  isVarComplex(pvApiCtx,varAddress) )
+	// {
+	// 	Scierror(errNum,errMsg,argNum);
+	// 	return 1;
+	// }
+	getMatrixOfInteger32(pvApiCtx, varAddress, rows, cols, dest);
+	if (sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 1;
+	}
+	return 0;
+}
+
 int return0toScilab()
 {
 	int iRet;
@@ -274,7 +350,7 @@ int returnDoubleToScilab(double retVal)
 	return 0;
 }
 
-int returnDoubleMatrixToScilab(int itemPos, int rows, int cols, const double *dest)
+int returnDoubleMatrixToScilab(int itemPos, int rows, int cols, double *dest)
 {
 	SciErr sciErr;
 	//same steps as above

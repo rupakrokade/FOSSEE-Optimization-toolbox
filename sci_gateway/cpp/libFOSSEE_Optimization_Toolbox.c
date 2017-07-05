@@ -69,6 +69,13 @@ extern Gatefunc sci_solveqp;
 extern Gatefunc sci_solveminuncp;
 extern Gatefunc sci_solveminbndp;
 extern Gatefunc sci_solveminconp;
+extern Gatefunc cpp_intfminunc;
+extern Gatefunc cpp_intfminbnd;
+extern Gatefunc cpp_intfmincon;
+extern Gatefunc cpp_intqpipopt;
+extern Gatefunc matrix_cppintlinprog;
+extern Gatefunc mps_cppintlinprog;
+extern Gatefunc sci_ecos;
 static GenericTable Tab[]={
   {(Myinterfun)sci_gateway,sci_sym_open,"sym_open"},
   {(Myinterfun)sci_gateway,sci_sym_close,"sym_close"},
@@ -133,6 +140,13 @@ static GenericTable Tab[]={
   {(Myinterfun)sci_gateway,sci_solveminuncp,"solveminuncp"},
   {(Myinterfun)sci_gateway,sci_solveminbndp,"solveminbndp"},
   {(Myinterfun)sci_gateway,sci_solveminconp,"solveminconp"},
+  {(Myinterfun)sci_gateway,cpp_intfminunc,"inter_fminunc"},
+  {(Myinterfun)sci_gateway,cpp_intfminbnd,"inter_fminbnd"},
+  {(Myinterfun)sci_gateway,cpp_intfmincon,"inter_fmincon"},
+  {(Myinterfun)sci_gateway,cpp_intqpipopt,"sci_intqpipopt"},
+  {(Myinterfun)sci_gateway,matrix_cppintlinprog,"sci_matrix_intlinprog"},
+  {(Myinterfun)sci_gateway,mps_cppintlinprog,"sci_mps_intlinprog"},
+  {(Myinterfun)sci_gateway,sci_ecos,"solveecos"},
 };
  
 int C2F(libFOSSEE_Optimization_Toolbox)()

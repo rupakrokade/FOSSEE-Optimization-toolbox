@@ -73,6 +73,13 @@ list_functions = [ 'sym_open';
                    'solveminuncp';
                    'solveminbndp';
                    'solveminconp';
+                   'inter_fminunc';
+                   'inter_fminbnd';
+                   'inter_fmincon';
+                   'sci_intqpipopt';
+                   'sci_matrix_intlinprog';
+                   'sci_mps_intlinprog';
+                   'solveecos';
 ];
 addinter(libFOSSEE_Optimizat_path + filesep() + 'libFOSSEE_Optimization_Toolbox' + getdynlibext(), 'libFOSSEE_Optimization_Toolbox', list_functions);
 // remove temp. variables on stack
