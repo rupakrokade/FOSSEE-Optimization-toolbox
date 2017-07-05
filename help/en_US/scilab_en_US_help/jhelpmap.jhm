@@ -2,12 +2,18 @@
 <!DOCTYPE map PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN" "http://java.sun.com/products/javahelp/map_1_0.dtd">
 <map version="1.0">
 <mapID target="index" url="index.html"/>
-<mapID target="section_031bbc67ce78762a40093bfdff4eaa3b" url="section_031bbc67ce78762a40093bfdff4eaa3b.html"/>
+<mapID target="section_44e1f57c5225357b5fe53cb5fad967e9" url="section_44e1f57c5225357b5fe53cb5fad967e9.html"/>
+<mapID target="cbcintlinprog" url="cbcintlinprog.html"/>
 <mapID target="fgoalattain" url="fgoalattain.html"/>
 <mapID target="fminbnd" url="fminbnd.html"/>
 <mapID target="fmincon" url="fmincon.html"/>
 <mapID target="fminimax" url="fminimax.html"/>
 <mapID target="fminunc" url="fminunc.html"/>
+<mapID target="intfminbnd" url="intfminbnd.html"/>
+<mapID target="intfmincon" url="intfmincon.html"/>
+<mapID target="intfminimax" url="intfminimax.html"/>
+<mapID target="intfminunc" url="intfminunc.html"/>
+<mapID target="intqpipopt" url="intqpipopt.html"/>
 <mapID target="linprog" url="linprog.html"/>
 <mapID target="lsqlin" url="lsqlin.html"/>
 <mapID target="lsqnonlin" url="lsqnonlin.html"/>
@@ -16,7 +22,7 @@
 <mapID target="qpipoptmat" url="qpipoptmat.html"/>
 <mapID target="symphony" url="symphony.html"/>
 <mapID target="symphonymat" url="symphonymat.html"/>
-<mapID target="section_316c7f5a42ba69316753082a567f2a1a" url="section_316c7f5a42ba69316753082a567f2a1a.html"/>
+<mapID target="section_5fc7ef02a133896efbd190355314d3fc" url="section_5fc7ef02a133896efbd190355314d3fc.html"/>
 <mapID target="sym_addConstr" url="sym_addConstr.html"/>
 <mapID target="sym_addVar" url="sym_addVar.html"/>
 <mapID target="sym_close" url="sym_close.html"/>

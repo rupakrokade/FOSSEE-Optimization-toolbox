@@ -33,85 +33,133 @@
 </refsynopsisdiv>
 
 <refsection>
-   <title>Parameters</title>
+   <title>Input Parameters</title>
    <variablelist>
    <varlistentry><term>nbVar :</term>
-      <listitem><para> a double, number of variables.</para></listitem></varlistentry>
+      <listitem><para> A double, representing the number of variables.</para></listitem></varlistentry>
    <varlistentry><term>nbCon :</term>
-      <listitem><para> a double, number of constraints.</para></listitem></varlistentry>
+      <listitem><para> A double, representing the number of constraints.</para></listitem></varlistentry>
    <varlistentry><term>c :</term>
-      <listitem><para> a vector of double, represents coefficients of the variables in the objective.</para></listitem></varlistentry>
+      <listitem><para> A vector of doubles, representing the coefficients of the variables in the objective.</para></listitem></varlistentry>
    <varlistentry><term>isInt :</term>
-      <listitem><para> a vector of boolean, represents wether a variable is constrained to be an integer.</para></listitem></varlistentry>
+      <listitem><para> A vector of booleans, representing whether a variable is constrained to be an integer.</para></listitem></varlistentry>
    <varlistentry><term>lb :</term>
-      <listitem><para> a vector of double, represents lower bounds of the variables.</para></listitem></varlistentry>
+      <listitem><para> A vector of doubles, containing the lower bounds of the variables of size (1 X n) or (n X 1) where 'n' is the number of variables.</para></listitem></varlistentry>
    <varlistentry><term>ub :</term>
-      <listitem><para> a vector of double, represents upper bounds of the variables.</para></listitem></varlistentry>
+      <listitem><para> A vector of doubles, containing the upper bounds of the variables of size (1 X n) or (n X 1) where 'n' is the number of variables.</para></listitem></varlistentry>
    <varlistentry><term>A :</term>
-      <listitem><para> a matrix of double, represents  matrix representing the constraint matrix conLB ≤ A⋅x ≤ conUB.</para></listitem></varlistentry>
+      <listitem><para> A matrix of double, representing the constraint matrix in conLB ≤ A⋅x ≤ conUB.</para></listitem></varlistentry>
    <varlistentry><term>conLB :</term>
-      <listitem><para> a vector of double, represents lower bounds of the constraints conLB ≤ A⋅x ≤ conUB.</para></listitem></varlistentry>
+      <listitem><para> A vector of double, representing the lower bounds of the constraints conLB ≤ A⋅x ≤ conUB.</para></listitem></varlistentry>
    <varlistentry><term>conUB :</term>
-      <listitem><para> a vector of double, represents upper bounds of the constraints conLB ≤ A⋅x ≤ conUB.</para></listitem></varlistentry>
+      <listitem><para> A vector of double, representing the upper bounds of the constraints conLB ≤ A⋅x ≤ conUB.</para></listitem></varlistentry>
    <varlistentry><term>objSense :</term>
       <listitem><para> The sense (maximization/minimization) of the objective. Use 1(sym_minimize ) or -1 (sym_maximize) here.</para></listitem></varlistentry>
    <varlistentry><term>options :</term>
-      <listitem><para> a list containing the parameters to be set.</para></listitem></varlistentry>
+      <listitem><para> A list, containing the option for user to specify. See below for details.</para></listitem></varlistentry>
+      </variablelist>
+</refsection>
+<refsection>
+<title> Outputs</title>
+ <variablelist>
    <varlistentry><term>xopt :</term>
-      <listitem><para> a vector of double, the computed solution of the optimization problem.</para></listitem></varlistentry>
+      <listitem><para> A vector of doubles, containing the computed solution of the optimization problem.</para></listitem></varlistentry>
    <varlistentry><term>fopt :</term>
-      <listitem><para> a double, the value of the function at x.</para></listitem></varlistentry>
-   <varlistentry><term>status :</term>
-      <listitem><para> status flag returned from symphony.See below for details.</para></listitem></varlistentry>
+      <listitem><para> A double, containing the value of the function at x.</para></listitem></varlistentry>
+  <varlistentry><term>status :</term>
+      <listitem><para> The status flag returned from symphony. See below for details.</para></listitem></varlistentry>
    <varlistentry><term>output :</term>
-      <listitem><para> The output data structure contains detailed information about the optimization process. See below for details.</para></listitem></varlistentry>
+      <listitem><para> A structure, containing the information about the optimization. See below for details.</para></listitem></varlistentry>
    </variablelist>
 </refsection>
 
 <refsection>
    <title>Description</title>
    <para>
-Search the minimum or maximum of a constrained mixed integer linear programming optimization problem specified by :
+Search the minimum or maximum of a constrained mixed integer linear programming optimization problem specified by:
    </para>
-   <para>
+      <para>
 <latex>
 \begin{eqnarray}
-&amp;\mbox{min}_{x}
-&amp; f^T⋅x \\
-&amp; \text{subject to} &amp; conLB \leq A⋅x \leq conUB \\
-&amp; &amp; lb \leq x \leq ub \\
-&amp; &amp; x_i \in \!\, \mathbb{Z}, i \in \!\, I
+\mbox{min}_{x}\ f^{T} \boldsymbol{\cdot} x \\
+\text{Subjected to: }\\
+ conLB \leq A \boldsymbol{\cdot} x \leq conUB \\
+lb \leq x \leq ub \\
+x_{i} \in \!\, \mathbb{Z}, i \in \!\, I
 \end{eqnarray}
-</latex>
-   </para>
+  </latex>
+</para>
    <para>
-The routine calls SYMPHONY written in C by gateway files for the actual computation.
+The routine calls SYMPHONY, a  solver for mixed-integer linear programs written in C, for the actual computation.
    </para>
+    <para>
+       <title>Options</title>
+The options should be defined as type "list" and consist of over a hundred fields, the most important ones of which have been detailed here:
+</para>
    <para>
-The status allows to know the status of the optimization which is given back by Ipopt.
 <itemizedlist>
-<listitem>status=227 : Optimal Solution Found </listitem>
-<listitem>status=228 : Maximum CPU Time exceeded.</listitem>
-<listitem>status=229 : Maximum Number of Node Limit Exceeded.</listitem>
-<listitem>status=230 : Maximum Number of Iterations Limit Exceeded.</listitem>
+  <listitem>node_limit : A scalar, specifying the max. number of nodes allowed to be analyzed during the solution.</listitem>
+  <listitem>time_limit : A scalar, specifying the maximum amount of CPU time in seconds that the solver should take.</listitem>
+  <listitem>gap_limit : A scalar, representing the target gap limit allowed for solution.</listitem>
+<listitem>granularity : A scalar, “the minimum difference between two distinct objective function values</listitem>
+
+<listitem>node_selection_rule : A Scalar, specifying the maximum number of iterations that the solver should take.</listitem>
+<listitem>prep_level : An integer, that determines the level of preprocessing that should be done on the current MILP instance.</listitem>
+<listitem>do_branch_and_cut : A boolean, representing the decision whether to run the branch and cut algorithm or not. </listitem>
 </itemizedlist>
    </para>
    <para>
-For more details on status see the symphony documentation, go to http://www.coin-or.org/SYMPHONY/man-5.6/
+The status allows the user to know the status of the optimization which is returned by Symphony. The values it can take and what they indicate is described below:
+<itemizedlist>
+<listitem>227 : Optimal Solution Found </listitem>
+<listitem>228 : Maximum CPU Time exceeded.</listitem>
+<listitem>229 : Maximum Number of Node Limit Exceeded.</listitem>
+<listitem>230 : Maximum Number of Iterations Limit Exceeded.</listitem>
+</itemizedlist>
    </para>
    <para>
-The output data structure contains detailed informations about the optimization process.
-It has type "struct" and contains the following fields.
+For more details on the status, see the symphony documentation which can be found on http://www.coin-or.org/SYMPHONY/man-5.6/
+   </para>
+   <para>
+The output data structure contains detailed information about the optimization process.
+It is of type "struct" and contains the following fields.
 <itemizedlist>
-<listitem>output.iterations: The number of iterations performed during the search</listitem>
+<listitem>output.iterations: The number of iterations performed.</listitem>
 </itemizedlist>
    </para>
    <para>
 </para>
 </refsection>
 
+<para>
+A few examples displaying the various functionalities of symphony have been provided below. You will find a series of problems and the appropriate code snippets to solve them.
+</para>
 <refsection>
-   <title>Examples</title>
+   <title>Example</title>
+   <para>
+<latex>
+\begin{eqnarray}
+\mbox{min}_{x}\ f(x) = 1750x_{1} + 990x_{2} + 1240x_{3} + 1680x_{4} + 500x_{5} + 450x_{6} + 400x_{7} + 100x_{8} \\
+\end{eqnarray}\\
+\text{Subjected to:}\\
+\begin{eqnarray}
+0 &amp;\leq x_{1} &amp;\leq 1\\
+0 &amp;\leq x_{2} &amp;\leq 1\\
+0 &amp;\leq x_{3} &amp;\leq 1\\
+0 &amp;\leq x_{4} &amp;\leq 1\\
+0 &amp;\leq x_{5} &amp;\leq \infty\\
+0 &amp;\leq x_{6} &amp;\leq \infty\\
+0 &amp;\leq x_{7} &amp;\leq \infty\\
+0 &amp;\leq x_{8} &amp;\leq \infty  
+\end{eqnarray}\\
+\text{With constraint bounds as: }\\ 
+\begin{eqnarray}
+25 &amp;\leq c_{1} &amp;\leq 25\\
+1.25 &amp;\leq c_{2} &amp;\leq 1.25\\
+1.25 &amp;\leq c_{3} &amp;\leq 1.25\\
+\end{eqnarray}
+</latex>
+   </para>
    <programlisting role="example"><![CDATA[
 //Reference: Westerberg, Carl-Henrik, Bengt Bjorklund, and Eskil Hultman. "An application of mixed integer programming in a Swedish steel mill." Interfaces 7, no. 2 (1977): 39-43.
 // Objective function
@@ -132,17 +180,75 @@ conub = [ 25; 1.25; 1.25]
 isInt = [repmat(%t,1,4) repmat(%f,1,4)];
 xopt = [1 1 0 1 7.25 0 0.25 3.5]
 fopt = [8495]
+options = list("time_limit", 25);
 // Calling Symphony
-[x,f,status,output] = symphony(8,3,c,isInt,lb,ub,A,conlb,conub,1)
+[x,f,status,output] = symphony(8,3,c,isInt,lb,ub,A,conlb,conub,1,options);
 // Press ENTER to continue
 
    ]]></programlisting>
 </refsection>
 
 <refsection>
-   <title>Examples</title>
+   <title>Example</title>
+   <para>
+Here we provide the sense (maximization/minimization) of the objective and show how we can further enhance the functionality of symphony by setting input options. This provides us with the ability to control the solver parameters such as the maximum number of solver iterations and the max. CPU time allowed for the computation.
+</para>
+<para>
+   </para>
    <programlisting role="example"><![CDATA[
-// An advanced case where we set some options in symphony
+//Reference: Westerberg, Carl-Henrik, Bengt Bjorklund, and Eskil Hultman. "An application of mixed integer programming in a Swedish steel mill." Interfaces 7, no. 2 (1977): 39-43.
+// Objective function
+c = [350*5,330*3,310*4,280*6,500,450,400,100]';
+// Lower Bound of variable
+lb = repmat(0,8,1);
+// Upper Bound of variables
+ub = [repmat(1,4,1);repmat(%inf,4,1)];
+// Constraint Matrix
+A = [5,3,4,6,1,1,1,1;
+5*0.05,3*0.04,4*0.05,6*0.03,0.08,0.07,0.06,0.03;
+5*0.03,3*0.03,4*0.04,6*0.04,0.06,0.07,0.08,0.09;]
+// Lower Bound of constraints
+conlb = [ 25; 1.25; 1.25]
+// Upper Bound of constraints
+conub = [ 25; 1.25; 1.25]
+// Row Matrix for telling symphony that the is integer or not
+isInt = [repmat(%t,1,4) repmat(%f,1,4)];
+xopt = [1 1 0 1 7.25 0 0.25 3.5]
+fopt = [8495]
+options = list("time_limit", 25);
+// Calling Symphony
+[x,f,status,output] = symphony(8,3,c,isInt,lb,ub,A,conlb,conub,1,options);
+// Press ENTER to continue
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Example</title>
+   <para>
+    An advanced example for Symphony.
+  </para>
+  <para>
+    <latex>
+\begin{eqnarray}
+\mbox{max}_{x}\ sum_{j=1,...,n} P_{j} \boldsymbol{\cdot} x_{j} \\
+\text{Where P is specified below.} \\
+\end{eqnarray}\\
+\\
+\text{Subjected to:}\\
+\begin{eqnarray}
+sum{j=1,...,n} r_{i,j} \boldsymbol{\cdot} x_{j} &amp;\leq b_{i}\\
+\end{eqnarray}\\
+\text{Where r and b are specified below.} \\
+\begin{eqnarray}
+x_{j} = 0 &amp;\text{OR}&amp; x_{j} = 1
+\end{eqnarray}
+    </latex>
+   </para>
+   <para>
+  </para>
+   <programlisting role="example"><![CDATA[
+// Example 3:
 // This problem is taken from
 // P.C.Chu and J.E.Beasley
 // "A genetic algorithm for the multidimensional knapsack problem",
