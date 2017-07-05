@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from intfminunc.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="intfminunc" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>intfminunc</refname>
+    <refpurpose>Solves an unconstrainted multi-variable mixed integer non linear programming optimization problem</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   xopt = intfminunc(f,x0)
+   xopt = intfminunc(f,x0,intcon)
+   xopt = intfminunc(f,x0,intcon,options)
+   [xopt,fopt] = intfminunc(.....)
+   [xopt,fopt,exitflag]= intfminunc(.....)
+   [xopt,fopt,exitflag,gradient,hessian]= intfminunc(.....)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Input Parameters</title>
+   <variablelist>
+   <varlistentry><term>f :</term>
+      <listitem><para> A function, representing the objective function of the problem.</para></listitem></varlistentry>
+   <varlistentry><term>x0 :</term>
+      <listitem><para> A vector of doubles, containing the starting values of variables of size (1 X n) or (n X 1) where 'n' is the number of Variables.</para></listitem></varlistentry>
+   <varlistentry><term>intcon :</term>
+      <listitem><para> A vector of integers, representing the variables that are constrained to be integers.</para></listitem></varlistentry>
+    <varlistentry><term>options :</term>
+      <listitem><para> A list, containing the option for user to specify. See below for details.</para></listitem></varlistentry>
+ </variablelist>
+</refsection>
+<refsection>
+<title> Outputs</title>
+ <variablelist>
+   <varlistentry><term>xopt :</term>
+      <listitem><para> A vector of doubles, containing the computed solution of the optimization problem.</para></listitem></varlistentry>
+   <varlistentry><term>fopt :</term>
+      <listitem><para> A double, containing the the function value at x.</para></listitem></varlistentry>
+   <varlistentry><term>exitflag :</term>
+      <listitem><para> An integer, containing the flag which denotes the reason for termination of algorithm. See below for details.</para></listitem></varlistentry>
+   <varlistentry><term>gradient :</term>
+      <listitem><para> A vector of doubles, containing the objective's gradient of the solution.</para></listitem></varlistentry>
+   <varlistentry><term>hessian  :</term>
+      <listitem><para> A matrix of doubles, containing the Lagrangian's hessian of the solution.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Search the minimum of a multi-variable mixed integer non linear programming unconstrained optimization problem specified by :
+Find the minimum of f(x) such that
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+&amp;\mbox{min}_{x}
+&amp; f(x)
+&amp; x_{i} \in \!\, \mathbb{Z}, i \in \!\, I
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+intfminunc calls Bonmin, which is an optimization library written in C++, to solve the bound optimization problem.
+   </para>
+  <para>
+<title>Options</title>
+The options allow the user to set various parameters of the Optimization problem. The syntax for the options is given by:
+   </para>
+   <para>
+options= list("IntegerTolerance", [---], "MaxNodes",[---], "MaxIter", [---], "AllowableGap",[---] "CpuTime", [---],"gradobj", "off", "hessian", "off" );
+<itemizedlist>
+<listitem>IntegerTolerance : A Scalar, a number with that value of an integer is considered integer.</listitem>
+<listitem>MaxNodes : A Scalar, containing the maximum number of nodes that the solver should search.</listitem>
+<listitem>CpuTime : A scalar, specifying the maximum amount of CPU Time in seconds that the solver should take.</listitem>
+<listitem>AllowableGap : A scalar, that specifies the gap between the computed solution and the the objective value of the best known solution stop, at which the tree search can be stopped.</listitem>
+<listitem>MaxIter : A scalar, specifying the maximum number of iterations that the solver should take.</listitem>
+<listitem>gradobj : A string, to turn on or off the user supplied objective gradient.</listitem>
+<listitem>hessian : A scalar, to turn on or off the user supplied objective hessian.</listitem>
+</itemizedlist>
+   The default values for the various items are given as:
+   </para>
+   <para>
+  options = list('integertolerance',1d-06,'maxnodes',2147483647,'cputime',1d10,'allowablegap',0,'maxiter',2147483647,'gradobj',"off",'hessian',"off")
+   </para>
+     <para>
+   </para>
+   <para>
+The exitflag allows to know the status of the optimization which is given back by Ipopt.
+<itemizedlist>
+<listitem>0 : Optimal Solution Found </listitem>
+<listitem>1 : InFeasible Solution.</listitem>
+<listitem>2 : Objective Function is Continuous Unbounded.</listitem>
+<listitem>3 : Limit Exceeded.</listitem>
+<listitem>4 : User Interrupt.</listitem>
+<listitem>5 : MINLP Error.</listitem>
+</itemizedlist>
+   </para>
+   <para>
+For more details on exitflag, see the Bonmin documentation which can be found on http://www.coin-or.org/Bonmin
+   </para>
+   <para>
+</para>
+</refsection>
+<para>
+A few examples displaying the various functionalities of intfminunc have been provided below. You will find a series of problems and the appropriate code snippets to solve them.
+   </para>
+
+<refsection>
+   <title>Example</title>
+<para>
+We begin with the minimization of a simple non-linear function.
+</para>
+   <para>
+Find x in R^2 such that it minimizes:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+\mbox{min}_{x}\ f(x) = x_{1}^{2} + x_{2}^{2}
+\end{eqnarray}\\
+\text{With integer constraints as: } \\
+\begin{eqnarray}
+\begin{array}{c}
+[1] \\
+\end{array}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+   </para>
+   <programlisting role="example"><![CDATA[
+//Example 1:
+//Objective function to be minimised
+function y= f(x)
+y= x(1)^2 + x(2)^2;
+endfunction
+//Starting point
+x0=[2,1];
+intcon = [1];
+[xopt,fopt]=intfminunc(f,x0,intcon)
+// Press ENTER to continue
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Example</title>
+   <para>
+We now look at the Rosenbrock function, a non-convex performance test problem for optimization routines. We use this example to illustrate how we can enhance the functionality of intfminunc by setting input options. We can pre-define the gradient of the objective function and/or the hessian of the lagrange function and thereby improve the speed of computation. This is elaborated on in example 2. We also set solver parameters using the options.
+</para>
+ <para>
+<latex>
+\begin{eqnarray}
+\mbox{min}_{x}\ f(x) = 100\boldsymbol{\cdot} (x_{2} - x_{1}^{2})^{2} + (1-x_{1})^{2}
+\end{eqnarray}\\
+\text{With integer constraints as: } \\
+\begin{eqnarray}
+\begin{array}{c}
+[2] \\
+\end{array}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+   </para>
+   <programlisting role="example"><![CDATA[
+///Example 2:
+//Objective function to be minimised
+function y= f(x)
+y= 100*(x(2) - x(1)^2)^2 + (1-x(1))^2;
+endfunction
+//Starting point
+x0=[-1,2];
+intcon = [2]
+//Options
+options=list("MaxIter", [1500], "CpuTime", [500]);
+//Calling
+[xopt,fopt,exitflag,gradient,hessian]=intfminunc(f,x0,intcon,options)
+// Press ENTER to continue
+
+   ]]></programlisting>
+</refsection>
+
+
+
+<refsection>
+   <title>Example</title>
+   <para>
+Unbounded Problems: Find x in R^2 such that it minimizes:
+</para>
+   <para>
+<latex>
+\begin{eqnarray}
+f(x) = -x_{1}^{2} - x_{2}^{2}
+\end{eqnarray}\\
+\text{With integer constraints as: } \\
+\begin{eqnarray}
+\begin{array}{c}
+[1] \\
+\end{array}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+   </para>
+   <programlisting role="example"><![CDATA[
+//The below problem is an unbounded problem:
+//Find x in R^2 such that the below function is minimum
+//f = - x1^2 - x2^2
+//Objective function to be minimised
+function [y,g,h] = f(x)
+y = -x(1)^2 - x(2)^2;
+g = [-2*x(1),-2*x(2)];
+h = [-2,0;0,-2];
+endfunction
+//Starting point
+x0=[2,1];
+intcon = [1]
+options = list("gradobj","ON","hessian","on");
+[xopt,fopt,exitflag,gradient,hessian]=intfminunc(f,x0,intcon,options)
+   ]]></programlisting>
+</refsection>
+</refentry>
