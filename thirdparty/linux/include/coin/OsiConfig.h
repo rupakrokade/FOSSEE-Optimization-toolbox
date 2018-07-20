@@ -5,7 +5,11 @@
 #define __CONFIG_OSI_H__
 
 /* Version number of project */
+<<<<<<< HEAD
 #define OSI_VERSION "0.107.8"
+=======
+#define OSI_VERSION "0.107.9"
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
 /* Major Version number of project */
 #define OSI_VERSION_MAJOR 0
@@ -14,6 +18,10 @@
 #define OSI_VERSION_MINOR 107
 
 /* Release Version number of project */
+<<<<<<< HEAD
 #define OSI_VERSION_RELEASE 8
+=======
+#define OSI_VERSION_RELEASE 9
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
 #endif

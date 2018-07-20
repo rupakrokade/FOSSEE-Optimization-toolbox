@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /****************************************************************
 Copyright (C) 1997-1998, 2001 Lucent Technologies
 All Rights Reserved
@@ -21,6 +22,25 @@ IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
 ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
 THIS SOFTWARE.
 ****************************************************************/
+=======
+/*******************************************************************
+Copyright (C) 2016 AMPL Optimization, Inc.; written by David M. Gay.
+
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notice appear in all copies and that
+both that the copyright notice and this permission notice and warranty
+disclaimer appear in supporting documentation.
+
+The author and AMPL Optimization, Inc. disclaim all warranties with
+regard to this software, including all implied warranties of
+merchantability and fitness.  In no event shall the author be liable
+for any special, indirect or consequential damages or any damages
+whatsoever resulting from loss of use, data or profits, whether in an
+action of contract, negligence or other tortious action, arising out
+of or in connection with the use or performance of this software.
+*******************************************************************/
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
 #ifndef NLP_H_included
 #define NLP_H_included
@@ -44,7 +64,11 @@ typedef struct expr_va expr_va;
 typedef struct funnel funnel;
 typedef struct list list;
 
+<<<<<<< HEAD
 typedef real efunc ANSI((expr * A_ASL));
+=======
+typedef real efunc(expr * A_ASL);
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
 #define r_ops     r_ops_ASL
 #define obj1val   obj1val_ASL
@@ -137,6 +161,10 @@ cexp {
 	expr	*e;
 	int	nlin;
 	linpart	*L;
+<<<<<<< HEAD
+=======
+	struct linarg *la;	/* corresponding to L */
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	funnel	*funneled;
 	list	*cref;
 	ei	z;
@@ -196,6 +224,11 @@ Edag1info {
 	cexp	*cexps_;
 	cexp1	*cexps1_;
 	efunc	**r_ops_;
+<<<<<<< HEAD
+=======
+	/* The [cov]_class values are currently only available with pfgh_read() */
+	/* and (the little used) pfg_read(). */
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	char	*c_class;	/* class of each constraint: */
 				/* 0 = constant */
 				/* 1 = linear */
@@ -222,6 +255,7 @@ ASL_fg {
  extern "C" {
 #endif
  extern efunc *r_ops_ASL[];
+<<<<<<< HEAD
  extern void com1eval_ASL ANSI((ASL_fg*, int, int));
  extern void comeval_ASL ANSI((ASL_fg*, int, int));
  extern void funnelset_ASL ANSI((ASL_fg*, funnel *));
@@ -234,6 +268,20 @@ ASL_fg {
  extern int  lcon1val ANSI((ASL*,int nc, real *X, fint *ne));
  extern int x0_check_ASL ANSI((ASL_fg*, real *));
  extern void x1known ANSI((ASL*, real*, fint*));
+=======
+ extern void com1eval_ASL(ASL_fg*, int, int);
+ extern void comeval_ASL(ASL_fg*, int, int);
+ extern void funnelset_ASL(ASL_fg*, funnel *);
+ extern real obj1val(ASL*, int nobj, real *X, fint *nerror);
+ extern void obj1grd(ASL*, int nobj, real *X, real *G, fint *nerror);
+ extern void con1val(ASL*, real *X, real *F, fint *nerror);
+ extern void jac1val(ASL*, real *X, real *JAC, fint *nerror);
+ extern real con1ival(ASL*,int nc, real *X, fint *ne);
+ extern void con1grd (ASL*, int nc, real *X, real *G, fint *nerror);
+ extern int  lcon1val(ASL*,int nc, real *X, fint *ne);
+ extern int x0_check_ASL(ASL_fg*, real *);
+ extern int x1known(ASL*, real*, fint*);
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 #ifdef __cplusplus
 	}
 #endif

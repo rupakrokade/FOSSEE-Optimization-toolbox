@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* $Id: CbcOrClpParam.cpp 2175 2015-10-06 08:56:43Z forrest $ */
+=======
+/* $Id: CbcOrClpParam.cpp 2237 2017-01-03 15:53:33Z forrest $ */
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 // Copyright (C) 2002, International Business Machines
 // Corporation and others.  All Rights Reserved.
 // This code is licensed under the terms of the Eclipse Public License (EPL).
@@ -1408,7 +1412,7 @@ CoinReadGetString(int argc, const char *argv[])
                          if (argv[CbcOrClpRead_mode][0] != '-') {
                               field = argv[CbcOrClpRead_mode++];
                          } else if (!strcmp(argv[CbcOrClpRead_mode], "--")) {
-                              field = argv[CbcOrClpRead_mode++];
+                              CbcOrClpRead_mode++;
                               // -- means import from stdin
                               field = "-";
                          }
@@ -1508,6 +1512,8 @@ CoinReadGetDoubleField(int argc, const char *argv[], int * valid)
      }
      return value;
 }
+#undef COIN_DBL_MAX
+#define COIN_DBL_MAX 1.0e100
 /*
   Subroutine to establish the cbc parameter array. See the description of
   class CbcOrClpParam for details. Pulled from C..Main() for clarity.
@@ -3845,7 +3851,8 @@ cccc is bit set \n 0 - 1 Heavy probing \n 1 - 2 Make variables integer if possib
 2 - 4 As above but even if zero objective value\n \
 7 - 128 Try and create cliques\n 8 - 256 If all +1 try hard for dominated rows\n \
 10 - 1024 Use a larger feasibility tolerance in presolve\n \
-11 - 2048 Try probing before creating cliques"
+11 - 2048 Try probing before creating cliques\n \
+12 - 4096 Switch off duplicate column checking for integers"
      );
      parameters[numberParameters++] =
           CbcOrClpParam("two!MirCuts", "Whether to use Two phase Mixed Integer Rounding cuts",

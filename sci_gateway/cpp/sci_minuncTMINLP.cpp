@@ -120,7 +120,11 @@ bool minuncTMINLP::eval_f(Index n, const Number* x, bool new_x, Number& obj_valu
 {
   	char name[20]="_f";
 	Number *obj;
+<<<<<<< HEAD
 	if (getFunctionFromScilab1(n,name,x, 7, 1,2,&obj))
+=======
+	if (getFunctionFromScilab1(n,name,(double*)x, 7, 1,2,&obj))		//typecast x to double*
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	{
 		return false;
 	}
@@ -133,7 +137,11 @@ bool minuncTMINLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* gra
 {
 	char name[20]="_gradf";
   	Number *resg;
+<<<<<<< HEAD
 	if (getFunctionFromScilab1(n,name,x, 7, 1, 2, &resg))
+=======
+	if (getFunctionFromScilab1(n,name,(double*)x, 7, 1, 2, &resg))		//typecast x to double*
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	{
 		return false;
 	}
@@ -188,7 +196,11 @@ bool minuncTMINLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor
 	{			
 		char name[20]="_gradhess";
 	  	Number *resh;
+<<<<<<< HEAD
 		if (getFunctionFromScilab1(n,name,x, 7, 1,2,&resh))
+=======
+		if (getFunctionFromScilab1(n,name,(double*)x, 7, 1,2,&resh))	//typecast x to double*
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 		{
 			return false;
 		}

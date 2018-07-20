@@ -30,6 +30,32 @@ TOOLBOX_TITLE = "FOSSEE Optimization Toolbox";
 
 toolbox_dir = get_absolute_file_path("builder.sce");
 
+//try
+//    [gitid errstat]=unix_g('git rev-parse HEAD')
+//    gitidstr='#define GIT_ID ""'+gitid+'""';
+//    fd=mopen(toolbox_dir+'sci_gateway'+filesep()+'cpp'+filesep()+'fotConfig.h','r');
+//    a=mgetl(fd);
+//    len=size(a,1)
+//    if errstat==0
+//        a(len)=gitidstr;
+//        a(len-3)="#define GIT_CHECK 1"
+//        mprintf("Git Id added\n")
+//    else
+//        a(len-3)="#define GIT_CHECK 0";
+//    end
+//    mclose(fd);
+//    fd=mopen(toolbox_dir+'sci_gateway'+filesep()+'cpp'+filesep()+'fotConfig.h','w');
+//    mputl(a,fd);
+//    mclose(fd);
+//    checkfile=toolbox_dir+'sci_gateway'+filesep()+'cpp'+filesep()+'Release'+filesep()+'sci_fotversion.obj';
+//    if isfile(checkfile) then
+//        deletefile(checkfile);
+//    end
+//catch
+//	mprintf("Git Id could not be added\n");
+//end
+
+
 tbx_builder_macros(toolbox_dir);
 tbx_builder_gateway(toolbox_dir);
 

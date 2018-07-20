@@ -198,9 +198,15 @@ static int commonCodePart2()
 			cleanupBeforeExit();
 			return 1;
 		}
+<<<<<<< HEAD
 		#ifdef _MSC_VER
   	        double INFINITY = sym_get_infinity();
 		#endif
+=======
+		//#ifdef _MSC_VER
+  	      //  double INFINITY = sym_get_infinity();
+		//#endif
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 		if(conLower[rowIter]==(-INFINITY) && conUpper[rowIter]==INFINITY){
 			conType[rowIter]='N';
 			conRange[rowIter]=0;
