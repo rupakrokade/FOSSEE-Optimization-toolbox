@@ -1,10 +1,10 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// This file must be used under the terms of the BSD.
-// This source file is licensed as described in the file LICENSE, which
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
-// https://opensource.org/licenses/BSD-3-Clause
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 // Author: Harpreet Singh
 // Organization: FOSSEE, IIT Bombay
 // Email: toolbox@scilab.in
@@ -89,8 +89,6 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg (varargin)
 	//			53;
 	//			35;
 	//			20;]
-	//
-	//  // Calling Sequence
 	// [xopt,resnorm,residual,exitflag,output,lambda] = lsqnonneg(C,d)
 	// Authors
 	// Harpreet Singh

@@ -1,10 +1,10 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// This file must be used under the terms of the BSD.
-// This source file is licensed as described in the file LICENSE, which
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
-// https://opensource.org/licenses/BSD-3-Clause
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 // Author: R.Vidyadhar & Vignesh Kannan
 // Organization: FOSSEE, IIT Bombay
 // Email: toolbox@scilab.in
@@ -102,8 +102,7 @@ function [xopt,fopt,exitflag,output,lambda] = fminbnd (varargin)
   	//    x2 = [2, 2, 2, 2, 2, 2];
   	//	//Options
   	//	options=list("MaxIter",[1500],"CpuTime", [100],"TolX",[1e-6])
-	//
- 	//    // Calling Sequence
+  	//    //Calling Ipopt
   	//	[x,fval] =fminbnd(f, x1, x2, options)
 	// // Press ENTER to continue
   	//
@@ -118,8 +117,7 @@ function [xopt,fopt,exitflag,output,lambda] = fminbnd (varargin)
   	//	//Variable bounds  
   	//	x1 = [0];
   	//    x2 = [1000];
-	//
- 	//    // Calling Sequence
+  	//    //Calling Ipopt
   	//	[x,fval,exitflag,output,lambda] =fminbnd(f, x1, x2)
 	// // Press ENTER to continue
   	//
@@ -137,8 +135,7 @@ function [xopt,fopt,exitflag,output,lambda] = fminbnd (varargin)
   	//    x2 = [];
   	//	//Options
   	//	options=list("MaxIter",[1500],"CpuTime", [100],"TolX",[1e-6])
-	//
- 	//    // Calling Sequence
+  	//    //Calling Ipopt
   	//	[x,fval,exitflag,output,lambda] =fminbnd(f, x1, x2, options)  
   	// Authors
   	// R.Vidyadhar , Vignesh Kannan

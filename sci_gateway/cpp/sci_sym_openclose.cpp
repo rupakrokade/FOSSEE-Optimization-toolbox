@@ -1,8 +1,14 @@
-/*
- * Symphony Tool Box for Scilab
- * contains functions that opens and closes the symphony environment 
- * By Keyur Joshi, Iswarya
- */
+// Copyright (C) 2015 - IIT Bombay - FOSSEE
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// Author: Keyur Joshi, Iswarya
+// Organization: FOSSEE, IIT Bombay
+// Email: toolbox@scilab.in
+
 #include <symphony.h>
 #include "sci_iofunc.hpp"
 
@@ -29,9 +35,9 @@ int sci_sym_open(char *fname, unsigned long fname_len){
 	CheckOutputArgument(pvApiCtx, 1, 1) ;//one output argument
 
 	//check environment
-	if(global_sym_env!=NULL){
-		sciprint("Warning: Symphony environment is already initialized.\n");
-	}else{
+	if(global_sym_env==NULL){
+	// 	sciprint("Warning: Symphony environment is already initialized.\n");
+	// }else{
 		global_sym_env = sym_open_environment();//open an environment
 		if (!global_sym_env)
 			sciprint("Error: Unable to create symphony environment.\n");

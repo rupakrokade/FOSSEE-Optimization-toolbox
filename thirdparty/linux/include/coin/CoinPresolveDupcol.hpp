@@ -1,4 +1,4 @@
-/* $Id: CoinPresolveDupcol.hpp 1817 2015-03-22 16:43:28Z forrest $ */
+/* $Id: CoinPresolveDupcol.hpp 1854 2015-12-18 14:18:54Z forrest $ */
 // Copyright (C) 2002, International Business Machines
 // Corporation and others.  All Rights Reserved.
 // This code is licensed under the terms of the Eclipse Public License (EPL).
@@ -152,15 +152,19 @@ class duprow3_action : public CoinPresolveAction {
 
 class gubrow_action : public CoinPresolveAction {
   struct action {
-    int row;
-    double lbound;
-    double ubound;
+    double rhs;
+    // last is row itself
+    int * deletedRow;
+    double * rowels;
+    int * indices; // indices in gub row
+    int nDrop;
+    int ninrow;
   };
 
   const int nactions_;
   const action *const actions_;
 
-  gubrow_action():CoinPresolveAction(NULL),nactions_(0),actions_(NULL) {}
+  //gubrow_action():CoinPresolveAction(NULL),nactions_(0),actions_(NULL) {}
   gubrow_action(int nactions,
 		      const action *actions,
 		      const CoinPresolveAction *next) :
@@ -175,7 +179,7 @@ class gubrow_action : public CoinPresolveAction {
 
   void postsolve(CoinPostsolveMatrix *prob) const;
 
-  //~gubrow_action() { delete[]actions_; }
+  virtual ~gubrow_action();
 };
 
 /*! \class twoxtwo_action

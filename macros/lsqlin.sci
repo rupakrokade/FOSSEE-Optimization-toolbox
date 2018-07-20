@@ -1,10 +1,10 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// This file must be used under the terms of the BSD.
-// This source file is licensed as described in the file LICENSE, which
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
-// https://opensource.org/licenses/BSD-3-Clause
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 // Author: Harpreet Singh
 // Organization: FOSSEE, IIT Bombay
 // Email: toolbox@scilab.in
@@ -103,8 +103,6 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
 	//		-2 10];
 	// b = [4
 	//     -4];
-	//
-	// // Calling Sequence
 	// [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin(C,d,A,b)
 	// // Press ENTER to continue 
 	//    
@@ -130,8 +128,6 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
 	//	 beq = 10;
 	//	 lb = repmat(0.1,3,1);
 	//	 ub = repmat(4,3,1);
-	//
- 	//   // Calling Sequence
 	//	 [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin(C,d,A,b,Aeq,beq,lb,ub)
 	// Authors
 	// Harpreet Singh

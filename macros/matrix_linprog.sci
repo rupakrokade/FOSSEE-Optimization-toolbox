@@ -3,11 +3,11 @@
 // Author: Guru Pradeep Reddy, Bhanu Priya Sayal
 // Organization: FOSSEE, IIT Bombay
 // Email: gurupradeept@gmail.com, bhanupriyasayal@gmail.com
-// This file must be used under the terms of the BSD.
-// This source file is licensed as described in the file LICENSE, which
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
-// https://opensource.org/licenses/BSD-3-Clause
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 
 
 function [xopt,fopt,exitflag,output,lambda] = matrix_linprog (varargin)

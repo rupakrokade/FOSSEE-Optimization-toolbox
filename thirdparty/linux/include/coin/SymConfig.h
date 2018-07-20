@@ -5,7 +5,7 @@
 #define __CONFIG_SYM_H__
 
 /* Version number of project */
-#define SYMPHONY_VERSION "5.6.10"
+#define SYMPHONY_VERSION "5.6.16"
 
 /* Major Version number of project */
 #define SYMPHONY_VERSION_MAJOR 5
@@ -14,6 +14,6 @@
 #define SYMPHONY_VERSION_MINOR 6
 
 /* Release Version number of project */
-#define SYMPHONY_VERSION_RELEASE 10
+#define SYMPHONY_VERSION_RELEASE 16
 
 #endif

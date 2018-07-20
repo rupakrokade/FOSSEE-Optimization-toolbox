@@ -3,7 +3,7 @@ mode(1)
 // Demo of symphony.sci
 //
 
-//A basic case :
+//Reference: Westerberg, Carl-Henrik, Bengt Bjorklund, and Eskil Hultman. "An application of mixed integer programming in a Swedish steel mill." Interfaces 7, no. 2 (1977): 39-43.
 // Objective function
 c = [350*5,330*3,310*4,280*6,500,450,400,100]';
 // Lower Bound of variable
@@ -11,19 +11,20 @@ lb = repmat(0,8,1);
 // Upper Bound of variables
 ub = [repmat(1,4,1);repmat(%inf,4,1)];
 // Constraint Matrix
-conMatrix = [5,3,4,6,1,1,1,1;
+A = [5,3,4,6,1,1,1,1;
 5*0.05,3*0.04,4*0.05,6*0.03,0.08,0.07,0.06,0.03;
 5*0.03,3*0.03,4*0.04,6*0.04,0.06,0.07,0.08,0.09;]
-// Lower Bound of constrains
+// Lower Bound of constraints
 conlb = [ 25; 1.25; 1.25]
-// Upper Bound of constrains
+// Upper Bound of constraints
 conub = [ 25; 1.25; 1.25]
 // Row Matrix for telling symphony that the is integer or not
 isInt = [repmat(%t,1,4) repmat(%f,1,4)];
 xopt = [1 1 0 1 7.25 0 0.25 3.5]
 fopt = [8495]
 // Calling Symphony
-[x,f,status,output] = symphony(8,3,c,isInt,lb,ub,conMatrix,conlb,conub,1)
+[x,f,status,output] = symphony(8,3,c,isInt,lb,ub,A,conlb,conub,1)
+// Press ENTER to continue
 halt()   // Press return to continue
  
 // An advanced case where we set some options in symphony
@@ -36,7 +37,7 @@ halt()   // Press return to continue
 // st   sum{j=1,...,n} r(i,j)x(j) <= b(i)       i=1,...,m
 //                     x(j)=0 or 1
 // The function to be maximize i.e. P(j)
-p = [   504 803 667 1103 834 585 811 856 690 832 846 813 868 793 ..
+c = [   504 803 667 1103 834 585 811 856 690 832 846 813 868 793 ..
 825 1002 860 615 540 797 616 660 707 866 647 746 1006 608 ..
 877 900 573 788 484 853 942 630 591 630 640 1169 932 1034 ..
 957 798 669 625 467 1051 552 717 654 388 559 555 1104 783 ..
@@ -44,7 +45,7 @@ p = [   504 803 667 1103 834 585 811 856 690 832 846 813 868 793 ..
 510 671 575 740 510 675 996 636 826 1022 1140 654 909 799 ..
 1162 653 814 625 599 476 767 954 906 904 649 873 565 853 1008 632]';
 //Constraint Matrix
-conMatrix = [
+A = [
 //Constraint 1
 42 41 523 215 819 551 69 193 582 375 367 478 162 898 ..
 550 553 298 577 493 183 260 224 852 394 958 282 402 604 ..
@@ -86,15 +87,15 @@ conMatrix = [
 483 336 765 637 981 980 202 35 594 689 602 76 767 693 ..
 893 160 785 311 417 748 375 362 617 553 474 915 457 261 350 635 ;
 ];
-nbCon = size(conMatrix,1)
-nbVar = size(conMatrix,2)
+nbCon = size(A,1)
+nbVar = size(A,2)
 // Lower Bound of variables
 lb = repmat(0,nbVar,1)
 // Upper Bound of variables
 ub = repmat(1,nbVar,1)
 // Row Matrix for telling symphony that the is integer or not
 isInt = repmat(%t,1,nbVar)
-// Lower Bound of constrains
+// Lower Bound of constraints
 conLB=repmat(0,nbCon,1);
 // Upper Bound of constraints
 conUB=[11927 13727 11551 13056 13460 ]';
@@ -105,9 +106,7 @@ xopt = [0 1 1 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 1 0 1 1 0 1 ..
 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 1 1 0 0 1 0 ..
 0 1 0 1 0 0 1 0 0 1 0 1 0 0 0 0 0 1 1 0 0 0 0 0 1 1 0 0 1 0 0 1 0]
 // Optimal value
-fopt = [ 24381 ]
+fopt = [ -24381 ]
 // Calling Symphony
-[x,f,status,output] = symphony(nbVar,nbCon,p,isInt,lb,ub,conMatrix,conLB,conUB,-1,options)
-halt()   // Press return to continue
- 
+[x,f,status,output] = symphony(nbVar,nbCon,c,isInt,lb,ub,A,conLB,conUB,-1,options)
 //========= E N D === O F === D E M O =========//

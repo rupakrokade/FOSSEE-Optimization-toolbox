@@ -10,12 +10,12 @@ if fileinfo('loader.sce') <> [] then
   mdelete('loader.sce');
 end
 // ------------------------------------------------------
-if fileinfo('libFAMOS.so') <> [] then
-  mdelete('libFAMOS.so');
+if fileinfo('libFOSSEE_Optimization_Toolbox.so') <> [] then
+  mdelete('libFOSSEE_Optimization_Toolbox.so');
 end
 // ------------------------------------------------------
-if fileinfo('libFAMOS.c') <> [] then
-  mdelete('libFAMOS.c');
+if fileinfo('libFOSSEE_Optimization_Toolbox.c') <> [] then
+  mdelete('libFOSSEE_Optimization_Toolbox.c');
 end
 // ------------------------------------------------------
 chdir(curdir);

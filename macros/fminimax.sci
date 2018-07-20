@@ -1,10 +1,10 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// This file must be used under the terms of the BSD.
-// This source file is licensed as described in the file LICENSE, which
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
-// https://opensource.org/licenses/BSD-3-Clause
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 // Authors: Animesh Baranawal
 // Organization: FOSSEE, IIT Bombay
 // Email: toolbox@scilab.in
@@ -164,8 +164,7 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
     //  xopt = [4 4]
     //  fopt = [0 -64 -2 -8 0]
     //  maxfopt = 0
-	//
- 	//    // Calling Sequence
+    //  // Run fminimax
     //  [x,fval,maxfval,exitflag,output,lambda] = fminimax(myfun, x0)
 	// // Press ENTER to continue
     //
@@ -214,8 +213,7 @@ function [x,fval,maxfval,exitflag,output,lambda] = fminimax(varargin)
     //  xopt = [0.92791 7.93551]
     //  fopt = [6.73443  -189.778  6.73443  -8.86342  0.86342]
     //  maxfopt = 6.73443
-	//
- 	//    // Calling Sequence
+    //  // Run fminimax
     //  [x,fval,maxfval,exitflag,output] = fminimax(myfun,x0,[],[],[],[],[],[], confun, minimaxOptions)
     // Authors
     // Animesh Baranawal

@@ -1,4 +1,4 @@
-/* $Id: CbcOrClpParam.cpp 2079 2015-01-05 13:11:35Z forrest $ */
+/* $Id: CbcOrClpParam.cpp 2237 2017-01-03 15:53:33Z forrest $ */
 // Copyright (C) 2002, International Business Machines
 // Corporation and others.  All Rights Reserved.
 // This code is licensed under the terms of the Eclipse Public License (EPL).
@@ -48,11 +48,14 @@ static char coin_prompt[] = "Clp:";
 #include "AbcCommon.hpp"
 #endif
 static bool doPrinting = true;
-std::string afterEquals = "";
+static std::string afterEquals = "";
 static char printArray[200];
 #if COIN_INT_MAX==0
 #undef COIN_INT_MAX
 #define COIN_INT_MAX 2147483647
+#endif
+#if FLUSH_PRINT_BUFFER > 2
+int coinFlushBufferFlag=0;
 #endif
 void setCbcOrClpPrinting(bool yesNo)
 {
@@ -1088,6 +1091,10 @@ CbcOrClpParam::setCurrentOption ( const std::string value )
      int action = parameterOption(value);
      if (action >= 0)
           currentKeyWord_ = action;
+#if FLUSH_PRINT_BUFFER > 2
+     if (name_=="bufferedMode")
+       coinFlushBufferFlag=action;
+#endif
 }
 // Sets current parameter option
 void
@@ -1098,6 +1105,10 @@ CbcOrClpParam::setCurrentOption ( int value , bool printIt)
                     << definedKeyWords_[currentKeyWord_] << " to "
                     << definedKeyWords_[value] << std::endl;
 
+#if FLUSH_PRINT_BUFFER > 2
+     if (name_=="bufferedMode")
+       coinFlushBufferFlag=value;
+#endif
      currentKeyWord_ = value;
 }
 // Sets current parameter option and returns printable string
@@ -1121,6 +1132,10 @@ CbcOrClpParam::setCurrentOptionWithMessage ( int value )
 	   sprintf(newString,"plus%d",value-1000);
 	 sprintf(printArray, "Option for %s changed from %s to %s",
 		 name_.c_str(), current, newString);
+#if FLUSH_PRINT_BUFFER > 2
+	 if (name_=="bufferedMode")
+	   coinFlushBufferFlag=value;
+#endif
 	 currentKeyWord_ = value;
      } else {
           printArray[0] = '\0';
@@ -1135,6 +1150,10 @@ CbcOrClpParam::setCurrentOptionWithMessage ( const std::string value )
      char current[100];
      printArray[0] = '\0';
      if (action >= 0) {
+#if FLUSH_PRINT_BUFFER > 2
+       if (name_=="bufferedMode")
+	 coinFlushBufferFlag=action;
+#endif
          if (action == currentKeyWord_)
 	   return NULL;
 	 if (currentKeyWord_>=0&&(fakeKeyWord_<=0||currentKeyWord_<fakeKeyWord_)) 
@@ -1389,7 +1408,7 @@ CoinReadGetString(int argc, const char *argv[])
                          if (argv[CbcOrClpRead_mode][0] != '-') {
                               field = argv[CbcOrClpRead_mode++];
                          } else if (!strcmp(argv[CbcOrClpRead_mode], "--")) {
-                              field = argv[CbcOrClpRead_mode++];
+                              CbcOrClpRead_mode++;
                               // -- means import from stdin
                               field = "-";
                          }
@@ -1489,6 +1508,8 @@ CoinReadGetDoubleField(int argc, const char *argv[], int * valid)
      }
      return value;
 }
+#undef COIN_DBL_MAX
+#define COIN_DBL_MAX 1.0e100
 /*
   Subroutine to establish the cbc parameter array. See the description of
   class CbcOrClpParam for details. Pulled from C..Main() for clarity.
@@ -1647,6 +1668,17 @@ have more rounds of cuts - see passC!uts and passT!ree."
      parameters[numberParameters-1].append("on1");
      parameters[numberParameters-1].append("off2");
      parameters[numberParameters-1].append("on2");
+#if FLUSH_PRINT_BUFFER > 2
+     parameters[numberParameters++] =
+          CbcOrClpParam("buff!eredMode", "Whether to flush print buffer",
+                        "on", CLP_PARAM_STR_BUFFER_MODE);
+     parameters[numberParameters-1].append("off");
+     parameters[numberParameters-1].setLonghelp
+     (
+          "Default is on, off switches on unbuffered output"
+     );
+     parameters[numberParameters-1].setIntValue(0);
+#endif
      parameters[numberParameters++] =
           CbcOrClpParam("chol!esky", "Which cholesky algorithm",
                         "native", CLP_PARAM_STR_CHOLESKY, 7);
@@ -3815,7 +3847,8 @@ cccc is bit set \n 0 - 1 Heavy probing \n 1 - 2 Make variables integer if possib
 2 - 4 As above but even if zero objective value\n \
 7 - 128 Try and create cliques\n 8 - 256 If all +1 try hard for dominated rows\n \
 10 - 1024 Use a larger feasibility tolerance in presolve\n \
-11 - 2048 Try probing before creating cliques"
+11 - 2048 Try probing before creating cliques\n \
+12 - 4096 Switch off duplicate column checking for integers"
      );
      parameters[numberParameters++] =
           CbcOrClpParam("two!MirCuts", "Whether to use Two phase Mixed Integer Rounding cuts",

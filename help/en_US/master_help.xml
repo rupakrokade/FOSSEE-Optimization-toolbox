@@ -1,77 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE book [
 <!--Begin Entities-->
-<!ENTITY a92eced2aa34d57e217f07f2fabc26015 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/fgoalattain.xml">
-<!ENTITY af80e0067cc98fa7c43cd2eba2f35c3ed SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/fminbnd.xml">
-<!ENTITY a509a9124674982a1290c749742e9e967 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/fmincon.xml">
-<!ENTITY ac53013fb2994321eb9111fe3659619da SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/fminimax.xml">
-<!ENTITY a39dbc3631556ef691d9c72fa40eedb23 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/fminunc.xml">
-<!ENTITY a026dada486834a1daad95c67e01b47c8 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/linprog.xml">
-<!ENTITY a2c9be5aa4d1584f00755b3f1e2646be0 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/lsqlin.xml">
-<!ENTITY a34c8973744bf6bb1d379121abf614ab1 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/lsqnonlin.xml">
-<!ENTITY a91da8531563ac42d888f1a374eb06bcf SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/lsqnonneg.xml">
-<!ENTITY a04ba8859261000cce094f4c6a2a7debb SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/qpipopt.xml">
-<!ENTITY acb9324f64e9a65fb87ce330b5f7adfac SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/qpipoptmat.xml">
-<!ENTITY a7b01b92c2c653f07ac6e8fc0c1ec3fa9 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/symphony.xml">
-<!ENTITY a91dadea5918828de94a4845c2ad3cbe5 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/symphonymat.xml">
-<!ENTITY a299b635b31e2db70864d304bb5bceaec SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_addConstr.xml">
-<!ENTITY a3c37159c7ab704bd66abf5648f295468 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_addVar.xml">
-<!ENTITY a085eae9f22effcadae84f3a0e8e2fc75 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_close.xml">
-<!ENTITY a570e4c44a691678f230892fe02ca2b51 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_deleteConstrs.xml">
-<!ENTITY acae11d784b796c42c7af62d71d03bf57 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_deleteVars.xml">
-<!ENTITY a7e224d80b9ac6726352e5230a0908db9 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getConstrActivity.xml">
-<!ENTITY a088faceaed3d1bc6a75143bd16aae9e8 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getConstrLower.xml">
-<!ENTITY a29b8c6fa5ef0455b5cd6c096ab02394e SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getConstrRange.xml">
-<!ENTITY ac65519a5c3a12f415702f36d56c06b7a SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getConstrSense.xml">
-<!ENTITY aee04edd2012fe6b8befe0f131481652b SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getConstrUpper.xml">
-<!ENTITY a2c9633d776f1ad4163beb33f0641d12a SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getDblParam.xml">
-<!ENTITY a94736872415541e800b4cac737552cd1 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getInfinity.xml">
-<!ENTITY a1bc19dc158a31636a939b2432c8a756b SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getIntParam.xml">
-<!ENTITY ac2e23ef5f086c6453ecabe7a751b54c2 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getIterCount.xml">
-<!ENTITY abcd5cea99a5a2d7dcf083cf71cadcdc2 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getMatrix.xml">
-<!ENTITY a8971ebf56653b9c834f7fddb337fcf5f SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getNumConstr.xml">
-<!ENTITY a6fe61e93e31da551b2f5b4de11f1de76 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getNumElements.xml">
-<!ENTITY a101e2ec4202f07d6e865a0e3dacec8ff SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getNumVar.xml">
-<!ENTITY a601c04c4055b06419e9053e32fa7d634 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getObjCoeff.xml">
-<!ENTITY a0ff380cbe9c313ce15abf3d4d7e936d6 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getObjSense.xml">
-<!ENTITY a3372a734bcc94354b2828efc1d6a656b SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getObjVal.xml">
-<!ENTITY aa598e28250e5b02ca42d75d425f4cb1d SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getPrimalBound.xml">
-<!ENTITY aeed0c1022d63f46f70b51de305af7216 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getRhs.xml">
-<!ENTITY a8a0b36f0d54c5eb6a72c1faf3c83a337 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getStatus.xml">
-<!ENTITY abcffa91be0617e9225553ba3bff73bc9 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getStrParam.xml">
-<!ENTITY a803047e8a099a6922fd3f8ad3465cc20 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getVarLower.xml">
-<!ENTITY acc519135c27808c7384b63a5d02ce151 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getVarSoln.xml">
-<!ENTITY acec448eb5171fee866bad26b90c4d940 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_getVarUpper.xml">
-<!ENTITY aace91ff92c71938d3a078c25f14bcd12 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_isAbandoned.xml">
-<!ENTITY a08fa5121c2a1da6a3403c685a4440045 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_isBinary.xml">
-<!ENTITY afc88c6731d2a13689d0386323dabaf1f SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_isContinuous.xml">
-<!ENTITY abbd5e696c29a743c5e8b2919850023d9 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_isEnvActive.xml">
-<!ENTITY ad42100b84e76d682d84f78e47074ce8f SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_isInfeasible.xml">
-<!ENTITY a207bfa75b9fecbe13ee7c72de67d3e84 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_isInteger.xml">
-<!ENTITY a2b8e2f18c416c9b940d0727b56280a64 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_isIterLimitReached.xml">
-<!ENTITY a903f3bd7f43b818c64c93de95f4a77d4 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_isOptimal.xml">
-<!ENTITY ac92a4e41e3a85aea1ebd7d34b93847cd SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_isTargetGapAchieved.xml">
-<!ENTITY ac7f125c90e7b2a8ef81f2146a8412b86 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_isTimeLimitReached.xml">
-<!ENTITY a8ea073f61c1f35277fca99adeb5ddfdd SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_loadMPS.xml">
-<!ENTITY a4080158aa253bb7f481329789c4694bf SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_loadProblem.xml">
-<!ENTITY ae70309215de55c8b5303ddac915e748b SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_loadProblemBasic.xml">
-<!ENTITY afe518887e8a4b614af0c4f083853c3d9 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_open.xml">
-<!ENTITY ac0da615fcbc12006669e51203f21e0ca SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_resetParams.xml">
-<!ENTITY a84c5e30ad3344cd01bcc8a2defcc9302 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_setConstrLower.xml">
-<!ENTITY a3c1fb2ff727602439f279a49ab2c4f93 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_setConstrType.xml">
-<!ENTITY af30ba120252b44132a7e6f980d278e35 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_setConstrUpper.xml">
-<!ENTITY a74de3ec262039e36129db2247cd5a95c SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_setContinuous.xml">
-<!ENTITY a02950dff19641d3ab4775804986a2082 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_setDblParam.xml">
-<!ENTITY a26995f0438c2be3d6825d7bc87dca338 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_setIntParam.xml">
-<!ENTITY a07ff0bb9910cdd63e5f08fb85234a363 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_setInteger.xml">
-<!ENTITY a6093e215e37e9307c9d0bc568c56192e SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_setObjCoeff.xml">
-<!ENTITY aec62fa64d07444036a1bc13d175cad3c SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_setObjSense.xml">
-<!ENTITY a5432a14d8d225d4a5ceb66505cc3787e SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_setPrimalBound.xml">
-<!ENTITY a67afd21ee0b9a70b1b895139c2f14be1 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_setStrParam.xml">
-<!ENTITY aa1119c9d7197ec0756f502283db9ede4 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_setVarLower.xml">
-<!ENTITY ab3460c49b7e2246f67cfecc58c0c2549 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_setVarSoln.xml">
-<!ENTITY a4cc74dec0f5c92cbe95dfb00f3add455 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_setVarUpper.xml">
-<!ENTITY a96423c1495815ea0b826925862c2d698 SYSTEM "/home/fossee/symphony-work/build/FOSSEE-Optimization-Toolbox-src/help/en_US/Symphony Native Function/sym_solve.xml">
+<!ENTITY a071723dda12f42a9305860e1fd59e147 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/cbcintlinprog.xml">
+<!ENTITY a40d08c1784967eb81cfb1bcef2185bd9 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/fgoalattain.xml">
+<!ENTITY aada61689c903157e893f96815214d77b SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/fminbnd.xml">
+<!ENTITY af058dd9b1fb2dc1cfe01b01d4320a289 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/fmincon.xml">
+<!ENTITY a9a7584c9629f9d7d186362c4a361fc4b SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/fminimax.xml">
+<!ENTITY a2c079d4bc2b5f12c6cd77d210c00a9fb SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/fminunc.xml">
+<!ENTITY abf47d83327eed45e8633451e1638a269 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/fot_version.xml">
+<!ENTITY a56f2a865c2f3bf48c98c158926da3746 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/intfminbnd.xml">
+<!ENTITY acc79cff22341d62636234233667214b6 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/intfmincon.xml">
+<!ENTITY a4e88dc6eb86deb3a8ad388866bd27528 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/intfminimax.xml">
+<!ENTITY a0c12a9fe2cfdd4b9ae88d6bc44edca17 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/intfminunc.xml">
+<!ENTITY a72c1f048e174c7534f51e8a1b19b912a SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/intqpipopt.xml">
+<!ENTITY a7e6f8174880863bd88ca724668593e76 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/linprog.xml">
+<!ENTITY af44c86a226f765aface0d7a1e143054b SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/lsqlin.xml">
+<!ENTITY a37576b195d5e98aae1ff2c20764b4362 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/lsqnonlin.xml">
+<!ENTITY a0efbde3a7b0da1c42ee30c71825e8a86 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/lsqnonneg.xml">
+<!ENTITY ada04d40bc73806cdd8485d3eec495a02 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/qpipopt.xml">
+<!ENTITY a50ffa9b69c1c393585dbf733dbfb55ec SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/qpipoptmat.xml">
+<!ENTITY ac9078fc3b9f6261e6ca4853d333e29e2 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/symphony.xml">
+<!ENTITY ad9d9b9bb10333abd3dd1357866cf19f6 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/symphonymat.xml">
 <!--End Entities-->
 ]>
 <book version="5.0-subset Scilab" xml:lang="en_US"
@@ -86,81 +35,27 @@
     <title>FOSSEE Optimization Toolbox</title>
   </info>
 
-<part xml:id='section_031bbc67ce78762a40093bfdff4eaa3b'>
+<part xml:id='section_0cbcd29fcf7a3b0fb510074d8833fcd8'>
 <title>FOSSEE Optimization Toolbox</title>
-&a92eced2aa34d57e217f07f2fabc26015;
-&af80e0067cc98fa7c43cd2eba2f35c3ed;
-&a509a9124674982a1290c749742e9e967;
-&ac53013fb2994321eb9111fe3659619da;
-&a39dbc3631556ef691d9c72fa40eedb23;
-&a026dada486834a1daad95c67e01b47c8;
-&a2c9be5aa4d1584f00755b3f1e2646be0;
-&a34c8973744bf6bb1d379121abf614ab1;
-&a91da8531563ac42d888f1a374eb06bcf;
-&a04ba8859261000cce094f4c6a2a7debb;
-&acb9324f64e9a65fb87ce330b5f7adfac;
-&a7b01b92c2c653f07ac6e8fc0c1ec3fa9;
-&a91dadea5918828de94a4845c2ad3cbe5;
-<chapter xml:id='section_316c7f5a42ba69316753082a567f2a1a'>
-<title>Symphony Native Functions</title>
-&a299b635b31e2db70864d304bb5bceaec;
-&a3c37159c7ab704bd66abf5648f295468;
-&a085eae9f22effcadae84f3a0e8e2fc75;
-&a570e4c44a691678f230892fe02ca2b51;
-&acae11d784b796c42c7af62d71d03bf57;
-&a7e224d80b9ac6726352e5230a0908db9;
-&a088faceaed3d1bc6a75143bd16aae9e8;
-&a29b8c6fa5ef0455b5cd6c096ab02394e;
-&ac65519a5c3a12f415702f36d56c06b7a;
-&aee04edd2012fe6b8befe0f131481652b;
-&a2c9633d776f1ad4163beb33f0641d12a;
-&a94736872415541e800b4cac737552cd1;
-&a1bc19dc158a31636a939b2432c8a756b;
-&ac2e23ef5f086c6453ecabe7a751b54c2;
-&abcd5cea99a5a2d7dcf083cf71cadcdc2;
-&a8971ebf56653b9c834f7fddb337fcf5f;
-&a6fe61e93e31da551b2f5b4de11f1de76;
-&a101e2ec4202f07d6e865a0e3dacec8ff;
-&a601c04c4055b06419e9053e32fa7d634;
-&a0ff380cbe9c313ce15abf3d4d7e936d6;
-&a3372a734bcc94354b2828efc1d6a656b;
-&aa598e28250e5b02ca42d75d425f4cb1d;
-&aeed0c1022d63f46f70b51de305af7216;
-&a8a0b36f0d54c5eb6a72c1faf3c83a337;
-&abcffa91be0617e9225553ba3bff73bc9;
-&a803047e8a099a6922fd3f8ad3465cc20;
-&acc519135c27808c7384b63a5d02ce151;
-&acec448eb5171fee866bad26b90c4d940;
-&aace91ff92c71938d3a078c25f14bcd12;
-&a08fa5121c2a1da6a3403c685a4440045;
-&afc88c6731d2a13689d0386323dabaf1f;
-&abbd5e696c29a743c5e8b2919850023d9;
-&ad42100b84e76d682d84f78e47074ce8f;
-&a207bfa75b9fecbe13ee7c72de67d3e84;
-&a2b8e2f18c416c9b940d0727b56280a64;
-&a903f3bd7f43b818c64c93de95f4a77d4;
-&ac92a4e41e3a85aea1ebd7d34b93847cd;
-&ac7f125c90e7b2a8ef81f2146a8412b86;
-&a8ea073f61c1f35277fca99adeb5ddfdd;
-&a4080158aa253bb7f481329789c4694bf;
-&ae70309215de55c8b5303ddac915e748b;
-&afe518887e8a4b614af0c4f083853c3d9;
-&ac0da615fcbc12006669e51203f21e0ca;
-&a84c5e30ad3344cd01bcc8a2defcc9302;
-&a3c1fb2ff727602439f279a49ab2c4f93;
-&af30ba120252b44132a7e6f980d278e35;
-&a74de3ec262039e36129db2247cd5a95c;
-&a02950dff19641d3ab4775804986a2082;
-&a26995f0438c2be3d6825d7bc87dca338;
-&a07ff0bb9910cdd63e5f08fb85234a363;
-&a6093e215e37e9307c9d0bc568c56192e;
-&aec62fa64d07444036a1bc13d175cad3c;
-&a5432a14d8d225d4a5ceb66505cc3787e;
-&a67afd21ee0b9a70b1b895139c2f14be1;
-&aa1119c9d7197ec0756f502283db9ede4;
-&ab3460c49b7e2246f67cfecc58c0c2549;
-&a4cc74dec0f5c92cbe95dfb00f3add455;
-&a96423c1495815ea0b826925862c2d698;
-</chapter>
+&a071723dda12f42a9305860e1fd59e147;
+&a40d08c1784967eb81cfb1bcef2185bd9;
+&aada61689c903157e893f96815214d77b;
+&af058dd9b1fb2dc1cfe01b01d4320a289;
+&a9a7584c9629f9d7d186362c4a361fc4b;
+&a2c079d4bc2b5f12c6cd77d210c00a9fb;
+&abf47d83327eed45e8633451e1638a269;
+&a56f2a865c2f3bf48c98c158926da3746;
+&acc79cff22341d62636234233667214b6;
+&a4e88dc6eb86deb3a8ad388866bd27528;
+&a0c12a9fe2cfdd4b9ae88d6bc44edca17;
+&a72c1f048e174c7534f51e8a1b19b912a;
+&a7e6f8174880863bd88ca724668593e76;
+&af44c86a226f765aface0d7a1e143054b;
+&a37576b195d5e98aae1ff2c20764b4362;
+&a0efbde3a7b0da1c42ee30c71825e8a86;
+&ada04d40bc73806cdd8485d3eec495a02;
+&a50ffa9b69c1c393585dbf733dbfb55ec;
+&ac9078fc3b9f6261e6ca4853d333e29e2;
+&ad9d9b9bb10333abd3dd1357866cf19f6;
 </part>
 </book>

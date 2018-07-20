@@ -1,10 +1,10 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// This file must be used under the terms of the BSD.
-// This source file is licensed as described in the file LICENSE, which
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
-// https://opensource.org/licenses/BSD-3-Clause
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 // Author: Harpreet Singh
 // Organization: FOSSEE, IIT Bombay
 // Email: toolbox@scilab.in
@@ -107,8 +107,7 @@ function [xopt,resnorm,residual,exitflag,output,lambda,gradient] = lsqnonlin (va
 	//	function y=myfun(x, tm, ym, wm)
 	//	   y = wm.*( yth(tm, x) - ym )
 	//	endfunction
-	//
-	//   //  Calling Sequence
+	//	// the simplest call
 	//	[xopt,resnorm,residual,exitflag,output,lambda,gradient] = lsqnonlin(myfun,x0)
 	// // Press ENTER to continue 
 	//    
@@ -137,11 +136,10 @@ function [xopt,resnorm,residual,exitflag,output,lambda,gradient] = lsqnonlin (va
 	//     dy = [v , -x(1)*tm.*v]
 	//	endfunction
 	//	options = list("GradObj", "on")
-	//
-	//  // Calling Sequence
 	//	[xopt,resnorm,residual,exitflag,output,lambda,gradient] = lsqnonlin(myfun,x0,[],[],options)
 	// Authors
 	// Harpreet Singh
+
 
 	//To check the number of input and output argument
 	[lhs , rhs] = argn();
@@ -300,12 +298,14 @@ function [xopt,resnorm,residual,exitflag,output,lambda,gradient] = lsqnonlin (va
 		function [dy] = __fGrad(x)
 			[y_user,dy_user] = _fun(x)
 			dy = 2*y_user'*dy_user;
+			clear y_user dy_user;
 		endfunction
 	else
 		function [dy] = __fGrad(x)
 			y_user = _fun(x);
 			dy_nd = numderivative(_fun,x);
 			dy = 2*y_user'*dy_nd;
+			clear y_user dy_nd;
 		endfunction
 	end
 	
