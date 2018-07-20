@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /****************************************************************
 Copyright (C) 1997-2001 Lucent Technologies
 All Rights Reserved
@@ -21,6 +22,25 @@ IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
 ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
 THIS SOFTWARE.
 ****************************************************************/
+=======
+/*******************************************************************
+Copyright (C) 2016 AMPL Optimization, Inc.; written by David M. Gay.
+
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notice appear in all copies and that
+both that the copyright notice and this permission notice and warranty
+disclaimer appear in supporting documentation.
+
+The author and AMPL Optimization, Inc. disclaim all warranties with
+regard to this software, including all implied warranties of
+merchantability and fitness.  In no event shall the author be liable
+for any special, indirect or consequential damages or any damages
+whatsoever resulting from loss of use, data or profits, whether in an
+action of contract, negligence or other tortious action, arising out
+of or in connection with the use or performance of this software.
+*******************************************************************/
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
 #ifndef ASL_included
 #define ASL_included
@@ -268,7 +288,11 @@ Edagpars {
 	void (*Hvinit_nomap)	(ASL*, int hid_limit, int nobj, real *ow, real *y);
 	void (*Hesset)		(ASL*, int flags, int no, int nno, int nc, int nnc);
 	int  (*Lconval)		(ASL*, int ncon, real *X, fint *nerror);
+<<<<<<< HEAD
 	void (*Xknown)		(ASL*, real*, fint*);
+=======
+	int  (*Xknown)		(ASL*, real*, fint*);
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	void (*Duthes)		(ASL*, real *H, int nobj, real *ow, real *y);
 	void (*Duthes_nomap)	(ASL*, real *H, int nobj, real *ow, real *y);
 	void (*Fulhes)		(ASL*, real *H, fint LH, int no, real *ow, real *y);
@@ -611,6 +635,11 @@ Edaginfo {
 	/* for modifying objectives */
 	Objrep	**Or;
 	real *orscratch;	/* scratch (if needed) */
+<<<<<<< HEAD
+=======
+	void (*opify)(ASL*);
+	int nlc0, nlo0;	/* values of nlc_ and nlo_ before obj_adj() */
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
 	/* for simplifying complementarities */
 	MPEC_Adjust *mpa;
@@ -621,6 +650,15 @@ Edaginfo {
 	/* bounds and solution filenames */
 	char *boundsfile;
 	char *solfile;
+<<<<<<< HEAD
+=======
+
+	/* memory use statistics */
+	size_t temp_rd_bytes;	/* bytes temporarily allocated during .nl read */
+	size_t tot_M1z_bytes;	/* total allocated by M1alloc and M1zapalloc */
+	size_t rd_M1z_bytes;	/* tot_M1z_bytes after reading the .nl file */
+
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	} Edaginfo;
 
  struct
@@ -662,7 +700,10 @@ TMInfo {
 #define A_rownos	asl->i.A_rownos_
 #define A_vals		asl->i.A_vals_
 #define Cgrad		asl->i.Cgrad_
+<<<<<<< HEAD
 #define CgradZ		asl->i.CgradZ_
+=======
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 #define Fortran		asl->i.Fortran_
 #define LUrhs		asl->i.LUrhs_
 #define LUv		asl->i.LUv_
@@ -828,8 +869,13 @@ enum ASL_reader_flag_bits {	/* bits in flags arg */
 	ASL_findgroups	= 12,	/* Find both group structures; you want this */
 				/* unless you're a solver like LANCELOT that */
 				/* deals explicitly with group structure. */
+<<<<<<< HEAD
 	ASL_find_c_class = 32,	/* Find c_class and c_class_max: see nlp.h */
 	ASL_find_o_class = 64,	/* Find o_class and o_class_max: or nlp2.h */
+=======
+	ASL_find_c_class = 32,	/* Find c_class and c_class_max: see nlp.h and nlp2.h */
+	ASL_find_o_class = 64,	/* Find o_class and o_class_max: see nlp.h and nlp2.h */
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	ASL_find_co_class = 96,	/* Find all four */
 
 	/* applicable to all .nl file readers: */
@@ -913,7 +959,14 @@ enum ASL_suf_sos_flags { /* bits in flags parameter of suf_sos() */
 
 enum ASL_write_flags {
 	ASL_write_ASCII = 1,
+<<<<<<< HEAD
 	ASL_write_CR = 2
+=======
+	ASL_write_CR = 2,
+	ASL_write_binary = 4,
+	ASL_write_no_X0 = 8,
+	ASL_write_no_pi0 = 16
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	};
 
 enum ASL_writer_error_codes {
@@ -974,13 +1027,21 @@ QPinfo {
  extern void colstart_inc_ASL(ASL*);
  extern void conscale_ASL(ASL*, int, real, fint*);
  extern void conval_(fint *M, fint *N, real *X, real *F, fint *nerror);
+<<<<<<< HEAD
+=======
+ extern int degree_ASL(ASL*, int, void**);
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
  extern void delprb_(VOID);
  extern void dense_j_ASL(ASL*);
  extern void densej_(VOID);
  extern void deriv_errchk_ASL(ASL*, fint*, int coi, int n);
  extern void deriv_errclear_ASL(Edaginfo*);
  extern void derprop(derp *);
+<<<<<<< HEAD
  extern char *dtoa(double, int, int, int*, int*, char **);
+=======
+ extern char *dtoa_r(double, int, int, int*, int*, char**, char*, size_t);
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
  extern ufunc *dynlink_ASL(const char*);
  extern int edag_peek(EdRead*);
  extern void equ_adjust_ASL(ASL*, int*, int*);
@@ -993,7 +1054,11 @@ QPinfo {
  extern int fg_write_ASL(ASL*, const char*, NewVCO*, int);
  extern void fintrouble_ASL(ASL*, func_info*, const char*, TMInfo*);
  extern void flagsave_ASL(ASL*, int);
+<<<<<<< HEAD
  extern void freedtoa(char*);
+=======
+ extern char *fread_sol_ASL(ASL*, const char *fname, real**xp, real **yp);
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
  extern func_info *func_lookup(ASL*, const char*, int add);
  extern void func_add(ASL*);
  extern int g_fmt(char*, double);
@@ -1108,6 +1173,14 @@ QPinfo {
 #ifndef strtod	/* if not set by previous funcadd.h */
 #define strtod strtod_ASL
 #endif
+<<<<<<< HEAD
+=======
+extern void ACQUIRE_DTOA_LOCK(unsigned int);
+extern void FREE_DTOA_LOCK(unsigned int);
+extern int dtoa_get_threadno(void);
+extern void init_dtoa_locks(void);
+extern void set_max_dtoa_threads(unsigned int);
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 #endif
 
 #ifdef __cplusplus
@@ -1125,6 +1198,10 @@ QPinfo {
 #define fg_wread(a,b) fg_wread_ASL((ASL*)asl,a,b)
 #define fg_write(a,b,c) fg_write_ASL((ASL*)asl,a,b,c)
 #define fgh_read(a,b) fgh_read_ASL((ASL*)asl,a,b)
+<<<<<<< HEAD
+=======
+#define fread_soln(f,x,y) fread_sol_ASL((ASL*)asl,f,x,y)
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 #define gen_rownos() gen_rownos_ASL((ASL*)asl)
 #undef getenv
 #define getenv getenv_ASL
@@ -1172,12 +1249,21 @@ QPinfo {
 
 #define exit mainexit_ASL
 
+<<<<<<< HEAD
+=======
+#ifdef ALLOW_OPENMP
+#undef MULTIPLE_THREADS
+#define MULTIPLE_THREADS
+#endif
+
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 #ifdef MULTIPLE_THREADS
 #define A_ASL , ASL *asl
 #define C_ASL , (ASL*)asl
 #define D_ASL ASL *asl;
 #define K_ASL , asl
 #ifndef MEM_LOCK
+<<<<<<< HEAD
 #define MEM_LOCK 3
 #endif
 #ifndef MBLK_LOCK
@@ -1185,6 +1271,15 @@ QPinfo {
 #endif
 #ifndef HESOPROD_LOCK
 #define HESOPROD_LOCK 5
+=======
+#define MEM_LOCK 2
+#endif
+#ifndef MBLK_LOCK
+#define MBLK_LOCK 3
+#endif
+#ifndef HESOPROD_LOCK
+#define HESOPROD_LOCK 4
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 #endif
 #else	/* MULTIPLE_THREADS */
 #define A_ASL /*nothing*/

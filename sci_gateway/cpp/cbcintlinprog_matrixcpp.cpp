@@ -1,7 +1,11 @@
 // MILP with CBC library, Matrix
 // Code Authors: Akshay Miterani and Pranav Deshpande
 
+<<<<<<< HEAD
 #include <sci_iofunc.hpp>
+=======
+#include "sci_iofunc.hpp"
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
 // For Branch and bound
 #include "OsiSolverInterface.hpp"
@@ -9,10 +13,19 @@
 #include "CbcCutGenerator.hpp"
 #include "CbcHeuristicLocal.hpp"
 #include "OsiClpSolverInterface.hpp"
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 extern "C"{
 #include <api_scilab.h>
 #include "sciprint.h"
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 int matrix_cppintlinprog(){
 
     //Objective function
@@ -122,7 +135,11 @@ int matrix_cppintlinprog(){
     }
 
     //get options from scilab
+<<<<<<< HEAD
     if(getFixedSizeDoubleMatrixFromScilab(11 , 1 , 4 , &options))
+=======
+    if(getFixedSizeDoubleMatrixFromScilab(11 , 1 , 5 , &options))
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
     {
         return 1;      
     }
@@ -164,18 +181,36 @@ int matrix_cppintlinprog(){
             model.setMaximumSeconds(options[2]);
     if((int)options[3]!=0)
             model.setAllowableGap(options[3]);
+<<<<<<< HEAD
     
     model.branchAndBound();
     
     double *val = model.getColSolution();
+=======
+    if((int)options[4]!=0)
+	    model.setNumberThreads(options[4]);
+
+    
+    
+    model.branchAndBound();
+    
+    const double *val = model.getColSolution();	//added const
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
     
     //Output the solution to Scilab
     
     //get solution for x
+<<<<<<< HEAD
     double* xValue = model.getColSolution();
 
     //get objective value
     double objValue = model.getObjValue();
+=======
+    const double* xValue = model.getColSolution();	//added const
+
+    //get objective value
+    const double objValue = model.getObjValue();	//added const
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
     //Output status
     double status_=-1;

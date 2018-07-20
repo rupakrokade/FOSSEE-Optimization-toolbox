@@ -17,7 +17,11 @@
 
   <refnamediv>
     <refname>intfminbnd</refname>
+<<<<<<< HEAD
     <refpurpose>Solves a multi-variable optimization problem on a bounded interval</refpurpose>
+=======
+    <refpurpose>Solves a multivariable optimization problem on a bounded interval</refpurpose>
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
   </refnamediv>
 
 

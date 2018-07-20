@@ -19,6 +19,7 @@ Build_64Bits = %t;
 path_builder = get_absolute_file_path('builder_gateway_cpp.sce');
 
 if getos()=="Windows" then
+<<<<<<< HEAD
 //Name of All the Functions
 Function_Names = [
 		//for opening/closing environment and checking if it is open/close
@@ -156,12 +157,13 @@ Files = [
         "read_mps.cpp"
 	]
 else
+=======
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 //Name of All the Functions
 Function_Names = [
-		//for opening/closing environment and checking if it is open/close
+		//for opening-closing environment and checking if it is open-close
 		"sym_open","sci_sym_open";
 		"sym_close","sci_sym_close";
-		"sym_isEnvActive","sci_sym_isEnvActive";
 		
 		//run time parameters
 		"sym_resetParams","sci_sym_set_defaults";
@@ -171,18 +173,12 @@ Function_Names = [
 		"sym_getDblParam","sci_sym_get_dbl_param";
 		"sym_setStrParam","sci_sym_set_str_param";
 		"sym_getStrParam","sci_sym_get_str_param";
-		"sym_getInfinity","sci_sym_getInfinity";
-		
+
 		//problem loaders
 		"sym_loadProblemBasic","sci_sym_loadProblemBasic";
 		"sym_loadProblem","sci_sym_loadProblem";
-		"sym_loadMPS","sci_sym_load_mps";
 		
-		//basic data
-		"sym_getNumConstr","sci_sym_get_num_int";
-		"sym_getNumVar","sci_sym_get_num_int";
-		"sym_getNumElements","sci_sym_get_num_int";
-		
+<<<<<<< HEAD
 		//variable and objective data
 		"sym_isContinuous","sci_sym_isContinuous";
 		"sym_isBinary","sci_sym_isBinary";
@@ -207,19 +203,115 @@ Function_Names = [
 		"sym_setConstrUpper","sci_sym_setConstrBound";
 		"sym_setConstrType","sci_sym_setConstrType";
 		"sym_getMatrix","sci_sym_get_matrix";
+=======
+		//solve
+		"sym_solve","sci_sym_solve";
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 		
-		//add/remove variables and constraints
-		"sym_addConstr","sci_sym_addConstr";
-		"sym_addVar","sci_sym_addVar";
-		"sym_deleteVars","sci_sym_delete_cols";
-		"sym_deleteConstrs","sci_sym_delete_rows";
+		//post solve functions
+		"sym_getStatus","sci_sym_get_status";
+		"sym_isOptimal","sci_sym_get_solver_status";
+		"sym_isInfeasible","sci_sym_get_solver_status";
+		"sym_isAbandoned","sci_sym_get_solver_status";
+		"sym_isIterLimitReached","sci_sym_get_solver_status";
+		"sym_isTimeLimitReached","sci_sym_get_solver_status";
+		"sym_isTargetGapAchieved","sci_sym_get_solver_status";
+		"sym_getVarSoln","sci_sym_getVarSoln";
+		"sym_getObjVal","sci_sym_getObjVal";
+		"sym_getIterCount","sci_sym_get_iteration_count";
 		
-		//primal bound
-		"sym_getPrimalBound","sci_sym_getPrimalBound";
-		"sym_setPrimalBound","sci_sym_setPrimalBound";
+		//Linprog function
+		"linearprog","sci_linearprog";
+        "rmps","sci_rmps";
+
+		//QP function
+		"solveqp","sci_solveqp";
+
+		//fminunc function and fminbnd function
+		"solveminuncp","sci_solveminuncp";
+		"solveminbndp","sci_solveminbndp";
+		"solveminconp","sci_solveminconp";
+
+		//Integer programming functions (Bonmin)
+		'inter_fminunc', 'cpp_intfminunc';
+		'inter_fminbnd', 'cpp_intfminbnd';
+		'inter_fmincon', 'cpp_intfmincon';
+		'sci_intqpipopt', 'cpp_intqpipopt';
+
+        //Integer programming functions (CBC)
+		'sci_matrix_intlinprog', 'matrix_cppintlinprog';
+		'sci_mps_intlinprog','mps_cppintlinprog';
+
+         //fotversion
+        "fotversion","sci_fotversion"
+
+	];
+
+//Name of all the files to be compiled
+Files = [
+		"sci_iofunc.cpp",
+
+		//Symphony
+		"globals.cpp",
+		"sci_sym_openclose.cpp",
+		"sci_solver_status_query_functions.cpp",
+		"sci_sym_solve.cpp",                    
+		"sci_sym_loadproblem.cpp",
+		"sci_sym_solution.cpp",
+    	"sci_sym_get_iteration_count.cpp",
+		"sci_sym_set_variables.cpp",
+
+       // IPOPT
+		"sci_QuadNLP.cpp",
+		"sci_ipopt.cpp",
+		"sci_QuadNLP.cpp",
+		"sci_ipopt.cpp",
+		"sci_minuncNLP.cpp",
+		"sci_ipoptfminunc.cpp",
+		"sci_minbndNLP.cpp",
+		"sci_ipoptfminbnd.cpp",
+		"sci_minconNLP.cpp",
+		"sci_ipoptfmincon.cpp",
+
+        //CLP
+		"sci_LinProg.cpp",
+        "read_mps.cpp"
+        
+        
+        //Bonmin
+  		'sci_minuncTMINLP.cpp',
+		'cpp_intfminunc.cpp',
+		'sci_minbndTMINLP.cpp',
+		'cpp_intfminbnd.cpp',		
+		'sci_minconTMINLP.cpp',
+		'cpp_intfmincon.cpp',
+		'cbcintlinprog_matrixcpp.cpp',
+		'sci_QuadTMINLP.cpp',
+		'cpp_intqpipopt.cpp',
+		'cbcintlinprog_mpscpp.cpp'
+
+        
+        "sci_fotversion.cpp"
+	]
+else
+//Name of All the Functions
+Function_Names = [
+		//for opening-closing environment and checking if it is open-close
+		"sym_open","sci_sym_open";
+		"sym_close","sci_sym_close";
 		
-		//set preliminary solution
-		"sym_setVarSoln","sci_sym_setColSoln";
+		//run time parameters
+		"sym_resetParams","sci_sym_set_defaults";
+		"sym_setIntParam","sci_sym_set_int_param";
+		"sym_getIntParam","sci_sym_get_int_param";
+		"sym_setDblParam","sci_sym_set_dbl_param";
+		"sym_getDblParam","sci_sym_get_dbl_param";
+		"sym_setStrParam","sci_sym_set_str_param";
+		"sym_getStrParam","sci_sym_get_str_param";
+
+		//problem loaders
+		"sym_loadProblemBasic","sci_sym_loadProblemBasic";
+		"sym_loadProblem","sci_sym_loadProblem";
 		
 		//solve
 		"sym_solve","sci_sym_solve";
@@ -235,13 +327,17 @@ Function_Names = [
 		"sym_getVarSoln","sci_sym_getVarSoln";
 		"sym_getObjVal","sci_sym_getObjVal";
 		"sym_getIterCount","sci_sym_get_iteration_count";
-		"sym_getConstrActivity","sci_sym_getRowActivity";
+		
+		//Linprog function
+		"linearprog","sci_linearprog";
+        "rmps","sci_rmps";
 
 		//Linprog function
 		"linearprog","sci_linearprog"
         "rmps","sci_rmps"
 
 		//QP function
+<<<<<<< HEAD
 		"solveqp","sci_solveqp"
 
 		//fminunc function and fminbnd function
@@ -250,58 +346,92 @@ Function_Names = [
 		"solveminconp","sci_solveminconp"
 		
 		//Integer programming functions
+=======
+		"solveqp","sci_solveqp";
+
+		//fminunc function and fminbnd function
+		"solveminuncp","sci_solveminuncp";
+		"solveminbndp","sci_solveminbndp";
+		"solveminconp","sci_solveminconp";
+
+		//Integer programming functions (Bonmin)
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 		'inter_fminunc', 'cpp_intfminunc';
 		'inter_fminbnd', 'cpp_intfminbnd';
 		'inter_fmincon', 'cpp_intfmincon';
 		'sci_intqpipopt', 'cpp_intqpipopt';
+<<<<<<< HEAD
+=======
+
+        //Integer programming functions (CBC)
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 		'sci_matrix_intlinprog', 'matrix_cppintlinprog';
 		'sci_mps_intlinprog','mps_cppintlinprog';
 
 		//ecos function
 		"solveecos","sci_ecos"
+<<<<<<< HEAD
+=======
+
+        //fotversion
+        "fotversion","sci_fotversion"
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	];
 
 //Name of all the files to be compiled
 Files = [
+<<<<<<< HEAD
 		"globals.cpp",
+=======
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 		"sci_iofunc.cpp",
+
+		//Symphony
+		"globals.cpp",
 		"sci_sym_openclose.cpp",
 		"sci_solver_status_query_functions.cpp",
 		"sci_sym_solve.cpp",                    
 		"sci_sym_loadproblem.cpp",
-		"sci_sym_isenvactive.cpp",
-		"sci_sym_load_mps.cpp",
-		"sci_vartype.cpp",
-		"sci_sym_getinfinity.cpp",
 		"sci_sym_solution.cpp",
+<<<<<<< HEAD
 		"sci_sym_get_dbl_arr.cpp",
 		"sci_sym_get_iteration_count.cpp",
 		"sci_sym_get_matrix.cpp",
 		"sci_sym_get_num_int.cpp",
+=======
+    	"sci_sym_get_iteration_count.cpp",
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 		"sci_sym_set_variables.cpp",
-		"sci_sym_setobj.cpp",
-		"sci_sym_varbounds.cpp",
-		"sci_sym_rowmod.cpp",
-		"sci_sym_set_indices.cpp",
-		"sci_sym_addrowcol.cpp",
-		"sci_sym_primalbound.cpp",
-		"sci_sym_setcolsoln.cpp",
-		"sci_sym_getrowact.cpp",
-		"sci_sym_getobjsense.cpp",
-		"sci_sym_remove.cpp",
+
+       // IPOPT
 		"sci_QuadNLP.cpp",
 		"sci_ipopt.cpp",
 		"sci_QuadNLP.cpp",
 		"sci_ipopt.cpp",
+<<<<<<< HEAD
+		"sci_QuadNLP.cpp",
+		"sci_ipopt.cpp",
+=======
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 		"sci_minuncNLP.cpp",
 		"sci_ipoptfminunc.cpp",
 		"sci_minbndNLP.cpp",
 		"sci_ipoptfminbnd.cpp",
 		"sci_minconNLP.cpp",
 		"sci_ipoptfmincon.cpp",
+<<<<<<< HEAD
 		"sci_LinProg.cpp",
         "read_mps.cpp"
 		
+=======
+
+        //CLP
+		"sci_LinProg.cpp",
+        "read_mps.cpp"
+        
+        
+        //Bonmin
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
   		'sci_minuncTMINLP.cpp',
 		'cpp_intfminunc.cpp',
 		'sci_minbndTMINLP.cpp',
@@ -313,7 +443,14 @@ Files = [
 		'cpp_intqpipopt.cpp',
 		'cbcintlinprog_mpscpp.cpp'
 
+<<<<<<< HEAD
 		'ecos.cpp'
+=======
+        //ECOS
+		'ecos.cpp'
+
+        "sci_fotversion.cpp"
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	]
 
 end
@@ -327,9 +464,17 @@ Version = opt(2);
 if getos()=="Windows" then
 	third_dir = path_builder+filesep()+'..'+filesep()+'..'+filesep()+'thirdparty';
 	lib_base_dir = third_dir + filesep() + 'windows' + filesep() + 'lib' + filesep() + Version + filesep();
+<<<<<<< HEAD
 	inc_base_dir = third_dir + filesep() + 'windows' + filesep() + 'include' + filesep() + 'coin';
     C_Flags=['-D__USE_DEPRECATED_STACK_FUNCTIONS__ -w -I '+path_builder+' '+ '-I '+inc_base_dir+' ']
     Linker_Flag  = [lib_base_dir+"libClp.lib "+lib_base_dir+"libCgl.lib "+lib_base_dir+"libOsi.lib "+lib_base_dir+"libOsiClp.lib "+lib_base_dir+"libCoinUtils.lib "+lib_base_dir+"libSymphony.lib "+lib_base_dir+"IpOptFSS.lib "+lib_base_dir+"IpOpt-vc10.lib "]
+=======
+	//inc_base_dir = third_dir + filesep() + 'windows' + filesep() + 'include' + filesep() + 'coin';
+    inc_base_dir = third_dir + filesep() + 'linux' + filesep() + 'include' + filesep() + 'coin';
+    threads_dir=third_dir + filesep() + 'linux' + filesep() + 'include' + filesep() + 'pthreads-win32';
+    C_Flags=['-D__USE_DEPRECATED_STACK_FUNCTIONS__  -I -w '+path_builder+' '+ '-I '+inc_base_dir+' '+'-I '+threads_dir+' ']   
+    Linker_Flag  = [lib_base_dir+"libcoinblas.lib "+lib_base_dir+"libcoinlapack.lib "+lib_base_dir+"libcoinmumps.lib "+lib_base_dir+"libClp.lib "+lib_base_dir+"libipopt.lib "+lib_base_dir+"libOsi.lib "+lib_base_dir+"libOsiClp.lib "+lib_base_dir+"libCoinUtils.lib "+lib_base_dir+"libCgl.lib "+lib_base_dir+"libOsiSym.lib "+lib_base_dir+"libSym.lib "+lib_base_dir+"libCbcSolver.lib "+lib_base_dir+"libCbc.lib "+lib_base_dir+"libbonmin.lib "+lib_base_dir+"pthreadVC2.lib " ]
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
 else
 	third_dir = path_builder+filesep()+'..'+filesep()+'..'+filesep()+'thirdparty';

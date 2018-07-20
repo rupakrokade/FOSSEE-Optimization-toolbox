@@ -5,7 +5,11 @@
 #define __CONFIG_IPOPT_H__
 
 /* Version number of project */
+<<<<<<< HEAD
 #define IPOPT_VERSION "3.12"
+=======
+#define IPOPT_VERSION "3.12.10"
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
 /* Major Version number of project */
 #define IPOPT_VERSION_MAJOR 3
@@ -14,7 +18,11 @@
 #define IPOPT_VERSION_MINOR 12
 
 /* Release Version number of project */
+<<<<<<< HEAD
 #define IPOPT_VERSION_RELEASE 9999
+=======
+#define IPOPT_VERSION_RELEASE 10
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
 /* Define to the C type corresponding to Fortran INTEGER */
 #define FORTRAN_INTEGER_TYPE int

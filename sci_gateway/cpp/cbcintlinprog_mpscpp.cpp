@@ -2,11 +2,19 @@
 // Finds the solution by using CBC Library
 // Code Authors: Akshay Miterani and Pranav Deshpande
 
+<<<<<<< HEAD
 #include <sci_iofunc.hpp>
 
 // For Branch and bound
 #include "OsiSolverInterface.hpp"
 #include "CbcModel.hpp"=
+=======
+#include "sci_iofunc.hpp"
+
+// For Branch and bound
+#include "OsiSolverInterface.hpp"
+#include "CbcModel.hpp"
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 #include "CbcCutGenerator.hpp"
 #include "CbcHeuristicLocal.hpp"
 #include "OsiClpSolverInterface.hpp"
@@ -51,18 +59,30 @@ int mps_cppintlinprog()
             model.setMaximumSeconds(options[2]);
     if((int)options[3]!=0)
             model.setAllowableGap(options[3]);
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
     model.branchAndBound();
 
     int nVars = model.getNumCols();
     int nCons = model.getNumRows();
     
     const double *val = model.getColSolution();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
     
     //Output the solution to Scilab
     
     //get solution for x
+<<<<<<< HEAD
     double* xValue = model.getColSolution();
+=======
+    const double* xValue = model.getColSolution();	//added const
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
     //get objective value
     double objValue = model.getObjValue();

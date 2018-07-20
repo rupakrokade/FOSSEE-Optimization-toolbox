@@ -9,17 +9,17 @@
 // Organization: FOSSEE, IIT Bombay
 // Email: toolbox@scilab.in
 
-#include <symphony.h>
-#include <sci_iofunc.hpp>
+#include "symphony.h"
+#include "sci_iofunc.hpp"
 extern sym_environment* global_sym_env;//defined in globals.cpp
 
 extern "C" {
-#include <api_scilab.h>
-#include <Scierror.h>
-#include <BOOL.h>
-#include <localization.h>
-#include <sciprint.h>
-#include <string.h>
+#include "api_scilab.h"
+#include "Scierror.h"
+#include "BOOL.h"
+#include "localization.h"
+#include "sciprint.h"
+#include "string.h"
 
 int process_ret_val(int);
 
