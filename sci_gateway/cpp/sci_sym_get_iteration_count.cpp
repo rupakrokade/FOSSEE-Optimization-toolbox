@@ -9,8 +9,13 @@
 // Organization: FOSSEE, IIT Bombay
 // Email: toolbox@scilab.in
 
+<<<<<<< HEAD
 #include <symphony.h>
 #include <sci_iofunc.hpp>
+=======
+#include "symphony.h"
+#include "sci_iofunc.hpp"
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 extern sym_environment* global_sym_env;//defined in globals.cpp
 
 extern "C" {

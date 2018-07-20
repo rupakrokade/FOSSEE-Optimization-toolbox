@@ -102,11 +102,19 @@ bool minbndTMINLP::eval_jac_g(Index n, const Number* x, bool new_x,Index m, Inde
 }
 
 //get value of objective function at vector x
+<<<<<<< HEAD
 bool minbndTMINLP::eval_f(Index n, const Number* x, bool new_x, Number& obj_value)
 {	
   	char name[20]="_f";
 	Number *obj;
 	if (getFunctionFromScilab1(n,name,x, 7, 1,2,&obj))
+=======
+bool minbndTMINLP::eval_f(Index n,  const Number* x, bool new_x, Number& obj_value)	
+{	
+  	char name[20]="_f";
+	Number *obj;
+	if (getFunctionFromScilab1(n,name,(double*)x, 7, 1,2,&obj))		//typecast x to double*
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	{
 		return false;
 	}
@@ -115,11 +123,19 @@ bool minbndTMINLP::eval_f(Index n, const Number* x, bool new_x, Number& obj_valu
 }
 
 //get value of gradient of objective function at vector x.
+<<<<<<< HEAD
 bool minbndTMINLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* grad_f)
 {
 	char name[20]="_gradf";
   	Number *resg;
 	if (getFunctionFromScilab1(n,name,x, 7, 1,2,&resg))
+=======
+bool minbndTMINLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* grad_f)	
+{
+	char name[20]="_gradf";
+  	Number *resg;
+	if (getFunctionFromScilab1(n,name,(double*)x, 7, 1,2,&resg))		//typecast x to double*
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	{
 		return false;
 	}
@@ -152,8 +168,13 @@ bool minbndTMINLP::get_starting_point(Index n, bool init_x, Number* x,bool init_
  * x,lambda,obj_factor.
 */
 
+<<<<<<< HEAD
 bool minbndTMINLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor, Index m, const Number* lambda,bool new_lambda, Index nele_hess, Index* iRow,Index* jCol, Number* values)
 {
+=======
+bool minbndTMINLP::eval_h(Index n,  const Number* x, bool new_x,Number obj_factor, Index m, const Number* lambda,bool new_lambda, Index nele_hess, Index* iRow,Index* jCol, Number* values)
+{	
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	double check;
 	if (values==NULL)
 	{
@@ -171,7 +192,11 @@ bool minbndTMINLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor
 	else 
 	{	char name[20]="_gradhess";
 	  	Number *resh;
+<<<<<<< HEAD
 		if (getFunctionFromScilab1(n,name,x, 7, 1,2,&resh))
+=======
+		if (getFunctionFromScilab1(n,name,(double*)x, 7, 1,2,&resh))	//typecast x to double*
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 		{
 			return false;
 		}

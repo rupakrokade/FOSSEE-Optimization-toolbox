@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE book [
 <!--Begin Entities-->
+<<<<<<< HEAD
 <!ENTITY ab9284536c34f12d9a4b19e56adf45677 SYSTEM "/home/gg/Final1/FOSSEE-Optimization-toolbox-src/help/en_US/cbcintlinprog.xml">
 <!ENTITY a68027d14b445e9a80c99db037a9a92be SYSTEM "/home/gg/Final1/FOSSEE-Optimization-toolbox-src/help/en_US/fgoalattain.xml">
 <!ENTITY abb3bc8ab225c144bcef1e6b6091a30bd SYSTEM "/home/gg/Final1/FOSSEE-Optimization-toolbox-src/help/en_US/fminbnd.xml">
@@ -78,6 +79,28 @@
 <!ENTITY ab125c7e6154b1b102d40742bcc387bc8 SYSTEM "/home/gg/Final1/FOSSEE-Optimization-toolbox-src/help/en_US/Symphony Native Function/sym_setVarSoln.xml">
 <!ENTITY a6217d836ddd417a9216dd106154409f6 SYSTEM "/home/gg/Final1/FOSSEE-Optimization-toolbox-src/help/en_US/Symphony Native Function/sym_setVarUpper.xml">
 <!ENTITY a6fef794c74266e9488548c354ef54137 SYSTEM "/home/gg/Final1/FOSSEE-Optimization-toolbox-src/help/en_US/Symphony Native Function/sym_solve.xml">
+=======
+<!ENTITY a071723dda12f42a9305860e1fd59e147 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/cbcintlinprog.xml">
+<!ENTITY a40d08c1784967eb81cfb1bcef2185bd9 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/fgoalattain.xml">
+<!ENTITY aada61689c903157e893f96815214d77b SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/fminbnd.xml">
+<!ENTITY af058dd9b1fb2dc1cfe01b01d4320a289 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/fmincon.xml">
+<!ENTITY a9a7584c9629f9d7d186362c4a361fc4b SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/fminimax.xml">
+<!ENTITY a2c079d4bc2b5f12c6cd77d210c00a9fb SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/fminunc.xml">
+<!ENTITY abf47d83327eed45e8633451e1638a269 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/fot_version.xml">
+<!ENTITY a56f2a865c2f3bf48c98c158926da3746 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/intfminbnd.xml">
+<!ENTITY acc79cff22341d62636234233667214b6 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/intfmincon.xml">
+<!ENTITY a4e88dc6eb86deb3a8ad388866bd27528 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/intfminimax.xml">
+<!ENTITY a0c12a9fe2cfdd4b9ae88d6bc44edca17 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/intfminunc.xml">
+<!ENTITY a72c1f048e174c7534f51e8a1b19b912a SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/intqpipopt.xml">
+<!ENTITY a7e6f8174880863bd88ca724668593e76 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/linprog.xml">
+<!ENTITY af44c86a226f765aface0d7a1e143054b SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/lsqlin.xml">
+<!ENTITY a37576b195d5e98aae1ff2c20764b4362 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/lsqnonlin.xml">
+<!ENTITY a0efbde3a7b0da1c42ee30c71825e8a86 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/lsqnonneg.xml">
+<!ENTITY ada04d40bc73806cdd8485d3eec495a02 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/qpipopt.xml">
+<!ENTITY a50ffa9b69c1c393585dbf733dbfb55ec SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/qpipoptmat.xml">
+<!ENTITY ac9078fc3b9f6261e6ca4853d333e29e2 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/symphony.xml">
+<!ENTITY ad9d9b9bb10333abd3dd1357866cf19f6 SYSTEM "/home/sreerag/fossee/FOSSEE-Optimization-toolbox43/help/en_US/symphonymat.xml">
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 <!--End Entities-->
 ]>
 <book version="5.0-subset Scilab" xml:lang="en_US"
@@ -92,6 +115,7 @@
     <title>FOSSEE Optimization Toolbox</title>
   </info>
 
+<<<<<<< HEAD
 <part xml:id='section_44e1f57c5225357b5fe53cb5fad967e9'>
 <title>FOSSEE Optimization Toolbox</title>
 &ab9284536c34f12d9a4b19e56adf45677;
@@ -174,5 +198,29 @@
 &a6217d836ddd417a9216dd106154409f6;
 &a6fef794c74266e9488548c354ef54137;
 </chapter>
+=======
+<part xml:id='section_0cbcd29fcf7a3b0fb510074d8833fcd8'>
+<title>FOSSEE Optimization Toolbox</title>
+&a071723dda12f42a9305860e1fd59e147;
+&a40d08c1784967eb81cfb1bcef2185bd9;
+&aada61689c903157e893f96815214d77b;
+&af058dd9b1fb2dc1cfe01b01d4320a289;
+&a9a7584c9629f9d7d186362c4a361fc4b;
+&a2c079d4bc2b5f12c6cd77d210c00a9fb;
+&abf47d83327eed45e8633451e1638a269;
+&a56f2a865c2f3bf48c98c158926da3746;
+&acc79cff22341d62636234233667214b6;
+&a4e88dc6eb86deb3a8ad388866bd27528;
+&a0c12a9fe2cfdd4b9ae88d6bc44edca17;
+&a72c1f048e174c7534f51e8a1b19b912a;
+&a7e6f8174880863bd88ca724668593e76;
+&af44c86a226f765aface0d7a1e143054b;
+&a37576b195d5e98aae1ff2c20764b4362;
+&a0efbde3a7b0da1c42ee30c71825e8a86;
+&ada04d40bc73806cdd8485d3eec495a02;
+&a50ffa9b69c1c393585dbf733dbfb55ec;
+&ac9078fc3b9f6261e6ca4853d333e29e2;
+&ad9d9b9bb10333abd3dd1357866cf19f6;
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 </part>
 </book>

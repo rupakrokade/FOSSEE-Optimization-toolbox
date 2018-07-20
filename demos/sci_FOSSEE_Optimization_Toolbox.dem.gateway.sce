@@ -11,6 +11,8 @@
 
 demopath = get_absolute_file_path("sci_FOSSEE_Optimization_Toolbox.dem.gateway.sce");
 
-subdemolist = ["Linprog","linprog.dem.sce";"Cbcintlinprog","cbcintlinprog.dem.sce";"Symphony", "symphony.dem.sce"; "SymphonyMat", "symphonymat.dem.sce"; "Qpipopt", "qpipopt.dem.sce"; "QpipoptMat", "qpipoptmat.dem.sce";"Intqpipopt","intqpipopt.dem.sce";"Lsqlin","lsqlin.dem.sce";"Lsqnonneg","lsqnonneg.dem.sce";"Fminunc","fminunc.dem.sce";"Intfminunc","intfminunc.dem.sce";"Fminbnd","fminbnd.dem.sce";"Intfminbnd","intfminbnd.dem.sce";"Fmincon","fmincon.dem.sce";"Intfmincon","intfmincon.dem.sce"];
+=======
+subdemolist = ["Linprog","linprog.dem.sce";"Intlinprog","intlinprog.dem.sce";"Symphony", "symphony.dem.sce"; "SymphonyMat", "symphonymat.dem.sce"; "Quadprog", "quadprog.dem.sce"; "QuadprogMat", "quadprogmat.dem.sce";"Intquadprog","intquadprog.dem.sce";"Lsqlin","lsqlin.dem.sce";"Lsqnonneg","lsqnonneg.dem.sce";"Fminunc","fminunc.dem.sce";"Intfminunc","intfminunc.dem.sce";"Fminbnd","fminbnd.dem.sce";"Intfminbnd","intfminbnd.dem.sce";"Fmincon","fmincon.dem.sce";"Intfmincon","intfmincon.dem.sce"];
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
 subdemolist(:,2) = demopath + subdemolist(:,2);

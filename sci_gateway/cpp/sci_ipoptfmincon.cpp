@@ -139,7 +139,11 @@ int sci_solveminconp(char *fname)
 	app->Options()->SetNumericValue("tol", 1e-6);
 	app->Options()->SetIntegerValue("max_iter", (int)*max_iter);
 	app->Options()->SetNumericValue("max_cpu_time", *cpu_time);
+<<<<<<< HEAD
 	app->Options()->SetStringValue("hessian_approximation", "limited-memory");
+=======
+	//app->Options()->SetStringValue("hessian_approximation", "limited-memory");
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
 	///////// Initialize the IpoptApplication and process the options /////////
 	ApplicationReturnStatus status;
