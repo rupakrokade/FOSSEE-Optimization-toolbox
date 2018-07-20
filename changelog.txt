@@ -1,4 +1,0 @@
-changelog of the Symphony Toolbox
-
-symphony-1.0: initial release of the Symphony toolbox.
-

@@ -17,7 +17,11 @@
 
   <refnamediv>
     <refname>fminunc</refname>
+<<<<<<< HEAD
     <refpurpose>Solves a multi-variable unconstrainted optimization problem</refpurpose>
+=======
+    <refpurpose>Solves a multivariable unconstrained optimization problem</refpurpose>
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
   </refnamediv>
 
 

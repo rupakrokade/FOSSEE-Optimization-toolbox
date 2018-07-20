@@ -12,7 +12,6 @@ end
 //
 list_functions = [ 'sym_open';
                    'sym_close';
-                   'sym_isEnvActive';
                    'sym_resetParams';
                    'sym_setIntParam';
                    'sym_getIntParam';
@@ -20,9 +19,9 @@ list_functions = [ 'sym_open';
                    'sym_getDblParam';
                    'sym_setStrParam';
                    'sym_getStrParam';
-                   'sym_getInfinity';
                    'sym_loadProblemBasic';
                    'sym_loadProblem';
+<<<<<<< HEAD
                    'sym_loadMPS';
                    'sym_getNumConstr';
                    'sym_getNumVar';
@@ -55,6 +54,8 @@ list_functions = [ 'sym_open';
                    'sym_getPrimalBound';
                    'sym_setPrimalBound';
                    'sym_setVarSoln';
+=======
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
                    'sym_solve';
                    'sym_getStatus';
                    'sym_isOptimal';
@@ -66,7 +67,10 @@ list_functions = [ 'sym_open';
                    'sym_getVarSoln';
                    'sym_getObjVal';
                    'sym_getIterCount';
+<<<<<<< HEAD
                    'sym_getConstrActivity';
+=======
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
                    'linearprog';
                    'rmps';
                    'solveqp';
@@ -80,6 +84,10 @@ list_functions = [ 'sym_open';
                    'sci_matrix_intlinprog';
                    'sci_mps_intlinprog';
                    'solveecos';
+<<<<<<< HEAD
+=======
+                   'fotversion';
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 ];
 addinter(libFOSSEE_Optimizat_path + filesep() + 'libFOSSEE_Optimization_Toolbox' + getdynlibext(), 'libFOSSEE_Optimization_Toolbox', list_functions);
 // remove temp. variables on stack

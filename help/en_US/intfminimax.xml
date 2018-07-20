@@ -59,7 +59,11 @@
    <varlistentry><term>ub :</term>
       <listitem><para> A vector of doubles, containing the upper bounds of the variables of size (1 X n) or (n X 1) where 'n' is the number of variables.</para></listitem></varlistentry>
    <varlistentry><term>nonlinfun:</term>
+<<<<<<< HEAD
       <listitem><para>   A function, representing the Non-linear Constraints functions(both Equality and Inequality) of the problem. It is declared in such a way that non-linear inequality constraints (c), and the non-linear equality constraints (ceq) are defined as separate single row vectors.</para></listitem></varlistentry>
+=======
+      <listitem><para>   A function, representing the nonlinear Constraints functions(both Equality and Inequality) of the problem. It is declared in such a way that nonlinear inequality constraints (c), and the nonlinear equality constraints (ceq) are defined as separate single row vectors.</para></listitem></varlistentry>
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
       <varlistentry><term>options :</term>
       <listitem><para> A list, containing the option for user to specify. See below for details.</para></listitem></varlistentry>
  </variablelist>
@@ -348,7 +352,11 @@ intcon = [1];
 
 <refsection>
    <title>Example</title>
+<<<<<<< HEAD
 Finally, we add the non-linear constraints to the problem. Note that there is a notable difference in the way this is done as compared to defining the linear constraints.
+=======
+Finally, we add the nonlinear constraints to the problem. Note that there is a notable difference in the way this is done as compared to defining the linear constraints.
+>>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
  <para>
 <latex>
 \begin{eqnarray}
