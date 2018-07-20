@@ -1,10 +1,10 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// This file must be used under the terms of the BSD.
-// This source file is licensed as described in the file LICENSE, which
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
-// https://opensource.org/licenses/BSD-3-Clause
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 // Author: R.Vidyadhar & Vignesh Kannan
 // Organization: FOSSEE, IIT Bombay
 // Email: toolbox@scilab.in
@@ -142,8 +142,7 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
   	//  endfunction
   	//	//Options
   	//	options=list("GradObj", fGrad, "Hessian", lHess);
-	//
- 	//    // Calling Sequence
+  	//    //Calling Ipopt
   	//	[x,fval,exitflag,output,lambda,grad,hessian] =fmincon(f, x0,A,b,Aeq,beq,lb,ub,nlc,options)
 	// // Press ENTER to continue
   	//
@@ -185,8 +184,7 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
   	//	endfunction
   	//	//Options  
   	//	options=list("MaxIter", [1500], "CpuTime", [500], "GradObj", fGrad, "Hessian", lHess,"GradCon", cGrad);
-	//
- 	//    // Calling Sequence
+  	//    //Calling Ipopt
   	//	[x,fval,exitflag,output] =fmincon(f, x0,A,b,Aeq,beq,lb,ub,nlc,options)
 	// // Press ENTER to continue
   	//
@@ -212,8 +210,7 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
   	//	ub=[0,0,0];
   	//	//Options
   	//	options=list("MaxIter", [1500], "CpuTime", [500]);
-	//
- 	//    // Calling Sequence
+  	//    //Calling Ipopt
   	//	[x,fval,exitflag,output,lambda,grad,hessian] =fmincon(f, x0,A,b,Aeq,beq,lb,ub,[],options)
 	// // Press ENTER to continue
   	//
@@ -264,8 +261,7 @@ function [xopt,fopt,exitflag,output,lambda,gradient,hessian] = fmincon (varargin
   	//	endfunction
    	//	//Options  
   	//	options=list("MaxIter", [1500], "CpuTime", [500], "GradObj", fGrad, "Hessian", lHess,"GradCon", cGrad);
-	//
- 	//    // Calling Sequence
+  	//    //Calling Ipopt
   	//	[x,fval,exitflag,output,lambda,grad,hessian] =fmincon(f, x0,A,b,Aeq,beq,lb,ub,nlc,options)
  	// // Press ENTER to continue
   	// Authors

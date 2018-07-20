@@ -1,10 +1,10 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// This file must be used under the terms of the BSD.
-// This source file is licensed as described in the file LICENSE, which
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
-// https://opensource.org/licenses/BSD-3-Clause
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 // Author: Guru Pradeep Reddy, Bhanu Priya Sayal
 // Organization: FOSSEE, IIT Bombay
 // Email: toolbox@scilab.in
@@ -95,7 +95,6 @@ function [xopt,fopt,exitflag,output,lambda] = linprog (varargin)
 	// c=[-1,-1/3]'
 	// A=[1,1;1,1/4;1,-1;-1/4,-1;-1,-1;-1,1]
 	// b=[2,1,2,1,-1,2]
-	//  Calling Sequence
 	// [xopt,fopt,exitflag,output,lambda]=linprog(c, A, b)
 	// // Press ENTER to continue
 	//
@@ -106,7 +105,6 @@ function [xopt,fopt,exitflag,output,lambda] = linprog (varargin)
 	// b=[2,1,2,1,-1,2]  
 	// Aeq=[1,1/4]
 	// beq=[1/2]
-	//  Calling Sequence
 	// [xopt,fopt,exitflag,output,lambda]=linprog(c, A, b, Aeq, beq)
 	// // Press ENTER to continue
 	//
@@ -119,7 +117,6 @@ function [xopt,fopt,exitflag,output,lambda] = linprog (varargin)
 	// beq=[1/2]
 	// lb=[-1,-0.5]
 	// ub=[1.5,1.25]
-	//  Calling Sequence
 	// [xopt,fopt,exitflag,output,lambda]=linprog(c, A, b, Aeq, beq, lb, ub)
 	// // Press ENTER to continue
 	//
@@ -132,7 +129,6 @@ function [xopt,fopt,exitflag,output,lambda] = linprog (varargin)
 	// beq=[10,100]
 	// lb=[0,0,0]
 	// ub=[%inf,%inf,%inf]
-	// // Calling Sequence
 	// [xopt,fopt,exitflag,output,lambda]= linprog(c,A,b,Aeq,beq,lb,ub)
 	// // Press ENTER to continue
 	//
@@ -145,14 +141,12 @@ function [xopt,fopt,exitflag,output,lambda] = linprog (varargin)
 	// beq=[]
 	// lb=[-%inf,-%inf,-%inf]
 	// ub=[%inf,%inf,%inf]
-	// // Calling Sequence
 	// [xopt,fopt,exitflag,output,lambda]= linprog(c,A,b,Aeq,beq,lb,ub)
 	// // Press ENTER to continue
 	//
 	// Examples
 	// filepath = get_absolute_file_path('linprog.dem.sce');
 	// filepath = filepath + "exmip1.mps"
-	// // Calling Sequence
 	// [xopt,fopt,exitflag,output,lambda] =linprog(filepath)
 	// Authors
 	// Bhanu Priya Sayal, Guru Pradeep Reddy

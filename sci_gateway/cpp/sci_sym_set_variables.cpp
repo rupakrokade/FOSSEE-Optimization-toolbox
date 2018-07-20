@@ -1,9 +1,14 @@
-/*
- * Implementation Symphony Tool Box for Scilab
- * set_variables.cpp
- * contains function for setting environment variables to their default and userdefined values in symphony
- * By Iswarya
- */
+// Copyright (C) 2015 - IIT Bombay - FOSSEE
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// Author: Iswarya
+// Organization: FOSSEE, IIT Bombay
+// Email: toolbox@scilab.in
+
 #include <symphony.h>
 
 extern sym_environment* global_sym_env;//defined in globals.cpp
@@ -228,7 +233,7 @@ int sci_sym_set_dbl_param(char *fname, unsigned long fname_len){
 	else {
 		output=sym_set_dbl_param(global_sym_env,ptr,num);//symphony function to set the variable name pointed by the ptr pointer to the double value stored in 'value' variable.
 		if(output==FUNCTION_TERMINATED_NORMALLY){		
-			sciprint("setting of double parameter function executed successfully\n");
+			// sciprint("setting of double parameter function executed successfully\n");
 			status=0.0;
 		}
 		else

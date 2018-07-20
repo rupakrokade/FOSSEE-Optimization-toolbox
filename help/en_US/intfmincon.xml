@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from intfmincon.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="intfmincon" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>intfmincon</refname>
+    <refpurpose>Solves a constrained multivariable mixed integer nonlinear programming problem</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   xopt = intfmincon(f,x0,intcon,A,b)
+   xopt = intfmincon(f,x0,intcon,A,b,Aeq,beq)
+   xopt = intfmincon(f,x0,intcon,A,b,Aeq,beq,lb,ub)
+   xopt = intfmincon(f,x0,intcon,A,b,Aeq,beq,lb,ub,nlc)
+   xopt = intfmincon(f,x0,intcon,A,b,Aeq,beq,lb,ub,nlc,options)
+   [xopt,fopt] = intfmincon(.....)
+   [xopt,fopt,exitflag]= intfmincon(.....)
+   [xopt,fopt,exitflag,gradient]=intfmincon(.....)
+   [xopt,fopt,exitflag,gradient,hessian]=intfmincon(.....)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Input Parameters</title>
+   <variablelist>
+   <varlistentry><term>f :</term>
+      <listitem><para> A function, representing the objective function of the problem.</para></listitem></varlistentry>
+   <varlistentry><term>x0 :</term>
+      <listitem><para> A vector of doubles, containing the starting values of variables of size (1 X n) or (n X 1) where 'n' is the number of variables.</para></listitem></varlistentry>
+   <varlistentry><term>intcon :</term>
+      <listitem><para> A vector of integers, representing the variables that are constrained to be integers.</para></listitem></varlistentry>
+   <varlistentry><term>A :</term>
+      <listitem><para> A matrix of doubles, containing the coefficients of linear inequality constraints of size (m X n) where 'm' is the number of linear inequality constraints.</para></listitem></varlistentry>
+   <varlistentry><term>b :</term>
+      <listitem><para> A vector of doubles, related to 'A' and represents the linear coefficients in the linear inequality constraints of size (m X 1).</para></listitem></varlistentry>
+   <varlistentry><term>Aeq :</term>
+      <listitem><para> A matrix of doubles, containing the coefficients of linear equality constraints of size (m1 X n) where 'm1' is the number of linear equality constraints.</para></listitem></varlistentry>
+   <varlistentry><term>beq :</term>
+      <listitem><para> A vector of double, vector of doubles, related to 'Aeq' and represents the linear coefficients in the equality constraints of size (m1 X 1).</para></listitem></varlistentry>
+   <varlistentry><term>lb :</term>
+      <listitem><para> A vector of doubles, containing the lower bounds of the variables of size (1 X n) or (n X 1) where 'n' is the number of variables.</para></listitem></varlistentry>
+   <varlistentry><term>ub :</term>
+      <listitem><para> A vector of doubles, containing the upper bounds of the variables of size (1 X n) or (n X 1) where 'n' is the number of variables.</para></listitem></varlistentry>
+    <varlistentry><term>nlc :</term>
+      <listitem><para> A function, representing the nonlinear Constraints functions(both Equality and Inequality) of the problem. It is declared in such a way that nonlinear inequality constraints (c), and the nonlinear equality constraints (ceq) are defined as separate single row vectors.</para></listitem></varlistentry>
+   <varlistentry><term>options :</term>
+      <listitem><para> A list, containing the option for user to specify. See below for details.</para></listitem></varlistentry>
+ </variablelist>
+</refsection>
+<refsection>
+<title> Outputs</title>
+ <variablelist>
+   <varlistentry><term>xopt :</term>
+      <listitem><para> A vector of doubles, containing the the computed solution of the optimization problem.</para></listitem></varlistentry>
+   <varlistentry><term>fopt :</term>
+      <listitem><para> A double, containing the value of the function at xopt.</para></listitem></varlistentry>
+   <varlistentry><term>exitflag :</term>
+      <listitem><para> An integer, containing the flag which denotes the reason for termination of algorithm. See below for details.</para></listitem></varlistentry>
+   <varlistentry><term>gradient :</term>
+      <listitem><para> a vector of doubles, containing the Objective's gradient of the solution.</para></listitem></varlistentry>
+   <varlistentry><term>hessian  :</term>
+      <listitem><para> a matrix of doubles, containing the Objective's hessian of the solution.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Search the minimum of a mixed integer constrained optimization problem specified by :
+Find the minimum of f(x) such that
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+&amp;\mbox{min}_{x}
+&amp; f(x) \\
+&amp; \text{Subjected to:} &amp; A \boldsymbol{\cdot} x \leq b \\
+&amp; &amp; Aeq \boldsymbol{\cdot} x \ = beq\\
+&amp; &amp; c(x) \leq  0\\
+&amp; &amp; ceq(x) \ =  0\\
+&amp; &amp; lb \leq x \leq ub \\
+&amp; &amp; x_{i} \in \!\, \mathbb{Z}, i \in \!\, I
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+intfmincon calls Bonmin, an optimization library written in C++, to solve the Constrained Optimization problem.
+   </para>
+    <para>
+<title>Options</title>
+The options allow the user to set various parameters of the Optimization problem. The syntax for the options is given by:
+   </para>
+   <para>
+options= list("IntegerTolerance", [---], "MaxNodes",[---], "MaxIter", [---], "AllowableGap",[---] "CpuTime", [---],"gradobj", "off", "hessian", "off" );
+<itemizedlist>
+<listitem>IntegerTolerance : A Scalar, a number with that value of an integer is considered integer.</listitem>
+<listitem>MaxNodes : A Scalar, containing the maximum number of nodes that the solver should search.</listitem>
+<listitem>CpuTime : A scalar, specifying the maximum amount of CPU Time in seconds that the solver should take.</listitem>
+<listitem>AllowableGap : A scalar, that specifies the gap between the computed solution and the the objective value of the best known solution stop, at which the tree search can be stopped.</listitem>
+<listitem>MaxIter : A scalar, specifying the maximum number of iterations that the solver should take.</listitem>
+<listitem>gradobj : A string, to turn on or off the user supplied objective gradient.</listitem>
+<listitem>hessian : A scalar, to turn on or off the user supplied objective hessian.</listitem>
+</itemizedlist>
+   The default values for the various items are given as:
+   </para>
+   <para>
+  options = list('integertolerance',1d-06,'maxnodes',2147483647,'cputime',1d10,'allowablegap',0,'maxiter',2147483647,'gradobj',"off",'hessian',"off")
+   </para>
+     <para>
+   </para>
+   <para>
+The exitflag allows to know the status of the optimization which is given back by Ipopt.
+<itemizedlist>
+<listitem>0 : Optimal Solution Found </listitem>
+<listitem>1 : InFeasible Solution.</listitem>
+<listitem>2 : Objective Function is Continuous Unbounded.</listitem>
+<listitem>3 : Limit Exceeded.</listitem>
+<listitem>4 : User Interrupt.</listitem>
+<listitem>5 : MINLP Error.</listitem>
+</itemizedlist>
+   </para>
+   <para>
+For more details on exitflag, see the Bonmin documentation which can be found on http://www.coin-or.org/Bonmin
+   </para>
+   <para>
+</para>
+</refsection>
+<para>
+A few examples displaying the various functionalities of intfmincon have been provided below. You will find a series of problems and the appropriate code snippets to solve them.
+   </para>
+<refsection>
+   <title>Example</title>
+   <para>
+ Here we solve a simple objective function, subjected to three linear inequality constraints.
+   </para>
+   <para>
+Find x in R^2 such that it minimizes:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+\mbox{min}_{x}\ f(x) = x_{1}^{2} - x_{1}  \boldsymbol{\cdot}  x_{2}/3 + x_{2}^{2}
+\end{eqnarray}
+\\\text{Subjected to:}\\
+\begin{eqnarray}
+\hspace{70pt} &amp;x_{1} + x_{2}&amp;\leq 2\\ 
+\hspace{70pt} &amp;x_{1} + \dfrac{x_{2}}{4}&amp;\leq 1\\
+\hspace{70pt} &amp;-x_{1} + x_{2}&amp;\geq -2\\
+\end{eqnarray}\\
+\text{With integer constraints as: } \\
+\begin{eqnarray}
+\begin{array}{c}
+[1] \\
+\end{array}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+
+   </para>
+   <programlisting role="example"><![CDATA[
+//Example 1:
+//Objective function to be minimised
+function [y,dy]=f(x)
+y=-x(1)-x(2)/3;
+dy= [-1,-1/3];
+endfunction
+//Starting point
+x0=[0 , 0];
+//Integer constraints
+intcon = [1];
+//Initializing the linear inequality constraints
+A=[1,1 ; 1,1/4 ; 1,-1 ;];
+b=[2;1;2];
+//Calling Bonmin
+[x,fval,exitflag,grad,hessian] =intfmincon(f, x0,intcon,A,b)
+// Press ENTER to continue
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Example</title>
+   <para>
+Here we build up on the previous example by adding linear equality constraints.
+We add the following constraints to the problem specified above:   
+</para>
+   <para>
+<latex>
+\begin{eqnarray}
+&amp;x_{1} - x_{2}&amp;= 1 
+\\&amp;2x_{1} + x_{2}&amp;= 2
+\\\end{eqnarray}
+</latex>
+   </para>
+   <para>
+   </para>
+   <programlisting role="example"><![CDATA[
+//Example 2:
+//Objective function to be minimised
+function [y,dy]=f(x)
+y=-x(1)-x(2)/3;
+dy= [-1,-1/3];
+endfunction
+//Starting point
+x0=[0 , 0];
+//Integer constraints
+intcon = [1];
+//Initializing the linear inequality constraints
+A=[1,1 ; 1,1/4 ; 1,-1 ;];
+b=[2;1;2];
+//Linear equality constraints
+Aeq=[1,-1;2,1];
+beq=[1,2];
+//Calling Bonmin
+[x,fval,exitflag,grad,hessian] =intfmincon(f, x0,intcon,A,b,Aeq,beq)
+// Press ENTER to continue
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Example</title>
+   <para>
+In this example, we proceed to add the upper and lower bounds to the objective function.
+   </para>
+   <para>
+Find x in R^2 such that it minimizes:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+-1 &amp;\leq x_{1} &amp;\leq \infty\\
+-\infty &amp;\leq x_{2} &amp;\leq 1
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+
+   </para>
+   <programlisting role="example"><![CDATA[
+//Example 3:
+//Objective function to be minimised
+function [y,dy]=f(x)
+y=-x(1)-x(2)/3;
+dy= [-1,-1/3];
+endfunction
+//Starting point
+x0=[0 , 0];
+//Integer constraints
+intcon = [1];
+//Initializing the linear inequality constraints
+A=[1,1 ; 1,1/4 ; 1,-1 ;];
+b=[2;1;2];
+//Linear equality constraints
+Aeq=[1,-1;2,1];
+beq=[1,2];
+//Adding the variable bounds  
+lb=[-1, -%inf];
+ub=[%inf, 1];
+//Calling Bonmin
+[x,fval,exitflag,grad,hessian] =intfmincon(f, x0,intcon,A,b,Aeq,beq,lb,ub)
+// Press ENTER to continue
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Example</title>
+   <para>
+    Finally, we add the nonlinear constraints to the problem. Note that there is a notable difference in the way this is done as compared to defining the linear constraints.
+  </para>
+  <para>
+<latex>
+\begin{eqnarray}
+\mbox{min}_{x}\ f(x) = x_{1}  \boldsymbol{\cdot}  x_{2} + x_{2}  \boldsymbol{\cdot}  x_{3}
+\end{eqnarray}
+\\\text{Subjected to:}\\
+\begin{eqnarray}
+\hspace{70pt} &amp;x_{1}^{2} - x_{2}^{2} + x_{3}^{2}&amp;\leq 2\\ 
+\hspace{70pt} &amp;x_{1}^{2} + x_{2}^{2} + x_{3}^{2}&amp;\leq 10\\ 
+\end{eqnarray}\\
+\text{With integer constraints as: }\\
+\begin{eqnarray}
+\begin{array}{c}
+[2] \\
+\end{array}
+\end{eqnarray}
+</latex>
+   </para>
+  <para>
+  </para>
+   <programlisting role="example"><![CDATA[
+//Example 4:
+//Objective function to be minimised
+function [y,dy]=f(x)
+y=x(1)*x(2)+x(2)*x(3);
+dy= [x(2),x(1)+x(3),x(2)];
+endfunction
+//Starting point, linear constraints and variable bounds
+x0=[0.1 , 0.1 , 0.1];
+intcon = [2]
+A=[];
+b=[];
+Aeq=[];
+beq=[];
+lb=[];
+ub=[];
+//Nonlinear constraints
+function [c,ceq,cg,cgeq]=nlc(x)
+c = [x(1)^2 - x(2)^2 + x(3)^2 - 2 , x(1)^2 + x(2)^2 + x(3)^2 - 10];
+ceq = [];
+cg=[2*x(1) , -2*x(2) , 2*x(3) ; 2*x(1) , 2*x(2) , 2*x(3)];
+cgeq=[];
+endfunction
+//Options
+options=list("MaxIter", [1500], "CpuTime", [500], "GradObj", "on","GradCon", "on");
+//Calling Ipopt
+[x,fval,exitflag,output] =intfmincon(f, x0,intcon,A,b,Aeq,beq,lb,ub,nlc,options)
+// Press ENTER to continue
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Example</title>
+   <para>
+We can further enhance the functionality of intfmincon by setting input options. We can pre-define the gradient of the objective function and/or the hessian of the lagrange function and thereby improve the speed of computation. This is elaborated on in example 5. We take the following problem and add simple nonlinear constraints, specify the gradients and the hessian of the Lagrange Function. We also set solver parameters using the options.
+  </para>
+  <para>
+  </para>
+   <programlisting role="example"><![CDATA[
+//Example 5:
+//Objective function to be minimised
+function [y,dy]=f(x)
+y=x(1)*x(2)+x(2)*x(3);
+dy= [x(2),x(1)+x(3),x(2)];
+endfunction
+//Starting point, linear constraints and variable bounds
+x0=[0.1 , 0.1 , 0.1];
+intcon = [2]
+A=[];
+b=[];
+Aeq=[];
+beq=[];
+lb=[];
+ub=[];
+//Nonlinear constraints
+function [c,ceq,cg,cgeq]=nlc(x)
+c = [x(1)^2 - x(2)^2 + x(3)^2 - 2 , x(1)^2 + x(2)^2 + x(3)^2 - 10];
+ceq = [];
+cg=[2*x(1) , -2*x(2) , 2*x(3) ; 2*x(1) , 2*x(2) , 2*x(3)];
+cgeq=[];
+endfunction
+//Options
+options=list("MaxIter", [1500], "CpuTime", [500], "GradObj", "on","GradCon", "on");
+//Calling Ipopt
+[x,fval,exitflag,output] =intfmincon(f, x0,intcon,A,b,Aeq,beq,lb,ub,nlc,options)
+// Press ENTER to continue
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Example</title>
+   <para>
+Infeasible Problems: Find x in R^3 such that it minimizes:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+f(x) = x_{1}  \boldsymbol{\cdot}  x_{2} + x_{2}  \boldsymbol{\cdot}  x_{3}
+\end{eqnarray}
+\\\text{Subjected to:}\\
+\begin{eqnarray}
+\hspace{70pt} &amp;x_{1}^{2} &amp;\leq 1\\ 
+\hspace{70pt} &amp;x_{1}^{2} + x_{2}^{2}&amp;\leq 1\\ 
+\hspace{70pt} &amp;x_{3}^{2}&amp;\leq 1\\ 
+\hspace{70pt} &amp;x_{1}^{3}&amp;\leq 0.5\\ 
+\hspace{70pt} &amp;x_{2}^{2} + x_{3}^{2}&amp;\leq 0.75\\ 
+\end{eqnarray}\\
+\text{With variable bounds as: }\\
+\begin{eqnarray}
+\hspace{70pt} 0 &amp;\leq x_{1} &amp;\leq 0.6\\
+\hspace{70pt} 0.2 &amp;\leq x_{2} &amp;\leq \infty\\
+\end{eqnarray}\\
+\text{With integer constraints as: } \\
+\begin{eqnarray}
+\begin{array}{c}
+[2] \\
+\end{array}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+   </para>
+   <programlisting role="example"><![CDATA[
+//Example 6:
+//Objective function to be minimised
+function [y,dy]=f(x)
+y=x(1)*x(2)+x(2)*x(3);
+dy= [x(2),x(1)+x(3),x(2)];
+endfunction
+//Starting point, linear constraints and variable bounds
+x0=[1,1,1];
+intcon = [2]
+A=[];
+b=[];
+Aeq=[];
+beq=[];
+lb=[0 0.2,-%inf];
+ub=[0.6 %inf,1];
+//Nonlinear constraints
+function [c,ceq,cg,cgeq]=nlc(x)
+c=[x(1)^2-1,x(1)^2+x(2)^2-1,x(3)^2-1];
+ceq=[x(1)^3-0.5,x(2)^2+x(3)^2-0.75];
+cg = [2*x(1),0,0;2*x(1),2*x(2),0;0,0,2*x(3)];
+cgeq = [3*x(1)^2,0,0;0,2*x(2),2*x(3)];
+endfunction
+//Options
+options=list("MaxIter", [1500], "CpuTime", [500], "GradObj", "on","GradCon", "on");
+//Calling Bonmin
+[x,fval,exitflag,grad,hessian] =intfmincon(f, x0,intcon,A,b,Aeq,beq,lb,ub,nlc,options)
+// Press ENTER to continue
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Example</title>
+<para>
+Unbounded Problems: Find x in R^3 such that it minimizes:
+</para>
+   <para>
+<latex>
+\begin{eqnarray}
+\mbox{min}_{x}\ f(x) = x_{1}^{2}  + x_{2}^{2} + x_{3}^{2}\\
+\end{eqnarray}\\
+\text{With variable bounds as: }\\
+\begin{eqnarray}
+-\infty &amp;\leq x_{1} &amp;\leq 0\\
+-\infty &amp;\leq x_{2} &amp;\leq 0\\
+-\infty &amp;\leq x_{3} &amp;\leq 0\\
+\end{eqnarray}\\
+\text{With integer constraints as: } \\
+\begin{eqnarray}
+\begin{array}{c}
+[3] \\
+\end{array}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+   </para>
+   <programlisting role="example"><![CDATA[
+//Example 7:
+//The below problem is an unbounded problem:
+//Find x in R^3 such that it minimizes:
+//f(x)= -(x1^2 + x2^2 + x3^2)
+//x0=[0.1 , 0.1 , 0.1]
+//  x1 <= 0
+//  x2 <= 0
+//  x3 <= 0
+//Objective function to be minimised
+function y=f(x)
+y=-(x(1)^2+x(2)^2+x(3)^2);
+endfunction
+//Starting point, linear constraints and variable bounds
+x0=[0.1 , 0.1 , 0.1];
+intcon = [3]
+A=[];
+b=[];
+Aeq=[];
+beq=[];
+lb=[];
+ub=[0,0,0];
+//Options
+options=list("MaxIter", [1500], "CpuTime", [500]);
+//Calling Bonmin
+[x,fval,exitflag,grad,hessian] =intfmincon(f, x0,intcon,A,b,Aeq,beq,lb,ub,[],options)
+// Press ENTER to continue
+
+   ]]></programlisting>
+</refsection>
+
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Harpreet Singh</member>
+   </simplelist>
+</refsection>
+</refentry>

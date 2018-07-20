@@ -1,13 +1,20 @@
-/*
- * Quadratic Programming Toolbox for Scilab using IPOPT library
- * Authors :
-	Sai Kiran
-	Keyur Joshi
-	Iswarya
- */
+// Copyright (C) 2015 - IIT Bombay - FOSSEE
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// Author: Harpreet Singh, Sai Kiran, Keyur Joshi, Iswarya
+// Organization: FOSSEE, IIT Bombay
+// Email: toolbox@scilab.in
 
 #include "QuadNLP.hpp"
-#include "IpIpoptData.hpp"
+#include <IpIpoptApplication.hpp>
+#include <IpSolveStatistics.hpp>
+#include <IpTNLP.hpp>
+#include <IpIpoptCalculatedQuantities.hpp>
+#include <IpSmartPtr.hpp>
 
 extern "C"{
 #include <api_scilab.h>
@@ -15,17 +22,21 @@ extern "C"{
 #include <BOOL.h>
 #include <localization.h>
 #include <sciprint.h>
-
-
-double x_static,i, *op_obj_x = NULL,*op_obj_value = NULL;
+//#if defined(_MSC_VER)
+//#include "config_ipopt.h"
+//#else
+#include "IpoptConfig.h"
+//#endif
 
 using namespace Ipopt;
 
 QuadNLP::~QuadNLP()
-		 {
-			free(finalX_);
-			free(finalZl_);
-			free(finalZu_);}
+{
+	if(finalX_) delete[] finalX_;
+	if(finalZl_) delete[] finalZl_;
+	if(finalZu_) delete[] finalZu_;
+	if(finalLambda_) delete[] finalLambda_;
+}
 
 //get NLP info such as number of variables,constraints,no.of elements in jacobian and hessian to allocate memory
 bool QuadNLP::get_nlp_info(Index& n, Index& m, Index& nnz_jac_g, Index& nnz_h_lag, IndexStyleEnum& index_style){
@@ -185,52 +196,50 @@ void QuadNLP::finalize_solution(SolverReturn status,
 				const IpoptData* ip_data,
 				IpoptCalculatedQuantities* ip_cq){
 	
-	finalX_ = (double*)malloc(sizeof(double) * numVars_ * 1);
+	finalX_ = new double[n];
 	for (Index i=0; i<n; i++) 
 	{
     		 finalX_[i] = x[i];
 	}
 	
-	finalZl_ = (double*)malloc(sizeof(double) * numVars_ * 1);
+	 finalZl_ = new double[n];
 	for (Index i=0; i<n; i++) 
 	{
     		 finalZl_[i] = z_L[i];
 	}
 
-	finalZu_ = (double*)malloc(sizeof(double) * numVars_ * 1);
+	finalZu_ = new double[n];
 	for (Index i=0; i<n; i++) 
 	{
     		 finalZu_[i] = z_U[i];
 	}
 
-	finalLambda_ = (double*)malloc(sizeof(double) * numConstr_ * 1);
+	finalLambda_ = new double[m];
 	for (Index i=0; i<m; i++) 
 	{
     		 finalLambda_[i] = lambda[i];
 	}
 
-	iter_ = ip_data->iter_count();
 	finalObjVal_ = obj_value;
 	status_ = status;
-	
    }
 
-	const double * QuadNLP::getX()
+	double * QuadNLP::getX()
 	{	
 		return finalX_;
 	}
 
-	const double * QuadNLP::getZl()
+	double * QuadNLP::getZl()
 	{	
 		return finalZl_;
 	}
 
-	const double * QuadNLP::getZu()
+	double * QuadNLP::getZu()
 	{	
 		return finalZu_;
 	}
 
-	const double * QuadNLP::getLambda()
+	double * QuadNLP::getLambda()
 	{	
 		return finalLambda_;
 	}
@@ -238,11 +247,6 @@ void QuadNLP::finalize_solution(SolverReturn status,
 	double QuadNLP::getObjVal()
 	{	
 		return finalObjVal_;
-	}
-
-	double QuadNLP::iterCount()
-	{	
-		return (double)iter_;
 	}
 
 	int QuadNLP::returnStatus()

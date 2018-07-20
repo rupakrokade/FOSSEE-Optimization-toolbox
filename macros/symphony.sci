@@ -1,10 +1,10 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// This file must be used under the terms of the BSD.
-// This source file is licensed as described in the file LICENSE, which
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
-// https://opensource.org/licenses/BSD-3-Clause
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 // Author: Harpreet Singh
 // Organization: FOSSEE, IIT Bombay
 // Email: toolbox@scilab.in
@@ -86,8 +86,7 @@ function [xopt,fopt,status,output] = symphony (varargin)
 	//    isInt = [repmat(%t,1,4) repmat(%f,1,4)];
 	//    xopt = [1 1 0 1 7.25 0 0.25 3.5]
 	//    fopt = [8495]
-	//
-	//    // Calling Sequence
+	//    // Calling Symphony
 	//    [x,f,status,output] = symphony(8,3,c,isInt,lb,ub,A,conlb,conub,1)
 	//    // Press ENTER to continue 
 	//
@@ -172,8 +171,7 @@ function [xopt,fopt,status,output] = symphony (varargin)
 	//            0 1 0 1 0 0 1 0 0 1 0 1 0 0 0 0 0 1 1 0 0 0 0 0 1 1 0 0 1 0 0 1 0]
 	//    // Optimal value
 	//    fopt = [ -24381 ]
-	//
-	//    // Calling Sequence
+	//    // Calling Symphony
 	//    [x,f,status,output] = symphony(nbVar,nbCon,c,isInt,lb,ub,A,conLB,conUB,-1,options);
 	// Authors
 	// Keyur Joshi, Saikiran, Iswarya, Harpreet Singh

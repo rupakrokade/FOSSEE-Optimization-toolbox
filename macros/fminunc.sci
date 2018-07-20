@@ -1,10 +1,10 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// This file must be used under the terms of the BSD.
-// This source file is licensed as described in the file LICENSE, which
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
 // you should have received as part of this distribution.  The terms
 // are also available at
-// https://opensource.org/licenses/BSD-3-Clause
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 // Author: R.Vidyadhar & Vignesh Kannan
 // Organization: FOSSEE, IIT Bombay
 // Email: toolbox@scilab.in
@@ -97,8 +97,7 @@ function [xopt,fopt,exitflag,output,gradient,hessian] = fminunc (varargin)
   	//     endfunction
   	//     //Options
   	//     options=list("MaxIter", [1500], "CpuTime", [500], "Gradient", fGrad, "Hessian", fHess);
-	//
- 	//    // Calling Sequence
+  	//     //Calling Ipopt
   	//     [xopt,fopt,exitflag,output,gradient,hessian]=fminunc(f,x0,options)
 	// // Press ENTER to continue
   	//
@@ -111,8 +110,7 @@ function [xopt,fopt,exitflag,output,gradient,hessian] = fminunc (varargin)
   	//      endfunction
   	//	  //Starting point  
   	//      x0=[2,1];
-	//
- 	//    // Calling Sequence 
+  	//      //Calling Ipopt  
   	//      [xopt,fopt]=fminunc(f,x0)
 	// // Press ENTER to continue
   	//
@@ -136,7 +134,7 @@ function [xopt,fopt,exitflag,output,gradient,hessian] = fminunc (varargin)
   	//     endfunction
     //     //Options
   	//     options=list("MaxIter", [1500], "CpuTime", [500], "Gradient", fGrad, "Hessian", fHess);
-  	//    // Calling Sequence  
+  	//    //Calling Ipopt  
   	//     [xopt,fopt,exitflag,output,gradient,hessian]=fminunc(f,x0,options)
   	// Authors
   	// R.Vidyadhar , Vignesh Kannan

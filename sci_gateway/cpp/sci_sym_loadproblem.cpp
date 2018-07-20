@@ -1,8 +1,15 @@
-/*
- * Symphony Toolbox
- * Explicit problem loaders
- * Made by Keyur Joshi
- */
+
+// Copyright (C) 2015 - IIT Bombay - FOSSEE
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// Author: Keyur Joshi
+// Organization: FOSSEE, IIT Bombay
+// Email: toolbox@scilab.in
+
 #include "symphony.h"
 #include "sci_iofunc.hpp"
 
@@ -191,6 +198,9 @@ static int commonCodePart2()
 			cleanupBeforeExit();
 			return 1;
 		}
+		//#ifdef _MSC_VER
+  	      //  double INFINITY = sym_get_infinity();
+		//#endif
 		if(conLower[rowIter]==(-INFINITY) && conUpper[rowIter]==INFINITY){
 			conType[rowIter]='N';
 			conRange[rowIter]=0;
@@ -225,7 +235,7 @@ static int commonCodePart2()
 	
 	//call problem loader
 	sym_explicit_load_problem(global_sym_env,numVars,numConstr,conMatrixColStart,conMatrixRowIndex,conMatrix,lowerBounds,upperBounds,isIntVar,objective,NULL,conType,conRHS,conRange,TRUE);
-	sciprint("Problem loaded into environment.\n");
+	// sciprint("Problem loaded into environment.\n");
 	
 	//code to give output
 	cleanupBeforeExit();

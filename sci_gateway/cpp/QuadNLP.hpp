@@ -1,14 +1,13 @@
-/*
- * Quadratic Programming Toolbox for Scilab using IPOPT library
- * Authors :
-	Sai Kiran
-	Keyur Joshi
-	Iswarya
-
-
- * Optimizing (minimizing) the quadratic objective function having any number of variables and linear constraints.
- *
-*/
+// Copyright (C) 2015 - IIT Bombay - FOSSEE
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// Author: Harpreet Singh, Sai Kiran, Keyur Joshi, Iswarya
+// Organization: FOSSEE, IIT Bombay
+// Email: toolbox@scilab.in
 
 #ifndef __QuadNLP_HPP__
 #define __QuadNLP_HPP__
@@ -27,45 +26,43 @@ class QuadNLP : public TNLP
 	
 		Index numConstr_; 		// Number of constraints.
 
-		const Number *qMatrix_ = NULL;	//qMatrix_ is a pointer to matrix of size numVars X numVars_ 
+		const Number *qMatrix_;	//qMatrix_ is a pointer to matrix of size numVars X numVars_ 
 						// with coefficents of quadratic terms in objective function.
 
-		const Number *lMatrix_ = NULL;//lMatrix_ is a pointer to matrix of size 1*numVars_
+		const Number *lMatrix_;//lMatrix_ is a pointer to matrix of size 1*numVars_
 						// with coefficents of linear terms in objective function.	
 	
-		const Number *conMatrix_ = NULL;//conMatrix_ is a pointer to matrix of size numConstr X numVars
 						// with coefficients of terms in a each objective in each row.
+		const Number *conMatrix_ ;//conMatrix_ is a pointer to matrix of size numConstr X numVars
 
-		const Number *conUB_= NULL;	//conUB_ is a pointer to a matrix of size of 1*numConstr_
+		const Number *conUB_;	//conUB_ is a pointer to a matrix of size of 1*numConstr_
 						// with upper bounds of all constraints.
 
-		const Number *conLB_ = NULL;	//conLB_ is a pointer to a matrix of size of 1*numConstr_ 
+		const Number *conLB_ ;	//conLB_ is a pointer to a matrix of size of 1*numConstr_ 
 						// with lower bounds of all constraints.
 
-		const Number *varUB_= NULL;	//varUB_ is a pointer to a matrix of size of 1*numVar_ 
+		const Number *varUB_;	//varUB_ is a pointer to a matrix of size of 1*numVar_ 
 						// with upper bounds of all variables.
 
-		const Number *varLB_= NULL;	//varLB_ is a pointer to a matrix of size of 1*numVar_
+		const Number *varLB_;	//varLB_ is a pointer to a matrix of size of 1*numVar_
 						// with lower bounds of all variables.
 
-		const Number *varGuess_= NULL;	//varGuess_ is a pointer to a matrix of size of 1*numVar_
+		const Number *varGuess_;	//varGuess_ is a pointer to a matrix of size of 1*numVar_
 						// with initial guess of all variables.
 	
-		Number *finalX_= NULL;		//finalX_ is a pointer to a matrix of size of 1*numVar_
+		Number *finalX_;		//finalX_ is a pointer to a matrix of size of 1*numVar_
 						// with final value for the primal variables.
 
-		Number *finalZl_= NULL;		//finalZl_ is a pointer to a matrix of size of 1*numVar_
+		Number *finalZl_;		//finalZl_ is a pointer to a matrix of size of 1*numVar_
 						// with final values for the lower bound multipliers
 
-		Number *finalZu_= NULL;		//finalZu_ is a pointer to a matrix of size of 1*numVar_
+		Number *finalZu_;		//finalZu_ is a pointer to a matrix of size of 1*numVar_
 						// with final values for the upper bound multipliers
 
-		Number *finalLambda_= NULL;	//finalLambda_ is a pointer to a matrix of size of 1*numConstr_
+		Number *finalLambda_;	//finalLambda_ is a pointer to a matrix of size of 1*numConstr_
 						// with final values for the upper bound multipliers
 
 		Number finalObjVal_;		//finalObjVal_ is a scalar with the final value of the objective.
-
-		int iter_;			//Number of iteration.
 
 		int status_;			//Solver return status
  
@@ -109,22 +106,20 @@ class QuadNLP : public TNLP
 						   const IpoptData* ip_data,
 						   IpoptCalculatedQuantities* ip_cq);
 		
-		const double * getX();		//Returns a pointer to a matrix of size of 1*numVar 
+		double * getX();		//Returns a pointer to a matrix of size of 1*numVar 
 						// with final value for the primal variables.
 
-		const double * getZu();		//Returns a pointer to a matrix of size of 1*numVars
+		double * getZu();		//Returns a pointer to a matrix of size of 1*numVars
 						// with final values for the upper bound multipliers
 
-		const double * getZl();		//Returns a pointer to a matrix of size of 1*numVars
+		double * getZl();		//Returns a pointer to a matrix of size of 1*numVars
 						// with final values for the upper bound multipliers
 
-		const double * getLambda();	//Returns a pointer to a matrix of size of 1*numConstr
+		double * getLambda();	//Returns a pointer to a matrix of size of 1*numConstr
 						// with final values for the constraint multipliers
 
 
 		double getObjVal();		//Returns the output of the final value of the objective.
-
-		double iterCount();		//Returns the iteration count
 
 		int returnStatus();		//Returns the status count
 
