@@ -16,11 +16,7 @@
 
       </td>
       <td width="40%" class="center">
-<<<<<<< HEAD
-      	<span class="top"><a href="section_44e1f57c5225357b5fe53cb5fad967e9.html">FOSSEE Optimization Toolbox</a></span>
-=======
-      	<span class="top"><a href="section_0cbcd29fcf7a3b0fb510074d8833fcd8.html">FOSSEE Optimization Toolbox</a></span>
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
+      	<span class="top"><a href="section_44e4bbd4162cc6d0fa44bc8218a099f5.html">FOSSEE Optimization Toolbox</a></span>
 
       </td>
       <td width="30%" class="next">
@@ -33,15 +29,11 @@
 
 
 
-<<<<<<< HEAD
-    <span class="path"><a href="index.html">FOSSEE Optimization Toolbox</a> &gt;&gt; <a href="section_44e1f57c5225357b5fe53cb5fad967e9.html">FOSSEE Optimization Toolbox</a> &gt; fmincon</span>
-=======
-    <span class="path"><a href="index.html">FOSSEE Optimization Toolbox</a> &gt;&gt; <a href="section_0cbcd29fcf7a3b0fb510074d8833fcd8.html">FOSSEE Optimization Toolbox</a> &gt; fmincon</span>
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
+    <span class="path"><a href="index.html">FOSSEE Optimization Toolbox</a> &gt;&gt; <a href="section_44e4bbd4162cc6d0fa44bc8218a099f5.html">FOSSEE Optimization Toolbox</a> &gt; fmincon</span>
 
     <br /><br />
     <div class="refnamediv"><h1 class="refname">fmincon</h1>
-    <p class="refpurpose">Solves a multi-variable constrainted optimization problem.</p></div>
+    <p class="refpurpose">Solves a multivariable constrained optimization problem.</p></div>
 
 
 <div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
@@ -75,7 +67,7 @@
    <dt><span class="term">ub :</span>
       <dd><p class="para">A vector of doubles, containing the upper bounds of the variables of size (1 X n) or (n X 1) where &#0039;n&#0039; is the number of variables.</p></dd></dt>
    <dt><span class="term">nlc :</span>
-      <dd><p class="para">A function, representing the Non-linear Constraints functions(both Equality and Inequality) of the problem. It is declared in such a way that non-linear inequality constraints (c), and the non-linear equality constraints (ceq) are defined as separate single row vectors.</p></dd></dt>
+      <dd><p class="para">A function, representing the nonlinear Constraints functions(both Equality and Inequality) of the problem. It is declared in such a way that nonlinear inequality constraints (c), and the nonlinear equality constraints (ceq) are defined as separate single row vectors.</p></dd></dt>
    <dt><span class="term">options :</span>
       <dd><p class="para">A list, containing the option for user to specify. See below for details.</p></dd></dt></dl></div>
 <div class="refsection"><h3 class="title">Outputs</h3>
@@ -97,11 +89,7 @@
 <div class="refsection"><h3 class="title">Description</h3>
    <p class="para">Search the minimum of a constrained optimization problem specified by:</p>
    <p class="para">Find the minimum of f(x) such that</p>
-<<<<<<< HEAD
-   <p class="para"><span><img src='./_LaTeX_fmincon.xml_1.png' style='position:relative;top:74px;width:220px;height:156px'/></span></p>
-=======
    <p class="para"><span><img src='./_LaTeX_fmincon.xml_1.png' style='position:relative;top:74px;width:4px;height:156px'/></span></p>
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
    <p class="para">fmincon calls Ipopt, an optimization library written in C++, to solve the Constrained Optimization problem.</p>
    <p class="para"><h3 class="title">Options</h3>
 The options allow the user to set various parameters of the Optimization problem. The syntax for the options is given by:</p>
@@ -111,7 +99,7 @@ The options allow the user to set various parameters of the Optimization problem
 <li>CpuTime : A Scalar, specifying the maximum amount of CPU time in seconds that the solver should take.</li>
 <li>GradObj : A function, representing the gradient function of the Objective in vector form.</li>
 <li>Hessian : A  function, representing the hessian function of the Lagrange in the form of a Symmetric Matrix with Input parameters as x, Objective factor and Lambda. Refer to Example 5 for definition of Lagrangian Hessian function.</li>
-<li>GradCon : A function, representing the gradient of the Non-Linear Constraints (both Equality and Inequality) of the problem. It is declared in such a way that gradient of non-linear inequality constraints are defined first as a separate Matrix (cg of size m2 X n or as an empty), followed by gradient of non-linear equality constraints as a separate matrix (ceqg of size m2 X n or as an empty) where m2 &amp;amp; m3 are number of non-linear inequality and equality constraints respectively.</li></ul>
+<li>GradCon : A function, representing the gradient of the nonlinear Constraints (both Equality and Inequality) of the problem. It is declared in such a way that gradient of nonlinear inequality constraints are defined first as a separate Matrix (cg of size m2 X n or as an empty), followed by gradient of nonlinear equality constraints as a separate matrix (ceqg of size m2 X n or as an empty) where m2 &amp;amp; m3 are number of nonlinear inequality and equality constraints respectively.</li></ul>
 The default values for the various items are given as:</p>
    <p class="para">options = list(&#0034;MaxIter&#0034;, [3000], &#0034;CpuTime&#0034;, [600]);</p>
    <p class="para">The exitflag allows the user to know the status of the optimization which is returned by Ipopt. The values it can take and what they indicate is described below:
@@ -135,12 +123,12 @@ It has type &#0034;struct&#0034; and contains the following fields.
 <li>lambda.upper: The Lagrange multipliers for the upper bound constraints.</li>
 <li>lambda.eqlin: The Lagrange multipliers for the linear equality constraints.</li>
 <li>lambda.ineqlin: The Lagrange multipliers for the linear inequality constraints.</li>
-<li>lambda.eqnonlin: The Lagrange multipliers for the non-linear equality constraints.</li>
-<li>lambda.ineqnonlin: The Lagrange multipliers for the non-linear inequality constraints.</li></ul></p>
+<li>lambda.eqnonlin: The Lagrange multipliers for the nonlinear equality constraints.</li>
+<li>lambda.ineqnonlin: The Lagrange multipliers for the nonlinear inequality constraints.</li></ul></p>
    <p class="para">A few examples displaying the various functionalities of fmincon have been provided below. You will find a series problems and the appropriate code snippets to solve them.</p></div>
 
 <div class="refsection"><h3 class="title">Example</h3>
-<p class="para">Here we solve a simple non-linear objective function, subjected to three linear inequality constraints.</p>
+<p class="para">Here we solve a simple nonlinear objective function, subjected to three linear inequality constraints.</p>
    <p class="para">Find x in R^2 such that it minimizes:</p>
    <p class="para"><span><img src='./_LaTeX_fmincon.xml_2.png' style='position:relative;top:29px;width:230px;height:116px'/></span></p>
    <p class="para"></p>
@@ -158,11 +146,7 @@ It has type &#0034;struct&#0034; and contains the following fields.
 <div class="refsection"><h3 class="title">Example</h3>
 <p class="para">Here we build up on the previous example by adding linear equality constraints.
 We add the following constraints to the problem specified above:</p>
-<<<<<<< HEAD
-   <p class="para"><span><img src='./_LaTeX_fmincon.xml_3.png' style='position:relative;top:17px;width:134px;height:42px'/></span></p>
-=======
    <p class="para"><span><img src='./_LaTeX_fmincon.xml_3.png' style='position:relative;top:17px;width:4px;height:42px'/></span></p>
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 <p class="para"></p>
    <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabcomment">//Example 2:</span>
 <span class="scilabcomment">//Objective function to be minimised</span>
@@ -201,7 +185,7 @@ We add the following constraints to the problem specified above:</p>
 <span class="scilabcomment">//Press ENTER to continue</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
 
 <div class="refsection"><h3 class="title">Example</h3>
- <p class="para">Finally, we add the non-linear constraints to the problem. Note that there is a notable difference in the way this is done as compared to defining the linear constraints.</p>
+ <p class="para">Finally, we add the nonlinear constraints to the problem. Note that there is a notable difference in the way this is done as compared to defining the linear constraints.</p>
    <p class="para"><span><img src='./_LaTeX_fmincon.xml_5.png' style='position:relative;top:22px;width:139px;height:52px'/></span></p>
 <p class="para"></p>   
    <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabcomment">//Example 4:</span>
@@ -229,7 +213,7 @@ We add the following constraints to the problem specified above:</p>
 
 <div class="refsection"><h3 class="title">Example</h3>
    <p class="para">Additional Functionality:</p>
-   <p class="para">We can further enhance the functionality of fmincon by setting input options. We can pre-define the gradient of the objective function and/or the hessian of the lagrange function and thereby improve the speed of computation. This is elaborated on in example 5. We take the following problem and add simple non-linear constraints, specify the gradients and the hessian of the Lagrange Function. We also set solver parameters using the options.</p>
+   <p class="para">We can further enhance the functionality of fmincon by setting input options. We can pre-define the gradient of the objective function and/or the hessian of the lagrange function and thereby improve the speed of computation. This is elaborated on in example 5. We take the following problem and add simple nonlinear constraints, specify the gradients and the hessian of the Lagrange Function. We also set solver parameters using the options.</p>
 
    <p class="para"><span><img src='./_LaTeX_fmincon.xml_6.png' style='position:relative;top:22px;width:266px;height:101px'/></span></p>
    <p class="para"></p>
@@ -259,7 +243,7 @@ We add the following constraints to the problem specified above:</p>
 <span class="scilabfkeyword">function</span> <span class="scilabinputoutputargs">y</span><span class="scilaboperator">=</span><span class="scilabfunctionid">lHess</span><span class="scilabopenclose">(</span><span class="scilabinputoutputargs">x</span><span class="scilabdefault">, </span><span class="scilabinputoutputargs">obj</span><span class="scilabdefault">, </span><span class="scilabinputoutputargs">lambda</span><span class="scilabopenclose">)</span>
 <span class="scilabinputoutputargs">y</span><span class="scilaboperator">=</span> <span class="scilabinputoutputargs">obj</span><span class="scilaboperator">*</span><span class="scilabopenclose">[</span><span class="scilabnumber">0</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabdefault">,</span><span class="scilabnumber">0</span><span class="scilabdefault">;</span><span class="scilabnumber">1</span><span class="scilabdefault">,</span><span class="scilabnumber">0</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabdefault">;</span><span class="scilabnumber">0</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabdefault">,</span><span class="scilabnumber">0</span><span class="scilabopenclose">]</span> <span class="scilaboperator">+</span> <span class="scilabinputoutputargs">lambda</span><span class="scilabopenclose">(</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilaboperator">*</span><span class="scilabopenclose">[</span><span class="scilabnumber">2</span><span class="scilabdefault">,</span><span class="scilabnumber">0</span><span class="scilabdefault">,</span><span class="scilabnumber">0</span><span class="scilabdefault">;</span><span class="scilabnumber">0</span><span class="scilabdefault">,</span><span class="scilaboperator">-</span><span class="scilabnumber">2</span><span class="scilabdefault">,</span><span class="scilabnumber">0</span><span class="scilabdefault">;</span><span class="scilabnumber">0</span><span class="scilabdefault">,</span><span class="scilabnumber">0</span><span class="scilabdefault">,</span><span class="scilabnumber">2</span><span class="scilabopenclose">]</span> <span class="scilaboperator">+</span> <span class="scilabinputoutputargs">lambda</span><span class="scilabopenclose">(</span><span class="scilabnumber">2</span><span class="scilabopenclose">)</span><span class="scilaboperator">*</span><span class="scilabopenclose">[</span><span class="scilabnumber">2</span><span class="scilabdefault">,</span><span class="scilabnumber">0</span><span class="scilabdefault">,</span><span class="scilabnumber">0</span><span class="scilabdefault">;</span><span class="scilabnumber">0</span><span class="scilabdefault">,</span><span class="scilabnumber">2</span><span class="scilabdefault">,</span><span class="scilabnumber">0</span><span class="scilabdefault">;</span><span class="scilabnumber">0</span><span class="scilabdefault">,</span><span class="scilabnumber">0</span><span class="scilabdefault">,</span><span class="scilabnumber">2</span><span class="scilabopenclose">]</span>
 <span class="scilabfkeyword">endfunction</span>
-<span class="scilabcomment">//Gradient of Non-Linear Constraints</span>
+<span class="scilabcomment">//Gradient of nonlinear Constraints</span>
 <span class="scilabfkeyword">function</span> <span class="scilabopenclose">[</span><span class="scilabinputoutputargs">cg</span><span class="scilabdefault">, </span><span class="scilabinputoutputargs">ceqg</span><span class="scilabopenclose">]</span><span class="scilaboperator">=</span><span class="scilabfunctionid">cGrad</span><span class="scilabopenclose">(</span><span class="scilabinputoutputargs">x</span><span class="scilabopenclose">)</span>
 <span class="scilabinputoutputargs">cg</span><span class="scilaboperator">=</span><span class="scilabopenclose">[</span><span class="scilabnumber">2</span><span class="scilaboperator">*</span><span class="scilabinputoutputargs">x</span><span class="scilabopenclose">(</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span> <span class="scilabdefault">,</span> <span class="scilaboperator">-</span><span class="scilabnumber">2</span><span class="scilaboperator">*</span><span class="scilabinputoutputargs">x</span><span class="scilabopenclose">(</span><span class="scilabnumber">2</span><span class="scilabopenclose">)</span> <span class="scilabdefault">,</span> <span class="scilabnumber">2</span><span class="scilaboperator">*</span><span class="scilabinputoutputargs">x</span><span class="scilabopenclose">(</span><span class="scilabnumber">3</span><span class="scilabopenclose">)</span> <span class="scilabdefault">;</span> <span class="scilabnumber">2</span><span class="scilaboperator">*</span><span class="scilabinputoutputargs">x</span><span class="scilabopenclose">(</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span> <span class="scilabdefault">,</span> <span class="scilabnumber">2</span><span class="scilaboperator">*</span><span class="scilabinputoutputargs">x</span><span class="scilabopenclose">(</span><span class="scilabnumber">2</span><span class="scilabopenclose">)</span> <span class="scilabdefault">,</span> <span class="scilabnumber">2</span><span class="scilaboperator">*</span><span class="scilabinputoutputargs">x</span><span class="scilabopenclose">(</span><span class="scilabnumber">3</span><span class="scilabopenclose">)</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
 <span class="scilabinputoutputargs">ceqg</span><span class="scilaboperator">=</span><span class="scilabopenclose">[</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
@@ -314,11 +298,7 @@ We add the following constraints to the problem specified above:</p>
 
       </td>
       <td width="40%" class="center">
-<<<<<<< HEAD
-      	<span class="top"><a href="section_44e1f57c5225357b5fe53cb5fad967e9.html">FOSSEE Optimization Toolbox</a></span>
-=======
-      	<span class="top"><a href="section_0cbcd29fcf7a3b0fb510074d8833fcd8.html">FOSSEE Optimization Toolbox</a></span>
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
+      	<span class="top"><a href="section_44e4bbd4162cc6d0fa44bc8218a099f5.html">FOSSEE Optimization Toolbox</a></span>
 
       </td>
       <td width="30%" class="next">

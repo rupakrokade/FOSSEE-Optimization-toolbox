@@ -17,11 +17,7 @@
 
   <refnamediv>
     <refname>lsqnonlin</refname>
-<<<<<<< HEAD
-    <refpurpose>Solves a non linear data fitting problems.</refpurpose>
-=======
     <refpurpose>Solves a nonlinear data fitting problems.</refpurpose>
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
   </refnamediv>
 
 
@@ -77,11 +73,7 @@
 <refsection>
    <title>Description</title>
    <para>
-<<<<<<< HEAD
-Search the minimum of a constrained non-linear least square problem specified by :
-=======
 Search the minimum of a constrained nonlinear least square problem specified by :
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
    </para>
    <para>
 <latex>
@@ -93,11 +85,7 @@ Search the minimum of a constrained nonlinear least square problem specified by 
 </latex>
    </para>
    <para>
-<<<<<<< HEAD
-lsqnonlin calls fmincon, which calls Ipopt, an optimization library written in C++ to solve the non-linear least squares problem.
-=======
 lsqnonlin calls fmincon, which calls Ipopt, an optimization library written in C++ to solve the nonlinear least squares problem.
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
    </para>
    
    <para>
@@ -158,11 +146,7 @@ A few examples displaying the various functionalities of lsqnonlin have been pro
 <refsection>
    <title>Example</title>
      <para>
-<<<<<<< HEAD
- Here we solve a simple non-linear least square example taken from leastsq default present in scilab.
-=======
  Here we solve a simple nonlinear least square example taken from leastsq default present in scilab.
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
    </para>
    <para>
@@ -221,11 +205,7 @@ We add the following bounds to the problem specified above:
     <para>
   </para>
    <programlisting role="example"><![CDATA[
-<<<<<<< HEAD
-//A simple non-linear least square example taken from leastsq default present in scilab
-=======
 //A simple nonlinear least square example taken from leastsq default present in scilab
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 function y=yth(t, x)
 y  = x(1)*exp(-x(2)*t)
 endfunction

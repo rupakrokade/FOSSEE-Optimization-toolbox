@@ -50,13 +50,6 @@ int cpp_intfmincon(char *fname)
 	Number *intcon = NULL,*options=NULL, *ifval=NULL;
 	
 	// Output arguments
-<<<<<<< HEAD
-	Number *fX = NULL, ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;
-	Number dual_inf, constr_viol, complementarity, kkt_error;
-	int rstatus = 0;
-	
-	if(getDoubleMatrixFromScilab(6, &nVars, &x0_cols, &x0))
-=======
 	Number  ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;	//Number *fX = NULL, ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;
 	Number dual_inf, constr_viol, complementarity, kkt_error;
 	int rstatus = 0;
@@ -64,7 +57,6 @@ int cpp_intfmincon(char *fname)
 	const double *fX = NULL;	//changed fX from Ipopt::Number* to const double*
 	
 	if(getDoubleMatrixFromScilab(6, (int*)&nVars, &x0_cols, &x0))	//typecast nVars from unsigned int* to *int
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	{
 		return 1;
 	}
@@ -79,11 +71,7 @@ int cpp_intfmincon(char *fname)
 		return 1;
 	}
 
-<<<<<<< HEAD
-	if(getDoubleMatrixFromScilab(9, &nCons, &x0_cols, &conLb))
-=======
 	if(getDoubleMatrixFromScilab(9, (int*)&nCons, &x0_cols, &conLb))	//typecast nCons from unsigned int* to int* 
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	{
 		return 1;
 	}
@@ -94,20 +82,12 @@ int cpp_intfmincon(char *fname)
 	}
 
 	// Getting intcon
-<<<<<<< HEAD
-	if (getDoubleMatrixFromScilab(11,&intconSize,&temp2,&intcon))
-=======
 	if (getDoubleMatrixFromScilab(11,&intconSize,(int*)&temp2,&intcon))	//typecast temp2 from unsigned int* to int* 
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	{
 		return 1;
 	}
 
-<<<<<<< HEAD
-	if (getDoubleMatrixFromScilab(13,&temp1,&temp2,&LC))
-=======
 	if (getDoubleMatrixFromScilab(13,(int*)&temp1,(int*)&temp2,&LC))	//typecast temp1 and temp2 from unsigned int* to int* 
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	{
 		return 1;
 	}

@@ -53,13 +53,6 @@ int cpp_intqpipopt(char *fname)
 	unsigned int temp1 = 0,temp2 = 0;
 	char *bonmin_options_file = NULL;
 	// Output arguments
-<<<<<<< HEAD
-	double *fX = NULL, ObjVal = 0,iteration=0;
-	int rstatus = 0;
-	
-	//Number of Variables
-	if(getIntFromScilab(1,&nVars))
-=======
 	double  ObjVal = 0,iteration=0;	//double *fX = NULL, ObjVal = 0,iteration=0;
 	int rstatus = 0;
 	
@@ -67,27 +60,18 @@ int cpp_intqpipopt(char *fname)
 
 	//Number of Variables
 	if(getIntFromScilab(1,(int*)&nVars))	//typecast nVars from unsigned int* to int*
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	{
 		return 1;
 	}
 
 	//Number of Constraints
-<<<<<<< HEAD
-	if (getIntFromScilab(2,&nCons))
-=======
 	if (getIntFromScilab(2,(int*)&nCons))	//typecast nCons from unsigned int* to int*
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	{
 		return 1;
 	}
 	
 	//Number of variables constrained to be integers
-<<<<<<< HEAD
-	if (getIntFromScilab(3,&intconSize))
-=======
 	if (getIntFromScilab(3,(int*)&intconSize))	//typecast intconSize from unsigned int* to int*
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	{
 	  return 1;
 	}
@@ -111,11 +95,7 @@ int cpp_intqpipopt(char *fname)
 	temp1 = 1;
 	temp2 = intconSize;
 	// Getting intcon
-<<<<<<< HEAD
-	if (getDoubleMatrixFromScilab(6,&temp1,&temp2,&intcon))
-=======
 	if (getDoubleMatrixFromScilab(6,(int*)&temp1,(int*)&temp2,&intcon))	//typecast temp1 and temp2 from unsigned int* to int*
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	{
 		return 1;
 	}
@@ -225,31 +205,19 @@ int cpp_intqpipopt(char *fname)
   catch(TNLPSolver::UnsolvedError *E) {
     //There has been a failure to solve a problem with Ipopt.
     std::cerr<<"Ipopt has failed to solve a problem!"<<std::endl;
-<<<<<<< HEAD
-    sciprint(999, "\nIpopt has failed to solve the problem!\n");
-=======
     Scierror(999, "\nIpopt has failed to solve the problem!\n");	//changed from sciprint to Scierror 
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
   }
   catch(OsiTMINLPInterface::SimpleError &E) {
     std::cerr<<E.className()<<"::"<<E.methodName()
 	     <<std::endl
 	     <<E.message()<<std::endl;
-<<<<<<< HEAD
-	  sciprint(999, "\nFailed to solve a problem!\n");
-=======
 	  Scierror(999, "\nFailed to solve a problem!\n");	//changed from sciprint to Scierror
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	}
   catch(CoinError &E) {
     std::cerr<<E.className()<<"::"<<E.methodName()
 	     <<std::endl
 	     <<E.message()<<std::endl;
-<<<<<<< HEAD
-	  sciprint(999, "\nFailed to solve a problem!\n");
-=======
 	  Scierror(999, "\nFailed to solve a problem!\n");	//changed from sciprint to Scierror
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	}
 	rstatus=tminlp->returnStatus();
 	if (rstatus >= 0 | rstatus <= 5){
@@ -288,11 +256,7 @@ int cpp_intqpipopt(char *fname)
 			return 1;
 		}
 		
-<<<<<<< HEAD
-		sciprint(999, "\nThe problem could not be solved!\n");
-=======
 		Scierror(999, "\nThe problem could not be solved!\n");	//changed call to Scierror instead of sciprint
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
   }
 
 	// As the SmartPtrs go out of scope, the reference count

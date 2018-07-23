@@ -67,11 +67,7 @@ int sci_rmps(char *fname)
     numCons_ = si->getNumRows();
    
     //Output the solution to Scilab
-<<<<<<< HEAD
-    //get solution for x
-=======
     //get solution for x	//const r
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
     const double* xValue = si->getColSolution();
    
     //get objective value
@@ -97,17 +93,10 @@ int sci_rmps(char *fname)
     //get number of iterations
     double iterations = si->getIterationCount();
 
-<<<<<<< HEAD
-    //get reduced cost 
-    const double* reducedCost = si->getReducedCost();
-   
-    //get dual vector
-=======
     //get reduced cost	//const r
     const double* reducedCost = si->getReducedCost();
    
     //get dual vector //const r	
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
     const double* dual = si->getRowPrice();
   
     returnDoubleMatrixToScilab(1 , 1 , numVars_ , xValue);

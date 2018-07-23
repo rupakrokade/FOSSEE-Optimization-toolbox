@@ -22,19 +22,11 @@ extern "C"{
 #include <BOOL.h>
 #include <localization.h>
 #include <sciprint.h>
-<<<<<<< HEAD
-#if defined(_MSC_VER)
-#include "config_ipopt.h"
-#else
-#include "IpoptConfig.h"
-#endif
-=======
 //#if defined(_MSC_VER)
 //#include "config_ipopt.h"
 //#else
 #include "IpoptConfig.h"
 //#endif
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
 using namespace Ipopt;
 
