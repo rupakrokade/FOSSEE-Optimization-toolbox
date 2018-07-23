@@ -54,20 +54,13 @@ int cpp_intfminunc(char *fname)
 	int intconSize;
 	
 	// Output arguments
-<<<<<<< HEAD
-	double *fX = NULL, ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;
-=======
 	double ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;	//double *fX = NULL, ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	double dual_inf, constr_viol, complementarity, kkt_error;
 	int rstatus = 0;
 	int int_fobj_eval, int_constr_eval, int_fobj_grad_eval, int_constr_jac_eval, int_hess_eval;
 
-<<<<<<< HEAD
-=======
 	const double *fX = NULL;	//changed fX from double* to const double*
 
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	//x0(starting point) matrix from scilab
 	if(getDoubleMatrixFromScilab(4, &x0_rows, &x0_cols, &x0ptr))
 	{
@@ -77,11 +70,7 @@ int cpp_intfminunc(char *fname)
 	nVars=x0_rows;
 		
 	// Getting intcon
-<<<<<<< HEAD
-	if (getDoubleMatrixFromScilab(5,&intconSize,&temp2,&intcon))
-=======
 	if (getDoubleMatrixFromScilab(5,&intconSize,(int*)&temp2,&intcon))	//typecast temp2 from unsigned int* to int* 
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	{
 		return 1;
 	}

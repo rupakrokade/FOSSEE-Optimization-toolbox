@@ -51,14 +51,11 @@ typedef unsigned int size_t;
 #endif
 
 #ifndef NO_STDIO1
-<<<<<<< HEAD
-=======
 #ifdef _WIN32
 /* Avoid Microsoft bug that perrror may appear in stdlib.h. */
 /* It should only be declared in stdio.h. */
 #include <stdlib.h>
 #endif
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
 #ifdef __cplusplus
 extern "C" {

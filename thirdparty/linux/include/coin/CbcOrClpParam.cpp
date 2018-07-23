@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* $Id: CbcOrClpParam.cpp 2175 2015-10-06 08:56:43Z forrest $ */
-=======
 /* $Id: CbcOrClpParam.cpp 2237 2017-01-03 15:53:33Z forrest $ */
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 // Copyright (C) 2002, International Business Machines
 // Corporation and others.  All Rights Reserved.
 // This code is licensed under the terms of the Eclipse Public License (EPL).

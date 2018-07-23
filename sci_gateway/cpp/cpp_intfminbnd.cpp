@@ -44,17 +44,6 @@ int cpp_intfminbnd(char *fname)
 	// Input arguments
 	Number *integertolerance=NULL, *maxnodes=NULL, *allowablegap=NULL, *cputime=NULL,*max_iter=NULL, *lb = NULL, *ub = NULL;
 	static unsigned int nVars = 0;
-<<<<<<< HEAD
-	unsigned int temp1 = 0,temp2 = 0, iret = 0;
-	int x0_rows, x0_cols,intconSize;
-	Number *intcon = NULL,*options=NULL, *ifval=NULL;
-	
-	// Output arguments
-	Number *fX = NULL, ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;
-	Number dual_inf, constr_viol, complementarity, kkt_error;
-	int rstatus = 0;
-	
-=======
 	unsigned int temp1 = 0, iret = 0;
 	int x0_rows, x0_cols,intconSize,temp2=0; //changed temp2 from unsigned int to int
 	Number *intcon = NULL,*options=NULL, *ifval=NULL;
@@ -66,7 +55,6 @@ int cpp_intfminbnd(char *fname)
 	
 	const double *fX = NULL;	//changed fX from Ipopt::Number* to const double* 
 
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	if(getDoubleMatrixFromScilab(4, &x0_rows, &x0_cols, &lb))
 	{
 		return 1;

@@ -2,11 +2,7 @@
 // All Rights Reserved.
 // This code is published under the Eclipse Public License.
 //
-<<<<<<< HEAD
-// $Id: IpIpoptApplication.hpp 2617 2015-11-26 16:00:20Z stefan $
-=======
 // $Id: IpIpoptApplication.hpp 2690 2017-06-12 10:28:36Z stefan $
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 //
 // Authors:  Carl Laird, Andreas Waechter     IBM    2004-08-13
 

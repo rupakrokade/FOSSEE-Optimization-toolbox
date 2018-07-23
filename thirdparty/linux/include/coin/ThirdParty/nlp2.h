@@ -1,28 +1,3 @@
-<<<<<<< HEAD
-/****************************************************************
-Copyright (C) 1997-1998, 2000-2001 Lucent Technologies
-All Rights Reserved
-
-Permission to use, copy, modify, and distribute this software and
-its documentation for any purpose and without fee is hereby
-granted, provided that the above copyright notice appear in all
-copies and that both that the copyright notice and this
-permission notice and warranty disclaimer appear in supporting
-documentation, and that the name of Lucent or any of its entities
-not be used in advertising or publicity pertaining to
-distribution of the software without specific, written prior
-permission.
-
-LUCENT DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
-INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS.
-IN NO EVENT SHALL LUCENT OR ANY OF ITS ENTITIES BE LIABLE FOR ANY
-SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
-IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
-ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
-THIS SOFTWARE.
-****************************************************************/
-=======
 /*******************************************************************
 Copyright (C) 2017 AMPL Optimization, Inc.; written by David M. Gay.
 
@@ -40,7 +15,6 @@ whatsoever resulting from loss of use, data or profits, whether in an
 action of contract, negligence or other tortious action, arising out
 of or in connection with the use or performance of this software.
 *******************************************************************/
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
 /* Variant of nlp.h for Hessian times vector computations. */
 
@@ -183,18 +157,11 @@ cexp2 {
 	expr2	*e, *ee, *ef;
 	linpart	*L;
 	int	nlin;
-<<<<<<< HEAD
-	funnel2	*funneled;
-	list2	*cref;
-	ei2	z;
-	int	zlen;
-=======
 	int	zlen;
 	struct linarg2 *la;	/* corresponding to L */
 	funnel2	*funneled;
 	list2	*cref;
 	ei2	z;
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 	derp	*d;
 	int	*vref;
 	hes_fun	*hfun;
@@ -343,25 +310,6 @@ extern efunc2 f2_OPVARVAL_ASL;
 
 /* operation classes (for H*v computation) */
 
-<<<<<<< HEAD
-#define Hv_binaryR	0
-#define Hv_binaryLR	1
-#define Hv_unary	2
-#define Hv_vararg	3
-#define Hv_if		4
-#define Hv_plterm	5
-#define Hv_sumlist	6
-#define Hv_func		7
-#define Hv_negate	8
-#define Hv_plusR	9
-#define Hv_plusL	10
-#define Hv_plusLR	11
-#define Hv_minusR	12
-#define Hv_minusLR	13
-#define Hv_timesR	14
-#define Hv_timesL	15
-#define Hv_timesLR	16
-=======
 enum { /* operation classes (for H*v computation) */
 	Hv_binaryR	= 0,
 	Hv_binaryLR	= 1,
@@ -382,7 +330,6 @@ enum { /* operation classes (for H*v computation) */
 	Hv_timesLR	= 16,
 	Hv_divLR	= 17
 	};
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
 /* treat if as vararg, minusL as plusL, binaryL as unary */
 

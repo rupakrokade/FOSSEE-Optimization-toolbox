@@ -17,11 +17,7 @@
 
   <refnamediv>
     <refname>intfminunc</refname>
-<<<<<<< HEAD
-    <refpurpose>Solves an unconstrainted multi-variable mixed integer non linear programming optimization problem</refpurpose>
-=======
     <refpurpose>Solves an unconstrained multivariable mixed integer nonlinear programming optimization problem</refpurpose>
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
   </refnamediv>
 
 
@@ -70,11 +66,7 @@
 <refsection>
    <title>Description</title>
    <para>
-<<<<<<< HEAD
-Search the minimum of a multi-variable mixed integer non linear programming unconstrained optimization problem specified by :
-=======
 Search the minimum of a multivariable mixed integer nonlinear programming unconstrained optimization problem specified by :
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 Find the minimum of f(x) such that
    </para>
    <para>
@@ -135,11 +127,7 @@ A few examples displaying the various functionalities of intfminunc have been pr
 <refsection>
    <title>Example</title>
 <para>
-<<<<<<< HEAD
-We begin with the minimization of a simple non-linear function.
-=======
 We begin with the minimization of a simple nonlinear function.
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 </para>
    <para>
 Find x in R^2 such that it minimizes:

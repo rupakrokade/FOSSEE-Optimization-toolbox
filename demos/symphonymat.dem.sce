@@ -100,7 +100,5 @@ xopt = [0 1 1 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 1 0 1 1 0 1 ..
 // Optimal value
 fopt = [ -24381 ]
 // Calling Symphony
-
 [x,f,status,output] = symphonymat(c,intcon,A,b,[],[],lb,ub,options)
-
 //========= E N D === O F === D E M O =========//

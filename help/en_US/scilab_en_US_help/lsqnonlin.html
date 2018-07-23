@@ -16,11 +16,7 @@
 
       </td>
       <td width="40%" class="center">
-<<<<<<< HEAD
-      	<span class="top"><a href="section_44e1f57c5225357b5fe53cb5fad967e9.html">FOSSEE Optimization Toolbox</a></span>
-=======
-      	<span class="top"><a href="section_0cbcd29fcf7a3b0fb510074d8833fcd8.html">FOSSEE Optimization Toolbox</a></span>
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
+      	<span class="top"><a href="section_44e4bbd4162cc6d0fa44bc8218a099f5.html">FOSSEE Optimization Toolbox</a></span>
 
       </td>
       <td width="30%" class="next">
@@ -33,15 +29,11 @@
 
 
 
-<<<<<<< HEAD
-    <span class="path"><a href="index.html">FOSSEE Optimization Toolbox</a> &gt;&gt; <a href="section_44e1f57c5225357b5fe53cb5fad967e9.html">FOSSEE Optimization Toolbox</a> &gt; lsqnonlin</span>
-=======
-    <span class="path"><a href="index.html">FOSSEE Optimization Toolbox</a> &gt;&gt; <a href="section_0cbcd29fcf7a3b0fb510074d8833fcd8.html">FOSSEE Optimization Toolbox</a> &gt; lsqnonlin</span>
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
+    <span class="path"><a href="index.html">FOSSEE Optimization Toolbox</a> &gt;&gt; <a href="section_44e4bbd4162cc6d0fa44bc8218a099f5.html">FOSSEE Optimization Toolbox</a> &gt; lsqnonlin</span>
 
     <br /><br />
     <div class="refnamediv"><h1 class="refname">lsqnonlin</h1>
-    <p class="refpurpose">Solves a non linear data fitting problems.</p></div>
+    <p class="refpurpose">Solves a nonlinear data fitting problems.</p></div>
 
 
 <div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
@@ -81,9 +73,9 @@
       <dd><p class="para">A vector of doubles, containing the objective&#0039;s gradient of the solution.</p></dd></dt></dl></div>
 
 <div class="refsection"><h3 class="title">Description</h3>
-   <p class="para">Search the minimum of a constrained non-linear least square problem specified by :</p>
+   <p class="para">Search the minimum of a constrained nonlinear least square problem specified by :</p>
    <p class="para"><span><img src='./_LaTeX_lsqnonlin.xml_1.png' style='position:relative;top:20px;width:264px;height:48px'/></span></p>
-   <p class="para">lsqnonlin calls fmincon, which calls Ipopt, an optimization library written in C++ to solve the non-linear least squares problem.</p>
+   <p class="para">lsqnonlin calls fmincon, which calls Ipopt, an optimization library written in C++ to solve the nonlinear least squares problem.</p>
    
    <p class="para">The options should be defined as type &#0034;list&#0034; and consist of the following fields:</p>
   <p class="para">options= list(&#0034;MaxIter&#0034;, [---], &#0034;CpuTime&#0034;, [---], &#0034;GradObj&#0034;, ---);</p>
@@ -111,7 +103,7 @@ It has type &#0034;struct&#0034; and contains the following fields.
    <p class="para"></p></div>
 <p class="para">A few examples displaying the various functionalities of lsqnonlin have been provided below. You will find a series of problems and the appropriate code snippets to solve them.</p>
 <div class="refsection"><h3 class="title">Example</h3>
-     <p class="para">Here we solve a simple non-linear least square example taken from leastsq default present in scilab.</p>
+     <p class="para">Here we solve a simple nonlinear least square example taken from leastsq default present in scilab.</p>
    <p class="para">Find x in R^2 such that it minimizes:</p>
    <p class="para"><span><img src='./_LaTeX_lsqnonlin.xml_2.png' style='position:relative;top:9px;width:408px;height:74px'/></span></p>
    <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabcomment">// we have the m measures (ti, yi):</span>
@@ -139,7 +131,7 @@ It has type &#0034;struct&#0034; and contains the following fields.
 We add the following bounds to the problem specified above:</p>
   <p class="para"><span><img src='./_LaTeX_lsqnonlin.xml_3.png' style='position:relative;top:17px;width:137px;height:42px'/></span></p>
     <p class="para"></p>
-   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabcomment">//A simple non-linear least square example taken from leastsq default present in scilab</span>
+   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabcomment">//A simple nonlinear least square example taken from leastsq default present in scilab</span>
 <span class="scilabfkeyword">function</span> <span class="scilabinputoutputargs">y</span><span class="scilaboperator">=</span><span class="scilabfunctionid">yth</span><span class="scilabopenclose">(</span><span class="scilabinputoutputargs">t</span><span class="scilabdefault">, </span><span class="scilabinputoutputargs">x</span><span class="scilabopenclose">)</span>
 <span class="scilabinputoutputargs">y</span>  <span class="scilaboperator">=</span> <span class="scilabinputoutputargs">x</span><span class="scilabopenclose">(</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilaboperator">*</span><a class="scilabcommand" href="scilab://exp">exp</a><span class="scilabopenclose">(</span><span class="scilaboperator">-</span><span class="scilabinputoutputargs">x</span><span class="scilabopenclose">(</span><span class="scilabnumber">2</span><span class="scilabopenclose">)</span><span class="scilaboperator">*</span><span class="scilabinputoutputargs">t</span><span class="scilabopenclose">)</span>
 <span class="scilabfkeyword">endfunction</span>
@@ -210,11 +202,7 @@ We add the following bounds to the problem specified above:</p>
 
       </td>
       <td width="40%" class="center">
-<<<<<<< HEAD
-      	<span class="top"><a href="section_44e1f57c5225357b5fe53cb5fad967e9.html">FOSSEE Optimization Toolbox</a></span>
-=======
-      	<span class="top"><a href="section_0cbcd29fcf7a3b0fb510074d8833fcd8.html">FOSSEE Optimization Toolbox</a></span>
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
+      	<span class="top"><a href="section_44e4bbd4162cc6d0fa44bc8218a099f5.html">FOSSEE Optimization Toolbox</a></span>
 
       </td>
       <td width="30%" class="next">

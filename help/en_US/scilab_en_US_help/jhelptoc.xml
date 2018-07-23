@@ -2,36 +2,30 @@
 <!DOCTYPE toc PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 1.0//EN" "http://java.sun.com/products/javahelp/toc_1_0.dtd">
 <toc version="1.0">
 <tocitem target="index" text="FOSSEE Optimization Toolbox">
-<<<<<<< HEAD
-<tocitem target="section_44e1f57c5225357b5fe53cb5fad967e9" text="FOSSEE Optimization Toolbox">
-=======
-<tocitem target="section_0cbcd29fcf7a3b0fb510074d8833fcd8" text="FOSSEE Optimization Toolbox">
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
-<tocitem target="cbcintlinprog" text="cbcintlinprog"/>
+<tocitem target="section_44e4bbd4162cc6d0fa44bc8218a099f5" text="FOSSEE Optimization Toolbox">
 <tocitem target="fgoalattain" text="fgoalattain"/>
 <tocitem target="fminbnd" text="fminbnd"/>
 <tocitem target="fmincon" text="fmincon"/>
 <tocitem target="fminimax" text="fminimax"/>
 <tocitem target="fminunc" text="fminunc"/>
-<<<<<<< HEAD
-=======
 <tocitem target="fot_version" text="fot_version"/>
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 <tocitem target="intfminbnd" text="intfminbnd"/>
 <tocitem target="intfmincon" text="intfmincon"/>
 <tocitem target="intfminimax" text="intfminimax"/>
 <tocitem target="intfminunc" text="intfminunc"/>
-<tocitem target="intqpipopt" text="intqpipopt"/>
+<tocitem target="intlinprog" text="intlinprog"/>
+<tocitem target="intquadprog" text="intquadprog"/>
 <tocitem target="linprog" text="linprog"/>
 <tocitem target="lsqlin" text="lsqlin"/>
 <tocitem target="lsqnonlin" text="lsqnonlin"/>
 <tocitem target="lsqnonneg" text="lsqnonneg"/>
 <tocitem target="qpipopt" text="qpipopt"/>
 <tocitem target="qpipoptmat" text="qpipoptmat"/>
+<tocitem target="quadprog" text="quadprog"/>
+<tocitem target="quadprogmat" text="quadprogmat"/>
 <tocitem target="symphony" text="symphony"/>
 <tocitem target="symphonymat" text="symphonymat"/>
-<<<<<<< HEAD
-<tocitem target="section_5fc7ef02a133896efbd190355314d3fc" text="Symphony Native Functions">
+<tocitem target="section_ac7c5492c693139601f834db60ac6ce8" text="Symphony Native Functions">
 <tocitem target="sym_addConstr" text="sym_addConstr"/>
 <tocitem target="sym_addVar" text="sym_addVar"/>
 <tocitem target="sym_close" text="sym_close"/>
@@ -91,8 +85,6 @@
 <tocitem target="sym_setVarUpper" text="sym_setVarUpper"/>
 <tocitem target="sym_solve" text="sym_solve"/>
 </tocitem>
-=======
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 </tocitem>
 </tocitem>
 </toc>

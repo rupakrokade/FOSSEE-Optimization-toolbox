@@ -2,11 +2,7 @@
 /* src/config_cbc.h.in. */
 
 /* Version number of project */
-<<<<<<< HEAD
-#define CBC_VERSION "2.9.6"
-=======
 #define CBC_VERSION "2.9.9"
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
 
 /* Major Version number of project */
 #define CBC_VERSION_MAJOR 2
@@ -15,11 +11,7 @@
 #define CBC_VERSION_MINOR 9
 
 /* Release Version number of project */
-<<<<<<< HEAD
-#define CBC_VERSION_RELEASE 6
-=======
 #define CBC_VERSION_RELEASE 9
 
 
 #define CBC_THREAD 1
->>>>>>> 611a2eae153e83b49d73e0277def7c3f865b4eb3
