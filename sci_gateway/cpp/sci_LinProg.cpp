@@ -22,7 +22,9 @@ extern "C"{
 #include <sciprint.h>
 
 //Solver function
-int sci_linearprog(char *fname) 
+static const char fname[] = "linearprog";
+/* ==================================================================== */
+int sci_linearprog(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt* opt, int nout, scilabVar* out) 
 {
 	//Objective function
 	double* obj;  
@@ -40,14 +42,23 @@ int sci_linearprog(char *fname)
 	double* options;
 	//Flag for Mps
 	double flagMps;
-	//Error structure in Scilab  
-	SciErr sciErr;
 	//Number of rows and columns in objective function
 	int nVars=0, nCons=0,temp1=0,temp2=0;
 	
-	CheckInputArgument(pvApiCtx , 9 , 9);             //Checking the input arguments
-	CheckOutputArgument(pvApiCtx , 6, 6);               //Checking the output arguments
 
+	if (nin != 9) //Checking the input arguments
+
+	{
+		Scierror(77, "%s: Wrong number of input argument(s): %d expected.\n", fname, 9);
+		return 1;
+	}
+
+	if (nout !=6) //Checking the output arguments
+
+	{
+		Scierror(77, "%s: Wrong number of output argument(s): %d expected.\n", fname, 6);
+		return 1;
+	}
 	////////// Manage the input argument //////////
 	
 	//Number of Variables

@@ -19,22 +19,32 @@ extern "C"{
 #include <sciprint.h>
 #include <iostream>
 
+
+static const char fname[] = "rmps";
 //Solver function
-int sci_rmps(char *fname) 
+int sci_rmps(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt* opt, int nout, scilabVar* out) 
 {
     //creating a problem pointer using base class of OsiSolverInterface and
     //instantiate the object using derived class of ClpSolverInterface
     OsiSolverInterface* si = new OsiClpSolverInterface();
 
-    // Error management variable
-	SciErr sciErr;
+	//data declaration
+	char* ptr;                             	     //pointer to point to address of the filename
+    	double* options_;                            //options to set maximum iterations 
+	
+    	if (nin != 2);          //Check we have exactly two arguments as input or not
+	{
+		Scierror(77, "%s: Wrong number of input argument(s): %d expected.\n", fname, 2);
+        	return 1;
 
-	//data declarations
-	int *piAddressVarOne = NULL;                 //pointer used to access argument of the function
-	char* ptr;                              	 //pointer to point to address of file name
-    double* options_;                            //options to set maximum iterations 
-	CheckInputArgument(pvApiCtx, 2,2 );          //Check we have exactly two arguments as input or not
-	CheckOutputArgument(pvApiCtx, 6, 6);         //Check we have exactly six arguments on output side or not
+	} 
+	if (nout != 6);          //Check we have exactly sxi parameters as output or not
+        {
+		Scierror(77, "%s: Wrong number of output argument(s): %d expected.\n", fname, 6);
+                return 1;
+ 
+        }
+         
     //Getting the input arguments from Scilab
     //Getting the MPS file path
 	//Reading mps file
@@ -47,6 +57,7 @@ int sci_rmps(char *fname)
 	{
 		return 1;
 	}
+    printf("%f",options_);
 
     //Read the MPS file
     si->readMps(ptr);
