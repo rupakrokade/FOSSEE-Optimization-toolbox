@@ -14,8 +14,16 @@ if fileinfo('libFOSSEE_Optimization_Toolbox.so') <> [] then
   mdelete('libFOSSEE_Optimization_Toolbox.so');
 end
 // ------------------------------------------------------
-if fileinfo('libFOSSEE_Optimization_Toolbox.c') <> [] then
-  mdelete('libFOSSEE_Optimization_Toolbox.c');
+if fileinfo('libFOSSEE_Optimization_Toolbox.cpp') <> [] then
+  mdelete('libFOSSEE_Optimization_Toolbox.cpp');
+end
+// ------------------------------------------------------
+if fileinfo('libFOSSEE_Optimization_Toolbox.hxx') <> [] then
+  mdelete('libFOSSEE_Optimization_Toolbox.hxx');
+end
+// ------------------------------------------------------
+if fileinfo('libFOSSEE_Optimization_Toolbox.h') <> [] then
+  mdelete('libFOSSEE_Optimization_Toolbox.h');
 end
 // ------------------------------------------------------
 chdir(curdir);
