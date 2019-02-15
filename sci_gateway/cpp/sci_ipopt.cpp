@@ -9,7 +9,7 @@
 // Organization: FOSSEE, IIT Bombay
 // Email: toolbox@scilab.in
 
-#include "sci_iofunc.hpp"
+
 #include "IpIpoptApplication.hpp"
 #include "IpSolveStatistics.hpp"
 #include "QuadNLP.hpp"
@@ -21,21 +21,36 @@ extern "C"{
 #include <localization.h>
 #include <sciprint.h>
 
-int sci_solveqp(char *fname)
+const char fname[] = "solveqp";
+/* ==================================================================== */
+int sci_solveqp(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt opt, int nout, scilabVar* out) 
 {
 	using namespace Ipopt;
 
-	CheckInputArgument(pvApiCtx, 11, 11); // We need total 11 input arguments.
-	CheckOutputArgument(pvApiCtx, 7, 7);
+	if (nin !=11) 
+	{
+        	Scierror(999, "%s: Wrong number of input arguments: %d expected.\n", fname, 11);
+        	return STATUS_ERROR; 
+	}
+	
+	if (nout !=7) //Checking the output arguments
+
+	{
+		Scierror(999, "%s: Wrong number of output argument(s): %d expected.\n", fname, 7);
+		return 1;
+	}
 	
 	// Error management variable
-	SciErr sciErr;
 
 	// Input arguments
-	double *QItems=NULL,*PItems=NULL,*ConItems=NULL,*conUB=NULL,*conLB=NULL;
-	double *cpu_time=NULL,*max_iter=NULL,*varUB=NULL,*varLB=NULL,*init_guess=NULL;
+	double *QItems=NULL,*PItems=NULL,*conMatrix=NULL,*conUB=NULL,*conLB=NULL;
+	double *varUB=NULL,*varLB=NULL,*init_guess=NULL;
 	static int nVars = 0,nCons = 0;
-	unsigned int temp1 = 0,temp2 = 0, iret = 0;
+	unsigned int iret = 0;
+
+	scilabVar temp1 = NULL;
+	scilabVar temp2 = NULL;
+
 
 	// Output arguments
 	const double *fX = NULL, *Zl=NULL, *Zu=NULL, *Lambda=NULL;
@@ -45,109 +60,140 @@ int sci_solveqp(char *fname)
 	////////// Manage the input argument //////////
 	
 	//Number of Variables
-	if(getIntFromScilab(1,&nVars))
+	if (scilab_isInt32(env, in[0]) == 0 || scilab_isScalar(env, in[0]) == 0)
 	{
-		return 1;
+    	Scierror(999, "%s: Wrong type for input argument #%d: An int expected.\n", fname, 1);
+    	return 1;
 	}
+
+	
+
+	scilab_getInteger32(env, in[0], &nVars);
 
 	//Number of Constraints
-	if (getIntFromScilab(2,&nCons))
+	if (scilab_isInt32(env, in[1]) == 0 || scilab_isScalar(env, in[1]) == 0)
 	{
-		return 1;
+    	Scierror(999, "%s: Wrong type for input argument #%d: An int expected.\n", fname, 2);
+    	return 1;
 	}
 
+	scilab_getInteger32(env, in[1], &nCons);
+
 	//Q matrix from scilab
-	temp1 = nVars;
-	temp2 = nCons;
-	if (getFixedSizeDoubleMatrixFromScilab(3,temp1,temp1,&QItems))
+	if (scilab_isDouble(env, in[2]) == 0 || scilab_isMatrix2d(env, in[2]) == 0)
 	{
-		return 1;
-	}
+    	Scierror(999, "%s: Wrong type for input argument #%d: A double matrix expected.\n", fname, 3);
+   		return 1;
+	}	
+	
+
+	scilab_getDoubleArray(env, in[2], &QItems);
 	
 	//P matrix from scilab
-	temp1 = 1;
-	temp2 = nVars; 
-	if (getFixedSizeDoubleMatrixFromScilab(4,temp1,temp2,&PItems))
+	if (scilab_isDouble(env, in[3]) == 0 || scilab_isMatrix2d(env, in[3]) == 0)
 	{
-		return 1;
-	}
+    	Scierror(999, "%s: Wrong type for input argument #%d: A double matrix expected.\n", fname, 4);
+   		return 1;
+	}	
+	
+
+	scilab_getDoubleArray(env, in[3], &PItems);
 
 	if (nCons!=0)
 	{
 		//conMatrix matrix from scilab
-		temp1 = nCons;
-		temp2 = nVars;
-
-		if (getFixedSizeDoubleMatrixFromScilab(5,temp1,temp2,&ConItems))
+		if (scilab_isDouble(env, in[4]) == 0 || scilab_isMatrix2d(env, in[4]) == 0)
 		{
-			return 1;
-		}
+    		Scierror(999, "%s: Wrong type for input argument #%d: A double matrix expected.\n", fname, 5);
+   			return 1;
+		}	
+		
+		scilab_getDoubleArray(env, in[4], &conMatrix);
 
 		//conLB matrix from scilab
-		temp1 = 1;
-		temp2 = nCons;
-		if (getFixedSizeDoubleMatrixFromScilab(6,temp1,temp2,&conLB))
+		if (scilab_isDouble(env, in[5]) == 0 || scilab_isMatrix2d(env, in[5]) == 0)
 		{
-			return 1;
-		}
+    		Scierror(999, "%s: Wrong type for input argument #%d: A double matrix expected.\n", fname, 6);
+   			return 1;
+		}	
+		
+
+		scilab_getDoubleArray(env, in[5], &conLB);
 
 		//conUB matrix from scilab
-		if (getFixedSizeDoubleMatrixFromScilab(7,temp1,temp2,&conUB))
+		if (scilab_isDouble(env, in[6]) == 0 || scilab_isMatrix2d(env, in[6]) == 0)
 		{
-			return 1;
-		}
+    		Scierror(999, "%s: Wrong type for input argument #%d: A double matrix expected.\n", fname, 7);
+   			return 1;
+		}	
+		
+		scilab_getDoubleArray(env, in[6], &conUB);
 	}
 
 	//varLB matrix from scilab
-	temp1 = 1;
-	temp2 = nVars;
-	if (getFixedSizeDoubleMatrixFromScilab(8,temp1,temp2,&varLB))
+	
+	if (scilab_isDouble(env, in[7]) == 0 || scilab_isMatrix2d(env, in[7]) == 0)
 	{
+		Scierror(999, "%s: Wrong type for input argument #%d: A double matrix expected.\n", fname, 8);
 		return 1;
-	}
+	}	
+	
+	scilab_getDoubleArray(env, in[7], &varLB);
 
 
 	//varUB matrix from scilab
-	if (getFixedSizeDoubleMatrixFromScilab(9,temp1,temp2,&varUB))
+	if (scilab_isDouble(env, in[8]) == 0 || scilab_isMatrix2d(env, in[8]) == 0)
 	{
+		Scierror(999, "%s: Wrong type for input argument #%d: A double matrix expected.\n", fname, 9);
 		return 1;
-	}
+	}	
+	
+	scilab_getDoubleArray(env, in[8], &varUB);
 
 	//Initial Value of variables from scilab
-	if (getFixedSizeDoubleMatrixFromScilab(10,temp1,temp2,&init_guess))
-	{
-		return 1;
-	}
 	
+	if (scilab_isDouble(env, in[9]) == 0 || scilab_isMatrix2d(env, in[9]) == 0)
+	{
+		Scierror(999, "%s: Wrong type for input argument #%d: A double matrix expected.\n", fname, 10);
+		return 1;
+	}	
+	
+	scilab_getDoubleArray(env, in[9], &init_guess);
+
 	//Getting the parameters
 
-	temp1 = 1;
-	temp2 = 1;
 
-	//Getting maximum iteration
-	if (getFixedSizeDoubleMatrixInList(11,2,temp1,temp2,&max_iter))
-	{
-		return 1;
-	}
+	if (scilab_isList(env, in[10]) == 0)
+    {
+        Scierror(999, "%s: Wrong type for input argument #%d: A list expected.\n", fname, 11);
+        return 1;
+    }
+	temp1 = scilab_getListItem( env, in[10], 1);
+	temp2 = scilab_getListItem( env, in[10], 3);
+	
 
-	//Getting Cpu Time
-	if (getFixedSizeDoubleMatrixInList(11,4,temp1,temp2,&cpu_time))
-	{
-		return 1;
-	}
+	int nIters = 0,cpuTime = 0;
+
+	scilab_getInteger32(env, temp1, &nIters);
+	scilab_getInteger32(env, temp2, &cpuTime);
+
+	
+
+	sciprint("nIters: %d\n",nIters);
+	sciprint("CpuTime: %d\n", cpuTime);
 
 	// Starting Ipopt
 
 	SmartPtr<QuadNLP> Prob = 
-	new QuadNLP(nVars,nCons,QItems,PItems,ConItems,conUB,conLB,varUB,varLB,init_guess);
+	new QuadNLP(nVars,nCons,QItems,PItems,conMatrix,conUB,conLB,varUB,varLB,init_guess);
 
 	SmartPtr<IpoptApplication> app = IpoptApplicationFactory();
 
 	////////// Managing the parameters //////////
 
 	app->Options()->SetNumericValue("tol", 1e-7);
-	app->Options()->SetIntegerValue("max_iter", (int)*max_iter);
-	app->Options()->SetNumericValue("max_cpu_time", *cpu_time);
+	app->Options()->SetIntegerValue("max_iter", 300);
+	app->Options()->SetNumericValue("max_cpu_time", 100);
 	app->Options()->SetStringValue("mu_strategy", "adaptive");
 	// Indicates whether all equality constraints are linear 
 	app->Options()->SetStringValue("jac_c_constant", "yes");
@@ -171,53 +217,30 @@ int sci_solveqp(char *fname)
 
 	////////// Manage the output argument //////////
 
+	
+
 	if (rstatus >= 0 | rstatus <= 7){
 		fX = Prob->getX();
 		ObjVal = Prob->getObjVal();
 		iteration = (double)app->Statistics()->IterationCount();
 
-		if (returnDoubleMatrixToScilab(1, 1, nVars, fX))
-		{
-			return 1;
-		}
 
-		if (returnDoubleMatrixToScilab(2, 1, 1, &ObjVal))
-		{
-			return 1;
-		}
-
-		if (returnIntegerMatrixToScilab(3, 1, 1, &rstatus))
-		{
-			return 1;
-		}
-
-		if (returnDoubleMatrixToScilab(4, 1, 1, &iteration))
-		{
-			return 1;
-		}
+			
+		out[0] = scilab_createDoubleMatrix2d(env, 1, nVars, 0);
+		scilab_setDoubleArray(env, out[0], fX);
+		out[1] = scilab_createDouble(env, ObjVal);
+		out[2] = scilab_createDouble(env, rstatus);
+		out[3] = scilab_createDouble(env, iteration);
 	}
 
 	else
 	{
-		if (returnDoubleMatrixToScilab(1, 0, 0, fX))
-		{
-			return 1;
-		}
+		out[0] = scilab_createDoubleMatrix2d(env, 0, 0, 0);
+		scilab_setDoubleArray(env, out[0], fX);
 
-		if (returnDoubleMatrixToScilab(2, 1, 1, &ObjVal))
-		{
-			return 1;
-		}
-
-		if (returnIntegerMatrixToScilab(3, 1, 1, &rstatus))
-		{
-			return 1;
-		}
-
-		if (returnDoubleMatrixToScilab(4, 1, 1, &iteration))
-		{
-			return 1;
-		}
+		out[1] = scilab_createDouble(env, ObjVal);
+		out[2] = scilab_createDouble(env, rstatus);
+		out[3] = scilab_createDouble(env, iteration);
 	}
 
 
@@ -226,37 +249,28 @@ int sci_solveqp(char *fname)
 		Zl = Prob->getZl();
 		Zu = Prob->getZu();
 		Lambda = Prob->getLambda();
-		if (returnDoubleMatrixToScilab(5, 1, nVars, Zl))
-		{
-			return 1;
-		}
 
-		if (returnDoubleMatrixToScilab(6, 1, nVars, Zu))
-		{
-			return 1;
-		}
+		out[4] = scilab_createDoubleMatrix2d(env, 1, nVars, 0);
+		scilab_setDoubleArray(env, out[4], Zl);
+	
+		out[5] = scilab_createDoubleMatrix2d(env, 1, nVars, 0);
+		scilab_setDoubleArray(env, out[5], Zu);
 
-		if (returnDoubleMatrixToScilab(7, 1, nCons, Lambda))
-		{
-			return 1;
-		}
+		out[6] = scilab_createDoubleMatrix2d(env, 1, nCons, 0);
+		scilab_setDoubleArray(env, out[5], Lambda);
+
 	}
 
 	else{
-		if (returnDoubleMatrixToScilab(5, 0, 0, Zl))
-		{
-			return 1;
-		}
 
-		if (returnDoubleMatrixToScilab(6, 0, 0, Zu))
-		{
-			return 1;
-		}
+		out[4] = scilab_createDoubleMatrix2d(env, 0, 0, 0);
+		scilab_setDoubleArray(env, out[4], Zl);
+		
+		out[5] = scilab_createDoubleMatrix2d(env, 0, 0, 0);
+		scilab_setDoubleArray(env, out[5], Zu);
 
-		if (returnDoubleMatrixToScilab(7, 0, 0, Lambda))
-		{
-			return 1;
-		}
+		out[6] = scilab_createDoubleMatrix2d(env, 0, 0, 0);
+		scilab_setDoubleArray(env, out[6], Lambda);
 	}
 	// As the SmartPtrs go out of scope, the reference count
 	// will be decremented and the objects will automatically
