@@ -11,7 +11,6 @@
 
 
 
-#include "sci_iofunc.hpp"
 #include "IpIpoptApplication.hpp"
 #include "minuncNLP.hpp"
 #include <IpSolveStatistics.hpp>
@@ -27,28 +26,28 @@ extern "C"
 
 using namespace std;
 
-int sci_solveminuncp(char *fname)
+//Solver function
+ const char fname[] = "solveminuncp";
+/* ==================================================================== */
+int sci_solveminuncp(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt opt, int nout, scilabVar* out) 
 {
+
 	using namespace Ipopt;
 
-	CheckInputArgument(pvApiCtx, 8, 8);
-	CheckOutputArgument(pvApiCtx, 9, 9);
-	
-	// Error management variable
-	SciErr sciErr;
+
 
 	//Function pointers, input matrix(Starting point) pointer, flag variable 
-	int* funptr=NULL;
+	//int* funptr=NULL;
 	int* gradhesptr=NULL;
 	double* x0ptr=NULL;
-	double flag1,flag2;
+	int flag1,flag2;
         
 
-        // Input arguments
-	double *cpu_time=NULL,*max_iter=NULL;
+     // Input arguments
 	static unsigned int nVars = 0,nCons = 0;
-	unsigned int temp1 = 0,temp2 = 0, iret = 0;
 	int x0_rows, x0_cols;
+
+	int* funptr;
 	
 	// Output arguments
 	double ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;
@@ -58,49 +57,91 @@ int sci_solveminuncp(char *fname)
 	int rstatus = 0;
 	int int_fobj_eval, int_constr_eval, int_fobj_grad_eval, int_constr_jac_eval, int_hess_eval;
 
+
+	if (nin !=8)  //Checking the input arguments
+	{
+        	Scierror(999, "%s: Wrong number of input arguments: %d expected.\n", fname, 8);
+        	return STATUS_ERROR; 
+	}
+	
+	if (nout !=9) //Checking the output arguments
+
+	{
+		Scierror(999, "%s: Wrong number of output argument(s): %d expected.\n", fname, 9);
+		return 1;
+	}
+	
+
 	////////// Manage the input argument //////////
 	
 	//Objective Function
-	if(getFunctionFromScilab(1,&funptr))
+
+	if (scilab_getType(env, in[0]) != 13)
 	{
-		return 1;
-	}
+    	Scierror(999, "%s: Wrong type for input argument #%d: A function expected.\n", fname, 1);
+   		return 1;
+	}	
+
+	scilab_getPointer( env, in[0], &funptr);
+
+
 
  	//Function for gradient and hessian
-	if(getFunctionFromScilab(2,&gradhesptr))
+	if (scilab_getType(env, in[1]) != 13)
 	{
-		return 1;
-	}
+    	Scierror(999, "%s: Wrong type for input argument #%d: A function expected.\n", fname, 2);
+   		return 1;
+	}	
+
+	scilab_getPointer( env, in[1], &gradhesptr);
 	
 	//Flag for Gradient from Scilab
-	if(getDoubleFromScilab(3, &flag1))
+
+
+	if (scilab_isInt32(env, in[2]) == 0 || scilab_isScalar(env, in[2]) == 0)
 	{
+    	Scierror(999, "%s: Wrong type for input argument #%d: An int expected.\n", fname, 3);
+    	return 1;
+	}
+
+	scilab_getInteger32(env, in[1], &flag1);
+	
+	//Flag for Hessian from Scilab
+	if (scilab_isInt32(env, in[4]) == 0 || scilab_isScalar(env, in[4]) == 0)
+	{
+    	Scierror(999, "%s: Wrong type for input argument #%d: An int expected.\n", fname, 5);
+    	return 1;
+	}
+
+	scilab_getInteger32(env, in[4], &flag2);
+
+
+	//x0(starting point) matrix from scilab
+	if (scilab_isDouble(env, in[6]) == 0 || scilab_isMatrix2d(env, in[6]) == 0)
+	{
+		Scierror(999, "%s: Wrong type for input argument #%d: A double matrix expected.\n", fname, 7);
 		return 1;
 	}
 	
-	//Flag for Hessian from Scilab
-	if(getDoubleFromScilab(5, &flag2))
-	{
-		return 1;
-	}
+	scilab_getDoubleArray(env, in[6], &x0ptr);
 
-	//x0(starting point) matrix from scilab
-	if(getDoubleMatrixFromScilab(7, &x0_rows, &x0_cols, &x0ptr))
-	{
-		return 1;
-	}
+	//Getting number of iterations
+	if (scilab_isList(env, in[7]) == 0)
+    {
+        Scierror(999, "%s: Wrong type for input argument #%d: A list expected.\n", fname, 8);
+        return 1;
+    }
+	scilabVar temp1 = scilab_getListItem( env, in[7], 1);
+	scilabVar temp2 = scilab_getListItem( env, in[7], 3);
+	
 
-    	//Getting number of iterations
-    	if(getFixedSizeDoubleMatrixInList(8,2,temp1,temp2,&max_iter))
-	{
-		return 1;
-	}
+	double nIters = 0,cpu_Time = 0;
 
-	//Getting Cpu Time
-	if(getFixedSizeDoubleMatrixInList(8,4,temp1,temp2,&cpu_time))
-	{
-		return 1;
-	}	
+	scilab_getDouble(env, temp1, &nIters);
+	scilab_getDouble(env, temp2, &cpu_Time);
+
+	int maxIters = (int)nIters;
+	int cpu_time = (int)cpu_Time;
 	
 
     //Initialization of parameters
@@ -115,8 +156,8 @@ int sci_solveminuncp(char *fname)
 	////////// Managing the parameters //////////
 
 	app->Options()->SetNumericValue("tol", 1e-7);
-	app->Options()->SetIntegerValue("max_iter", (int)*max_iter);
-	app->Options()->SetNumericValue("max_cpu_time", *cpu_time);
+	app->Options()->SetIntegerValue("max_iter", nIters);
+	app->Options()->SetNumericValue("max_cpu_time", cpu_time);
 
 	///////// Initialize the IpoptApplication and process the options /////////
 	ApplicationReturnStatus status;
@@ -140,6 +181,8 @@ int sci_solveminuncp(char *fname)
 
 	////////// Manage the output argument //////////
 
+
+
 	fX = Prob->getX();
 	fGrad = Prob->getGrad();
 	fHess = Prob->getHess();
@@ -147,54 +190,29 @@ int sci_solveminuncp(char *fname)
 	iteration = (double)app->Statistics()->IterationCount();
 	fobj_eval  = (double)int_fobj_eval;
 	
-	if (returnDoubleMatrixToScilab(1, 1, nVars, fX))
-	{
-		return 1;
-	}
 
-	if (returnDoubleMatrixToScilab(2, 1, 1, &ObjVal))
-	{
-		return 1;
-	}
+	out[0] = scilab_createDoubleMatrix2d(env, 1, nVars, 0);
+	scilab_setDoubleArray(env, out[0], fX);
 
-	if (returnIntegerMatrixToScilab(3, 1, 1, &rstatus))
-	{
-		return 1;
-	}
+	out[1] = scilab_createDouble(env, ObjVal);
 
-	if (returnDoubleMatrixToScilab(4, 1, 1, &iteration))
-	{
-		return 1;
-	}
+	out[2] = scilab_createDouble(env, rstatus);
+	out[3] = scilab_createDouble(env, iteration);
+	out[4] = scilab_createDouble(env, cpuTime);
+
+	out[5] = scilab_createDouble(env, fobj_eval);
 	
-	if (returnDoubleMatrixToScilab(5, 1, 1, &cpuTime))
-	{
-		return 1;
-	}
-	
-	if (returnDoubleMatrixToScilab(6, 1, 1, &fobj_eval))
-	{
-		return 1;
-	}
-	
-	if (returnDoubleMatrixToScilab(7, 1, 1, &dual_inf))
-	{
-		return 1;
-	}
+	out[6] = scilab_createDouble(env, dual_inf);
 		
-	if (returnDoubleMatrixToScilab(8, 1, nVars, fGrad))
-	{
-		return 1;
-	}
+	out[7] = scilab_createDoubleMatrix2d(env, 1, nVars, 0);
+	scilab_setDoubleArray(env, out[7], fGrad);
 
-	if (returnDoubleMatrixToScilab(9, 1, nVars*nVars, fHess))
-	{
-		return 1;
-	}
+	out[8] = scilab_createDoubleMatrix2d(env, 1, nVars*nVars, 0);
+	scilab_setDoubleArray(env, out[8], fHess);
 	
 	// As the SmartPtrs go out of scope, the reference count
 	// will be decremented and the objects will automatically
-	// be deleted.*/
+	// be deleted.
 
 	return 0;
 }
