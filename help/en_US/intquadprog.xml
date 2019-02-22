@@ -165,7 +165,7 @@ f=[1; 2; 3; 4; 5; 6]; H=eye(6,6);
 //Integer Constraints
 intcon = [2 ,4];
 //Running intquadprog
-[xopt,fopt,exitflag,output,lambda]=qpipoptmat(H,f)
+[xopt,fopt,exitflag,output,lambda]=intquadprog(H,f,intcon)
    ]]></programlisting>
 </refsection>
 
@@ -194,7 +194,7 @@ b = [-1; 2.5];
 //Integer Constraints
 intcon = [2 ,4];
 //Running intquadprog
-[xopt,fopt,exitflag,output,lambda]=intquadprog(H,f,intcon,A,b)
+[xopt,fopt,exitflag,output]=intquadprog(H,f,intcon,A,b)
    ]]></programlisting>
 </refsection>
 
@@ -230,7 +230,7 @@ beq=[1; 2; 3];
 //Integer Constraints
 intcon = [2 ,4];
 //Running intquadprog
-[xopt,fopt,exitflag,output,lambda]=intquadprog(H,f,intcon,A,b,Aeq,beq)
+[xopt,fopt,exitflag,output]=intquadprog(H,f,intcon,A,b,Aeq,beq)
    ]]></programlisting>
 </refsection>
 
@@ -273,7 +273,7 @@ ub=[10000; 100; 1.5; 100; 100; 1000];
 //Integer Constraints
 intcon = [2 ,4];
 //Running intquadprog
-[xopt,fopt,exitflag,output,lambda]=intquadprog(H,f,intcon,A,b,Aeq,beq,lb,ub)
+[xopt,fopt,exitflag,output]=intquadprog(H,f,intcon,A,b,Aeq,beq,lb,ub)
    ]]></programlisting>
 </refsection>
 
@@ -304,7 +304,7 @@ options = list("MaxIter", 300, "CpuTime", 100);
 //Integer Constraints
 intcon = [2 ,4];
 //Running intquadprog
-[xopt,fopt,exitflag,output,lambda]=intquadprog(H,f,intcon,A,b,Aeq,beq,lb,ub,x0,options)
+[xopt,fopt,exitflag,output]=intquadprog(H,f,intcon,A,b,Aeq,beq,lb,ub,x0,options)
    ]]></programlisting>
 </refsection>
 
@@ -346,7 +346,7 @@ beq=[4; 2];
 //Integer Constraints
 intcon = [2 ,4];
 //Running intquadprog
-[xopt,fopt,exitflag,output,lambda]=intquadprog(H,f,intcon,A,b,Aeq,beq)
+[xopt,fopt,exitflag,output]=intquadprog(H,f,intcon,A,b,Aeq,beq)
 ]]></programlisting>
 </refsection>
 
@@ -390,7 +390,7 @@ Aeq= [1,-1,1,0,3,1;
 beq=[1; 2];
 intcon = [2 ,4];
 //Running intquadprog
-[xopt,fopt,exitflag,output,lambda]=intquadprog(H,f,intcon,A,b,Aeq,beq)
+[xopt,fopt,exitflag,output]=intquadprog(H,f,intcon,A,b,Aeq,beq)
 ]]></programlisting>
 </refsection>
 
