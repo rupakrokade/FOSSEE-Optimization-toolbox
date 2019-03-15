@@ -13,12 +13,14 @@
 #ifndef __minbndNLP_HPP__
 #define __minbndNLP_HPP__
 #include "IpTNLP.hpp"
+#include "api_scilab.h"
 
 using namespace Ipopt;
 
 class minbndNLP : public TNLP
 {
 	private:
+	scilabEnv env_;					//Scilab Environment Variable
 
   	Index numVars_;	                 //Number of input variables
 
@@ -50,7 +52,7 @@ class minbndNLP : public TNLP
 	public:
 
   	/** user defined constructor */
-  	minbndNLP(Index nV, Index nC,Number *LB,Number *UB):numVars_(nV),numConstr_(nC),finalX_(0),finalZl_(0), finalZu_(0),varLB_(LB),varUB_(UB),finalObjVal_(1e20){	}
+  	minbndNLP(scilabEnv env, Index nV, Index nC,Number *LB,Number *UB):env_(env),numVars_(nV),numConstr_(nC),finalX_(0),finalZl_(0), finalZu_(0),varLB_(LB),varUB_(UB),finalObjVal_(1e20){	}
 
   	/** default destructor */
   	virtual ~minbndNLP();
@@ -89,6 +91,10 @@ class minbndNLP : public TNLP
    	*   2) The values of the hessian of the lagrangian (if "values" is not NULL)
    	*/
   	virtual bool eval_h(Index n, const Number* x, bool new_x,Number obj_factor, Index m, const Number* lambda,bool new_lambda, Index nele_hess, Index* iRow,Index* jCol, Number* values);
+
+
+	//Function to call a scilab function to a C interface
+	virtual bool getScilabFunc(scilabVar* out, const Number* x, wchar_t* name, int nin, int nout);
 
   	/** This method is called when the algorithm is complete so the TNLP can store/write the solution */
   	virtual void finalize_solution(SolverReturn status,Index n, const Number* x, const Number* z_L, const Number* z_U,Index m, const Number* g, const Number* lambda,Number obj_value,const IpoptData* ip_data,IpoptCalculatedQuantities* ip_cq);

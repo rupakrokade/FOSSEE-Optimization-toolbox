@@ -19,9 +19,9 @@ using namespace Ipopt;
 class minuncNLP : public TNLP
 {
 	private:
-	scilabEnv env;					//Scilab Environment Variable
+	scilabEnv env_;					//Scilab Environment Variable
 
-	scilabVar* in;					//Scilab input variable pointer
+	scilabVar* in_;					//Scilab input variable pointer
 
   	Index numVars_;	                 //Number of input variables
 
@@ -50,7 +50,7 @@ class minuncNLP : public TNLP
 	public:
 
   	/** user defined constructor */
-  	minuncNLP(scilabEnv env, scilabVar* in, Index nV, Index nC,Number *x0,Number f1, Number f2):numVars_(nV), numConstr_(nC), varGuess_(x0), flag1_(f1),flag2_(f2),finalX_(0),finalGradient_(0),finalHessian_(0),finalObjVal_(1e20){	}
+  	minuncNLP(scilabEnv env, scilabVar* in, Index nV, Index nC,Number *x0,Number f1, Number f2):env_(env), in_(in), numVars_(nV), numConstr_(nC), varGuess_(x0), flag1_(f1),flag2_(f2),finalX_(0),finalGradient_(0),finalHessian_(0),finalObjVal_(1e20){	}
 
   	/** default destructor */
   	virtual ~minuncNLP();
@@ -86,7 +86,7 @@ class minuncNLP : public TNLP
 
 
 	/*Method to call the scialb function relevant to the issue*/
-	virtual scilabVar* getScilabFunc(const Number* x, double* out_val, wchar_t* name, int nin, int nout);	
+	virtual bool getScilabFunc(scilabVar* out, const Number* x, wchar_t* name, int nin, int nout);	
   	/** Method to return:
    	*   1) The structure of the hessian of the lagrangian (if "values" is NULL)
    	*   2) The values of the hessian of the lagrangian (if "values" is not NULL)

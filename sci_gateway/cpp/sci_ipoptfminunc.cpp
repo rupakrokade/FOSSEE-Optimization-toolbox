@@ -66,7 +66,7 @@ int sci_solveminuncp(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt 
         	return STATUS_ERROR; 
 	}
 	
-	if (nout !=1) //Checking the output arguments
+	if (nout !=9) //Checking the output arguments
 
 	{
 		Scierror(999, "%s: Wrong number of output argument(s): %d expected.\n", fname, 9);
@@ -156,7 +156,7 @@ int sci_solveminuncp(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt 
 
 	
 
-    out[0] = scilab_createDouble(env, 0);
+   
     //Starting Ipopt
 
 
@@ -195,7 +195,7 @@ int sci_solveminuncp(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt 
 
 
 
-/* 	fX = Prob->getX();
+	fX = Prob->getX();
 	fGrad = Prob->getGrad();
 	fHess = Prob->getHess();
 	ObjVal = Prob->getObjVal();
@@ -225,7 +225,7 @@ int sci_solveminuncp(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt 
 	// As the SmartPtrs go out of scope, the reference count
 	// will be decremented and the objects will automatically
 	// be deleted.
-*/
+
 	return 0;
 }
 }
