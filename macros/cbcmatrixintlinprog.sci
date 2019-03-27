@@ -215,7 +215,7 @@ function [xopt,fopt,status,output] = cbcmatrixintlinprog (varargin)
 
     //Changing the inputs in symphony's format 
     conMatrix = [A;Aeq]
-    nbCon = size(conMatrix,1);
+    nbCon = int32(size(conMatrix,1));
     conLB = [repmat(-%inf,size(A,1),1);beq];
     conUB = [b;beq] ;
     
@@ -257,7 +257,7 @@ function [xopt,fopt,status,output] = cbcmatrixintlinprog (varargin)
         end
     end
 	
-    [xopt,fopt,status,nodes,nfpoints,L,U,niter] = sci_matrix_intlinprog(nbVar,nbCon,c,intcon,conMatrix,conLB,conUB,lb,ub,objSense,optval);
+    [xopt,fopt,status,nodes,nfpoints,L,U,niter] = matintlinprog(int32(nbVar),nbCon,c,intcon,conMatrix,conLB,conUB,lb,ub,objSense,optval);
 
     //Debugging Prints
     //disp(c);disp(intcon);disp(conMatrix);disp(conLB);disp(conUB);disp(lb);disp(ub);disp(Aeq);disp(beq);disp(xopt);

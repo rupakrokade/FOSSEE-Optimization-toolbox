@@ -381,13 +381,16 @@ function [xopt,fopt,exitflag,output,gradient,hessian] = fminunc (varargin)
    	end
 
         //Calling the Ipopt function for solving the above problem
-	[xopt,fopt,status,iter,cpu,obj_eval,dual,gradient, hessian1] = solveminuncp(f,gradhess,flag1,fGrad1,flag2,fHess1,x0,options);
+
+	//xopt = solveminuncp("f", "gradhess", int32(flag1), "fGrad1", int32(flag2), "fHess1", x0, options);
+
+	[xopt,fopt,status,iter,cpu,obj_eval,dual,gradient, hessian1] = solveminuncp("f", "gradhess", int32(flag1), "fGrad1", int32(flag2), "fHess1", x0, options);
    
 	//Calculating the values for output
-   	xopt = xopt';
-   	exitflag = status;
-   	output = struct("Iterations", [],"Cpu_Time",[],"Objective_Evaluation",[],"Dual_Infeasibility",[],"Message","");
-   	output.Iterations = iter;
+   		xopt = xopt';
+   		exitflag = status;
+   		output = struct("Iterations", [],"Cpu_Time",[],"Objective_Evaluation",[],"Dual_Infeasibility",[],"Message","");
+   		output.Iterations = iter;
     	output.Cpu_Time = cpu;
     	output.Objective_Evaluation = obj_eval;
     	output.Dual_Infeasibility = dual;

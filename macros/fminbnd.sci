@@ -327,7 +327,7 @@ function [xopt,fopt,exitflag,output,lambda] = fminbnd (varargin)
    	endfunction
    
    	//Calling the Ipopt function for solving the above problem 
-	[xopt,fopt,status,iter,cpu,obj_eval,dual,zl,zu] = solveminbndp(f,gradhess,x1,x2,options);
+	[xopt,fopt,status,iter,cpu,obj_eval,dual,zl,zu] = solveminbndp("f","gradhess",x1,x2,options);
    
    	//Calculating the values for the output
    	xopt = xopt';

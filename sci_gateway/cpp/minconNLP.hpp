@@ -12,12 +12,17 @@
 #ifndef __minconNLP_HPP__
 #define __minconNLP_HPP__
 #include "IpTNLP.hpp"
+#include "api_scilab.h"
 
 using namespace Ipopt;
 
 class minconNLP : public TNLP
 {
 	private:
+
+	scilabEnv env_;					//Scilab Environment Variable
+
+	scilabEnv in_;					//Scilab input pointer Variable
 
   	Index numVars_;	                 //Number of input variables
 
@@ -90,7 +95,7 @@ class minconNLP : public TNLP
   	minconNLP& operator=(const minconNLP&);
 
   	/** user defined constructor */
-  	minconNLP(Index nV, Index nC, Number *x0 ,Number *A, Number *b, Number* Aeq, Number *beq, Index Arows, Index Acols, Index brows, Index bcols, Index Aeqrows, Index Aeqcols, Index beqrows, Index beqcols, Number* LB, Number* UB, Number nlC, Number nlIC) : numVars_(nV), numConstr_(nC), varGuess_(x0), A_(A), b_(b), Aeq_(Aeq), beq_(beq), Arows_(Arows), Acols_(Acols), brows_(brows), bcols_(bcols), Aeqrows_(Aeqrows), Aeqcols_(Aeqcols), beqrows_(beqrows), beqcols_(beqcols), varLB_(LB), varUB_(UB), nonlinCon_(nlC), nonlinIneqCon_(nlIC), finalX_(0), finalZl_(0), finalZu_(0), finalGradient_(0), finalHessian_(0), finalObjVal_(1e20){	}
+  	minconNLP(scilabEnv env, scilabVar* in, Index nV, Index nC, Number *x0 ,Number *A, Number *b, Number* Aeq, Number *beq, Index Arows, Index Acols, Index brows, Index bcols, Index Aeqrows, Index Aeqcols, Index beqrows, Index beqcols, Number* LB, Number* UB, Number nlC, Number nlIC) : env_(env), in_(in), numVars_(nV), numConstr_(nC), varGuess_(x0), A_(A), b_(b), Aeq_(Aeq), beq_(beq), Arows_(Arows), Acols_(Acols), brows_(brows), bcols_(bcols), Aeqrows_(Aeqrows), Aeqcols_(Aeqcols), beqrows_(beqrows), beqcols_(beqcols), varLB_(LB), varUB_(UB), nonlinCon_(nlC), nonlinIneqCon_(nlIC), finalX_(0), finalZl_(0), finalZu_(0), finalGradient_(0), finalHessian_(0), finalObjVal_(1e20){	}
 
   	virtual ~minconNLP();
   	

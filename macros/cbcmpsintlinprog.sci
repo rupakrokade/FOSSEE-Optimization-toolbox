@@ -45,7 +45,7 @@ function [xopt,fopt,status,output] = cbcmpsintlinprog(varargin)
         end
     end
 
-    [xopt,fopt,status,nodes,nfpoints,L,U,niter] = sci_mps_intlinprog(mpsFile, optval)
+    [xopt,fopt,status,nodes,nfpoints,L,U,niter] = mpsintlinprog(mpsFile, optval)
 
     output = struct("relativegap"       , [],..
                     "absolutegap"       , [],..

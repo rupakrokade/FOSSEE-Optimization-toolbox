@@ -21,223 +21,131 @@ path_builder = get_absolute_file_path('builder_gateway_cpp.sce');
 if getos()=="Windows" then
 //Name of All the Functions
 Function_Names = [
-		//for opening-closing environment and checking if it is open-close
-		"sym_open","sci_sym_open";
-		"sym_close","sci_sym_close";
-		
-		//run time parameters
-		"sym_resetParams","sci_sym_set_defaults";
-		"sym_setIntParam","sci_sym_set_int_param";
-		"sym_getIntParam","sci_sym_get_int_param";
-		"sym_setDblParam","sci_sym_set_dbl_param";
-		"sym_getDblParam","sci_sym_get_dbl_param";
-		"sym_setStrParam","sci_sym_set_str_param";
-		"sym_getStrParam","sci_sym_get_str_param";
-
-		//problem loaders
-		"sym_loadProblemBasic","sci_sym_loadProblemBasic";
-		"sym_loadProblem","sci_sym_loadProblem";
-		
-		//solve
-		"sym_solve","sci_sym_solve";
-		
-		//post solve functions
-		"sym_getStatus","sci_sym_get_status";
-		"sym_isOptimal","sci_sym_get_solver_status";
-		"sym_isInfeasible","sci_sym_get_solver_status";
-		"sym_isAbandoned","sci_sym_get_solver_status";
-		"sym_isIterLimitReached","sci_sym_get_solver_status";
-		"sym_isTimeLimitReached","sci_sym_get_solver_status";
-		"sym_isTargetGapAchieved","sci_sym_get_solver_status";
-		"sym_getVarSoln","sci_sym_getVarSoln";
-		"sym_getObjVal","sci_sym_getObjVal";
-		"sym_getIterCount","sci_sym_get_iteration_count";
-		
-		//Linprog function
-		"linearprog","sci_linearprog";
-        "rmps","sci_rmps";
+        
+        //Linprog function
+        "linearprog","sci_linearprog", "csci6";
+        "rmps","sci_rmps", "csci6";
 
 		//QP function
-		"solveqp","sci_solveqp";
+		"solveqp","sci_solveqp", "csci6";
 
-		//fminunc function and fminbnd function
-		"solveminuncp","sci_solveminuncp";
-		"solveminbndp","sci_solveminbndp";
-		"solveminconp","sci_solveminconp";
+		//Unconstrained Optimization
+		"solveminuncp","sci_solveminuncp", "csci6";  
 
-		//Integer programming functions (Bonmin)
-		'inter_fminunc', 'cpp_intfminunc';
-		'inter_fminbnd', 'cpp_intfminbnd';
-		'inter_fmincon', 'cpp_intfmincon';
-		'sci_intqpipopt', 'cpp_intqpipopt';
+		//Bounded Optimization
+		"solveminbndp","sci_solveminbndp", "csci6";
 
-        //Integer programming functions (CBC)
-		'sci_matrix_intlinprog', 'matrix_cppintlinprog';
-		'sci_mps_intlinprog','mps_cppintlinprog';
+		//Constrained Optimization
+		"solveminconp","sci_solveminconp", "csci6";
 
-         //fotversion
-        "fotversion","sci_fotversion"
+		//Integer programming functions (CBC)
+		'matintlinprog','sci_matintlinprog', 'csci6';
+		'mpsintlinprog','sci_mpsintlinprog','csci6';
 
-	];
+		//BONMIN Functions
+		'solveintqp','sci_solveintqp', 'csci6';
+
+    ];
 
 //Name of all the files to be compiled
 Files = [
-		"sci_iofunc.cpp",
+        "sci_iofunc.cpp",
 
-		//Symphony
-		"globals.cpp",
-		"sci_sym_openclose.cpp",
-		"sci_solver_status_query_functions.cpp",
-		"sci_sym_solve.cpp",                    
-		"sci_sym_loadproblem.cpp",
-		"sci_sym_solution.cpp",
-    	"sci_sym_get_iteration_count.cpp",
-		"sci_sym_set_variables.cpp",
+		// IPOPT
+		"sci_QuadNLP.cpp",
+		"sci_ipoptquadprog.cpp",
+		"sci_QuadNLP.cpp",
 
-       // IPOPT
-		"sci_QuadNLP.cpp",
-		"sci_ipopt.cpp",
-		"sci_QuadNLP.cpp",
-		"sci_ipopt.cpp",
-		"sci_minuncNLP.cpp",
 		"sci_ipoptfminunc.cpp",
-		"sci_minbndNLP.cpp",
+		"sci_minuncNLP.cpp",
+
 		"sci_ipoptfminbnd.cpp",
-		"sci_minconNLP.cpp",
+		"sci_minbndNLP.cpp",
+		
 		"sci_ipoptfmincon.cpp",
-
+		"sci_minconNLP.cpp",
+		
         //CLP
-		"sci_LinProg.cpp",
-        "read_mps.cpp"
-        
-        
-        //Bonmin
-  		'sci_minuncTMINLP.cpp',
-		'cpp_intfminunc.cpp',
-		'sci_minbndTMINLP.cpp',
-		'cpp_intfminbnd.cpp',		
-		'sci_minconTMINLP.cpp',
-		'cpp_intfmincon.cpp',
-		'cbcintlinprog_matrixcpp.cpp',
+        "sci_LinProg.cpp",
+        "read_mps.cpp",
+		
+		//Bonmin
+  		//'sci_minuncTMINLP.cpp',
+		//'cpp_intfminunc.cpp',
+		//'sci_minbndTMINLP.cpp',
+		//'cpp_intfminbnd.cpp',		
+		//'sci_minconTMINLP.cpp',
+		//'cpp_intfmincon.cpp',
+		'sci_intlinprog_matrixcpp.cpp',
 		'sci_QuadTMINLP.cpp',
-		'cpp_intqpipopt.cpp',
-		'cbcintlinprog_mpscpp.cpp'
-
-        
-        "sci_fotversion.cpp"
-	]
+		'sci_intquadprog.cpp'
+		'sci_intlinprog_mpscpp.cpp'        
+    
+    ]
 else
 //Name of All the Functions
 Function_Names = [
-		//for opening-closing environment and checking if it is open-close
-		"sym_open","sci_sym_open";
-		"sym_close","sci_sym_close";
-		
-		//run time parameters
-		"sym_resetParams","sci_sym_set_defaults";
-		"sym_setIntParam","sci_sym_set_int_param";
-		"sym_getIntParam","sci_sym_get_int_param";
-		"sym_setDblParam","sci_sym_set_dbl_param";
-		"sym_getDblParam","sci_sym_get_dbl_param";
-		"sym_setStrParam","sci_sym_set_str_param";
-		"sym_getStrParam","sci_sym_get_str_param";
-
-		//problem loaders
-		"sym_loadProblemBasic","sci_sym_loadProblemBasic";
-		"sym_loadProblem","sci_sym_loadProblem";
-		
-		//solve
-		"sym_solve","sci_sym_solve";
-		
-		//post solve functions
-		"sym_getStatus","sci_sym_get_status";
-		"sym_isOptimal","sci_sym_get_solver_status";
-		"sym_isInfeasible","sci_sym_get_solver_status";
-		"sym_isAbandoned","sci_sym_get_solver_status";
-		"sym_isIterLimitReached","sci_sym_get_solver_status";
-		"sym_isTimeLimitReached","sci_sym_get_solver_status";
-		"sym_isTargetGapAchieved","sci_sym_get_solver_status";
-		"sym_getVarSoln","sci_sym_getVarSoln";
-		"sym_getObjVal","sci_sym_getObjVal";
-		"sym_getIterCount","sci_sym_get_iteration_count";
-		
-		//Linprog function
-		"linearprog","sci_linearprog";
-        "rmps","sci_rmps";
+        
+        
+        //Linprog function
+        "linearprog","sci_linearprog", "csci6";
+        "rmps","sci_rmps","csci6";   
 
 		//QP function
-		"solveqp","sci_solveqp";
+		"solveqp","sci_solveqp", "csci6";  
 
-		//fminunc function and fminbnd function
-		"solveminuncp","sci_solveminuncp";
-		"solveminbndp","sci_solveminbndp";
-		"solveminconp","sci_solveminconp";
+		//Unconstrained Optimization
+		"solveminuncp","sci_solveminuncp", "csci6"; 
 
-		//Integer programming functions (Bonmin)
-		'inter_fminunc', 'cpp_intfminunc';
-		'inter_fminbnd', 'cpp_intfminbnd';
-		'inter_fmincon', 'cpp_intfmincon';
-		'sci_intqpipopt', 'cpp_intqpipopt';
+		//Bounded Optimization
+		"solveminbndp","sci_solveminbndp", "csci6";   
 
-        //Integer programming functions (CBC)
-		'sci_matrix_intlinprog', 'matrix_cppintlinprog';
-		'sci_mps_intlinprog','mps_cppintlinprog';
+		//Constrained Optimization
+		"solveminconp","sci_solveminconp", "csci6";
 
-		//ecos function
-		"solveecos","sci_ecos"
+		//Integer programming functions (CBC)
+		'matintlinprog','sci_matintlinprog', 'csci6';
+		'mpsintlinprog','sci_mpsintlinprog','csci6';
 
-        //fotversion
-        "fotversion","sci_fotversion"
-	];
+		//BONMIN Functions
+		'solveintqp','sci_solveintqp', 'csci6';
+    ];
 
 //Name of all the files to be compiled
 Files = [
-		"sci_iofunc.cpp",
+        "sci_iofunc.cpp",
 
-		//Symphony
-		"globals.cpp",
-		"sci_sym_openclose.cpp",
-		"sci_solver_status_query_functions.cpp",
-		"sci_sym_solve.cpp",                    
-		"sci_sym_loadproblem.cpp",
-		"sci_sym_solution.cpp",
-    	"sci_sym_get_iteration_count.cpp",
-		"sci_sym_set_variables.cpp",
+        // IPOPT
+		"sci_QuadNLP.cpp",
+		"sci_ipoptquadprog.cpp",
+		"sci_QuadNLP.cpp",
 
-       // IPOPT
-		"sci_QuadNLP.cpp",
-		"sci_ipopt.cpp",
-		"sci_QuadNLP.cpp",
-		"sci_ipopt.cpp",
-		"sci_minuncNLP.cpp",
 		"sci_ipoptfminunc.cpp",
-		"sci_minbndNLP.cpp",
+		"sci_minuncNLP.cpp",
+
 		"sci_ipoptfminbnd.cpp",
-		"sci_minconNLP.cpp",
+		"sci_minbndNLP.cpp",
+
 		"sci_ipoptfmincon.cpp",
+		"sci_minconNLP.cpp",
 
         //CLP
-		"sci_LinProg.cpp",
+        "sci_LinProg.cpp",
         "read_mps.cpp"
-        
-        
-        //Bonmin
-  		'sci_minuncTMINLP.cpp',
-		'cpp_intfminunc.cpp',
-		'sci_minbndTMINLP.cpp',
-		'cpp_intfminbnd.cpp',		
-		'sci_minconTMINLP.cpp',
-		'cpp_intfmincon.cpp',
-		'cbcintlinprog_matrixcpp.cpp',
+
+		//Bonmin
+  		//'sci_minuncTMINLP.cpp',
+		//'cpp_intfminunc.cpp',
+		//'sci_minbndTMINLP.cpp',
+		//'cpp_intfminbnd.cpp',		
+		//'sci_minconTMINLP.cpp',
+		//'cpp_intfmincon.cpp',
+		'sci_intlinprog_matrixcpp.cpp',
 		'sci_QuadTMINLP.cpp',
-		'cpp_intqpipopt.cpp',
-		'cbcintlinprog_mpscpp.cpp'
-
-        //ECOS
-		'ecos.cpp'
-
-        "sci_fotversion.cpp"
-	]
+		'sci_intquadprog.cpp',
+		'sci_intlinprog_mpscpp.cpp'
+        
+    ]
 
 end
 
@@ -248,18 +156,18 @@ Version = opt(2);
 //Build_64Bits = %f;
 
 if getos()=="Windows" then
-	third_dir = path_builder+filesep()+'..'+filesep()+'..'+filesep()+'thirdparty';
-	lib_base_dir = third_dir + filesep() + 'windows' + filesep() + 'lib' + filesep() + Version + filesep();
-	//inc_base_dir = third_dir + filesep() + 'windows' + filesep() + 'include' + filesep() + 'coin';
+    third_dir = path_builder+filesep()+'..'+filesep()+'..'+filesep()+'thirdparty';
+    lib_base_dir = third_dir + filesep() + 'windows' + filesep() + 'lib' + filesep() + Version + filesep();
+    //inc_base_dir = third_dir + filesep() + 'windows' + filesep() + 'include' + filesep() + 'coin';
     inc_base_dir = third_dir + filesep() + 'linux' + filesep() + 'include' + filesep() + 'coin';
     threads_dir=third_dir + filesep() + 'linux' + filesep() + 'include' + filesep() + 'pthreads-win32';
     C_Flags=['-D__USE_DEPRECATED_STACK_FUNCTIONS__  -I -w '+path_builder+' '+ '-I '+inc_base_dir+' '+'-I '+threads_dir+' ']   
     Linker_Flag  = [lib_base_dir+"libcoinblas.lib "+lib_base_dir+"libcoinlapack.lib "+lib_base_dir+"libcoinmumps.lib "+lib_base_dir+"libClp.lib "+lib_base_dir+"libipopt.lib "+lib_base_dir+"libOsi.lib "+lib_base_dir+"libOsiClp.lib "+lib_base_dir+"libCoinUtils.lib "+lib_base_dir+"libCgl.lib "+lib_base_dir+"libOsiSym.lib "+lib_base_dir+"libSym.lib "+lib_base_dir+"libCbcSolver.lib "+lib_base_dir+"libCbc.lib "+lib_base_dir+"libbonmin.lib "+lib_base_dir+"pthreadVC2.lib " ]
 
 else
-	third_dir = path_builder+filesep()+'..'+filesep()+'..'+filesep()+'thirdparty';
-	lib_base_dir = third_dir + filesep() + 'linux' + filesep() + 'lib' + filesep() + Version + filesep();
-	inc_base_dir = third_dir + filesep() + 'linux' + filesep() + 'include' + filesep() + 'coin';
+    third_dir = path_builder+filesep()+'..'+filesep()+'..'+filesep()+'thirdparty';
+    lib_base_dir = third_dir + filesep() + 'linux' + filesep() + 'lib' + filesep() + Version + filesep();
+    inc_base_dir = third_dir + filesep() + 'linux' + filesep() + 'include' + filesep() + 'coin';
     
     C_Flags=["-D__USE_DEPRECATED_STACK_FUNCTIONS__ -w -fpermissive -I"+path_builder+" -I"+inc_base_dir+" -Wl,-rpath="+lib_base_dir+" "]
     

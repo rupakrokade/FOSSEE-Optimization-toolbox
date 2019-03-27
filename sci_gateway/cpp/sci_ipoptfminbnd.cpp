@@ -9,7 +9,7 @@
 // Organization: FOSSEE, IIT Bombay
 // Email: toolbox@scilab.in
 
-#include "sci_iofunc.hpp"
+
 #include "IpIpoptApplication.hpp"
 #include "minbndNLP.hpp"
 #include <IpSolveStatistics.hpp>
@@ -22,29 +22,28 @@ extern "C"
 #include <localization.h>
 #include <sciprint.h>
 #include <iostream>
+#include <wchar.h>
 
 using namespace std;
 
-int sci_solveminbndp(char *fname)
+const char fname[] = "solveminbndp";
+/* ==================================================================== */
+int sci_solveminbndp(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt opt, int nout, scilabVar* out) 
 {
 	using namespace Ipopt;
 
-	CheckInputArgument(pvApiCtx, 5, 5); 
-	CheckOutputArgument(pvApiCtx, 9, 9);
-	
-	// Error management variable
-	SciErr sciErr;
+
 
 	//Function pointers,lower bound and upper bound pointers 
-	int* funptr=NULL;
-	int* gradhesptr=NULL;
+	wchar_t* funName = NULL;
+	wchar_t* gradhesptr=NULL;
+	double* x0ptr=NULL;
+	int flag1,flag2;
 	double* varLB=NULL;
 	double* varUB=NULL;
 
         // Input arguments
-	double *cpu_time=NULL,*max_iter=NULL,*tol_val=NULL;
 	static unsigned int nVars = 0,nCons = 0;
-	unsigned int temp1 = 0,temp2 = 0, iret = 0;
 	int x1_rows, x1_cols, x2_rows, x2_cols;
 	
 	// Output arguments
@@ -55,66 +54,98 @@ int sci_solveminbndp(char *fname)
 	int rstatus = 0;
 	int int_fobj_eval, int_constr_eval, int_fobj_grad_eval, int_constr_jac_eval, int_hess_eval;
 
+
+	if (nin !=5)  //Checking the input arguments
+	{
+        	Scierror(999, "%s: Wrong number of input arguments: %d expected.\n", fname, 5);
+        	return STATUS_ERROR; 
+	}
+	
+	if (nout !=9) //Checking the output arguments
+
+	{
+		Scierror(999, "%s: Wrong number of output argument(s): %d expected.\n", fname, 9);
+		return 1;
+	}
+
 	////////// Manage the input argument //////////
 	
 	//Objective Function
-	if(getFunctionFromScilab(1,&funptr))
+	if (scilab_isString(env, in[0]) == 0 || scilab_isScalar(env, in[0]) == 0)
 	{
-		return 1;
-	}
+    	Scierror(999, "%s: Wrong type for input argument #%d: A function expected.\n", fname, 1);
+   		return 1;
+	}	
+
+	scilab_getString(env, in[0], &funName);
 
  	//Function for gradient and hessian
-	if(getFunctionFromScilab(2,&gradhesptr))
+	if (scilab_isString(env, in[1]) == 0 || scilab_isScalar(env, in[1]) == 0)
 	{
-		return 1;
-	}
+    	Scierror(999, "%s: Wrong type for input argument #%d: A function expected.\n", fname, 2);
+   		return 1;
+	}	
+
+	scilab_getString(env, in[1], &gradhesptr);
 
 	//x1(lower bound) matrix from scilab
-	if(getDoubleMatrixFromScilab(3, &x1_rows, &x1_cols, &varLB))
+
+	if (scilab_isDouble(env, in[2]) == 0 || scilab_isMatrix2d(env, in[2]) == 0)
 	{
+		Scierror(999, "%s: Wrong type for input argument #%d: A double matrix expected.\n", fname, 3);
 		return 1;
 	}
+	
+	scilab_getDoubleArray(env, in[2], &varLB);
+	int size1 = scilab_getDim2d(env, in[2], &x1_rows, &x1_cols);
      
 	//x2(upper bound) matrix from scilab
-	if(getDoubleMatrixFromScilab(4, &x2_rows, &x2_cols, &varUB))
+	if (scilab_isDouble(env, in[3]) == 0 || scilab_isMatrix2d(env, in[3]) == 0)
 	{
+		Scierror(999, "%s: Wrong type for input argument #%d: A double matrix expected.\n", fname, 4);
 		return 1;
 	}
+	
+	scilab_getDoubleArray(env, in[3], &varUB);
 
-    	//Getting number of iterations
-    	if(getFixedSizeDoubleMatrixInList(5,2,temp1,temp2,&max_iter))
-	{
-		return 1;
-	}
 
-	//Getting Cpu Time
-	if(getFixedSizeDoubleMatrixInList(5,4,temp1,temp2,&cpu_time))
-	{
-		return 1;
-	}
-
-	//Getting Tolerance Value
-	if(getFixedSizeDoubleMatrixInList(5,6,temp1,temp2,&tol_val))
-	{
-		return 1;
-	}
+  //Get options
  
+	if (scilab_isList(env, in[4]) == 0)
+    {
+        Scierror(999, "%s: Wrong type for input argument #%d: A list expected.\n", fname, 5);
+        return 1;
+    }
+	scilabVar temp1 = scilab_getListItem( env, in[4], 1);
+	scilabVar temp2 = scilab_getListItem( env, in[4], 3);
+	scilabVar temp3 = scilab_getListItem( env, in[4], 5);
+	
 
-        //Initialization of parameters
+	double nIters = 0,cpu_Time =0, tol_val =0;	
+
+	scilab_getDouble(env, temp1, &nIters);
+	scilab_getDouble(env, temp2, &cpu_Time);
+	scilab_getDouble(env, temp3, &tol_val);
+
+	int maxIters = (int)nIters;
+	int cpu_time = (int)cpu_Time;
+
+
+    //Initialization of parameters
 	nVars=x1_rows;
 	nCons=0;
         
         // Starting Ipopt
 
-	SmartPtr<minbndNLP> Prob = new minbndNLP(nVars,nCons,varLB,varUB);
+	SmartPtr<minbndNLP> Prob = new minbndNLP(env,in,nVars,nCons,varLB,varUB);
 	
 	SmartPtr<IpoptApplication> app = IpoptApplicationFactory();
 
 	////////// Managing the parameters //////////
 
-	app->Options()->SetNumericValue("tol", *tol_val);
-	app->Options()->SetIntegerValue("max_iter", (int)*max_iter);
-	app->Options()->SetNumericValue("max_cpu_time", *cpu_time);
+	app->Options()->SetNumericValue("tol", tol_val);
+	app->Options()->SetIntegerValue("max_iter", nIters);
+	app->Options()->SetNumericValue("max_cpu_time", cpu_time);
 
 	///////// Initialize the IpoptApplication and process the options /////////
 	ApplicationReturnStatus status;
@@ -142,50 +173,27 @@ int sci_solveminbndp(char *fname)
 	fZl = Prob->getZl();
 	fZu = Prob->getZu();
 
-	if (returnDoubleMatrixToScilab(1, 1, nVars, fX))
-	{
-		return 1;
-	}
 
-	if (returnDoubleMatrixToScilab(2, 1, 1, &ObjVal))
-	{
-		return 1;
-	}
+	out[0] = scilab_createDoubleMatrix2d(env, 1, nVars, 0);
+	scilab_setDoubleArray(env, out[0], fX);
 
-	if (returnIntegerMatrixToScilab(3, 1, 1, &rstatus))
-	{
-		return 1;
-	}
+	out[1] = scilab_createDouble(env, ObjVal);
+
+	out[2] = scilab_createDouble(env, rstatus);
+	out[3] = scilab_createDouble(env, iteration);
+	out[4] = scilab_createDouble(env, cpuTime);
+
+	out[5] = scilab_createDouble(env, fobj_eval);
 	
-	if (returnDoubleMatrixToScilab(4, 1, 1, &iteration))
-	{
-		return 1;
-	}
+	out[6] = scilab_createDouble(env, dual_inf);
 		
-	if (returnDoubleMatrixToScilab(5, 1, 1, &cpuTime))
-	{
-		return 1;
-	}
-	
-	if (returnDoubleMatrixToScilab(6, 1, 1, &fobj_eval))
-	{
-		return 1;
-	}
-	
-	if (returnDoubleMatrixToScilab(7, 1, 1, &dual_inf))
-	{
-		return 1;
-	}
+	out[7] = scilab_createDoubleMatrix2d(env, 1, nVars, 0);
+	scilab_setDoubleArray(env, out[7], fZl);
 
-	if (returnDoubleMatrixToScilab(8, 1, nVars, fZl))
-	{
-		return 1;
-	}
+	out[8] = scilab_createDoubleMatrix2d(env, 1, nVars, 0);
+	scilab_setDoubleArray(env, out[8], fZu);
 
-	if (returnDoubleMatrixToScilab(9, 1, nVars, fZu))
-	{
-		return 1;
-	}
+	
 
 
 	return 0;

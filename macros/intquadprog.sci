@@ -83,7 +83,7 @@ function varargout = intquadprog (varargin)
 	// lb=[0,0];
 	// ub=[%inf, %inf];
 	// intcon = [1 2];
-	//[xopt,fopt,status,output]=intqpipopt(H,f,intcon,A,b,[],[],lb,ub)
+	//[xopt,fopt,status,output]=intquadprog(H,f,intcon,A,b,[],[],lb,ub)
     //
 	// Examples 
 	//  //Find x in R^6 such that:
@@ -101,7 +101,7 @@ function varargout = intquadprog (varargin)
 	//    //and minimize 0.5*x'*H*x + f'*x with
 	//    f=[1; 2; 3; 4; 5; 6]; H=eye(6,6);
 	//	  intcon = [2 4];
-	//    [xopt,fopt,exitflag,output]=intqpipopt(H,f,intcon,A,b,Aeq,beq,lb,ub,x0,param)
+	//    [xopt,fopt,exitflag,output]=intquadprog(H,f,intcon,A,b,Aeq,beq,lb,ub,x0,param)
 	// Authors
 	// Akshay Miterani and Pranav Deshpande
 
@@ -110,13 +110,13 @@ function varargout = intquadprog (varargin)
 
 	//To check the number of argument given by user
 	if ( rhs < 2 | rhs == 4 | rhs == 6 | rhs == 8 | rhs > 12 ) then
-		errmsg = msprintf(gettext("%s: Unexpected number of input arguments : %d provided while should be in the set of [2 3 5 7 9 10 11 12]"), "intqpipopt", rhs);
+		errmsg = msprintf(gettext("%s: Unexpected number of input arguments : %d provided while should be in the set of [2 3 5 7 9 10 11 12]"), "intquadprog", rhs);
 		error(errmsg)
 	end
 	
 	//To check the number of output arguments
 	if lhs > 4 then
-		errmsg = msprintf(gettext("%s: Unexpected number of output arguments: %d provided while should be in the set of [1 2 3 4]"), "intqpipopt", lhs);
+		errmsg = msprintf(gettext("%s: Unexpected number of output arguments: %d provided while should be in the set of [1 2 3 4]"), "intquadprog", lhs);
 	end
 
 	H = [];
@@ -136,7 +136,7 @@ function varargout = intquadprog (varargin)
 	nbVar = size(H,1);
 
 	if(nbVar == 0) then
-		errmsg = msprintf(gettext("%s: Cannot determine the number of variables because input objective coefficients is empty"), "intqpipopt");
+		errmsg = msprintf(gettext("%s: Cannot determine the number of variables because input objective coefficients is empty"), "intquadprog");
 		error(errmsg);
 	end
 	
@@ -198,18 +198,18 @@ function varargout = intquadprog (varargin)
 	end
 
 	//Check type of variables
-	Checktype("intqpipopt", H, "H", 1, "constant")
-	Checktype("intqpipopt", f, "f", 2, "constant")
-	Checktype("intqpipopt", intcon, "intcon", 3, "constant")
-	Checktype("intqpipopt", A, "A", 4, "constant")
-	Checktype("intqpipopt", b, "b", 5, "constant")
-	Checktype("intqpipopt", Aeq, "Aeq", 6, "constant")
-	Checktype("intqpipopt", beq, "beq", 7, "constant")
-	Checktype("intqpipopt", lb, "lb", 8, "constant")
-	Checktype("intqpipopt", ub, "ub", 9, "constant")
-	Checktype("intqpipopt", x0, "x0", 10, "constant")
-	Checktype("intqpipopt", options, "options", 11, "list")
-	Checktype("intqpipopt", bonmin_options_file, "bonmin_options_file", 12, "string")
+	Checktype("intquadprog", H, "H", 1, "constant")
+	Checktype("intquadprog", f, "f", 2, "constant")
+	Checktype("intquadprog", intcon, "intcon", 3, "constant")
+	Checktype("intquadprog", A, "A", 4, "constant")
+	Checktype("intquadprog", b, "b", 5, "constant")
+	Checktype("intquadprog", Aeq, "Aeq", 6, "constant")
+	Checktype("intquadprog", beq, "beq", 7, "constant")
+	Checktype("intquadprog", lb, "lb", 8, "constant")
+	Checktype("intquadprog", ub, "ub", 9, "constant")
+	Checktype("intquadprog", x0, "x0", 10, "constant")
+	Checktype("intquadprog", options, "options", 11, "list")
+	Checktype("intquadprog", bonmin_options_file, "bonmin_options_file", 12, "string")
 	
 	nbConInEq = size(A,1);
 	nbConEq = size(Aeq,1);
@@ -243,13 +243,13 @@ function varargout = intquadprog (varargin)
 
 	//Checking the H matrix which needs to be a symmetric matrix
 	if ( ~isequal(H,H')) then
-		errmsg = msprintf(gettext("%s: H is not a symmetric matrix"), "intqpipopt");
+		errmsg = msprintf(gettext("%s: H is not a symmetric matrix"), "intquadprog");
 		error(errmsg);
 	end
 
 	//Check the size of f which should equal to the number of variable
 	if ( size(f,1) ~= [nbVar]) then
-		errmsg = msprintf(gettext("%s: The number of rows and columns in H must be equal the number of elements of f"), "intqpipopt");
+		errmsg = msprintf(gettext("%s: The number of rows and columns in H must be equal the number of elements of f"), "intquadprog");
 		error(errmsg);
 	end
 	
@@ -257,60 +257,60 @@ function varargout = intquadprog (varargin)
 	 
 	for i=1:size(intcon,2)
       if(intcon(i)>nbVar) then
-        errmsg = msprintf(gettext("%s: The values inside intcon should be less than the number of variables"), "intqpipopt");
+        errmsg = msprintf(gettext("%s: The values inside intcon should be less than the number of variables"), "intquadprog");
         error(errmsg);
       end
 
       if (intcon(i)<0) then
-        errmsg = msprintf(gettext("%s: The values inside intcon should be greater than 0 "), "intqpipopt");
+        errmsg = msprintf(gettext("%s: The values inside intcon should be greater than 0 "), "intquadprog");
         error(errmsg);
       end
 
       if(modulo(intcon(i),1)) then
-        errmsg = msprintf(gettext("%s: The values inside intcon should be an integer "), "intqpipopt");
+        errmsg = msprintf(gettext("%s: The values inside intcon should be an integer "), "intquadprog");
         error(errmsg);
       end
 	end
 
 	//Check the size of inequality constraint which should be equal to the number of variables
 	if ( size(A,2) ~= nbVar & size(A,2) ~= 0) then
-		errmsg = msprintf(gettext("%s: The number of columns in A must be the same as the number of elements of f"), "intqpipopt");
+		errmsg = msprintf(gettext("%s: The number of columns in A must be the same as the number of elements of f"), "intquadprog");
 		error(errmsg);
 	end
 
 	//Check the size of equality constraint which should be equal to the number of variables
 	if ( size(Aeq,2) ~= nbVar & size(Aeq,2) ~= 0 ) then
-		errmsg = msprintf(gettext("%s: The number of columns in Aeq must be the same as the number of elements of f"), "intqpipopt");
+		errmsg = msprintf(gettext("%s: The number of columns in Aeq must be the same as the number of elements of f"), "intquadprog");
 		error(errmsg);
 	end
 
 	//Check the size of Lower Bound which should be equal to the number of variables
 	if ( size(lb,1) ~= nbVar) then
-		errmsg = msprintf(gettext("%s: The Lower Bound is not equal to the number of variables"), "intqpipopt");
+		errmsg = msprintf(gettext("%s: The Lower Bound is not equal to the number of variables"), "intquadprog");
 		error(errmsg);
 	end
 
 	//Check the size of Upper Bound which should equal to the number of variables
 	if ( size(ub,1) ~= nbVar) then
-		errmsg = msprintf(gettext("%s: The Upper Bound is not equal to the number of variables"), "intqpipopt");
+		errmsg = msprintf(gettext("%s: The Upper Bound is not equal to the number of variables"), "intquadprog");
 		error(errmsg);
 	end
 
 	//Check the size of constraints of Lower Bound which should equal to the number of constraints
 	if ( size(b,1) ~= nbConInEq & size(b,1) ~= 0) then
-		errmsg = msprintf(gettext("%s: The number of rows in A must be the same as the number of elements of b"), "intqpipopt");
+		errmsg = msprintf(gettext("%s: The number of rows in A must be the same as the number of elements of b"), "intquadprog");
 		error(errmsg);
 	end
 
 	//Check the size of constraints of Upper Bound which should equal to the number of constraints
 	if ( size(beq,1) ~= nbConEq & size(beq,1) ~= 0) then
-		errmsg = msprintf(gettext("%s: The number of rows in Aeq must be the same as the number of elements of beq"), "intqpipopt");
+		errmsg = msprintf(gettext("%s: The number of rows in Aeq must be the same as the number of elements of beq"), "intquadprog");
 		error(errmsg);
 	end
 
 	//Check the size of initial of variables which should equal to the number of variables
 	if ( size(x0,1) ~= nbVar) then
-		warnmsg = msprintf(gettext("%s: Ignoring initial guess of variables as it is not equal to the number of variables"), "intqpipopt");
+		warnmsg = msprintf(gettext("%s: Ignoring initial guess of variables as it is not equal to the number of variables"), "intquadprog");
 		warning(warnmsg);
 		x0 = repmat(0,nbVar,1);
 	end
@@ -318,69 +318,72 @@ function varargout = intquadprog (varargin)
 	//Check if the user gives a matrix instead of a vector
 
 	if ((size(f,1)~=1)& (size(f,2)~=1)) then
-		errmsg = msprintf(gettext("%s: f should be a vector"), "intqpipopt");
+		errmsg = msprintf(gettext("%s: f should be a vector"), "intquadprog");
 		error(errmsg); 
 	end
 
 	if (size(lb,1)~=1)& (size(ub,2)~=1) then
-		errmsg = msprintf(gettext("%s: Lower Bound should be a vector"), "intqpipopt");
+		errmsg = msprintf(gettext("%s: Lower Bound should be a vector"), "intquadprog");
 		error(errmsg); 
 	end
 
 	if (size(ub,1)~=1)& (size(ub,2)~=1) then
-		errmsg = msprintf(gettext("%s: Upper Bound should be a vector"), "intqpipopt");
+		errmsg = msprintf(gettext("%s: Upper Bound should be a vector"), "intquadprog");
 		error(errmsg); 
 	end
 
 	if (nbConInEq) then
 		if ((size(b,1)~=1)& (size(b,2)~=1)) then
-		    errmsg = msprintf(gettext("%s: Constraint Lower Bound should be a vector"), "intqpipopt");
+		    errmsg = msprintf(gettext("%s: Constraint Lower Bound should be a vector"), "intquadprog");
 		    error(errmsg); 
 		end
 	end
 
 	if (nbConEq) then
 		if (size(beq,1)~=1)& (size(beq,2)~=1) then
-		    errmsg = msprintf(gettext("%s: Constraint should be a vector"), "intqpipopt");
+		    errmsg = msprintf(gettext("%s: Constraint should be a vector"), "intquadprog");
 		    error(errmsg); 
 		end
 	end
 
 	for i = 1:nbConInEq
 		if (b(i) == -%inf) then
-		   	errmsg = msprintf(gettext("%s: Value of b can not be negative infinity"), "intqpipopt");
+		   	errmsg = msprintf(gettext("%s: Value of b can not be negative infinity"), "intquadprog");
 		    error(errmsg); 
 		end	
 	end
 
 	for i = 1:nbConEq
 		if (beq(i) == -%inf) then
-		   	errmsg = msprintf(gettext("%s: Value of beq can not be negative infinity"), "intqpipopt");
+		   	errmsg = msprintf(gettext("%s: Value of beq can not be negative infinity"), "intquadprog");
 		    error(errmsg); 
 		end	
 	end
 
 	for i = 1:nbVar
 		if(lb(i)>ub(i)) then
-			errmsg = msprintf(gettext("%s: Problem has inconsistent variable bounds"), "intqpipopt");
+			errmsg = msprintf(gettext("%s: Problem has inconsistent variable bounds"), "intquadprog");
 			error(errmsg);
 		end
 	end
 	
 	// Checking if the specified options file exists or not
-  	if (~isfile(bonmin_options_file) & ~bonmin_options_file=='') then
-    		error(999, 'The specified options file does not exist!');
+
+	
+  	if (~isfile(bonmin_options_file) & ~(bonmin_options_file==  "") ) then
+   		error(999, "The specified options file does not exist!");
  	end
+	
  	
  	// Validating Options
  	if (type(options) ~= 15) then
-		errmsg = msprintf(gettext("%s: Options should be a list "), "cbcintlinprog");
+		errmsg = msprintf(gettext("%s: Options should be a list "), "intlinprog");
 		error(errmsg);
 	end
    
 
 	if (modulo(size(options),2)) then
-		errmsg = msprintf(gettext("%s: Size of parameters should be even"), "cbcintlinprog");
+		errmsg = msprintf(gettext("%s: Size of parameters should be even"), "intlinprog");
 		error(errmsg);
 	end
    
@@ -430,7 +433,7 @@ function varargout = intquadprog (varargin)
 	xopt=[]
 	fopt=[]
 	status=[]
-	[xopt,fopt,status] = sci_intqpipopt(nbVar,nbCon,intconSize,H,f,intcon,conMatrix,conLB,conUB,lb,ub,x0,optval,ifval,bonmin_options_file);
+	[xopt,fopt,status] = solveintqp(int32(nbVar), int32(nbCon), int32(intconSize), H, f, intcon, conMatrix, conLB, conUB, lb, ub, x0, optval,ifval,bonmin_options_file);
 	xopt = xopt';
 
 	output.ConstrViolation = max([0;norm(Aeq*xopt-beq, 'inf');(lb'-xopt);(xopt-ub');(A*xopt-b)]);

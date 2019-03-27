@@ -1,12 +1,12 @@
-# FOSSEE Optimization Toolbox for Scilab
+# FOSSEE Optimization Toolbox for Scilab 6.0.1
 
-A toolbox that provides mixed integer linear programming, quadratic programming, non linear programming, and integer nonlinear programming tools in Scilab through the Symphony, CLP, BONMIN, CBC, and IPOPT  libraries.
+A toolbox that provides mixed integer linear programming, quadratic programming and non linear programming tools in Scilab through the Symphony and Ipopt libraries.
 
 Tested with Symphony 5.6.10, Ipopt 3.12.4 and Scilab 5.5.2
 
 ## To Download
 1. [Visit the link
-   `http://atoms.scilab.org/toolboxes/FOT/`](http://atoms.scilab.org/toolboxes/FOT/)
+   `http://atoms.scilab.org/toolboxes/FOT/`]
 2. Select the linux or windows version as per your platform.
 3. Extract the files.
 

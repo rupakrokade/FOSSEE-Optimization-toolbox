@@ -234,7 +234,7 @@ function [xopt,fopt,exitflag,output,lambda] = quadprogmat (varargin)
 			case "cputime" then
 				options(2*i) = param(2*i);
 			else
-				errmsg = msprintf(gettext("%s: Unrecognized parameter name ''%s''."), "quadprogmat", param(2*i-1));
+				errmsg = msprintf(gettext("%s: Unrecognized parameter name ''%s''."), "lsqlin", param(2*i-1));
 				error(errmsg)
 		end
 	end
@@ -371,7 +371,7 @@ function [xopt,fopt,exitflag,output,lambda] = quadprogmat (varargin)
 
 	for i = 1:nbVar
 		if(lb(i)>ub(i))
-			errmsg = msprintf(gettext("%s: Problem has inconsistent variable bounds"), "quadprogmat");
+			errmsg = msprintf(gettext("%s: Problem has inconsistent variable bounds"), "lsqlin");
 			error(errmsg);
 		end
 	end
@@ -386,7 +386,7 @@ function [xopt,fopt,exitflag,output,lambda] = quadprogmat (varargin)
 	conLB = [beq; repmat(-%inf,nbConInEq,1)]';
 	conUB = [beq;b]' ; 
 
-	[xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,H,f,conMatrix,conLB,conUB,lb,ub,x0,options);
+	[xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(int32(nbVar),int32(nbCon),H,f,conMatrix,conLB,conUB,lb,ub,x0,options);
 	xopt = xopt';
 	exitflag = status;
 	output = struct("Iterations"      , [], ..

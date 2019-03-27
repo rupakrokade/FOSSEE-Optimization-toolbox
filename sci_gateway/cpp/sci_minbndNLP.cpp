@@ -15,12 +15,15 @@
 extern "C"
 {
 #include <api_scilab.h>
+#include <wchar.h>
 #include <Scierror.h>
 #include <BOOL.h>
 #include <localization.h>
 #include <sciprint.h>
 #include <string.h>
 #include <assert.h>
+
+#define LOCAL_DEBUG 0
 
 using namespace std;
 using namespace Ipopt;
@@ -30,6 +33,22 @@ minbndNLP::~minbndNLP()
 	if(finalX_) delete[] finalX_;
 	if(finalZl_) delete[] finalZl_;
 	if(finalZu_) delete[] finalZu_;
+}
+
+bool minbndNLP::getScilabFunc(scilabVar* out, const Number* x, wchar_t* name, int nin, int nout)
+{
+	
+	scilabVar* funcIn = (scilabVar*)malloc(sizeof(double) * (numVars_) * 1);
+	funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
+	scilab_setDoubleArray(env_, funcIn[0], x);
+
+	#if LOCAL_DEBUG
+		printf("Calling the relevant function\n");
+	#endif
+	scilab_call(env_, name, nin, funcIn, nout, out);
+	
+	
+	return true;
 }
 
 //get NLP info such as number of variables,constraints,no.of elements in jacobian and hessian to allocate memory
@@ -86,78 +105,82 @@ bool minbndNLP::eval_jac_g(Index n, const Number* x, bool new_x,Index m, Index n
 //get value of objective function at vector x
 bool minbndNLP::eval_f(Index n, const Number* x, bool new_x, Number& obj_value)
 {
-  	int* funptr=NULL; 
+  	scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
+	
+	#if LOCAL_DEBUG
+		printf("Calling eval_f\n");
+	#endif	
   	double check;
-  	Index i; 
-  	if(getFunctionFromScilab(1,&funptr))
-  	{
-		return 1;
- 	}
-  	char name[20]="f";
-  	double obj=0;
-  	const Number *xNew=x;
-  	createMatrixOfDouble(pvApiCtx, 3, 1, numVars_, xNew);
-  	int positionFirstElementOnStackForScilabFunction = 3;
-  	int numberOfRhsOnScilabFunction = 1;
-  	int numberOfLhsOnScilabFunction = 2;
-  	int pointerOnScilabFunction     = *funptr;
-  
-  	C2F(scistring)(&positionFirstElementOnStackForScilabFunction,name,
-                                                               &numberOfLhsOnScilabFunction,
-                                                               &numberOfRhsOnScilabFunction,(unsigned long)strlen(name));
-    if(getDoubleFromScilab(4,&check))
-  	{
-		return true;
+	double obj=0;
+	getScilabFunc(out, x, L"f", 1, 2);
+
+	
+	
+                               
+  	if (scilab_isDouble(env_, out[1]) == 0 || scilab_isScalar(env_, out[1]) == 0)
+	{
+    	Scierror(999, " Wrong type for input argument #%d: An int expected.\n", 8);
+    	return 1;
 	}
+	
+
+	scilab_getDouble(env_, out[1], &check);
+
 	if (check==1)
 	{
-		
 		return true;
 	}	
 	else
-	{                           
-  		if(getDoubleFromScilab(3,&obj))
-  		{
-			sciprint("No obj value");
+	{ 
+
+		if (scilab_isDouble(env_, out[0]) == 0 || scilab_isScalar(env_, out[0]) == 0)
+		{
+			sciprint("No obj value\n");
 			return 1;
-  		}
+		}
+
+		scilab_getDouble(env_, out[0], &obj);
   		obj_value=obj;  
-		return true;
 	}
+	#if LOCAL_DEBUG
+		printf("Obj value obtained\n");
+	#endif
+  	return true;
 }
 
 //get value of gradient of objective function at vector x.
 bool minbndNLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* grad_f)
 {
-  	int* gradhessptr=NULL;
-  	if(getFunctionFromScilab(2,&gradhessptr))
-  	{
-		return 1;
-  	}  
-  	const Number *xNew=x;
-  	Index i;
-  	double t=1;
-  	createMatrixOfDouble(pvApiCtx, 3, 1, numVars_, xNew);
-  	createScalarDouble(pvApiCtx, 4,t);
-  	int positionFirstElementOnStackForScilabFunction = 3;
-  	int numberOfRhsOnScilabFunction = 2;
-  	int numberOfLhsOnScilabFunction = 2;
-  	int pointerOnScilabFunction     = *gradhessptr;
-	char name[20]="gradhess";
+  	#if LOCAL_DEBUG
+		printf("eval_grad_f started\n");
+	#endif	
+	
+	scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) );
+  	double check = 0;
 
-  	C2F(scistring)(&positionFirstElementOnStackForScilabFunction,name,
-                                                               &numberOfLhsOnScilabFunction,
-                                                               &numberOfRhsOnScilabFunction,(unsigned long)strlen(name));
+	
+  	const Number *xNew=x;
+	#if LOCAL_DEBUG
+		printf("grad_f obtained\n");
+	#endif
+	scilabVar* funcIn = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
+	funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
+	scilab_setDoubleArray(env_, funcIn[0], x);
+	double t= 1;
+	funcIn[1] = scilab_createDouble(env_, t);
+
+	scilab_call(env_, L"gradhess", 2, funcIn, 2, out);
  	
-                               
-  	double* resg;
-  	double check; 
-  	int x0_rows,x0_cols;                           
-  	
-	if(getDoubleFromScilab(4,&check))
-  	{
-		return true;
+	           
+  	if (scilab_isDouble(env_, out[1]) == 0 || scilab_isScalar(env_, out[1]) == 0)
+	{
+    	Scierror(999, "Wrong type for input argument #%d: An int expected.\n", 2);
+    	return 1;
 	}
+	
+
+	scilab_getDouble(env_, out[1], &check);
+
 	if (check==1)
 	{
 		/*sciprint("Gradient is not defined at the point [");
@@ -173,12 +196,16 @@ bool minbndNLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* grad_f
 	}	
 	else
 	{
-		if(getDoubleMatrixFromScilab(3, &x0_rows, &x0_cols, &resg))
-  		{	
-			return true;
+		double* resg;  
+  		if (scilab_isDouble(env_, out[0]) == 0 || scilab_isMatrix2d(env_, out[0]) == 0)
+		{
+			Scierror(999, "Wrong type for input argument #%d: An int expected.\n", 2);
+			return 1;
 		}
+	
+		scilab_getDoubleArray(env_, out[0], &resg);
 		
-  		for(i=0;i<numVars_;i++)
+  		for(int i=0;i<numVars_;i++)
   		{
 			grad_f[i]=resg[i];
   		}
@@ -205,7 +232,11 @@ bool minbndNLP::get_starting_point(Index n, bool init_x, Number* x,bool init_z, 
 bool minbndNLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor, Index m, const Number* lambda,bool new_lambda, Index nele_hess, Index* iRow,Index* jCol, Number* values)
 {
  
+	#if LOCAL_DEBUG
+		printf("eval_h started\n");
+	#endif
 
+	scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
 	if (values==NULL)
 	{
 		Index idx=0;
@@ -221,36 +252,29 @@ bool minbndNLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor, I
 	}
 	else 
 	{
-		int* gradhessptr=NULL;
-		if(getFunctionFromScilab(2,&gradhessptr))
-		{
-			return 1;
-		}  
-
 		const Number *xNew=x;
-		Index i;
-  		double t=2;
-	
-  		createMatrixOfDouble(pvApiCtx, 3, 1, numVars_, xNew);
-  		createScalarDouble(pvApiCtx, 4,t);
-  		int positionFirstElementOnStackForScilabFunction = 3;
-  		int numberOfRhsOnScilabFunction = 2;
-  		int numberOfLhsOnScilabFunction = 2;
-  		int pointerOnScilabFunction     = *gradhessptr;
-		char name[20]="gradhess";
-		
-  		C2F(scistring)(&positionFirstElementOnStackForScilabFunction,name,
-                                                               &numberOfLhsOnScilabFunction,
-                                                               &numberOfRhsOnScilabFunction,(unsigned long)strlen(name));
+		#if LOCAL_DEBUG
+			printf("in the gradhess block\n");
+		#endif	
+		scilabVar* funcIn = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
+		funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
+		scilab_setDoubleArray(env_, funcIn[0], x);
+		double t= 2;
+		funcIn[1] = scilab_createDouble(env_, t);
+		scilab_call(env_, L"gradhess", 2, funcIn, 2, out);
                                
   		double* resh;
   		double check;  
-  		int x0_rows,x0_cols;                           
   		
-		if(getDoubleFromScilab(4,&check))
-  		{
-			return true;
+		if (scilab_isDouble(env_, out[1]) == 0 || scilab_isScalar(env_, out[1]) == 0)
+		{
+			Scierror(999, "Wrong type for input argument #%d: An int expected.\n", 2);
+			return 1;
 		}
+		
+
+		scilab_getDouble(env_, out[1], &check);
+
 		if (check==1)
 		{
 			/*sciprint("Hessian is not defined at the point [");
@@ -266,11 +290,13 @@ bool minbndNLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor, I
 		}	
 		else
 		{
-			if(getDoubleMatrixFromScilab(3, &x0_rows, &x0_cols, &resh))
+			if (scilab_isDouble(env_, out[0]) == 0 || scilab_isMatrix2d(env_, out[0]) == 0)
 			{
-				sciprint("No results");
+				Scierror(999, "Wrong type for input argument #%d: An int expected.\n", 2);
 				return 1;
 			}
+	
+			scilab_getDoubleArray(env_, out[0], &resh);
 			Index index=0;
 			for (Index row=0;row < numVars_ ;++row)
 			{
