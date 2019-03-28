@@ -33,17 +33,30 @@ List of files used for symphony:
 20. sci_sym_varbounds.cpp
 21. sci_vartype.cpp
 22. sym_data_query_functions.cpp
-23. sci_iofunc.cpp
-24. sci_iofunc.hpp
 
-qpipopt
+
+quadprog
 -------
 
-List of files used for qpipopt:
+List of files used for quadprog:
 
-1. sci_iofunc.cpp
-2. sci_iofunc.hpp
-3. QuadNLP.hpp
-4. sci_ipopt.cpp
-5. sci_QuadNLP.cpp
+1. QuadNLP.hpp
+2. sci_QuadNLP.cpp
+
+Ipopt
+-------
+1. sci_ipoptfminunc.cpp
+2. sci_minuncNLP.cpp
+3. minuncNLP.hpp
+4. sci_ipoptfminbnd.cpp
+5. sci_minbndNLP.cpp
+6. minbndNLP.hpp
+7. sci_ipoptfmincon.cpp
+8. sci_minconNLP.cpp
+9. minconNLP.hpp
+
+CLP
+-------
+1. sci_LinProg.cpp
+2. read_mps.cpp
 
