@@ -44,6 +44,9 @@ Function_Names = [
 
 		//BONMIN Functions
 		'solveintqp','sci_solveintqp', 'csci6';
+		
+		 //fotversion
+        "fotversion","sci_fotversion", 'csci6';
 
     ];
 
@@ -79,7 +82,9 @@ Files = [
 		'sci_intlinprog_matrixcpp.cpp',
 		'sci_QuadTMINLP.cpp',
 		'sci_intquadprog.cpp'
-		'sci_intlinprog_mpscpp.cpp'        
+		'sci_intlinprog_mpscpp.cpp'    
+
+		"sci_fotversion.cpp"    
     
     ]
 else
@@ -109,6 +114,9 @@ Function_Names = [
 
 		//BONMIN Functions
 		'solveintqp','sci_solveintqp', 'csci6';
+
+		//fotversion
+        "fotversion","sci_fotversion", 'csci6';
     ];
 
 //Name of all the files to be compiled
@@ -144,6 +152,8 @@ Files = [
 		'sci_QuadTMINLP.cpp',
 		'sci_intquadprog.cpp',
 		'sci_intlinprog_mpscpp.cpp'
+
+		"sci_fotversion.cpp"
         
     ]
 

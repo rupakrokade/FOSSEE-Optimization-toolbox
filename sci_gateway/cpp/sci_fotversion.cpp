@@ -17,13 +17,25 @@
 extern "C" {
 #include "api_scilab.h"
 #include "sciprint.h"
+#include <Scierror.h>
 
-
-int sci_fotversion(char* fname,unsigned long int fname_len)
+const char fname[] = "fotversion";
+/* ==================================================================== */
+int sci_fotversion(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt opt, int nout, scilabVar* out) 
 {
 	//checking number of arguments
-	CheckInputArgument(pvApiCtx,0,0);
-	CheckOutputArgument(pvApiCtx,1,1);
+	if (nin !=0)  //Checking the input arguments
+	{
+        	Scierror(999, "%s: Wrong number of input arguments: %d expected.\n", fname, 0);
+        	return STATUS_ERROR; 
+	}
+	
+	if (nout !=1) //Checking the output arguments
+
+	{
+		Scierror(999, "%s: Wrong number of output argument(s): %d expected.\n", fname, 1);
+		return 1;
+	}
 
 	//FOT Version
 	char fotver[]="0.2";
