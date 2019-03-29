@@ -1,6 +1,6 @@
 clear
 clc
-cd /home/siddharth/FOT6
+cd /home/siddharth/FOSSEE-Optimization-toolbox
 exec cleaner.sce;
 ulink;
 
