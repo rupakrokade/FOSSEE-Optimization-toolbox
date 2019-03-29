@@ -23,7 +23,7 @@
 #include "BonEcpCuts.hpp"
 #include "BonOaNlpOptim.hpp"
 
-#include "sci_iofunc.hpp"
+
 extern  "C"
 {
 #include "call_scilab.h"
@@ -33,25 +33,26 @@ extern  "C"
 #include <localization.h>
 #include <sciprint.h>
 
-int cpp_intfminunc(char *fname)
+const char fname[] = "inter_fminunc";
+/* ==================================================================== */
+int cpp_intfminunc(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt opt, int nout, scilabVar* out) 
 {
+
   using namespace Ipopt;
   using namespace Bonmin;
 
-	CheckInputArgument(pvApiCtx, 8, 8); 
-	CheckOutputArgument(pvApiCtx, 3, 3);  // 3 output arguments
 	
 	//Function pointers, input matrix(Starting point) pointer, flag variable 
-	int* funptr=NULL;
+
 	double* x0ptr=NULL;
 	    
 	// Input arguments
-	Number *integertolerance=NULL, *maxnodes=NULL, *allowablegap=NULL, *cputime=NULL,*max_iter=NULL;
+	
 	static unsigned int nVars = 0,nCons = 0;
-	unsigned int temp1 = 0,temp2 = 0, iret = 0;
+
 	int x0_rows, x0_cols;
 	double *intcon = NULL,*options=NULL, *ifval=NULL;
-	int intconSize;
+	int intconSize, intConSize2;
 	
 	// Output arguments
 	double ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;	//double *fX = NULL, ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;
@@ -61,57 +62,78 @@ int cpp_intfminunc(char *fname)
 
 	const double *fX = NULL;	//changed fX from double* to const double*
 
-	//x0(starting point) matrix from scilab
-	if(getDoubleMatrixFromScilab(4, &x0_rows, &x0_cols, &x0ptr))
+
+	if (nin !=8)  //Checking the input arguments
 	{
+        	Scierror(999, "%s: Wrong number of input arguments: %d expected.\n", fname, 8);
+        	return STATUS_ERROR; 
+	}
+	
+	if (nout !=3) //Checking the output arguments
+
+	{
+		Scierror(999, "%s: Wrong number of output argument(s): %d expected.\n", fname, 3);
 		return 1;
 	}
+
+	//x0(starting point) matrix from scilab
+
+	if (scilab_isDouble(env, in[3]) == 0 || scilab_isMatrix2d(env, in[3]) == 0)
+	{
+		Scierror(999, "%s: Wrong type for input argument #%d: A double matrix expected.\n", fname, 4);
+		return 1;
+	}
+	
+	scilab_getDoubleArray(env, in[3], &x0ptr);
 
 	nVars=x0_rows;
 		
 	// Getting intcon
-	if (getDoubleMatrixFromScilab(5,&intconSize,(int*)&temp2,&intcon))	//typecast temp2 from unsigned int* to int* 
+	if (scilab_isDouble(env, in[4]) == 0 || scilab_isMatrix2d(env, in[4]) == 0)
 	{
-		return 1;
-	}
-
-	temp1 = 1;
-	temp2 = 1;
-
-	//Getting parameters
-	if (getFixedSizeDoubleMatrixInList(6,2,temp1,temp2,&integertolerance))
-	{
-		return 1;
-	}
-	if (getFixedSizeDoubleMatrixInList(6,4,temp1,temp2,&maxnodes))
-	{
-		return 1;
-	}
-	if (getFixedSizeDoubleMatrixInList(6,6,temp1,temp2,&cputime))
-	{
-		return 1;
-	}
-	if (getFixedSizeDoubleMatrixInList(6,8,temp1,temp2,&allowablegap))
-	{
-		return 1;
-	}
-	if (getFixedSizeDoubleMatrixInList(6,10,temp1,temp2,&max_iter))
-	{
+		Scierror(999, "%s: Wrong type for input argument #%d: A double matrix expected.\n", fname, 5);
 		return 1;
 	}
 	
-	SmartPtr<minuncTMINLP> tminlp = new minuncTMINLP(nVars, x0ptr, intconSize, intcon);
+	scilab_getDoubleArray(env, in[4], &intcon);
+	int size1 = scilab_getDim2d(env, in[4], &intconSize, &intConSize2);
+	printf("intconSize: %d\n", intconSize);
+
+	//Getting parameters
+
+	if (scilab_isList(env, in[5]) == 0)
+    {
+        Scierror(999, "%s: Wrong type for input argument #%d: A list expected.\n", fname, 6);
+        return 1;
+    }
+	scilabVar temp1 = scilab_getListItem( env, in[5], 1);
+	scilabVar temp2 = scilab_getListItem( env, in[5], 3);
+	scilabVar temp3 = scilab_getListItem( env, in[5], 5);
+	scilabVar temp4 = scilab_getListItem( env, in[5], 7);
+	scilabVar temp5 = scilab_getListItem( env, in[5], 9);
+	
+	printf("Obtained options\n");
+	double integertolerance=0, maxnodes=0, allowablegap=0, cputime=0, max_iter=0;
+
+	scilab_getDouble(env, temp1, &max_iter);
+	scilab_getDouble(env, temp2, &cputime);
+	scilab_getDouble(env, temp3, &integertolerance);
+	scilab_getDouble(env, temp4, &maxnodes);
+	scilab_getDouble(env, temp5, &allowablegap);
+
+	printf("Calling the main file\n");
+	SmartPtr<minuncTMINLP> tminlp = new minuncTMINLP(env, nVars, x0ptr, intconSize, intcon);
 
   BonminSetup bonmin;
   bonmin.initializeOptionsAndJournalist();
 
   // Here we can change the default value of some Bonmin or Ipopt option
 	bonmin.options()->SetStringValue("mu_oracle","loqo");
-    bonmin.options()->SetNumericValue("bonmin.integer_tolerance", *integertolerance);
-    bonmin.options()->SetIntegerValue("bonmin.node_limit", (int)*maxnodes);
-    bonmin.options()->SetNumericValue("bonmin.time_limit", *cputime);
-    bonmin.options()->SetNumericValue("bonmin.allowable_gap", *allowablegap);
-    bonmin.options()->SetIntegerValue("bonmin.iteration_limit", (int)*max_iter);
+    bonmin.options()->SetNumericValue("bonmin.integer_tolerance", integertolerance);
+    bonmin.options()->SetIntegerValue("bonmin.node_limit", (int)maxnodes);
+    bonmin.options()->SetNumericValue("bonmin.time_limit", cputime);
+    bonmin.options()->SetNumericValue("bonmin.allowable_gap", allowablegap);
+    bonmin.options()->SetIntegerValue("bonmin.iteration_limit", (int)max_iter);
   
   //Now initialize from tminlp
   bonmin.initialize(GetRawPtr(tminlp));
@@ -136,38 +158,23 @@ int cpp_intfminunc(char *fname)
 	{
 		fX = tminlp->getX();
 		ObjVal = tminlp->getObjVal();
-		if (returnDoubleMatrixToScilab(1, nVars, 1, fX))
-		{
-			return 1;
-		}
 
-		if (returnDoubleMatrixToScilab(2, 1, 1, &ObjVal))
-		{
-			return 1;
-		}
+		out[0] = scilab_createDoubleMatrix2d(env, 1, nVars, 0);
+		scilab_setDoubleArray(env, out[0], fX);
 
-		if (returnIntegerMatrixToScilab(3, 1, 1, &rstatus))
-		{
-			return 1;
-		}
+		out[1] = scilab_createDouble(env, ObjVal);
+
+		out[2] = scilab_createDouble(env, rstatus);
 		
 	}
 	else
 	{
-		if (returnDoubleMatrixToScilab(1, 0, 0, fX))
-		{
-			return 1;
-		}
+		out[0] = scilab_createDoubleMatrix2d(env, 1, nVars, 0);
+		scilab_setDoubleArray(env, out[0], fX);
 
-		if (returnDoubleMatrixToScilab(2, 1, 1, &ObjVal))
-		{
-			return 1;
-		}
+		out[1] = scilab_createDouble(env, ObjVal);
 
-		if (returnIntegerMatrixToScilab(3, 1, 1, &rstatus))
-		{
-			return 1;
-		}
+		out[2] = scilab_createDouble(env, rstatus);
   }
 
   return 0;

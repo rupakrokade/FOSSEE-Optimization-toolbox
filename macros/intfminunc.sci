@@ -309,7 +309,7 @@ function [xopt,fopt,exitflag,gradient,hessian] = intfminunc (varargin)
   endfunction
 
     //Calling the bonmin function for solving the above problem
-	  [xopt,fopt,exitflag] = inter_fminunc(_f,_gradf,_gradhess,x0,intcon,options,intconSize,nbvar);
+	  [xopt,fopt,exitflag] = inter_fminunc("_f","_gradf","_gradhess",x0,intcon,options,intconSize,nbvar);
 
   	//In the cases of the problem not being solved, return NULL to the output matrices
   	if( exitflag~=0 & exitflag~=3 ) then
