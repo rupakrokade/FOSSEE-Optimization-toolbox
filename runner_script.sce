@@ -7,12 +7,16 @@ ulink;
 exec builder.sce;
 exec("loader.sce");
 
+///Example 2:
 //Objective function to be minimised
 function y=f(x)
-y=1/x^2
+y= 100*(x(2) - x(1)^2)^2 + (1-x(1))^2;
 endfunction
-//Variable bounds
-x1 = [0];
-x2 = [1000];
-//Calling Ipopt
-[x,fval,exitflag,output,lambda] =fminbnd(f, x1, x2)
+//Starting point
+x0=[-1,2];
+intcon = [2]
+//Options
+options=list("MaxIter", [1500], "CpuTime", [500]);
+//Calling
+[xopt,fopt,exitflag,gradient,hessian]=intfminunc(f,x0,intcon,options)
+// Press ENTER to continue

@@ -26,7 +26,7 @@
 
 extern  "C"
 {
-#include "call_scilab.h"
+
 #include <api_scilab.h>
 #include <Scierror.h>
 #include <BOOL.h>

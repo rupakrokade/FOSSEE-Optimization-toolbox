@@ -10,21 +10,19 @@
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 
 #include "minuncTMINLP.hpp"
+#include "sci_iofunc.hpp"
 
 extern "C"
 {
-
+#include "call_scilab.h"
 #include <api_scilab.h>
 #include <Scierror.h>
 #include <BOOL.h>
 #include <localization.h>
 #include <sciprint.h>
 #include <string.h>
-#include <wchar.h>
 #include <assert.h>
 }
-
-#define LOCAL_DEBUG 1
 
 using namespace Ipopt;
 using namespace Bonmin;
@@ -120,38 +118,28 @@ bool minuncTMINLP::eval_jac_g(Index n, const Number* x, bool new_x,Index m, Inde
 //get value of objective function at vector x
 bool minuncTMINLP::eval_f(Index n, const Number* x, bool new_x, Number& obj_value)
 {
-  	scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
+	double obj=0;
+
+	scilabVar* out = (scilabVar*)malloc(sizeof(double) * (numVars_+2) * 1);
 	#if LOCAL_DEBUG
 		printf("Calling eval_f\n");
 	#endif	
   	double check;
-	double obj=0;
-	
 	const Number *xNew=x;
-	scilabVar* funcIn = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
+
+	scilabVar* funcIn = (scilabVar*)malloc(sizeof(double) * (numVars_) * 1);
 	funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
 	scilab_setDoubleArray(env_, funcIn[0], x);
 
 	scilab_call(env_, L"_f", 1, funcIn, 2, out);
-	
-
-	
-	if (scilab_isDouble(env_, out[1]) == 0 || scilab_isScalar(env_, out[1]) == 0)
-	{
-    	Scierror(999, "Wrong type for input argument #%d: An int expected.\n", 2);
-    	return 1;
-	}
-	
-
-	scilab_getDouble(env_, out[1], &check);
 
 	if (check==1)
 	{
-		
 		return true;
 	}	
 	else
-	{    
+	{ 
+
 		if (scilab_isDouble(env_, out[0]) == 0 || scilab_isScalar(env_, out[0]) == 0)
 		{
 			sciprint("No obj value\n");
@@ -159,59 +147,70 @@ bool minuncTMINLP::eval_f(Index n, const Number* x, bool new_x, Number& obj_valu
 		}
 
 		scilab_getDouble(env_, out[0], &obj);
-  		obj_value=obj;    
-		
-		return true;
+  		obj_value=obj;  
 	}
+	#if LOCAL_DEBUG
+		printf("Obj value obtained\n");
+	#endif
+  	return true;
 }
 
 //get value of gradient of objective function at vector x.
 bool minuncTMINLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* grad_f)
 {
-	scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) );
-	const Number *xNew=x;
+	char name[20]="_gradf";
+  	Number *resg;
+
 	#if LOCAL_DEBUG
-		printf("grad_f obtained\n");
-	#endif
+		printf("eval_grad_f started\n");
+	#endif	
+
+	const Number *xNew=x;
+	scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
+  	double check = 0;
+
 	scilabVar* funcIn = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
 	funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
 	scilab_setDoubleArray(env_, funcIn[0], x);
 
-	scilab_call(env_, L"_gradf", 1, funcIn, 2, out);
+	scilab_call(env_, L"_gradf", 2, funcIn, 2, out);
 
-
-	double* resg;
-	double check;
 	if (scilab_isDouble(env_, out[1]) == 0 || scilab_isScalar(env_, out[1]) == 0)
 	{
     	Scierror(999, "Wrong type for input argument #%d: An int expected.\n", 2);
     	return 1;
 	}
 	
-
+	#if LOCAL_DEBUG
+		printf("eval_grad_f check\n");
+	#endif
 	scilab_getDouble(env_, out[1], &check);
+	
 
 	if (check==1)
 	{
 		return true;
 	}	
 	else
-	{ 	
-		if (scilab_isDouble(env_, out[0]) == 0 || scilab_isMatrix2d(env_, out[0]) == 0)
+	{ 
+		double* resg;  
+  		if (scilab_isDouble(env_, out[0]) == 0 || scilab_isMatrix2d(env_, out[0]) == 0)
 		{
 			Scierror(999, "Wrong type for input argument #%d: An int expected.\n", 2);
 			return 1;
 		}
 	
 		scilab_getDoubleArray(env_, out[0], &resg);
-
-
-		Index i;
-		for(i=0;i<numVars_;i++)
-		{
+  		Index i;
+  		for(i=0;i<numVars_;i++)
+  		{
 			grad_f[i]=resg[i];
-		}
-	}		
+  		}
+	}
+
+	#if LOCAL_DEBUG
+		printf("eval_grad_f finished\n");
+	#endif
 	return true;
 }
 
@@ -239,9 +238,10 @@ bool minuncTMINLP::get_starting_point(Index n, bool init_x, Number* x,bool init_
 bool minuncTMINLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor, Index m, const Number* lambda,bool new_lambda, Index nele_hess, Index* iRow,Index* jCol, Number* values)
 {
 	#if LOCAL_DEBUG
-		printf("Start eval_h\n");
-	#endif	
+		printf("eval_h started\n");
+	#endif
 
+	scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
 	double check;
 	if (values==NULL)
 	{
@@ -259,24 +259,18 @@ bool minuncTMINLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor
 
 	else 
 	{			
+	  	Number *resh;
+
 		const Number *xNew=x;
 		#if LOCAL_DEBUG
 			printf("in the gradhess block\n");
 		#endif	
-		scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
 		scilabVar* funcIn = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
 		funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
 		scilab_setDoubleArray(env_, funcIn[0], x);
-		scilab_call(env_, L"_gradhess", 1, funcIn, 2, out);
-
-		double* resh;  
-		if (scilab_isDouble(env_, out[0]) == 0 || scilab_isMatrix2d(env_, out[0]) == 0)
-		{
-			Scierror(999, "Wrong type for input argument #%d: An int expected.\n", 2);
-			return 1;
-		}
-
-		scilab_getDoubleArray(env_, out[0], &resh);
+		double t= 2;
+		funcIn[1] = scilab_createDouble(env_, t);
+		scilab_call(env_, L"_gradhess", 2, funcIn, 2, out);
 
 		Index index=0;
 		for (Index row=0;row < numVars_ ;++row)
