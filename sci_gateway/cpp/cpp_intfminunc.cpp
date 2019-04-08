@@ -115,17 +115,17 @@ int cpp_intfminunc(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	printf("Obtained options\n");
 	double integertolerance=0, maxnodes=0, allowablegap=0, cputime=0, max_iter=0;
 
-	scilab_getDouble(env, temp1, &max_iter);
-	scilab_getDouble(env, temp2, &cputime);
-	scilab_getDouble(env, temp3, &integertolerance);
-	scilab_getDouble(env, temp4, &maxnodes);
-	scilab_getDouble(env, temp5, &allowablegap);
+	scilab_getDouble(env, temp1, &integertolerance);
+	scilab_getDouble(env, temp2, &maxnodes);
+	scilab_getDouble(env, temp3, &cputime);
+	scilab_getDouble(env, temp4, &allowablegap);
+	scilab_getDouble(env, temp5, &max_iter);
 
-	printf("Calling the main file\n");
 	SmartPtr<minuncTMINLP> tminlp = new minuncTMINLP(env, nVars, x0ptr, intconSize, intcon);
 
   BonminSetup bonmin;
   bonmin.initializeOptionsAndJournalist();
+  printf("Calling initializeOptionsAndJournalist\n");
 
   // Here we can change the default value of some Bonmin or Ipopt option
 	bonmin.options()->SetStringValue("mu_oracle","loqo");
@@ -136,8 +136,12 @@ int cpp_intfminunc(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
     bonmin.options()->SetIntegerValue("bonmin.iteration_limit", (int)max_iter);
   
   //Now initialize from tminlp
+  printf("Calling bonmin.initialize\n");  
   bonmin.initialize(GetRawPtr(tminlp));
-  
+  printf("Called bonmin.initialize\n");  
+
+
+
   //Set up done, now let's branch and bound
   try {
     Bab bb;

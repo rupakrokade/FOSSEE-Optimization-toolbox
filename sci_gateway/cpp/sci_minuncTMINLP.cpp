@@ -120,14 +120,14 @@ bool minuncTMINLP::eval_f(Index n, const Number* x, bool new_x, Number& obj_valu
 {
 	double obj=0;
 
-	scilabVar* out = (scilabVar*)malloc(sizeof(double) * (numVars_+2) * 1);
+	scilabVar* out = (scilabVar*)malloc(sizeof(double) * (numVars_) * 2);
 	#if LOCAL_DEBUG
 		printf("Calling eval_f\n");
 	#endif	
   	double check;
 	const Number *xNew=x;
 
-	scilabVar* funcIn = (scilabVar*)malloc(sizeof(double) * (numVars_) * 1);
+	scilabVar* funcIn = (scilabVar*)malloc(sizeof(double) * (numVars_) * 2);
 	funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
 	scilab_setDoubleArray(env_, funcIn[0], x);
 
@@ -166,10 +166,10 @@ bool minuncTMINLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* gra
 	#endif	
 
 	const Number *xNew=x;
-	scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
+	scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 2);
   	double check = 0;
 
-	scilabVar* funcIn = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
+	scilabVar* funcIn = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 2);
 	funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
 	scilab_setDoubleArray(env_, funcIn[0], x);
 
@@ -241,7 +241,7 @@ bool minuncTMINLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor
 		printf("eval_h started\n");
 	#endif
 
-	scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
+	scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 2);
 	double check;
 	if (values==NULL)
 	{
@@ -265,7 +265,7 @@ bool minuncTMINLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor
 		#if LOCAL_DEBUG
 			printf("in the gradhess block\n");
 		#endif	
-		scilabVar* funcIn = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
+		scilabVar* funcIn = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 2);
 		funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
 		scilab_setDoubleArray(env_, funcIn[0], x);
 		double t= 2;
