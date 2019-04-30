@@ -86,6 +86,8 @@ int cpp_intfminunc(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	
 	scilab_getDoubleArray(env, in[3], &x0ptr);
 
+	int size1 = scilab_getDim2d(env, in[3], &x0_rows, &x0_cols);
+
 	nVars=x0_rows;
 		
 	// Getting intcon
@@ -96,7 +98,7 @@ int cpp_intfminunc(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	}
 	
 	scilab_getDoubleArray(env, in[4], &intcon);
-	int size1 = scilab_getDim2d(env, in[4], &intconSize, &intConSize2);
+	size1 = scilab_getDim2d(env, in[4], &intconSize, &intConSize2);
 	printf("intconSize: %d\n", intconSize);
 
 	//Getting parameters
@@ -129,11 +131,11 @@ int cpp_intfminunc(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 
   // Here we can change the default value of some Bonmin or Ipopt option
 	bonmin.options()->SetStringValue("mu_oracle","loqo");
-    bonmin.options()->SetNumericValue("bonmin.integer_tolerance", integertolerance);
-    bonmin.options()->SetIntegerValue("bonmin.node_limit", (int)maxnodes);
-    bonmin.options()->SetNumericValue("bonmin.time_limit", cputime);
-    bonmin.options()->SetNumericValue("bonmin.allowable_gap", allowablegap);
-    bonmin.options()->SetIntegerValue("bonmin.iteration_limit", (int)max_iter);
+    bonmin.options()->SetNumericValue("bonmin.integer_tolerance", 1e-12);
+    bonmin.options()->SetIntegerValue("bonmin.node_limit", 50000);
+    bonmin.options()->SetNumericValue("bonmin.time_limit", 1000);
+    bonmin.options()->SetNumericValue("bonmin.allowable_gap", 1e-7);
+    bonmin.options()->SetIntegerValue("bonmin.iteration_limit", 5000);
   
   //Now initialize from tminlp
   printf("Calling bonmin.initialize\n");  

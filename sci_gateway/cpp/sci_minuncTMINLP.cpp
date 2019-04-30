@@ -10,19 +10,19 @@
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 
 #include "minuncTMINLP.hpp"
-#include "sci_iofunc.hpp"
 
 extern "C"
 {
-#include "call_scilab.h"
 #include <api_scilab.h>
 #include <Scierror.h>
 #include <BOOL.h>
 #include <localization.h>
 #include <sciprint.h>
-#include <string.h>
+#include <wchar.h>
 #include <assert.h>
 }
+
+#define LOCAL_DEBUG 0
 
 using namespace Ipopt;
 using namespace Bonmin;
@@ -35,6 +35,10 @@ minuncTMINLP::~minuncTMINLP()
 // Set the type of every variable - CONTINUOUS or INTEGER
 bool minuncTMINLP::get_variables_types(Index n, VariableType* var_types)
 {
+
+  #if LOCAL_DEBUG
+		printf("Calling get_variables_types\n");
+	#endif	
   n = numVars_;
   for(int i=0; i < n; i++)
     var_types[i] = CONTINUOUS;
@@ -67,6 +71,10 @@ bool minuncTMINLP::get_constraints_linearity(Index m, Ipopt::TNLP::LinearityType
 //get NLP info such as number of variables,constraints,no.of elements in jacobian and hessian to allocate memory
 bool minuncTMINLP::get_nlp_info(Index& n, Index& m, Index& nnz_jac_g, Index& nnz_h_lag, TNLP::IndexStyleEnum& index_style)
 {
+
+	#if LOCAL_DEBUG
+		printf("Calling get_nlp_info\n");
+	#endif
 	n=numVars_; // Number of variables
 	m=0; // Number of constraints
 	nnz_jac_g = 0; // No. of elements in Jacobian of constraints 
@@ -78,6 +86,10 @@ bool minuncTMINLP::get_nlp_info(Index& n, Index& m, Index& nnz_jac_g, Index& nnz
 //get variable and constraint bound info
 bool minuncTMINLP::get_bounds_info(Index n, Number* x_l, Number* x_u, Index m, Number* g_l, Number* g_u)
 {
+
+	#if LOCAL_DEBUG
+		printf("Calling get_bounds_info\n");
+	#endif
 	unsigned int i;
 	for(i=0;i<n;i++)
 	{
@@ -101,6 +113,10 @@ bool minuncTMINLP::eval_g(Index n, const Number* x, bool new_x, Index m, Number*
 // return the structure or values of the jacobian
 bool minuncTMINLP::eval_jac_g(Index n, const Number* x, bool new_x,Index m, Index nele_jac, Index* iRow, Index *jCol,Number* values)
 {
+
+	#if LOCAL_DEBUG
+		printf("Calling eval_jac_g\n");
+	#endif
  	if (values == NULL) 
  	{
     		// return the structure of the jacobian of the constraints
@@ -173,7 +189,15 @@ bool minuncTMINLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* gra
 	funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
 	scilab_setDoubleArray(env_, funcIn[0], x);
 
-	scilab_call(env_, L"_gradf", 2, funcIn, 2, out);
+	#if LOCAL_DEBUG
+		printf("eval_grad_f scilab_setDoubleArray\n");
+	#endif	
+
+	scilab_call(env_, L"_gradf", 1, funcIn, 2, out);
+
+	#if LOCAL_DEBUG
+		printf("eval_grad_f scilab_call\n");
+	#endif	
 
 	if (scilab_isDouble(env_, out[1]) == 0 || scilab_isScalar(env_, out[1]) == 0)
 	{
@@ -265,12 +289,29 @@ bool minuncTMINLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor
 		#if LOCAL_DEBUG
 			printf("in the gradhess block\n");
 		#endif	
+		scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 2);
+	  	double check = 0;
+
 		scilabVar* funcIn = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 2);
 		funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
 		scilab_setDoubleArray(env_, funcIn[0], x);
-		double t= 2;
-		funcIn[1] = scilab_createDouble(env_, t);
-		scilab_call(env_, L"_gradhess", 2, funcIn, 2, out);
+
+	#if LOCAL_DEBUG
+		printf("eval_h scilab_setDoubleArray\n");
+	#endif	
+		scilab_call(env_, L"_gradhess", 1, funcIn, 2, out);
+
+	#if LOCAL_DEBUG
+		printf("eval_h scilab_call\n");
+	#endif
+
+		if (scilab_isDouble(env_, out[0]) == 0 || scilab_isMatrix2d(env_, out[0]) == 0)
+		{
+			Scierror(999, "Wrong type for input argument #%d: An int expected.\n", 2);
+			return 1;
+		}
+	
+		scilab_getDoubleArray(env_, out[0], &resh);
 
 		Index index=0;
 		for (Index row=0;row < numVars_ ;++row)

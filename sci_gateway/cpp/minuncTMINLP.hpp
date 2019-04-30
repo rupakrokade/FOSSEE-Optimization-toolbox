@@ -14,7 +14,6 @@
 #define minuncTMINLP_HPP
 
 #include "BonTMINLP.hpp"
-#include "IpTNLP.hpp"
 #include "api_scilab.h"
 
 using namespace  Ipopt;
