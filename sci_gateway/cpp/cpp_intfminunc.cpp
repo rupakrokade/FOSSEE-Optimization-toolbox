@@ -99,7 +99,7 @@ int cpp_intfminunc(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	
 	scilab_getDoubleArray(env, in[4], &intcon);
 	size1 = scilab_getDim2d(env, in[4], &intconSize, &intConSize2);
-	printf("intconSize: %d\n", intconSize);
+
 
 	//Getting parameters
 
@@ -108,6 +108,8 @@ int cpp_intfminunc(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
         Scierror(999, "%s: Wrong type for input argument #%d: A list expected.\n", fname, 6);
         return 1;
     }
+
+/*
 	scilabVar temp1 = scilab_getListItem( env, in[5], 1);
 	scilabVar temp2 = scilab_getListItem( env, in[5], 3);
 	scilabVar temp3 = scilab_getListItem( env, in[5], 5);
@@ -115,32 +117,66 @@ int cpp_intfminunc(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	scilabVar temp5 = scilab_getListItem( env, in[5], 9);
 	
 	printf("Obtained options\n");
-	double integertolerance=0, maxnodes=0, allowablegap=0, cputime=0, max_iter=0;
+	double integertolerance=0, allowablegap=0, maxnodes =0,  cputime=0, maxiter=0;
 
 	scilab_getDouble(env, temp1, &integertolerance);
 	scilab_getDouble(env, temp2, &maxnodes);
 	scilab_getDouble(env, temp3, &cputime);
 	scilab_getDouble(env, temp4, &allowablegap);
-	scilab_getDouble(env, temp5, &max_iter);
+	scilab_getDouble(env, temp5, &maxiter);
+
+	int max_iter = (int)maxiter;
+	int cpu_time = (int)cputime;
+	int max_nodes = (int)maxnodes;
+
+	printf("integertolerance= %f\n",integertolerance);
+	printf("maxnodes= %d\n",maxnodes);
+	printf("cputime= %d\n",cputime);
+	printf("allowablegap= %f\n",allowablegap);
+	printf("max_iter= %d\n",max_iter);*/
+
+	scilabVar temp1 = scilab_getListItem( env, in[5], 1);
+	scilabVar temp2 = scilab_getListItem( env, in[5], 3);
+	scilabVar temp3 = scilab_getListItem( env, in[5], 5);
+	scilabVar temp4 = scilab_getListItem( env, in[5], 7);
+	scilabVar temp5 = scilab_getListItem( env, in[5], 9);
+
+	double integertolerance=0, allowable_gap=0, maxnodes =0,  cputime=0, maxiter=0;
+
+	scilab_getDouble(env, temp1, &integertolerance);
+	scilab_getDouble(env, temp2, &maxnodes);
+	scilab_getDouble(env, temp3, &cpuTime);
+	scilab_getDouble(env, temp4, &allowable_gap);
+	scilab_getDouble(env, temp5, &maxiter);
+
+
+	int max_nodes = (int)maxnodes;
+	int cpu_time = (int)cpuTime;
+	int iterLim = (int)maxiter;
+
+
+	printf("integertolerance= %f\n",integertolerance);
+	printf("maxnodes= %d\n",max_nodes);
+	printf("cputime= %d\n",cpu_time);
+	printf("iterLim= %d\n",iterLim);
+	printf("allowable_gap= %f\n",allowable_gap);
 
 	SmartPtr<minuncTMINLP> tminlp = new minuncTMINLP(env, nVars, x0ptr, intconSize, intcon);
 
   BonminSetup bonmin;
   bonmin.initializeOptionsAndJournalist();
-  printf("Calling initializeOptionsAndJournalist\n");
 
   // Here we can change the default value of some Bonmin or Ipopt option
 	bonmin.options()->SetStringValue("mu_oracle","loqo");
-    bonmin.options()->SetNumericValue("bonmin.integer_tolerance", 1e-12);
-    bonmin.options()->SetIntegerValue("bonmin.node_limit", 50000);
-    bonmin.options()->SetNumericValue("bonmin.time_limit", 1000);
-    bonmin.options()->SetNumericValue("bonmin.allowable_gap", 1e-7);
-    bonmin.options()->SetIntegerValue("bonmin.iteration_limit", 5000);
+    bonmin.options()->SetNumericValue("bonmin.integer_tolerance", integertolerance);
+    bonmin.options()->SetIntegerValue("bonmin.node_limit", max_nodes);
+    bonmin.options()->SetNumericValue("bonmin.time_limit", cpu_time);
+    bonmin.options()->SetNumericValue("bonmin.allowable_gap", allowable_gap);
+    bonmin.options()->SetIntegerValue("bonmin.iteration_limit", iterLim);
   
   //Now initialize from tminlp
-  printf("Calling bonmin.initialize\n");  
+
   bonmin.initialize(GetRawPtr(tminlp));
-  printf("Called bonmin.initialize\n");  
 
 
 

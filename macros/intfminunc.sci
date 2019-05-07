@@ -180,27 +180,48 @@ function [xopt,fopt,exitflag,gradient,hessian] = intfminunc (varargin)
    
   intconSize = length(intcon);
   
-  options = list('integertolerance',1d-06,'maxnodes',2147483647,'cputime',1d10,'allowablegap',0,'maxiter',2147483647,'gradobj',"off",'hessian', "off")
+  options = list('integertolerance',1d-06,'maxnodes',2147483647,'cputime',1d10,'allowablegap',1d-10,'maxiter',2147483647,'gradobj',"off",'hessian', "off")
 
   //Pushing param into default value
   
   for i = 1:(size(param))/2
     select convstr(param(2*i-1),'l')
       case 'integertolerance' then
-        Checktype("intfminbnd_options", param(2*i), param(2*i-1), 2*i, "constant");
-        options(2) = param(2*i);
+       if (type(param(2*i))~=1) then
+			errmsg = msprintf(gettext("%s: Value for integer tolerance should be a Constant"), "intfminunc");
+  			error(errmsg);
+		else
+			options(2) = param(2*i);    //Setting the integer tolerance as per user entry
+		end
       case 'maxnodes' then
-        Checktype("intfminbnd_options", param(2*i), param(2*i-1), 2*i, "constant");
-        options(4) = options(2*i);
+        if (type(param(2*i))~=1) then
+			errmsg = msprintf(gettext("%s: Value for Maximum nodes should be a Constant"), "intfminunc");
+  			error(errmsg);
+		else
+			options(4) = param(2*i);    //Setting the Maximum nodes as per user entry
+		end
       case 'cputime' then 
-        Checktype("intfminbnd_options", param(2*i), param(2*i-1), 2*i, "constant");
-        options(6) = options(2*i);
+      	if (type(param(2*i))~=1) then
+			errmsg = msprintf(gettext("%s: Value for Maximum Cpu-time should be a Constant"), "intfminunc");
+  			error(errmsg);
+		else
+			options(6) = param(2*i);    //Setting the maximum CPU time as per user entry
+		end
+
       case 'allowablegap' then
-        Checktype("intfminbnd_options", param(2*i), param(2*i-1), 2*i, "constant");
-        options(8) = options(2*i);
+         if (type(param(2*i))~=1) then
+			errmsg = msprintf(gettext("%s: Value for allowable gap should be a Constant"), "intfminunc");
+  			error(errmsg);
+		else
+			options(8) = param(2*i);    //Setting the allowable gap as per user entry
+		end
       case 'maxiter' then
-        Checktype("intfminbnd_options", param(2*i), param(2*i-1), 2*i, "constant");
-        options(10) = options(2*i);
+        if (type(param(2*i))~=1) then
+			errmsg = msprintf(gettext("%s: Value for max. no. of iterations should be a Constant"), "intfminunc");
+  			error(errmsg);
+		else
+			options(10) = param(2*i);    //Setting the max. no. of iterations as per user entry
+		end
       case 'gradobj' then
         Checktype("intfminbnd_options", param(2*i), param(2*i-1), 2*i, "string");
         if(convstr(param(2*i),'l') == "on") then
