@@ -109,32 +109,6 @@ int cpp_intfminunc(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
         return 1;
     }
 
-/*
-	scilabVar temp1 = scilab_getListItem( env, in[5], 1);
-	scilabVar temp2 = scilab_getListItem( env, in[5], 3);
-	scilabVar temp3 = scilab_getListItem( env, in[5], 5);
-	scilabVar temp4 = scilab_getListItem( env, in[5], 7);
-	scilabVar temp5 = scilab_getListItem( env, in[5], 9);
-	
-	printf("Obtained options\n");
-	double integertolerance=0, allowablegap=0, maxnodes =0,  cputime=0, maxiter=0;
-
-	scilab_getDouble(env, temp1, &integertolerance);
-	scilab_getDouble(env, temp2, &maxnodes);
-	scilab_getDouble(env, temp3, &cputime);
-	scilab_getDouble(env, temp4, &allowablegap);
-	scilab_getDouble(env, temp5, &maxiter);
-
-	int max_iter = (int)maxiter;
-	int cpu_time = (int)cputime;
-	int max_nodes = (int)maxnodes;
-
-	printf("integertolerance= %f\n",integertolerance);
-	printf("maxnodes= %d\n",maxnodes);
-	printf("cputime= %d\n",cputime);
-	printf("allowablegap= %f\n",allowablegap);
-	printf("max_iter= %d\n",max_iter);*/
-
 	scilabVar temp1 = scilab_getListItem( env, in[5], 1);
 	scilabVar temp2 = scilab_getListItem( env, in[5], 3);
 	scilabVar temp3 = scilab_getListItem( env, in[5], 5);

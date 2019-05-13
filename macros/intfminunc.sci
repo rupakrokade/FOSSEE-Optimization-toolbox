@@ -180,7 +180,7 @@ function [xopt,fopt,exitflag,gradient,hessian] = intfminunc (varargin)
    
   intconSize = length(intcon);
   
-  options = list('integertolerance',1d-06,'maxnodes',2147483647,'cputime',1d10,'allowablegap',1d-10,'maxiter',2147483647,'gradobj',"off",'hessian', "off")
+  options = list('integertolerance',1d-06,'maxnodes',2147483647,'cputime',200,'allowablegap',1d-10,'maxiter',2147483647,'gradobj',"off",'hessian', "off")
 
   //Pushing param into default value
   

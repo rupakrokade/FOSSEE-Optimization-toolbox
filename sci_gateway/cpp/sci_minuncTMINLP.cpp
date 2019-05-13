@@ -22,13 +22,16 @@ extern "C"
 #include <assert.h>
 }
 
-#define LOCAL_DEBUG 0
+#define LOCAL_DEBUG 1
 
 using namespace Ipopt;
 using namespace Bonmin;
 
 minuncTMINLP::~minuncTMINLP()
 {
+	#if LOCAL_DEBUG
+		printf("Calling destructor\n");
+	#endif
 	if(finalX_) delete[] finalX_;
 }
 
@@ -328,6 +331,10 @@ bool minuncTMINLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor
 
 void minuncTMINLP::finalize_solution(SolverReturn status,Index n, const Number* x, Number obj_value)
 {
+
+	#if LOCAL_DEBUG
+		printf("Calling finalize_solution\n");
+	#endif	
 	finalObjVal_ = obj_value;
 	status_ = status;
 	if(status==0 ||status== 3)
@@ -338,20 +345,36 @@ void minuncTMINLP::finalize_solution(SolverReturn status,Index n, const Number* 
 	    		 finalX_[i] = x[i];
 		}
 	}
+	#if LOCAL_DEBUG
+		printf("Finished finalize_solution\n");
+	#endif	
 	
 }
 
 const double * minuncTMINLP::getX()
 {	
+	#if LOCAL_DEBUG
+		printf("Calling getX\n");
+	#endif
 	return finalX_;
+	
 }
 
 double minuncTMINLP::getObjVal()
 {	
+
+	#if LOCAL_DEBUG
+		printf("Calling getObjVal\n");
+	#endif
 	return finalObjVal_;
+	
 }
 
 int minuncTMINLP::returnStatus()
 {	
+	#if LOCAL_DEBUG
+		printf("Calling returnStatus\n");
+	#endif
 	return status_;
+	
 }

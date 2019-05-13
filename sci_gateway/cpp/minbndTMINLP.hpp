@@ -14,7 +14,7 @@
 
 #include "BonTMINLP.hpp"
 #include "IpTNLP.hpp"
-#include "call_scilab.h"
+#include "api_scilab.h"
 
 using namespace  Ipopt;
 using namespace Bonmin;
@@ -22,6 +22,9 @@ using namespace Bonmin;
 class minbndTMINLP : public TMINLP
 {
 	private:
+	scilabEnv env_;					//Scilab Environment Variable
+
+	scilabEnv in_;					//Scilab input pointer Variable
 
   	Index numVars_;	            //Number of input variables
   	
@@ -43,7 +46,7 @@ class minbndTMINLP : public TMINLP
 
 public:
 	// Constructor
-    	minbndTMINLP(Index nV, Number *lb, Number *ub, Index intconSize, Number *intcon):numVars_(nV),lb_(lb),ub_(ub),intconSize_(intconSize),intcon_(intcon),finalX_(0),finalObjVal_(1e20){	}
+    	minbndTMINLP(scilabEnv env, scilabVar* in, Index nV, Number* lb, Number* ub, Index intconSize, Number *intcon):env_(env), in_(in),numVars_(nV),lb_(lb),ub_(ub),intconSize_(intconSize),intcon_(intcon),finalX_(0),finalObjVal_(1e20){	}
   
 	/** default destructor */
   	virtual ~minbndTMINLP();
@@ -88,6 +91,9 @@ public:
    	*   2) The values of the hessian of the lagrangian (if "values" is not NULL)
    	*/
   	virtual bool eval_h(Index n, const Number* x, bool new_x,Number obj_factor, Index m, const Number* lambda,bool new_lambda, Index nele_hess, Index* iRow,Index* jCol, Number* values);
+
+	//Function to call a scilab function to a C interface
+	virtual bool getScilabFunc(scilabVar* out, const Number* x, wchar_t* name, int nin, int nout);
 
   	/** This method is called when the algorithm is complete so the TNLP can store/write the solution */
   	virtual void finalize_solution(SolverReturn status,Index n, const Number* x, Number obj_value);

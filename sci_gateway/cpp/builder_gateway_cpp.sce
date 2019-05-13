@@ -45,6 +45,7 @@ Function_Names = [
 		//BONMIN Functions
 		'solveintqp','sci_solveintqp', 'csci6';
 		'inter_fminunc','cpp_intfminunc', 'csci6';
+		'inter_fminbnd','cpp_intfminbnd', 'csci6';
 		
 		 //fotversion
         "fotversion","sci_fotversion", 'csci6';
@@ -76,8 +77,8 @@ Files = [
 		//Bonmin
   		'sci_minuncTMINLP.cpp',
 		'cpp_intfminunc.cpp',
-		//'sci_minbndTMINLP.cpp',
-		//'cpp_intfminbnd.cpp',		
+		'sci_minbndTMINLP.cpp',
+		'cpp_intfminbnd.cpp',		
 		//'sci_minconTMINLP.cpp',
 		//'cpp_intfmincon.cpp',
 		'sci_intlinprog_matrixcpp.cpp',
@@ -116,6 +117,7 @@ Function_Names = [
 		//BONMIN Functions
 		'solveintqp','sci_solveintqp', 'csci6';
 		'inter_fminunc','cpp_intfminunc', 'csci6';
+		'inter_fminbnd','cpp_intfminbnd', 'csci6';
 
 		//fotversion
         "fotversion","sci_fotversion", 'csci6';
@@ -146,8 +148,8 @@ Files = [
 		//Bonmin
   		'sci_minuncTMINLP.cpp',
 		'cpp_intfminunc.cpp',
-		//'sci_minbndTMINLP.cpp',
-		//'cpp_intfminbnd.cpp',		
+		'sci_minbndTMINLP.cpp',
+		'cpp_intfminbnd.cpp',		
 		//'sci_minconTMINLP.cpp',
 		//'cpp_intfmincon.cpp',
 		'sci_intlinprog_matrixcpp.cpp',
