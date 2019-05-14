@@ -46,6 +46,7 @@ Function_Names = [
 		'solveintqp','sci_solveintqp', 'csci6';
 		'inter_fminunc','cpp_intfminunc', 'csci6';
 		'inter_fminbnd','cpp_intfminbnd', 'csci6';
+		'inter_fmincon','cpp_intfmincon', 'csci6';
 		
 		 //fotversion
         "fotversion","sci_fotversion", 'csci6';
@@ -79,8 +80,8 @@ Files = [
 		'cpp_intfminunc.cpp',
 		'sci_minbndTMINLP.cpp',
 		'cpp_intfminbnd.cpp',		
-		//'sci_minconTMINLP.cpp',
-		//'cpp_intfmincon.cpp',
+		'sci_minconTMINLP.cpp',
+		'cpp_intfmincon.cpp',
 		'sci_intlinprog_matrixcpp.cpp',
 		'sci_QuadTMINLP.cpp',
 		'sci_intquadprog.cpp'
@@ -118,6 +119,7 @@ Function_Names = [
 		'solveintqp','sci_solveintqp', 'csci6';
 		'inter_fminunc','cpp_intfminunc', 'csci6';
 		'inter_fminbnd','cpp_intfminbnd', 'csci6';
+		'inter_fmincon','cpp_intfmincon', 'csci6';
 
 		//fotversion
         "fotversion","sci_fotversion", 'csci6';
@@ -150,8 +152,8 @@ Files = [
 		'cpp_intfminunc.cpp',
 		'sci_minbndTMINLP.cpp',
 		'cpp_intfminbnd.cpp',		
-		//'sci_minconTMINLP.cpp',
-		//'cpp_intfmincon.cpp',
+		'sci_minconTMINLP.cpp',
+		'cpp_intfmincon.cpp',
 		'sci_intlinprog_matrixcpp.cpp',
 		'sci_QuadTMINLP.cpp',
 		'sci_intquadprog.cpp',

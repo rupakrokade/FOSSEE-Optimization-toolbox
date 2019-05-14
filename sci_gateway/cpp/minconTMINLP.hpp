@@ -23,7 +23,11 @@ class minconTMINLP : public TMINLP
 {
 	private:
 
-    Index numVars_;             //Number of variables
+    scilabEnv env_;				//Scilab Environment Variable
+
+	scilabEnv in_;				//Scilab input pointer Variable
+
+	Index numVars_;             //Number of variables
 
     Index numCons_;             //Number of constraints
 
@@ -53,7 +57,7 @@ class minconTMINLP : public TMINLP
 
 public:
 	// Constructor
-    	minconTMINLP(Index nV, Number *x0, Number *lb, Number *ub, Index nLC, Index nCons, Number *conlb, Number *conub, Index intconSize, Number *intcon):numVars_(nV),x0_(x0),lb_(lb),ub_(ub),numLC_(nLC),numCons_(nCons),conLb_(conlb),conUb_(conub),intconSize_(intconSize),intcon_(intcon),finalX_(0),finalObjVal_(1e20){	}
+    	minconTMINLP(scilabEnv env, scilabVar* in, Index nV, Number *x0, Number *lb, Number *ub, Index nLC, Index nCons, Number *conlb, Number *conub, Index intconSize, Number *intcon): env_(env), in_(in), numVars_(nV),x0_(x0),lb_(lb),ub_(ub),numLC_(nLC),numCons_(nCons),conLb_(conlb),conUb_(conub),intconSize_(intconSize),intcon_(intcon),finalX_(0),finalObjVal_(1e20){	}
   
 	/** default destructor */
   	virtual ~minconTMINLP();
