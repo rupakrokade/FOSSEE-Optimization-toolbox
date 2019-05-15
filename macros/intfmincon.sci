@@ -547,7 +547,7 @@ options = list('integertolerance',1d-06,'maxnodes',2147483647,'cputime',1d10,'al
 
     intconsize = size(intcon,"*")
 
-	[xopt,fopt,exitflag] = inter_fmincon(_f,_gradf,_addnlc,_gradnlc,_gradhess,x0,lb,ub,conLb,conUb,intcon,options,nbConInEq+nbConEq);
+	[xopt,fopt,exitflag] = inter_fmincon("_f","_gradf","_addnlc","_gradnlc", "_gradhess", x0, lb, ub, conLb, conUb, intcon, options, nbConInEq+nbConEq);
 
     //In the cases of the problem not being solved, return NULL to the output matrices
     if( exitflag~=0 & exitflag~=3 ) then

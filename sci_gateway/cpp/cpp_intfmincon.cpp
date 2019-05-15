@@ -162,7 +162,7 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	int cpu_time = (int)cpuTime;
 	int iterLim = (int)maxiter;
 	
-	SmartPtr<minconTMINLP> tminlp = new minconTMINLP(env, in, nVars,x0,lb,ub,(unsigned int)LC,nCons,conLb,conUb,intconSize,intcon);
+	SmartPtr<minconTMINLP> tminlp = new minconTMINLP(env, nVars,x0,lb,ub,(unsigned int)LC,nCons,conLb,conUb,intconSize,intcon);
 	
 	BonminSetup bonmin;
 	bonmin.initializeOptionsAndJournalist();
@@ -171,7 +171,7 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
     bonmin.options()->SetNumericValue("bonmin.integer_tolerance", integertolerance);
     bonmin.options()->SetIntegerValue("bonmin.node_limit",max_nodes);
     bonmin.options()->SetNumericValue("bonmin.time_limit", cpu_time);
-    bonmin.options()->SetNumericValue("bonmin.allowable_gap", allowablegap);
+    bonmin.options()->SetNumericValue("bonmin.allowable_gap", allowable_gap);
     bonmin.options()->SetIntegerValue("bonmin.iteration_limit", iterLim);
 
 	//Now initialize from tminlp

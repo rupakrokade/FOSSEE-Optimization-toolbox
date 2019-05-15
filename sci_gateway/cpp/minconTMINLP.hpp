@@ -14,7 +14,7 @@
 
 #include "BonTMINLP.hpp"
 #include "IpTNLP.hpp"
-#include "call_scilab.h"
+#include "api_scilab.h"
 
 using namespace  Ipopt;
 using namespace Bonmin;
@@ -25,7 +25,6 @@ class minconTMINLP : public TMINLP
 
     scilabEnv env_;				//Scilab Environment Variable
 
-	scilabEnv in_;				//Scilab input pointer Variable
 
 	Index numVars_;             //Number of variables
 
@@ -57,7 +56,7 @@ class minconTMINLP : public TMINLP
 
 public:
 	// Constructor
-    	minconTMINLP(scilabEnv env, scilabVar* in, Index nV, Number *x0, Number *lb, Number *ub, Index nLC, Index nCons, Number *conlb, Number *conub, Index intconSize, Number *intcon): env_(env), in_(in), numVars_(nV),x0_(x0),lb_(lb),ub_(ub),numLC_(nLC),numCons_(nCons),conLb_(conlb),conUb_(conub),intconSize_(intconSize),intcon_(intcon),finalX_(0),finalObjVal_(1e20){	}
+    	minconTMINLP(scilabEnv env, Index nV, Number *x0, Number *lb, Number *ub, Index nLC, Index nCons, Number *conlb, Number *conub, Index intconSize, Number *intcon): env_(env),  numVars_(nV),x0_(x0),lb_(lb),ub_(ub),numLC_(nLC),numCons_(nCons),conLb_(conlb),conUb_(conub),intconSize_(intconSize),intcon_(intcon),finalX_(0),finalObjVal_(1e20){	}
   
 	/** default destructor */
   	virtual ~minconTMINLP();

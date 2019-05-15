@@ -120,20 +120,26 @@ bool minbndTMINLP::eval_jac_g(Index n, const Number* x, bool new_x,Index m, Inde
 //get value of objective function at vector x
 bool minbndTMINLP::eval_f(Index n,  const Number* x, bool new_x, Number& obj_value)	
 {	
-  	double obj=0;
-
-	scilabVar* out = (scilabVar*)malloc(sizeof(double) * (numVars_) * 2);
+  	scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
+	
 	#if LOCAL_DEBUG
 		printf("Calling eval_f\n");
 	#endif	
   	double check;
-	const Number *xNew=x;
+	double obj=0;
+	getScilabFunc(out, x, L"_f", 1, 2);
 
-	scilabVar* funcIn = (scilabVar*)malloc(sizeof(double) * (numVars_) * 2);
-	funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
-	scilab_setDoubleArray(env_, funcIn[0], x);
+	
+	
+                               
+  	if (scilab_isDouble(env_, out[1]) == 0 || scilab_isScalar(env_, out[1]) == 0)
+	{
+    	Scierror(999, " Wrong type for input argument #%d: An int expected.\n", 8);
+    	return 1;
+	}
+	
 
-	scilab_call(env_, L"_f", 1, funcIn, 2, out);
+	scilab_getDouble(env_, out[1], &check);
 
 	if (check==1)
 	{
@@ -276,31 +282,49 @@ bool minbndTMINLP::eval_h(Index n,  const Number* x, bool new_x,Number obj_facto
 		funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
 		scilab_setDoubleArray(env_, funcIn[0], x);
 
-	#if LOCAL_DEBUG
-		printf("eval_h scilab_setDoubleArray\n");
-	#endif	
+	
 		scilab_call(env_, L"_gradhess", 1, funcIn, 2, out);
 
 	#if LOCAL_DEBUG
 		printf("eval_h scilab_call\n");
 	#endif
 
-		if (scilab_isDouble(env_, out[0]) == 0 || scilab_isMatrix2d(env_, out[0]) == 0)
+		if (scilab_isDouble(env_, out[1]) == 0 || scilab_isScalar(env_, out[1]) == 0)
 		{
 			Scierror(999, "Wrong type for input argument #%d: An int expected.\n", 2);
 			return 1;
 		}
-	
-		scilab_getDoubleArray(env_, out[0], &resh);
+		
 
-		Index index=0;
-		for (Index row=0;row < numVars_ ;++row)
+		scilab_getDouble(env_, out[1], &check);
+
+		if (check==1)
 		{
-			for (Index col=0; col <= row; ++col)
+			
+			return true;
+		}	
+
+		else
+		{
+			if (scilab_isDouble(env_, out[0]) == 0 || scilab_isMatrix2d(env_, out[0]) == 0)
 			{
-				values[index++]=obj_factor*(resh[numVars_*row+col]);
+				Scierror(999, "Wrong type for input argument #%d: An int expected.\n", 2);
+				return 1;
+			}
+		
+			scilab_getDoubleArray(env_, out[0], &resh);
+
+			Index index=0;
+			for (Index row=0;row < numVars_ ;++row)
+			{
+				for (Index col=0; col <= row; ++col)
+				{
+					values[index++]=obj_factor*(resh[numVars_*row+col]);
+				}
 			}
 		}
+
+		
        	return true;
     }
 }
