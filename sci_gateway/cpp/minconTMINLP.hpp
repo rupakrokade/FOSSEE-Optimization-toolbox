@@ -25,7 +25,6 @@ class minconTMINLP : public TMINLP
 
     scilabEnv env_;				//Scilab Environment Variable
 
-
 	Index numVars_;             //Number of variables
 
     Index numCons_;             //Number of constraints

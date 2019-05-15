@@ -10,14 +10,15 @@
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 
 #include "minconTMINLP.hpp"
-#include "sci_iofunc.hpp"
+
 
 extern "C"
 {
-#include "call_scilab.h"
+
 #include <api_scilab.h>
 #include <Scierror.h>
 #include <BOOL.h>
+#include <wchar.h>
 #include <localization.h>
 #include <sciprint.h>
 #include <string.h>
@@ -27,7 +28,7 @@ extern "C"
 using namespace Ipopt;
 using namespace Bonmin;
 
-//#define DEBUG 0
+#define DEBUG 1
 
 minconTMINLP::~minconTMINLP()
 {
@@ -458,7 +459,7 @@ bool minconTMINLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor
 
 		else
 		{
-			/*if (scilab_isDouble(env_, out[0]) == 0 || scilab_isMatrix2d(env_, out[0]) == 0)
+			if (scilab_isDouble(env_, out[0]) == 0 || scilab_isMatrix2d(env_, out[0]) == 0)
 			{
 				Scierror(999, "Wrong type for input argument #%d: An int expected.\n", 2);
 				return 1;
@@ -473,8 +474,9 @@ bool minconTMINLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor
 				{
 					values[index++]=obj_factor*(resCh[numVars_*row+col]);
 				}
-			}*/
+			}
 		}
+	}
 
 		
        	return true;

@@ -34,7 +34,7 @@ extern  "C"
 #include <wchar.h>
 
 
-const char fname[] = "cpp_intfmincon";
+const char fname[] = "inter_fmincon";
 /* ==================================================================== */
 int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt opt, int nout, scilabVar* out) 
 
@@ -46,12 +46,12 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	// Input arguments
 
 	Number *x0 = NULL, *lb = NULL, *ub = NULL,*conLb = NULL, *conUb = NULL,*LC = NULL;
-	static unsigned int nVars = 0,nCons = 0;
+	static unsigned int nVars = 0,nCons = 0, nCons2= 0;
 	int x0_rows, x0_cols,intconSize, intconSize2;
 	Number *intcon = NULL,*options=NULL, *ifval=NULL;
 	
 	// Output arguments
-	Number  ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;	//Number *fX = NULL, ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;
+	Number  ObjVal=0,iteration=0,fobj_eval=0;	//Number *fX = NULL, ObjVal=0,iteration=0,cpuTime=0,fobj_eval=0;
 	Number dual_inf, constr_viol, complementarity, kkt_error;
 	int rstatus = 0;
 
@@ -77,6 +77,8 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	}
 	
 	scilab_getDoubleArray(env, in[5], &x0);
+	int size1 = scilab_getDim2d(env, in[5], &x0_rows, &x0_cols);
+	printf("No. of vars = %d\n", x0_rows);
 
 	
 	if (scilab_isDouble(env, in[6]) == 0 || scilab_isMatrix2d(env, in[6]) == 0)
@@ -86,6 +88,7 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	}
 	
 	scilab_getDoubleArray(env, in[6], &lb);
+	
 
 	if (scilab_isDouble(env, in[7]) == 0 || scilab_isMatrix2d(env, in[7]) == 0)
 	{
@@ -103,6 +106,8 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	}
 	
 	scilab_getDoubleArray(env, in[8], &conLb);
+	size1 = scilab_getDim2d(env, in[8], &nCons, &nCons2);
+	printf("No. of cons = %d\n", nCons);
 
 
 	if (scilab_isDouble(env, in[9]) == 0 || scilab_isMatrix2d(env, in[9]) == 0)
@@ -122,7 +127,7 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	}
 	
 	scilab_getDoubleArray(env, in[10], &intcon);
-	int size1 = scilab_getDim2d(env, in[10], &intconSize, &intconSize2);
+	size1 = scilab_getDim2d(env, in[10], &intconSize, &intconSize2);
 
 
 
@@ -149,7 +154,7 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	scilabVar temp4 = scilab_getListItem( env, in[11], 7);
 	scilabVar temp5 = scilab_getListItem( env, in[11], 9);
 
-	double integertolerance=0, allowable_gap=0, maxnodes =0,  cputime=0, maxiter=0;
+	double integertolerance=0, allowable_gap=0, maxnodes =0,  cpuTime=0, maxiter=0;
 
 	scilab_getDouble(env, temp1, &integertolerance);
 	scilab_getDouble(env, temp2, &maxnodes);
@@ -161,21 +166,30 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	int max_nodes = (int)maxnodes;
 	int cpu_time = (int)cpuTime;
 	int iterLim = (int)maxiter;
+
+	printf("obtained options\n");
+
+	nVars = x0_rows;
+	
 	
 	SmartPtr<minconTMINLP> tminlp = new minconTMINLP(env, nVars,x0,lb,ub,(unsigned int)LC,nCons,conLb,conUb,intconSize,intcon);
-	
+	printf("obtained tminlp\n");	
+
 	BonminSetup bonmin;
 	bonmin.initializeOptionsAndJournalist();
 	bonmin.options()->SetStringValue("mu_oracle","loqo");
 	bonmin.options()->SetIntegerValue("bonmin.print_level",5);
     bonmin.options()->SetNumericValue("bonmin.integer_tolerance", integertolerance);
     bonmin.options()->SetIntegerValue("bonmin.node_limit",max_nodes);
-    bonmin.options()->SetNumericValue("bonmin.time_limit", cpu_time);
+    bonmin.options()->SetNumericValue("bonmin.time_limit", 50);
     bonmin.options()->SetNumericValue("bonmin.allowable_gap", allowable_gap);
     bonmin.options()->SetIntegerValue("bonmin.iteration_limit", iterLim);
+	
 
+	printf("initialized tminlp\n");	
 	//Now initialize from tminlp
 	bonmin.initialize(GetRawPtr(tminlp));
+	
 
 	//Set up done, now let's branch and bound
 	try {
