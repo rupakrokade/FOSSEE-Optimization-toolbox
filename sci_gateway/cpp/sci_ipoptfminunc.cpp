@@ -148,6 +148,7 @@ int sci_solveminuncp(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt 
 
 	int maxIters = (int)nIters;
 	int cpu_time = (int)cpu_Time;
+	printf("cputime= %d\n",cpu_time);
 	
 
     //Initialization of parameters
@@ -166,7 +167,7 @@ int sci_solveminuncp(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt 
 	////////// Managing the parameters //////////
 
 	app->Options()->SetNumericValue("tol", 1e-7);
-	app->Options()->SetIntegerValue("max_iter", nIters);
+	app->Options()->SetIntegerValue("max_iter", maxIters);
 	app->Options()->SetNumericValue("max_cpu_time", cpu_time);
 	
 	///////// Initialize the IpoptApplication and process the options /////////

@@ -345,27 +345,27 @@ function [xopt,fopt,exitflag,gradient,hessian] = intfmincon (varargin)
       end
   end
   
-options = list('integertolerance',1d-06,'maxnodes',2147483647,'cputime',1d10,'allowablegap',0,'maxiter',2147483647,'gradobj',"off",'hessian',"off",'gradcon',"off")
+options = list('integertolerance',1d-06,'maxnodes',2147483647,'cputime',1d10,'allowablegap',0,'maxiter',2147483647,'gradobj',"off",'hessian',"off")
 
   //Pushing param into default value
   
   for i = 1:(size(param))/2
     select convstr(param(2*i-1),'l')
       case 'integertolerance' then
-        Checktype("intfmincon_options", param(2*i), param(2*i-1), 2*i, "constant");
+        Checktype("intfminbnd_options", param(2*i), param(2*i-1), 2*i, "constant");
         options(2) = param(2*i);
       case 'maxnodes' then
-        Checktype("intfmincon_options", param(2*i), param(2*i-1), 2*i, "constant");
-        options(4) = param(2*i);
+        Checktype("intfminbnd_options", param(2*i), param(2*i-1), 2*i, "constant");
+        options(4) = options(2*i);
       case 'cputime' then 
-        Checktype("intfmincon_options", param(2*i), param(2*i-1), 2*i, "constant");
-        options(6) = param(2*i);
+        Checktype("intfminbnd_options", param(2*i), param(2*i-1), 2*i, "constant");
+        options(6) = options(2*i);
       case 'allowablegap' then
-        Checktype("intfmincon_options", param(2*i), param(2*i-1), 2*i, "constant");
-        options(8) = param(2*i);
+        Checktype("intfminbnd_options", param(2*i), param(2*i-1), 2*i, "constant");
+        options(8) = options(2*i);
       case 'maxiter' then
-        Checktype("intfmincon_options", param(2*i), param(2*i-1), 2*i, "constant");
-        options(10) = param(2*i);
+        Checktype("intfminbnd_options", param(2*i), param(2*i-1), 2*i, "constant");
+        options(10) = options(2*i);
       case 'gradobj' then
         Checktype("intfmincon_options", param(2*i), param(2*i-1), 2*i, "string");
         if(convstr(param(2*i),'l') == "on") then
@@ -547,7 +547,7 @@ options = list('integertolerance',1d-06,'maxnodes',2147483647,'cputime',1d10,'al
 
     intconsize = size(intcon,"*")
 
-	[xopt,fopt,exitflag] = inter_fmincon(_f,_gradf,_addnlc,_gradnlc,_gradhess,x0,lb,ub,conLb,conUb,intcon,options,nbConInEq+nbConEq);
+	[xopt,fopt,exitflag] = inter_fmincon("_f","_gradf","_addnlc","_gradnlc", "_gradhess", x0, lb, ub, conLb, conUb, intcon, options, nbConInEq+nbConEq);
 
     //In the cases of the problem not being solved, return NULL to the output matrices
     if( exitflag~=0 & exitflag~=3 ) then

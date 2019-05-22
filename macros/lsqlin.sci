@@ -382,7 +382,7 @@ function [xopt,resnorm,residual,exitflag,output,lambda] = lsqlin (varargin)
 	nbCon = size(conMatrix,1);
 	conLB = [beq; repmat(-%inf,nbConInEq,1)]';
 	conUB = [beq;b]' ; 
-	[xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(nbVar,nbCon,H,f,conMatrix,conLB,conUB,lb,ub,x0,options);
+	[xopt,fopt,status,iter,Zl,Zu,lmbda] = solveqp(int32(nbVar),int32(nbCon),H,f,conMatrix,conLB,conUB,lb,ub,x0,options);
 
 	xopt = xopt';
 	residual = d-C*xopt;

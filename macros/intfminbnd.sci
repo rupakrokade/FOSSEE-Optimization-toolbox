@@ -318,7 +318,7 @@ options = list('integertolerance',1d-06,'maxnodes',2147483647,'cputime',1d10,'al
     
     intconsize = size(intcon,"*");
 
-	[xopt,fopt,exitflag] = inter_fminbnd(_f,_gradf,_gradhess,x1,x2,intcon,options,nbvar);
+	[xopt,fopt,exitflag] = inter_fminbnd("_f","_gradf","_gradhess",x1,x2,intcon,options,nbvar);
 
     //In the cases of the problem not being solved, return NULL to the output matrices
     if( exitflag~=0 & exitflag~=3 ) then

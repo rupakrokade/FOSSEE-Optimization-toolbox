@@ -44,6 +44,12 @@ Function_Names = [
 
 		//BONMIN Functions
 		'solveintqp','sci_solveintqp', 'csci6';
+		'inter_fminunc','cpp_intfminunc', 'csci6';
+		'inter_fminbnd','cpp_intfminbnd', 'csci6';
+		'inter_fmincon','cpp_intfmincon', 'csci6';
+		
+		 //fotversion
+        "fotversion","sci_fotversion", 'csci6';
 
     ];
 
@@ -70,16 +76,18 @@ Files = [
         "read_mps.cpp",
 		
 		//Bonmin
-  		//'sci_minuncTMINLP.cpp',
-		//'cpp_intfminunc.cpp',
-		//'sci_minbndTMINLP.cpp',
-		//'cpp_intfminbnd.cpp',		
-		//'sci_minconTMINLP.cpp',
-		//'cpp_intfmincon.cpp',
+  		'sci_minuncTMINLP.cpp',
+		'cpp_intfminunc.cpp',
+		'sci_minbndTMINLP.cpp',
+		'cpp_intfminbnd.cpp',		
+		'sci_minconTMINLP.cpp',
+		'cpp_intfmincon.cpp',
 		'sci_intlinprog_matrixcpp.cpp',
 		'sci_QuadTMINLP.cpp',
 		'sci_intquadprog.cpp'
-		'sci_intlinprog_mpscpp.cpp'        
+		'sci_intlinprog_mpscpp.cpp'    
+
+		"sci_fotversion.cpp"    
     
     ]
 else
@@ -109,6 +117,12 @@ Function_Names = [
 
 		//BONMIN Functions
 		'solveintqp','sci_solveintqp', 'csci6';
+		'inter_fminunc','cpp_intfminunc', 'csci6';
+		'inter_fminbnd','cpp_intfminbnd', 'csci6';
+		'inter_fmincon','cpp_intfmincon', 'csci6';
+
+		//fotversion
+        "fotversion","sci_fotversion", 'csci6';
     ];
 
 //Name of all the files to be compiled
@@ -134,16 +148,18 @@ Files = [
         "read_mps.cpp"
 
 		//Bonmin
-  		//'sci_minuncTMINLP.cpp',
-		//'cpp_intfminunc.cpp',
-		//'sci_minbndTMINLP.cpp',
-		//'cpp_intfminbnd.cpp',		
-		//'sci_minconTMINLP.cpp',
-		//'cpp_intfmincon.cpp',
+  		'sci_minuncTMINLP.cpp',
+		'cpp_intfminunc.cpp',
+		'sci_minbndTMINLP.cpp',
+		'cpp_intfminbnd.cpp',		
+		'sci_minconTMINLP.cpp',
+		'cpp_intfmincon.cpp',
 		'sci_intlinprog_matrixcpp.cpp',
 		'sci_QuadTMINLP.cpp',
 		'sci_intquadprog.cpp',
 		'sci_intlinprog_mpscpp.cpp'
+
+		"sci_fotversion.cpp"
         
     ]
 

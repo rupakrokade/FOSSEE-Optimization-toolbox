@@ -3,6 +3,7 @@
 *.*~
 *.bin
 /help/en_US/scilab_en_US_help/
+./runner_script.sce
 /macros/lib
 /macros/names
 /sci_gateway/cpp/libFOSSEE_Optimization_Toolbox.so

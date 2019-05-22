@@ -1,6 +1,6 @@
 // Copyright (C) 2015 - IIT Bombay - FOSSEE
 //
-// Author: Harpreet Singh
+// Author: Harpreet Singh, Pranav Deshpande and Akshay Miterani
 // Organization: FOSSEE, IIT Bombay
 // Email: toolbox@scilab.in
 // This file must be used under the terms of the CeCILL.
@@ -9,50 +9,39 @@
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 
-#include "minbndTMINLP.hpp"
-#include "sci_iofunc.hpp"
+#include "minuncTMINLP.hpp"
 
 extern "C"
 {
-#include "call_scilab.h"
 #include <api_scilab.h>
 #include <Scierror.h>
 #include <BOOL.h>
 #include <localization.h>
 #include <sciprint.h>
-#include <string.h>
+#include <wchar.h>
 #include <assert.h>
 }
+
+#define LOCAL_DEBUG 1
 
 using namespace Ipopt;
 using namespace Bonmin;
 
-#define LOCAL_DEBUG 0
-
-minbndTMINLP::~minbndTMINLP()
+minuncTMINLP::~minuncTMINLP()
 {
+	#if LOCAL_DEBUG
+		printf("Calling destructor\n");
+	#endif
 	if(finalX_) delete[] finalX_;
 }
 
-bool minbndTMINLP::getScilabFunc(scilabVar* out, const Number* x, wchar_t* name, int nin, int nout)
-{
-	
-	scilabVar* funcIn = (scilabVar*)malloc(sizeof(double) * (numVars_) * 1);
-	funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
-	scilab_setDoubleArray(env_, funcIn[0], x);
-
-	#if LOCAL_DEBUG
-		printf("Calling the relevant function\n");
-	#endif
-	scilab_call(env_, name, nin, funcIn, nout, out);
-	
-	
-	return true;
-}
-
 // Set the type of every variable - CONTINUOUS or INTEGER
-bool minbndTMINLP::get_variables_types(Index n, VariableType* var_types)
+bool minuncTMINLP::get_variables_types(Index n, VariableType* var_types)
 {
+
+  #if LOCAL_DEBUG
+		printf("Calling get_variables_types\n");
+	#endif	
   n = numVars_;
   for(int i=0; i < n; i++)
     var_types[i] = CONTINUOUS;
@@ -62,16 +51,33 @@ bool minbndTMINLP::get_variables_types(Index n, VariableType* var_types)
 }
 
 // The linearity of the variables - LINEAR or NON_LINEAR
-bool minbndTMINLP::get_variables_linearity(Index n, Ipopt::TNLP::LinearityType* var_types)
-{  return true; }
+bool minuncTMINLP::get_variables_linearity(Index n, Ipopt::TNLP::LinearityType* var_types)
+{
+	/*
+	n = numVars_;
+	for(int i = 0; i < n; i++)
+		var_types[i] = Ipopt::TNLP::LINEAR;
+  */
+  return true;
+}
 
 // The linearity of the constraints - LINEAR or NON_LINEAR
-bool minbndTMINLP::get_constraints_linearity(Index m, Ipopt::TNLP::LinearityType* const_types)
-{  return true;}
+bool minuncTMINLP::get_constraints_linearity(Index m, Ipopt::TNLP::LinearityType* const_types)
+{
+ /* m = numConstr_;
+  for(int i = 0; i < m; i++)
+    const_types[i] = Ipopt::TNLP::LINEAR;
+  */
+  return true;
+}
 
 //get NLP info such as number of variables,constraints,no.of elements in jacobian and hessian to allocate memory
-bool minbndTMINLP::get_nlp_info(Index& n, Index& m, Index& nnz_jac_g, Index& nnz_h_lag, TNLP::IndexStyleEnum& index_style)
+bool minuncTMINLP::get_nlp_info(Index& n, Index& m, Index& nnz_jac_g, Index& nnz_h_lag, TNLP::IndexStyleEnum& index_style)
 {
+
+	#if LOCAL_DEBUG
+		printf("Calling get_nlp_info\n");
+	#endif
 	n=numVars_; // Number of variables
 	m=0; // Number of constraints
 	nnz_jac_g = 0; // No. of elements in Jacobian of constraints 
@@ -81,13 +87,17 @@ bool minbndTMINLP::get_nlp_info(Index& n, Index& m, Index& nnz_jac_g, Index& nnz
 }
 
 //get variable and constraint bound info
-bool minbndTMINLP::get_bounds_info(Index n, Number* x_l, Number* x_u, Index m, Number* g_l, Number* g_u)
+bool minuncTMINLP::get_bounds_info(Index n, Number* x_l, Number* x_u, Index m, Number* g_l, Number* g_u)
 {
+
+	#if LOCAL_DEBUG
+		printf("Calling get_bounds_info\n");
+	#endif
 	unsigned int i;
 	for(i=0;i<n;i++)
 	{
-		x_l[i]=lb_[i]+0.0000001;
-		x_u[i]=ub_[i]-0.0000001;
+		x_l[i]=-1.0e19;
+		x_u[i]=1.0e19;
 	}
 
         g_l=NULL;
@@ -96,7 +106,7 @@ bool minbndTMINLP::get_bounds_info(Index n, Number* x_l, Number* x_u, Index m, N
 }
 
 // return the value of the constraints: g(x)
-bool minbndTMINLP::eval_g(Index n, const Number* x, bool new_x, Index m, Number* g)
+bool minuncTMINLP::eval_g(Index n, const Number* x, bool new_x, Index m, Number* g)
 {
   	// return the value of the constraints: g(x)
   	g=NULL;
@@ -104,8 +114,12 @@ bool minbndTMINLP::eval_g(Index n, const Number* x, bool new_x, Index m, Number*
 }
 
 // return the structure or values of the jacobian
-bool minbndTMINLP::eval_jac_g(Index n, const Number* x, bool new_x,Index m, Index nele_jac, Index* iRow, Index *jCol,Number* values)
+bool minuncTMINLP::eval_jac_g(Index n, const Number* x, bool new_x,Index m, Index nele_jac, Index* iRow, Index *jCol,Number* values)
 {
+
+	#if LOCAL_DEBUG
+		printf("Calling eval_jac_g\n");
+	#endif
  	if (values == NULL) 
  	{
     		// return the structure of the jacobian of the constraints
@@ -116,32 +130,26 @@ bool minbndTMINLP::eval_jac_g(Index n, const Number* x, bool new_x,Index m, Inde
 	{
 		values=NULL;
   	}
+
   	return true;
 }
 
 //get value of objective function at vector x
-bool minbndTMINLP::eval_f(Index n,  const Number* x, bool new_x, Number& obj_value)	
-{	
-  	scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
-	
+bool minuncTMINLP::eval_f(Index n, const Number* x, bool new_x, Number& obj_value)
+{
+	double obj=0;
+
+	scilabVar* out = (scilabVar*)malloc(sizeof(double) * (numVars_) * 2);
 	#if LOCAL_DEBUG
 		printf("Calling eval_f\n");
 	#endif	
   	double check;
-	double obj=0;
-	getScilabFunc(out, x, L"_f", 1, 2);
 
-	
-	
-                               
-  	if (scilab_isDouble(env_, out[1]) == 0 || scilab_isScalar(env_, out[1]) == 0)
-	{
-    	Scierror(999, " Wrong type for input argument #%d: An int expected.\n", 8);
-    	return 1;
-	}
-	
+	scilabVar* funcIn = (scilabVar*)malloc(sizeof(double) * (numVars_) * 2);
+	funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
+	scilab_setDoubleArray(env_, funcIn[0], x);
 
-	scilab_getDouble(env_, out[1], &check);
+	scilab_call(env_, L"_f", 1, funcIn, 2, out);
 
 	if (check==1)
 	{
@@ -166,15 +174,15 @@ bool minbndTMINLP::eval_f(Index n,  const Number* x, bool new_x, Number& obj_val
 }
 
 //get value of gradient of objective function at vector x.
-bool minbndTMINLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* grad_f)	
+bool minuncTMINLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* grad_f)
 {
-	Number *resg;
+	char name[20]="_gradf";
+  	Number *resg;
 
 	#if LOCAL_DEBUG
 		printf("eval_grad_f started\n");
 	#endif	
 
-	const Number *xNew=x;
 	scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 2);
   	double check = 0;
 
@@ -188,9 +196,6 @@ bool minbndTMINLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* gra
 
 	scilab_call(env_, L"_gradf", 1, funcIn, 2, out);
 
-	#if LOCAL_DEBUG
-		printf("eval_grad_f scilab_call\n");
-	#endif	
 
 	if (scilab_isDouble(env_, out[1]) == 0 || scilab_isScalar(env_, out[1]) == 0)
 	{
@@ -210,7 +215,7 @@ bool minbndTMINLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* gra
 	}	
 	else
 	{ 
-		double* resg;  
+
   		if (scilab_isDouble(env_, out[0]) == 0 || scilab_isMatrix2d(env_, out[0]) == 0)
 		{
 			Scierror(999, "Wrong type for input argument #%d: An int expected.\n", 2);
@@ -224,11 +229,15 @@ bool minbndTMINLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* gra
 			grad_f[i]=resg[i];
   		}
 	}
-  	return true;
+
+	#if LOCAL_DEBUG
+		printf("eval_grad_f finished\n");
+	#endif
+	return true;
 }
 
 // This method sets initial values for required vectors . For now we are assuming 0 to all values. 
-bool minbndTMINLP::get_starting_point(Index n, bool init_x, Number* x,bool init_z, Number* z_L, Number* z_U,Index m, bool init_lambda,Number* lambda)
+bool minuncTMINLP::get_starting_point(Index n, bool init_x, Number* x,bool init_z, Number* z_L, Number* z_U,Index m, bool init_lambda,Number* lambda)
 {
  	assert(init_x == true);
   	assert(init_z == false);
@@ -236,8 +245,9 @@ bool minbndTMINLP::get_starting_point(Index n, bool init_x, Number* x,bool init_
 	if (init_x == true)
 	{ //we need to set initial values for vector x
 		for (Index var=0;var<n;var++)
-			{x[var]=0.0;}//initialize with 0.
+			x[var]=varGuess_[var];//initialize with 0 or we can change.
 	}
+
 	return true;
 }
 
@@ -247,8 +257,8 @@ bool minbndTMINLP::get_starting_point(Index n, bool init_x, Number* x,bool init_
  * x,lambda,obj_factor.
 */
 
-bool minbndTMINLP::eval_h(Index n,  const Number* x, bool new_x,Number obj_factor, Index m, const Number* lambda,bool new_lambda, Index nele_hess, Index* iRow,Index* jCol, Number* values)
-{	
+bool minuncTMINLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor, Index m, const Number* lambda,bool new_lambda, Index nele_hess, Index* iRow,Index* jCol, Number* values)
+{
 	#if LOCAL_DEBUG
 		printf("eval_h started\n");
 	#endif
@@ -273,7 +283,6 @@ bool minbndTMINLP::eval_h(Index n,  const Number* x, bool new_x,Number obj_facto
 	{			
 	  	Number *resh;
 
-		const Number *xNew=x;
 		#if LOCAL_DEBUG
 			printf("in the gradhess block\n");
 		#endif	
@@ -284,12 +293,11 @@ bool minbndTMINLP::eval_h(Index n,  const Number* x, bool new_x,Number obj_facto
 		funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
 		scilab_setDoubleArray(env_, funcIn[0], x);
 
-	
+	#if LOCAL_DEBUG
+		printf("eval_h scilab_setDoubleArray\n");
+	#endif	
 		scilab_call(env_, L"_gradhess", 1, funcIn, 2, out);
 
-	#if LOCAL_DEBUG
-		printf("eval_h scilab_call\n");
-	#endif
 
 		if (scilab_isDouble(env_, out[1]) == 0 || scilab_isScalar(env_, out[1]) == 0)
 		{
@@ -331,32 +339,46 @@ bool minbndTMINLP::eval_h(Index n,  const Number* x, bool new_x,Number obj_facto
     }
 }
 
-void minbndTMINLP::finalize_solution(SolverReturn status,Index n, const Number* x, Number obj_value)
+
+void minuncTMINLP::finalize_solution(SolverReturn status,Index n, const Number* x, Number obj_value)
 {
+
+	#if LOCAL_DEBUG
+		printf("Calling finalize_solution\n");
+	#endif	
 	finalObjVal_ = obj_value;
 	status_ = status;
 	if(status==0 ||status== 3)
 	{
-		finalX_ =  new double[n];
+		finalX_ = new double[n];
 		for (Index i=0; i<numVars_; i++) 
 		{
 	    		 finalX_[i] = x[i];
 		}
 	}
-
+	#if LOCAL_DEBUG
+		printf("Finished finalize_solution\n");
+	#endif	
+	
 }
 
-const double * minbndTMINLP::getX()
+const double * minuncTMINLP::getX()
 {	
+	
 	return finalX_;
+	
 }
 
-double minbndTMINLP::getObjVal()
+double minuncTMINLP::getObjVal()
 {	
+
 	return finalObjVal_;
+	
 }
 
-int minbndTMINLP::returnStatus()
+int minuncTMINLP::returnStatus()
 {	
+
 	return status_;
+	
 }
