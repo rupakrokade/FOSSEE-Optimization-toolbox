@@ -144,7 +144,6 @@ bool minuncTMINLP::eval_f(Index n, const Number* x, bool new_x, Number& obj_valu
 		printf("Calling eval_f\n");
 	#endif	
   	double check;
-	const Number *xNew=x;
 
 	scilabVar* funcIn = (scilabVar*)malloc(sizeof(double) * (numVars_) * 2);
 	funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
@@ -184,7 +183,6 @@ bool minuncTMINLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* gra
 		printf("eval_grad_f started\n");
 	#endif	
 
-	const Number *xNew=x;
 	scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 2);
   	double check = 0;
 
@@ -198,9 +196,6 @@ bool minuncTMINLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* gra
 
 	scilab_call(env_, L"_gradf", 1, funcIn, 2, out);
 
-	#if LOCAL_DEBUG
-		printf("eval_grad_f scilab_call\n");
-	#endif	
 
 	if (scilab_isDouble(env_, out[1]) == 0 || scilab_isScalar(env_, out[1]) == 0)
 	{
@@ -220,7 +215,7 @@ bool minuncTMINLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* gra
 	}	
 	else
 	{ 
-		double* resg;  
+
   		if (scilab_isDouble(env_, out[0]) == 0 || scilab_isMatrix2d(env_, out[0]) == 0)
 		{
 			Scierror(999, "Wrong type for input argument #%d: An int expected.\n", 2);
@@ -288,7 +283,6 @@ bool minuncTMINLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor
 	{			
 	  	Number *resh;
 
-		const Number *xNew=x;
 		#if LOCAL_DEBUG
 			printf("in the gradhess block\n");
 		#endif	
@@ -304,9 +298,6 @@ bool minuncTMINLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor
 	#endif	
 		scilab_call(env_, L"_gradhess", 1, funcIn, 2, out);
 
-	#if LOCAL_DEBUG
-		printf("eval_h scilab_call\n");
-	#endif
 
 		if (scilab_isDouble(env_, out[1]) == 0 || scilab_isScalar(env_, out[1]) == 0)
 		{
@@ -373,9 +364,7 @@ void minuncTMINLP::finalize_solution(SolverReturn status,Index n, const Number* 
 
 const double * minuncTMINLP::getX()
 {	
-	#if LOCAL_DEBUG
-		printf("Calling getX\n");
-	#endif
+	
 	return finalX_;
 	
 }
@@ -383,18 +372,13 @@ const double * minuncTMINLP::getX()
 double minuncTMINLP::getObjVal()
 {	
 
-	#if LOCAL_DEBUG
-		printf("Calling getObjVal\n");
-	#endif
 	return finalObjVal_;
 	
 }
 
 int minuncTMINLP::returnStatus()
 {	
-	#if LOCAL_DEBUG
-		printf("Calling returnStatus\n");
-	#endif
+
 	return status_;
 	
 }

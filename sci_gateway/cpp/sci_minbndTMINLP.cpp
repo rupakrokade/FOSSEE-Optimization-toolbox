@@ -27,6 +27,8 @@ extern "C"
 using namespace Ipopt;
 using namespace Bonmin;
 
+#define LOCAL_DEBUG 0
+
 minbndTMINLP::~minbndTMINLP()
 {
 	if(finalX_) delete[] finalX_;

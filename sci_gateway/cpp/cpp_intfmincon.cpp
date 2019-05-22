@@ -78,7 +78,6 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	
 	scilab_getDoubleArray(env, in[5], &x0);
 	int size1 = scilab_getDim2d(env, in[5], &x0_rows, &x0_cols);
-	printf("No. of vars = %d\n", x0_rows);
 
 	
 	if (scilab_isDouble(env, in[6]) == 0 || scilab_isMatrix2d(env, in[6]) == 0)
@@ -88,6 +87,7 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	}
 	
 	scilab_getDoubleArray(env, in[6], &lb);
+
 	
 
 	if (scilab_isDouble(env, in[7]) == 0 || scilab_isMatrix2d(env, in[7]) == 0)
@@ -107,7 +107,6 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	
 	scilab_getDoubleArray(env, in[8], &conLb);
 	size1 = scilab_getDim2d(env, in[8], &nCons, &nCons2);
-	printf("No. of cons = %d\n", nCons);
 
 
 	if (scilab_isDouble(env, in[9]) == 0 || scilab_isMatrix2d(env, in[9]) == 0)
@@ -181,7 +180,7 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	bonmin.options()->SetIntegerValue("bonmin.print_level",5);
     bonmin.options()->SetNumericValue("bonmin.integer_tolerance", integertolerance);
     bonmin.options()->SetIntegerValue("bonmin.node_limit",max_nodes);
-    bonmin.options()->SetNumericValue("bonmin.time_limit", 50);
+    bonmin.options()->SetNumericValue("bonmin.time_limit", 500);
     bonmin.options()->SetNumericValue("bonmin.allowable_gap", allowable_gap);
     bonmin.options()->SetIntegerValue("bonmin.iteration_limit", iterLim);
 	
