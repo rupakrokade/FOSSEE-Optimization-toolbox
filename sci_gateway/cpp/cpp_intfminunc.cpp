@@ -185,7 +185,7 @@ int cpp_intfminunc(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	}
 	else
 	{
-		out[0] = scilab_createDoubleMatrix2d(env, 1, nVars, 0);
+		out[0] = scilab_createDoubleMatrix2d(env, 0, 0, 0);
 		scilab_setDoubleArray(env, out[0], fX);
 
 		out[1] = scilab_createDouble(env, ObjVal);

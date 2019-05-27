@@ -34,11 +34,11 @@ minbndTMINLP::~minbndTMINLP()
 	if(finalX_) delete[] finalX_;
 }
 
-bool minbndTMINLP::getScilabFunc(scilabVar* out, const Number* x, wchar_t* name, int nin, int nout)
+bool minbndTMINLP::getScilabFunc(Index n, scilabVar* out, const Number* x, wchar_t* name, int nin, int nout)
 {
 	
 	scilabVar* funcIn = (scilabVar*)malloc(sizeof(double) * (numVars_) * 1);
-	funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
+	funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, n, 0);
 	scilab_setDoubleArray(env_, funcIn[0], x);
 
 	#if LOCAL_DEBUG
@@ -129,7 +129,7 @@ bool minbndTMINLP::eval_f(Index n,  const Number* x, bool new_x, Number& obj_val
 	#endif	
   	double check;
 	double obj=0;
-	getScilabFunc(out, x, L"_f", 1, 2);
+	getScilabFunc(n, out, x, L"_f", 1, 2);
 
 	
 	
@@ -179,7 +179,7 @@ bool minbndTMINLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* gra
   	double check = 0;
 
 	scilabVar* funcIn = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 2);
-	funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
+	funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, n, 0);
 	scilab_setDoubleArray(env_, funcIn[0], x);
 
 	#if LOCAL_DEBUG
@@ -281,7 +281,7 @@ bool minbndTMINLP::eval_h(Index n,  const Number* x, bool new_x,Number obj_facto
 	  	double check = 0;
 
 		scilabVar* funcIn = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 2);
-		funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
+		funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, n, 0);
 		scilab_setDoubleArray(env_, funcIn[0], x);
 
 	
