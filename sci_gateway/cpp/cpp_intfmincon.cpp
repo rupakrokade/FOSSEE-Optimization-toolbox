@@ -138,6 +138,9 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	
 	scilab_getDoubleArray(env, in[12], &LC);
 
+
+	
+
     //Initialization of parameters
 
 	//Getting parameters
@@ -166,13 +169,13 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	int cpu_time = (int)cpuTime;
 	int iterLim = (int)maxiter;
 
-	printf("obtained options\n");
+	
 
 	nVars = x0_rows;
 	
 	
 	SmartPtr<minconTMINLP> tminlp = new minconTMINLP(env, nVars,x0,lb,ub,(unsigned int)LC,nCons,conLb,conUb,intconSize,intcon);
-	printf("obtained tminlp\n");	
+
 
 	BonminSetup bonmin;
 	bonmin.initializeOptionsAndJournalist();
@@ -208,7 +211,7 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 		fX = tminlp->getX();
 		ObjVal = tminlp->getObjVal();
 
-		out[0] = scilab_createDoubleMatrix2d(env, 1, nVars, 0);
+		out[0] = scilab_createDoubleMatrix2d(env, nVars, 1, 0);
 		scilab_setDoubleArray(env, out[0], fX);
 
 		out[1] = scilab_createDouble(env, ObjVal);
@@ -218,7 +221,7 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	}
 	else
 	{
-		out[0] = scilab_createDoubleMatrix2d(env, 1, nVars, 0);
+		out[0] = scilab_createDoubleMatrix2d(env, 0, 0, 0);
 		scilab_setDoubleArray(env, out[0], fX);
 
 		out[1] = scilab_createDouble(env, ObjVal);

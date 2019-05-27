@@ -93,7 +93,7 @@ public:
   	virtual bool eval_h(Index n, const Number* x, bool new_x,Number obj_factor, Index m, const Number* lambda,bool new_lambda, Index nele_hess, Index* iRow,Index* jCol, Number* values);
 
 	//Function to call a scilab function to a C interface
-	virtual bool getScilabFunc(scilabVar* out, const Number* x, wchar_t* name, int nin, int nout);
+	virtual bool getScilabFunc(Index n, scilabVar* out, const Number* x, wchar_t* name, int nin, int nout);
 
   	/** This method is called when the algorithm is complete so the TNLP can store/write the solution */
   	virtual void finalize_solution(SolverReturn status,Index n, const Number* x, Number obj_value);
