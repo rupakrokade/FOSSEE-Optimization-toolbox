@@ -174,7 +174,7 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	nVars = x0_rows;
 	
 	
-	SmartPtr<minconTMINLP> tminlp = new minconTMINLP(env, nVars,x0,lb,ub,(unsigned int)LC,nCons,conLb,conUb,intconSize,intcon);
+	SmartPtr<minconTMINLP> tminlp = new minconTMINLP(env, in, nVars,x0,lb,ub,(unsigned int)LC,nCons,conLb,conUb,intconSize,intcon);
 
 
 	BonminSetup bonmin;
@@ -211,7 +211,7 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 		fX = tminlp->getX();
 		ObjVal = tminlp->getObjVal();
 
-		out[0] = scilab_createDoubleMatrix2d(env, nVars, 1, 0);
+		out[0] = scilab_createDoubleMatrix2d(env, 1, nVars, 0);
 		scilab_setDoubleArray(env, out[0], fX);
 
 		out[1] = scilab_createDouble(env, ObjVal);

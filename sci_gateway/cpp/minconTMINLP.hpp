@@ -26,6 +26,8 @@ class minconTMINLP : public TMINLP
 
     scilabEnv env_;				//Scilab Environment Variable
 
+	scilabEnv in_;				//Scilab input pointer Variable
+
 	Index numVars_;             //Number of variables
 
     Index numCons_;             //Number of constraints
@@ -56,7 +58,7 @@ class minconTMINLP : public TMINLP
 
 public:
 	// Constructor
-    	minconTMINLP(scilabEnv env, Index nV, Number *x0, Number *lb, Number *ub, Index nLC, Index nCons, Number *conlb, Number *conub, Index intconSize, Number *intcon): env_(env),  numVars_(nV),x0_(x0),lb_(lb),ub_(ub),numLC_(nLC),numCons_(nCons),conLb_(conlb),conUb_(conub),intconSize_(intconSize),intcon_(intcon),finalX_(0),finalObjVal_(1e20){	}
+    	minconTMINLP(scilabEnv env, scilabVar* in, Index nV, Number *x0, Number *lb, Number *ub, Index nLC, Index nCons, Number *conlb, Number *conub, Index intconSize, Number *intcon): env_(env),in_(in),  numVars_(nV),x0_(x0),lb_(lb),ub_(ub),numLC_(nLC),numCons_(nCons),conLb_(conlb),conUb_(conub),intconSize_(intconSize),intcon_(intcon),finalX_(0),finalObjVal_(1e20){	}
   
 	/** default destructor */
   	virtual ~minconTMINLP();
@@ -102,7 +104,9 @@ public:
    	*/
   	virtual bool eval_h(Index n, const Number* x, bool new_x,Number obj_factor, Index m, const Number* lambda,bool new_lambda, Index nele_hess, Index* iRow,Index* jCol, Number* values);
 
-	virtual void GetScilabFunc(Index n,  wchar_t* name, const Number* x, Number* dest);
+	virtual void getFunctionFromScilab(Index n, const Number* x, wchar_t* name, Number* dest);
+
+	virtual void getHessFromScilab(Index n, wchar_t* name, Number* x, double obj, double* lambda, double * resCh);
 
   	/** This method is called when the algorithm is complete so the TNLP can store/write the solution */
   	virtual void finalize_solution(SolverReturn status,Index n, const Number* x, Number obj_value);
