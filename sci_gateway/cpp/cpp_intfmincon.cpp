@@ -98,7 +98,6 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	
 	scilab_getDoubleArray(env, in[7], &ub);
 
-
 	if (scilab_isDouble(env, in[8]) == 0 || scilab_isMatrix2d(env, in[8]) == 0)
 	{
 		Scierror(999, "%s: Wrong type for input argument #%d: A double matrix expected.\n", fname, 9);
@@ -108,6 +107,7 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	scilab_getDoubleArray(env, in[8], &conLb);
 	size1 = scilab_getDim2d(env, in[8], &nCons, &nCons2);
 
+	
 
 	if (scilab_isDouble(env, in[9]) == 0 || scilab_isMatrix2d(env, in[9]) == 0)
 	{
@@ -116,7 +116,7 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	}
 	
 	scilab_getDoubleArray(env, in[9], &conUb);
-
+	
 
 	// Getting intcon
 	if (scilab_isDouble(env, in[10]) == 0 || scilab_isMatrix2d(env, in[10]) == 0)
@@ -174,7 +174,7 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	nVars = x0_rows;
 	
 	
-	SmartPtr<minconTMINLP> tminlp = new minconTMINLP(env, in, nVars,x0,lb,ub,(unsigned int)LC,nCons,conLb,conUb,intconSize,intcon);
+	SmartPtr<minconTMINLP> tminlp = new minconTMINLP(env, nVars,x0,lb,ub,(unsigned int)LC,nCons,conLb,conUb,intconSize,intcon);
 
 
 	BonminSetup bonmin;
@@ -186,6 +186,9 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
     bonmin.options()->SetNumericValue("bonmin.time_limit", 500);
     bonmin.options()->SetNumericValue("bonmin.allowable_gap", allowable_gap);
     bonmin.options()->SetIntegerValue("bonmin.iteration_limit", iterLim);
+	printf("iterLim = %d\n",iterLim);
+	printf("integertolerance = %f\n",integertolerance);
+	printf("cpuTime = %d\n",cpuTime);
 	
 
 	printf("initialized tminlp\n");	
@@ -197,6 +200,7 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	try {
 	Bab bb;
 	bb(bonmin);//process parameter file using Ipopt and do branch and bound using Cbc
+	printf("Tried Bab\n");
 	}
 	catch(TNLPSolver::UnsolvedError *E) {
 	}
@@ -208,6 +212,9 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 
 	if(rstatus==0 ||rstatus== 3)
 	{
+
+		printf("in the final if block\n");
+
 		fX = tminlp->getX();
 		ObjVal = tminlp->getObjVal();
 
@@ -221,6 +228,7 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	}
 	else
 	{
+		printf("in the final else block\n");
 		out[0] = scilab_createDoubleMatrix2d(env, 0, 0, 0);
 		scilab_setDoubleArray(env, out[0], fX);
 
