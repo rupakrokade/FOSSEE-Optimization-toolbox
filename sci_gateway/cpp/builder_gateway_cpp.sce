@@ -28,6 +28,7 @@ Function_Names = [
 
 		//QP function
 		"solveqp","sci_solveqp", "csci6";
+		"sci_quadprogCLP","sci_quadprogCLP","csci6";
 
 		//Unconstrained Optimization
 		"solveminuncp","sci_solveminuncp", "csci6";  
@@ -73,7 +74,8 @@ Files = [
 		
         //CLP
         "sci_LinProg.cpp",
-        "read_mps.cpp",
+		"read_mps.cpp",
+		"sci_quadprogCLP.cpp",
 		
 		//Bonmin
   		'sci_minuncTMINLP.cpp',
@@ -101,6 +103,8 @@ Function_Names = [
 
 		//QP function
 		"solveqp","sci_solveqp", "csci6";  
+		"sci_quadprogCLP","sci_quadprogCLP","csci6";
+
 
 		//Unconstrained Optimization
 		"solveminuncp","sci_solveminuncp", "csci6"; 
@@ -145,7 +149,8 @@ Files = [
 
         //CLP
         "sci_LinProg.cpp",
-        "read_mps.cpp"
+		"read_mps.cpp",
+		"sci_quadprogCLP.cpp",		
 
 		//Bonmin
   		'sci_minuncTMINLP.cpp',
