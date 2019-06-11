@@ -163,9 +163,5 @@ function [xopt,fopt,exitflag,iterations,output,lambda] = quadprogCLP (varargin)
     end
          
     [xopt,fopt,exitflag,iterations,output,lambda] = sci_quadprogCLP(H,f,0,A,b,Aeq,beq,lb,ub);
-    if(isequal(size(H,1),n)==1) then  
-        fopt = 0.5*xopt'*H*xopt + f'*xopt;
-    else
-        fopt = f'*xopt;
-    end
+    
 endfunction
