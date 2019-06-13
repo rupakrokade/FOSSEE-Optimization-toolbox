@@ -250,7 +250,7 @@ bool minconNLP::eval_g(Index n, const Number* x, bool new_x, Index m, Number* g)
 
 			scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) );
 			#if LOCAL_DEBUG
-				printf("grad_f obtained\n");
+				printf("g obtained\n");
 			#endif
 			scilabVar* funcIn = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
 			funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);

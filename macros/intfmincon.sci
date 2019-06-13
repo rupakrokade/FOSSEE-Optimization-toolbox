@@ -345,7 +345,7 @@ function [xopt,fopt,exitflag,gradient,hessian] = intfmincon (varargin)
       end
   end
   
-options = list('integertolerance',1d-06,'maxnodes',2147483647,'cputime',1d10,'allowablegap',0,'maxiter',2147483647,'gradobj',"off",'hessian',"off",'gradcon',"off")
+options = list('integertolerance',1d-06,'maxnodes',2147483647,'cputime',10000000,'allowablegap',0,'maxiter',2147483647,'gradobj',"off",'hessian',"off",'gradcon',"off")
 
   //Pushing param into default value
   

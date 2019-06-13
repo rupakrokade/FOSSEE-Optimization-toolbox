@@ -28,7 +28,7 @@ extern "C"
 using namespace Ipopt;
 using namespace Bonmin;
 
-#define LOCAL_DEBUG 1
+
 
 minconTMINLP::~minconTMINLP()
 {
@@ -40,18 +40,17 @@ minconTMINLP::~minconTMINLP()
 void minconTMINLP::getHessFromScilab(Index n, wchar_t* name, Number* x, double obj, double* lambda, double * resCh)
 {
 	double check;
-	scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
+	scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 2);
 
-	scilabVar* funcIn = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 2);
+	scilabVar* funcIn = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_ * numCons_ + 1));
 
 	funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, n, 0);
-	scilab_getDoubleArray(env_, funcIn[0], &x);
+	scilab_setDoubleArray(env_, funcIn[0], x);
 
 	funcIn[1] =  scilab_createDouble(env_, obj);
 
 	funcIn[2] = scilab_createDoubleMatrix2d(env_, 1, numCons_, 0);
-	scilab_getDoubleArray(env_, funcIn[2], &lambda);	
-
+	scilab_setDoubleArray(env_, funcIn[2],lambda);	
 
 
   	scilab_call(env_, name, 3, funcIn, 2, out);
@@ -80,7 +79,7 @@ void minconTMINLP::getHessFromScilab(Index n, wchar_t* name, Number* x, double o
 	
 		scilab_getDoubleArray(env_, out[0], &resCh);
   		
-	}
+	}	
 }
 
 
@@ -280,9 +279,7 @@ bool minconTMINLP::eval_grad_f(Index n, const Number* x, bool new_x, Number* gra
 // return the value of the constraints: g(x)
 bool minconTMINLP::eval_g(Index n, const Number* x, bool new_x, Index m, Number* g)
 {
-	#ifdef LOCAL_DEBUG
-  		printf("Code is in eval_g\n");
-	#endif
+	
  	// return the value of the constraints: g(x)
   	if(m==0)
   	{
@@ -301,7 +298,7 @@ bool minconTMINLP::eval_g(Index n, const Number* x, bool new_x, Index m, Number*
 
 		scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) );
 		#if LOCAL_DEBUG
-			printf("grad_f obtained\n");
+			printf("g obtained\n");
 		#endif
 		scilabVar* funcIn = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 1);
 		funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, numVars_, 0);
@@ -339,6 +336,7 @@ bool minconTMINLP::eval_g(Index n, const Number* x, bool new_x, Index m, Number*
 			for(int i=0;i<m;i++)
 			{
 				g[c]=resc[i];
+				//printf("g element [%d] = %f\n",m, resc[i]);
 				c++;
 			}
 		}
@@ -351,9 +349,6 @@ bool minconTMINLP::eval_g(Index n, const Number* x, bool new_x, Index m, Number*
 // return the structure or values of the jacobian
 bool minconTMINLP::eval_jac_g(Index n, const Number* x, bool new_x,Index m, Index nele_jac, Index* iRow, Index *jCol,Number* values)
 {
-	#ifdef LOCAL_DEBUG
-  		printf("Code is in eval_jac_g\n");
-	#endif	
  	if (values == NULL) 
  	{
     	if(m==0)// return the structure of the jacobian of the constraints
@@ -382,7 +377,7 @@ bool minconTMINLP::eval_jac_g(Index n, const Number* x, bool new_x,Index m, Inde
 		else
 		{
 			double* resj;
-			char name[20]="_gradnlc";
+
 
 			scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 2);
 		  	double check = 0;
@@ -426,11 +421,13 @@ bool minconTMINLP::eval_jac_g(Index n, const Number* x, bool new_x,Index m, Inde
 			
 				int c = 0;
 				for(int i=0;i<m;i++)
-					for(int j=0;j<n;j++)
+				{	for(int j=0;j<n;j++)
 					{
 						values[c] = resj[j*(int)m+i];
+						//printf("jac_g element [%d, %d] = %f\n",m, n, resj[j*(int)m+i]);
 						c++;
-					}
+					}			
+				}
 			}
 		}	
 	}
@@ -466,6 +463,10 @@ bool minconTMINLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor
 	else 
 	{	
 
+		for (int i = 0; i < n; i++)
+		{
+			//printf("x[%d] before enter getHess = %f\n",i,x[i]);
+		}
 	  	Number *resCh= (double*)malloc(sizeof(double)*n*n);
 		getHessFromScilab(n, L"_gradhess", x, obj_factor, lambda, resCh);
 		
@@ -475,7 +476,8 @@ bool minconTMINLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor
 		{
 			for (Index col=0; col < numVars_; ++col)
 			{
-				values[index++]=resCh[numVars_*row+col];
+				values[index++]=obj_factor*resCh[numVars_*row+col];
+				//printf("hessian element [%d, %d] = %f\n",row, col, obj_factor*resCh[numVars_*row+col]);
 			}
 		}
 	}

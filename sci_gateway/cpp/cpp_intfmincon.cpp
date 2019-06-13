@@ -183,15 +183,13 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	bonmin.options()->SetIntegerValue("bonmin.print_level",5);
     bonmin.options()->SetNumericValue("bonmin.integer_tolerance", integertolerance);
     bonmin.options()->SetIntegerValue("bonmin.node_limit",max_nodes);
-    bonmin.options()->SetNumericValue("bonmin.time_limit", 500);
+    bonmin.options()->SetIntegerValue("bonmin.time_limit", cpu_time);
     bonmin.options()->SetNumericValue("bonmin.allowable_gap", allowable_gap);
-    bonmin.options()->SetIntegerValue("bonmin.iteration_limit", iterLim);
-	printf("iterLim = %d\n",iterLim);
-	printf("integertolerance = %f\n",integertolerance);
-	printf("cpuTime = %d\n",cpuTime);
-	
+    bonmin.options()->SetIntegerValue("bonmin.iteration_limit", 10000); //Hardcoded iteration limit is temporary
+	bonmin.options()->SetStringValue("hessian_approximation", "limited-memory");
 
-	printf("initialized tminlp\n");	
+
+
 	//Now initialize from tminlp
 	bonmin.initialize(GetRawPtr(tminlp));
 	
@@ -200,7 +198,6 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	try {
 	Bab bb;
 	bb(bonmin);//process parameter file using Ipopt and do branch and bound using Cbc
-	printf("Tried Bab\n");
 	}
 	catch(TNLPSolver::UnsolvedError *E) {
 	}
@@ -213,7 +210,6 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	if(rstatus==0 ||rstatus== 3)
 	{
 
-		printf("in the final if block\n");
 
 		fX = tminlp->getX();
 		ObjVal = tminlp->getObjVal();
@@ -228,7 +224,6 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
 	}
 	else
 	{
-		printf("in the final else block\n");
 		out[0] = scilab_createDoubleMatrix2d(env, 0, 0, 0);
 		scilab_setDoubleArray(env, out[0], fX);
 

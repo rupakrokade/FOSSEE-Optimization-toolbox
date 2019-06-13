@@ -322,6 +322,7 @@ bool minbndTMINLP::eval_h(Index n,  const Number* x, bool new_x,Number obj_facto
 				for (Index col=0; col <= row; ++col)
 				{
 					values[index++]=obj_factor*(resh[numVars_*row+col]);
+
 				}
 			}
 		}
