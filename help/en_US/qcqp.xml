@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from qcqp.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="qcqp" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>qcqp</refname>
+    <refpurpose>Solves a Linear and Quadratic Contraint Quadratic problem.</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Syntax</title>
+   <synopsis>
+   xopt = quadprogmat(x,H,f)
+   xopt = quadprogmat(x,H,f,Q,c,r,A,b)
+   xopt = quadprogmat(x,H,f,Q,c,r,A,b,Aeq,beq)
+   xopt = quadprogmat(x,H,f,Q,c,r,A,b,Aeq,beq,lb,ub)
+   [xopt,fopt] = quadprogmat( ... )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+        <varlistentry>
+            <term>x :</term>
+            <listitem><para> a matrix of double, represents initial point.</para></listitem>
+        </varlistentry>
+        <varlistentry>
+            <term>H :</term>
+            <listitem><para> a symmetric matrix of double, represents coefficients of quadratic in the quadratic problem.</para></listitem>
+        </varlistentry>
+        <varlistentry>
+            <term>f :</term>
+            <listitem><para> a vector of double, represents coefficients of linear in the quadratic problem</para></listitem>
+        </varlistentry>
+        <varlistentry>
+            <term>Q :</term>
+            <listitem><para> a n x n.q matrix of double, represents coefficients of quadratic terms in the quadratic constraints. x'.Q.x + c'.x &lt;= r</para></listitem>
+        </varlistentry>
+        <varlistentry>
+            <term>c :</term>
+            <listitem><para> a q x n matrix of double, represents coefficients of  linear terms in the quadratic problem. x'.Q.x + c'.x &lt;= r</para></listitem>
+        </varlistentry>
+        <varlistentry>
+            <term>r :</term>
+            <listitem><para> a vector of double, represents the linear constants in the inequality constraints x'.Q.x + c'.x &lt;= r.</para></listitem>
+        </varlistentry>
+        <varlistentry>
+            <term>A :</term>
+            <listitem><para> a matrix of double, represents the linear coefficients in the inequality constraints A⋅x ≤ b.</para></listitem>
+        </varlistentry>
+        <varlistentry>
+            <term>b :</term>
+            <listitem><para> a vector of double, represents the linear terms in the inequality constraints A⋅x ≤ b.</para></listitem>
+        </varlistentry>
+        <varlistentry>
+            <term>Aeq :</term>
+            <listitem><para> a matrix of double, represents the linear coefficients in the equality constraints Aeq⋅x = beq.</para></listitem>
+        </varlistentry>
+        <varlistentry>
+            <term>beq :</term>
+            <listitem><para> a vector of double, represents the linear terms in the equality constraints Aeq⋅x = beq.</para></listitem>
+        </varlistentry>
+        <varlistentry>
+            <term>lb :</term>
+            <listitem><para> a vector of double, contains lower bounds of the variables. The default value is 0.</para></listitem>
+        </varlistentry>
+        <varlistentry>
+            <term>ub :</term>
+            <listitem><para> a vector of double, contains upper bounds of the variables. The default value is %inf.</para></listitem>
+        </varlistentry>
+        <varlistentry>
+            <term>xopt :</term>
+            <listitem><para> a vector of double, the computed solution of the optimization problem.</para></listitem>
+        </varlistentry>
+        <varlistentry>
+            <term>fopt :</term>
+            <listitem><para> a double, the value of the function at x.</para></listitem>
+        </varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Search the minimum of a linear and quadratic constrained quadratic optimization problem specified by :
+   </para>
+   <para>
+Min x’.H.x + f’.x
+   </para>
+   <para>
+Subject to
+   </para>
+   <para>
+A’x &lt;= b
+   </para>
+   <para>
+Aeq x = beq
+   </para>
+   <para>
+x’.Q.x + c’x &lt;= r
+   </para>
+   <para>
+lb &lt;= x &lt;= ub
+   </para>
+   <para>
+The routine calls ALGENCAN for solving the quadratic problem, ALGENCAN is a library written in fortran.
+   </para>
+   <para>
+For more details on exitflag see the CLP documentation, go to https://www.ime.usp.br/~egbirgin/tango/
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+//Reference : http://www.minlplib.org/nvs10.html
+// var i1 := 1, >= 0, <= 200;
+// var i2 := 1, >= 0, <= 200;
+// minimize obj: 7*i1^2 + 6*i2^2 - 35*i1 - 80.4*i2;
+// subject to
+// e1: (-9*i1^2) - 10*i1*i2 - 8*i2^2 >= -583;
+// e2: (-6*i1^2) - 8*i1*i2 - 6*i2^2 >= -441;
+H = [7 0;0 6];
+f = [-35 ; -80.4];
+Q = [[9 5;5 8];[3 4;4 3]];
+c = [0 0;0 0];
+r = [583;441];
+x = [1;1];
+lb = [0;0];
+ub = [200;200];
+[xopt,fopt] = qcqp(x,H,f,Q,c,r,[],[],[],[],lb,ub);
+// Press ENTER to continue
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Adarsh Shah</member>
+   </simplelist>
+</refsection>
+</refentry>
