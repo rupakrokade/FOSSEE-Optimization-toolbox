@@ -13,11 +13,11 @@ function [xopt,fopt,lambda,exitflag] = qcqp (varargin)
 	// Solves a Linear and Quadratic Contraint Quadratic problem.
 	//
 	//   Syntax
-	//   xopt = quadprogmat(x,H,f)
-    //   xopt = quadprogmat(x,H,f,Q,c,r,A,b)
-    //   xopt = quadprogmat(x,H,f,Q,c,r,A,b,Aeq,beq)
-	//   xopt = quadprogmat(x,H,f,Q,c,r,A,b,Aeq,beq,lb,ub)
-	//   [xopt,fopt,lambda,exitflag] = quadprogmat( ... )
+	//   xopt = qcqp(x,H,f)
+    //   xopt = qcqp(x,H,f,Q,c,r,A,b)
+    //   xopt = qcqp(x,H,f,Q,c,r,A,b,Aeq,beq)
+	//   xopt = qcqp(x,H,f,Q,c,r,A,b,Aeq,beq,lb,ub)
+	//   [xopt,fopt,lambda,exitflag] = qcqp( ... )
 	//   
     //   Parameters
     //   x : a matrix of double, represents initial point.

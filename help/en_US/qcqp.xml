@@ -24,11 +24,11 @@
 <refsynopsisdiv>
    <title>Syntax</title>
    <synopsis>
-   xopt = quadprogmat(x,H,f)
-   xopt = quadprogmat(x,H,f,Q,c,r,A,b)
-   xopt = quadprogmat(x,H,f,Q,c,r,A,b,Aeq,beq)
-   xopt = quadprogmat(x,H,f,Q,c,r,A,b,Aeq,beq,lb,ub)
-   [xopt,fopt,lambda,exitflag] = quadprogmat( ... )
+   xopt = qcqp(x,H,f)
+   xopt = qcqp(x,H,f,Q,c,r,A,b)
+   xopt = qcqp(x,H,f,Q,c,r,A,b,Aeq,beq)
+   xopt = qcqp(x,H,f,Q,c,r,A,b,Aeq,beq,lb,ub)
+   [xopt,fopt,lambda,exitflag] = qcqp( ... )
    
    </synopsis>
 </refsynopsisdiv>
