@@ -318,8 +318,8 @@ int sci_qcqp(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt* opt, in
       return 1;
    }
     
-    if(nout!=2){
-        Scierror(999,"%s : Wrong number of output argument, %d expected",fname,2);
+    if(nout!=4){
+        Scierror(999,"%s : Wrong number of output argument, %d expected",fname,4);
         return 1;
     }
 
@@ -488,6 +488,9 @@ int sci_qcqp(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt* opt, in
    out[0] = scilab_createDoubleMatrix2d(env, problem.n, 1, 0);
    scilab_setDoubleArray(env,out[0],problem.x);
    out[1] = scilab_createDouble(env, f);
+   out[2] = scilab_createDoubleMatrix2d(env,m,1,0);
+   scilab_setDoubleArray(env,out[2],lambda);
+   out[3] = scilab_createDouble(env, inform);
 
    return 0;
 }
