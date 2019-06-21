@@ -18,6 +18,7 @@
 <!ENTITY abced87e4997e98bbd599fdbc5781ce82 SYSTEM "/home/adarsh/FOSSEE-Optimization-toolbox-1/help/en_US/lsqlin.xml">
 <!ENTITY ae524670c5b48076a058edba9d080bd9a SYSTEM "/home/adarsh/FOSSEE-Optimization-toolbox-1/help/en_US/lsqnonlin.xml">
 <!ENTITY aad11b9ef99b437876a85d7b7c9e963a6 SYSTEM "/home/adarsh/FOSSEE-Optimization-toolbox-1/help/en_US/lsqnonneg.xml">
+<!ENTITY ae689081b23de6d9d230543730c7e2d3d SYSTEM "/home/adarsh/FOSSEE-Optimization-toolbox-1/help/en_US/qcqp.xml">
 <!ENTITY a1f8163d0047de853f60f4d626a297195 SYSTEM "/home/adarsh/FOSSEE-Optimization-toolbox-1/help/en_US/quadprog.xml">
 <!ENTITY a655e1daed1f3bbb5e93a1af9b5fa1645 SYSTEM "/home/adarsh/FOSSEE-Optimization-toolbox-1/help/en_US/quadprogCLP.xml">
 <!ENTITY a71ce92634dc345d129842d7fec04a243 SYSTEM "/home/adarsh/FOSSEE-Optimization-toolbox-1/help/en_US/quadprogmat.xml">
@@ -114,6 +115,7 @@
 &abced87e4997e98bbd599fdbc5781ce82;
 &ae524670c5b48076a058edba9d080bd9a;
 &aad11b9ef99b437876a85d7b7c9e963a6;
+&ae689081b23de6d9d230543730c7e2d3d;
 &a1f8163d0047de853f60f4d626a297195;
 &a655e1daed1f3bbb5e93a1af9b5fa1645;
 &a71ce92634dc345d129842d7fec04a243;

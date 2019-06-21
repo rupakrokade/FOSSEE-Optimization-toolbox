@@ -10,6 +10,7 @@ C_GATEWAY_PROTOTYPE(sci_fotversion);
 C_GATEWAY_PROTOTYPE(sci_linearprog);
 C_GATEWAY_PROTOTYPE(sci_matintlinprog);
 C_GATEWAY_PROTOTYPE(sci_mpsintlinprog);
+C_GATEWAY_PROTOTYPE(sci_qcqp);
 C_GATEWAY_PROTOTYPE(sci_quadprogCLP);
 C_GATEWAY_PROTOTYPE(sci_rmps);
 C_GATEWAY_PROTOTYPE(sci_solveintqp);

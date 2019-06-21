@@ -24,10 +24,10 @@
 <refsynopsisdiv>
    <title>Syntax</title>
    <synopsis>
-   xopt = quadprogmat(H,f,A,b)
-   xopt = quadprogmat(H,f,A,b,Aeq,beq)
-   xopt = quadprogmat(H,f,A,b,Aeq,beq,lb,ub)
-   [xopt,fopt,exitflag,output,lamda] = quadprogmat( ... )
+   xopt = quadprogCLP(H,f,A,b)
+   xopt = quadprogCLP(H,f,A,b,Aeq,beq)
+   xopt = quadprogCLP(H,f,A,b,Aeq,beq,lb,ub)
+   [xopt,fopt,exitflag,output,lamda] = quadprogCLP( ... )
    
    </synopsis>
 </refsynopsisdiv>
@@ -105,8 +105,8 @@ Search the minimum of a constrained linear quadratic optimization problem specif
 \begin{align*}
 \\min\: 1/2⋅x^T⋅H⋅x + f^T⋅x
 \\ subject\, to
-\\ A⋅x \leqslant b
-\\ Aeq⋅x = beq
+\\ A{}'x \leqslant b
+\\ Aeq{}'x = beq
 \\ lb \leqslant x \leqslant ub
 \end{align*}
 \end{eqnarray}

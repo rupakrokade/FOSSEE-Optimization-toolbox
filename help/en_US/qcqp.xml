@@ -17,7 +17,7 @@
 
   <refnamediv>
     <refname>qcqp</refname>
-    <refpurpose>Solves a Linear and Quadratic Contraint Quadratic problem.</refpurpose>
+    <refpurpose>Solves a Linear and Quadratic Constrainted Quadratic problem.</refpurpose>
   </refnamediv>
 
 
@@ -42,15 +42,15 @@
         </varlistentry>
         <varlistentry>
             <term>H :</term>
-            <listitem><para> a symmetric matrix of double, represents coefficients of quadratic in the quadratic problem.</para></listitem>
+            <listitem><para> a symmetric matrix of double, represents coefficients of quadratic terms in the quadratic problem.</para></listitem>
         </varlistentry>
         <varlistentry>
             <term>f :</term>
-            <listitem><para> a vector of double, represents coefficients of linear in the quadratic problem</para></listitem>
+            <listitem><para> a vector of double, represents coefficients of linear terms in the quadratic problem</para></listitem>
         </varlistentry>
         <varlistentry>
             <term>Q :</term>
-            <listitem><para> a n x n.q matrix of double, represents coefficients of quadratic terms in the quadratic constraints. x'.Q.x + c'.x &lt;= r</para></listitem>
+            <listitem><para> a n x n x q matrix of double, represents coefficients of quadratic terms in the quadratic constraints. x'.Q.x + c'.x &lt;= r</para></listitem>
         </varlistentry>
         <varlistentry>
             <term>c :</term>

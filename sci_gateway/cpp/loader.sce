@@ -14,6 +14,7 @@ list_functions = [ 'linearprog';
                    'rmps';
                    'solveqp';
                    'sci_quadprogCLP';
+                   'sci_qcqp';
                    'solveminuncp';
                    'solveminbndp';
                    'solveminconp';

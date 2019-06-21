@@ -14,10 +14,10 @@ function [xopt,fopt,exitflag,iterations,output,lambda] = quadprogCLP (varargin)
 	// Solves a linear quadratic problem.
 	//
 	//   Syntax
-	//   xopt = quadprogmat(H,f,A,b)
-	//   xopt = quadprogmat(H,f,A,b,Aeq,beq)
-	//   xopt = quadprogmat(H,f,A,b,Aeq,beq,lb,ub)
-	//   [xopt,fopt,exitflag,output,lamda] = quadprogmat( ... )
+	//   xopt = quadprogCLP(H,f,A,b)
+	//   xopt = quadprogCLP(H,f,A,b,Aeq,beq)
+	//   xopt = quadprogCLP(H,f,A,b,Aeq,beq,lb,ub)
+	//   [xopt,fopt,exitflag,output,lamda] = quadprogCLP( ... )
 	//   
 	//   Parameters
 	//   H : a symmetric matrix of double, represents coefficients of quadratic in the quadratic problem.

@@ -14,6 +14,7 @@ int libFOSSEE_Optimization_Toolbox(wchar_t* _pwstFuncName)
     if(wcscmp(_pwstFuncName, L"rmps") == 0){ addCFunction(L"rmps", &sci_rmps, MODULE_NAME); }
     if(wcscmp(_pwstFuncName, L"solveqp") == 0){ addCFunction(L"solveqp", &sci_solveqp, MODULE_NAME); }
     if(wcscmp(_pwstFuncName, L"sci_quadprogCLP") == 0){ addCFunction(L"sci_quadprogCLP", &sci_quadprogCLP, MODULE_NAME); }
+    if(wcscmp(_pwstFuncName, L"sci_qcqp") == 0){ addCFunction(L"sci_qcqp", &sci_qcqp, MODULE_NAME); }
     if(wcscmp(_pwstFuncName, L"solveminuncp") == 0){ addCFunction(L"solveminuncp", &sci_solveminuncp, MODULE_NAME); }
     if(wcscmp(_pwstFuncName, L"solveminbndp") == 0){ addCFunction(L"solveminbndp", &sci_solveminbndp, MODULE_NAME); }
     if(wcscmp(_pwstFuncName, L"solveminconp") == 0){ addCFunction(L"solveminconp", &sci_solveminconp, MODULE_NAME); }
