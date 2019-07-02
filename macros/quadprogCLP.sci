@@ -159,5 +159,22 @@ function [xopt,fopt,exitflag,iterations,output,lambda] = quadprogCLP (varargin)
     end
          
     [xopt,fopt,exitflag,iterations,output,lambda] = sci_quadprogCLP(H,f,0,A,b,Aeq,beq,lb,ub);
-    
+	
+	select exitflag
+    case 0 then
+        disp('Optimal Solution Found');
+    case 1 then
+        disp('Primal Infeasible');
+    case 2 then
+        disp('Dual Infeasible');
+    case 3 then
+        disp('Maximum Number of iterations exceeded');
+    case 4 then
+		disp('Solution Abandoned');           
+	case 5 then
+		disp('Primal Objective Limit reached');
+	case 6 then
+		disp('Dual Objective Limit reached');
+    end
+
 endfunction
