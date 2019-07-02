@@ -41,10 +41,10 @@
  Output filename        =       'algencan.out'
  Solution filename      =                   ''
 
- Number of variables               :       3
+ Number of variables               :       2
  Number of equality constraints    :       0
  Number of inequality constraints  :       0
- Number of bound constraints       :       3
+ Number of bound constraints       :       2
  Number of fixed variables         :       0
 
  There are no fixed variables to be removed.
@@ -57,9 +57,9 @@
 
  User-provided subroutines calls counters: 
 
- Subroutine fsub     (coded=T):       86
- Subroutine gsub     (coded=T):        6
- Subroutine hsub     (coded=T):        3
+ Subroutine fsub     (coded=T):        1
+ Subroutine gsub     (coded=T):        2
+ Subroutine hsub     (coded=T):        0
  Subroutine csub     (coded=T):        0 (       0 calls per constraint in avg)
  Subroutine jacsub   (coded=T):        0 (       0 calls per constraint in avg)
  Subroutine hcsub    (coded=T):        0 (       0 calls per constraint in avg)
