@@ -530,11 +530,16 @@ options = list('integertolerance',1d-06,'maxnodes',2147483647,'cputime',10000000
         [dy,hessfy]=numderivative(_f,x)
         hessfy = matrix(hessfy,nbVar,nbVar)
         if((type(nlc) == 13 | type(nlc) == 11) & numNlc~=0) then
-          [dy,hessny]=numderivative(nlc,x)
+			function y = nlc2(x)
+				[c, ceq] = nlc(x);
+				c = matrix(c,-1,1);
+				y = [c; ceq];
+			endfunction			
+        	[dy,hessny]=numderivative(nlc2,x)
         end
-        hessianc = []
-        for i = 1:numNlc
-            hessianc = hessianc + lambda(i)*matrix(hessny(i,:),nbVar,nbVar)
+        hessianc = lambda(1)*matrix(hessny(1,:),nbVar,nbVar);
+        for i = 2:numNlc
+            hessianc = hessianc + lambda(i)*matrix(hessny(i,:),nbVar,nbVar);
         end
         hessy = obj_factor*hessfy + hessianc;
         [hessy,check] =  checkIsreal(hessy)

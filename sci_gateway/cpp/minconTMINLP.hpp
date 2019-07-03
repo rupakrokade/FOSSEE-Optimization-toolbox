@@ -107,7 +107,6 @@ public:
   	virtual const SosInfo * sosConstraints() const{return NULL;}
     virtual const BranchingInfo* branchingInfo() const{return NULL;}
 
-	virtual void getHessFromScilab(Index n, wchar_t* name, Number* x, double obj, double* lambda, double * resCh);
 
   	const double * getX();		//Returns a pointer to a matrix of size of 1*numVars_ 
 					//with final value for the primal variables.

@@ -186,7 +186,7 @@ int cpp_intfmincon(scilabEnv env, int nin, scilabVar* in, int nopt, scilabOpt op
     bonmin.options()->SetIntegerValue("bonmin.time_limit", cpu_time);
     bonmin.options()->SetNumericValue("bonmin.allowable_gap", allowable_gap);
     bonmin.options()->SetIntegerValue("bonmin.iteration_limit", 10000); //Hardcoded iteration limit is temporary
-	bonmin.options()->SetStringValue("hessian_approximation", "limited-memory");
+	//bonmin.options()->SetStringValue("hessian_approximation", "limited-memory");
 
 
 

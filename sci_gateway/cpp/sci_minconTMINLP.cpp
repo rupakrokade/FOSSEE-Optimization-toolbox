@@ -37,54 +37,6 @@ minconTMINLP::~minconTMINLP()
 
 
 
-void minconTMINLP::getHessFromScilab(Index n, wchar_t* name, Number* x, double obj, double* lambda, double * resCh)
-{
-	double check;
-	scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 2);
-
-	scilabVar* funcIn = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_ * numCons_ + 1));
-
-	funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, n, 0);
-	scilab_setDoubleArray(env_, funcIn[0], x);
-
-	funcIn[1] =  scilab_createDouble(env_, obj);
-
-	funcIn[2] = scilab_createDoubleMatrix2d(env_, 1, numCons_, 0);
-	scilab_setDoubleArray(env_, funcIn[2],lambda);	
-
-
-  	scilab_call(env_, name, 3, funcIn, 2, out);
-
-   if (scilab_isDouble(env_, out[1]) == 0 || scilab_isScalar(env_, out[1]) == 0)
-	{
-    	Scierror(999, "Wrong type for input argument #%d: An int expected.\n", 2);
-    	return 1;
-	}
-	
-	scilab_getDouble(env_, out[1], &check);
-	
-
-	if (check==1)
-	{
-		return true;
-	}	
-	else
-	{ 
-
-  		if (scilab_isDouble(env_, out[0]) == 0 || scilab_isMatrix2d(env_, out[0]) == 0)
-		{
-			Scierror(999, "Wrong type for input argument #%d: An int expected.\n", 2);
-			return 1;
-		}
-	
-		scilab_getDoubleArray(env_, out[0], &resCh);
-  		
-	}	
-}
-
-
-
-
 // Set the type of every variable - CONTINUOUS or INTEGER
 bool minconTMINLP::get_variables_types(Index n, VariableType* var_types)
 {
@@ -467,17 +419,61 @@ bool minconTMINLP::eval_h(Index n, const Number* x, bool new_x,Number obj_factor
 		{
 			//printf("x[%d] before enter getHess = %f\n",i,x[i]);
 		}
-	  	Number *resCh= (double*)malloc(sizeof(double)*n*n);
-		getHessFromScilab(n, L"_gradhess", x, obj_factor, lambda, resCh);
-		
+	  	
+		double check;
+		scilabVar* out = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_) * 2);
 
-		Index index=0;
-		for (Index row=0;row < numVars_ ;++row)
+		scilabVar* funcIn = (scilabVar*)malloc(sizeof(scilabVar) * (numVars_ * numCons_ + 1));
+
+		funcIn[0] = scilab_createDoubleMatrix2d(env_, 1, n, 0);
+		scilab_setDoubleArray(env_, funcIn[0], x);
+
+		funcIn[1] =  scilab_createDouble(env_, obj_factor);
+
+		funcIn[2] = scilab_createDoubleMatrix2d(env_, 1, numCons_, 0);
+		scilab_setDoubleArray(env_, funcIn[2],lambda);	
+
+
+	  	scilab_call(env_, L"_gradhess", 3, funcIn, 2, out);
+
+	   if (scilab_isDouble(env_, out[1]) == 0 || scilab_isScalar(env_, out[1]) == 0)
 		{
-			for (Index col=0; col < numVars_; ++col)
+			Scierror(999, "Wrong type for input argument #%d: An int expected.\n", 2);
+			return 1;
+		}
+		
+		scilab_getDouble(env_, out[1], &check);
+
+
+		if (check==1)
+		{
+			return true;
+		}	
+		else
+		{ 
+
+	  		if (scilab_isDouble(env_, out[0]) == 0 || scilab_isMatrix2d(env_, out[0]) == 0)
 			{
-				values[index++]=obj_factor*resCh[numVars_*row+col];
-				//printf("hessian element [%d, %d] = %f\n",row, col, obj_factor*resCh[numVars_*row+col]);
+				Scierror(999, "Wrong type for input argument #%d: An int expected.\n", 2);
+				return 1;
+			}
+			
+			int r1; int c1;
+			int size1 = scilab_getDim2d(env_, out[0], &r1, &c1);
+			Number *resCh =(double*)malloc(sizeof(double)*r1*c1);
+		
+			scilab_getDoubleArray(env_, out[0], &resCh);
+
+		
+		
+			Index index=0;
+			for (Index row=0;row < numVars_ ;++row)
+			{
+				for (Index col=0; col < numVars_; ++col)
+				{
+					values[index++]=resCh[numVars_*row+col];
+					//printf("hessian element [%d, %d] = %f\n",row, col, resCh[numVars_*row+col]);
+				}
 			}
 		}
 	}
