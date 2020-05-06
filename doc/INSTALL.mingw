@@ -216,7 +216,13 @@ This is the most time taking step.
      cbc.exe  libblas.dll      libCbc-0.dll        libCgl-0.dll  libClpSolver-0.dll  libCoinUtils-0.dll  liblapack.dll  libOsiCbc-0.dll  libOsiCommonTest-0.dll
      clp.exe  libbonmin-0.dll  libCbcSolver-0.dll  libClp-0.dll  libcoinmumps-0.dll  libipopt-3.dll      libOsi-0.dll   libOsiClp-0.dll  libsipopt-3.dll
 
-3.20 All these and the include folder is required by Scilab.
+3.20 All these and the include folder is required by Scilab. Last step is to
+     run 'strip' to decrease the size of files in the bin/ directory as they
+     are required in atoms.
+
+     cd $HOME/build/bin
+     for in f in *.*; do strip $f; done
+
 
 Step-4: Building the Scilab gateway
 ------------------------------------------------------------------------------
