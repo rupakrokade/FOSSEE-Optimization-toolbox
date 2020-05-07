@@ -2,6 +2,14 @@
 # All back up files
 *.*~
 *.bin
+*.so
+*.dll
+*.lib
+*.exe
+*.la
+*.out
+*.o
+thirdparty/
 /help/en_US/scilab_en_US_help/
 ./runner_script.sce
 /macros/lib
