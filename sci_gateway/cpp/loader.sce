@@ -10,7 +10,6 @@ if bOK then
   ulink(ilib);
 end
 //
-link(libFOSSEE_Optimizat_path + filesep() + '-L/home/rupak19/FOT-cleanup/fot-check5/FOSSEE-Optimization-toolbox/sci_gateway/cpp//../../thirdparty/linux/lib/x64/libSym -L/home/rupak19/FOT-cleanup/fot-check5/FOSSEE-Optimization-toolbox/sci_gateway/cpp//../../thirdparty/linux/lib/x64/libipopt -L/home/rupak19/FOT-cleanup/fot-check5/FOSSEE-Optimization-toolbox/sci_gateway/cpp//../../thirdparty/linux/lib/x64/libClp -L/home/rupak19/FOT-cleanup/fot-check5/FOSSEE-Optimization-toolbox/sci_gateway/cpp//../../thirdparty/linux/lib/x64/libOsiClp -L/home/rupak19/FOT-cleanup/fot-check5/FOSSEE-Optimization-toolbox/sci_gateway/cpp//../../thirdparty/linux/lib/x64/libCoinUtils' + getdynlibext());
 list_functions = [ 'linearprog';
                    'rmps';
                    'quadprog_CLP';
