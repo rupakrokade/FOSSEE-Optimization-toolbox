@@ -412,7 +412,7 @@ elseif getos()=="Darwin" then
 else
     third_dir = path_builder+filesep()+'..'+filesep()+'..'+filesep()+'thirdparty';
     lib_base_dir = third_dir + filesep() + 'linux' + filesep() + 'lib' + filesep() + Version + filesep();
-    inc_base_dir = third_dir + filesep() + 'linux' + filesep() + 'include' + filesep() + 'coin';
+    inc_base_dir = third_dir + filesep() + 'linux' + filesep() + 'include' + filesep() + 'coin-or';
     
     C_Flags=["-D__USE_DEPRECATED_STACK_FUNCTIONS__ -w -fpermissive -I"+path_builder+" -I"+inc_base_dir+" -Wl,-rpath="+lib_base_dir+" "+"-std=gnu++11"+" -fno-zero-initialized-in-bss"]
     

@@ -46,7 +46,8 @@ elseif getos()=="Darwin" then
 		link(thirdparty_lib_path);
 	end
 else
-    lib_path = root_tlbx + "/thirdparty/linux/lib/" + Version;
+    //lib_path = root_tlbx + "/thirdparty/linux/lib/" + Version;
+    lib_path = root_tlbx + "/thirdparty/linux/lib/";
     link(lib_path + "/libgfortran.so");
     link(lib_path + "/libCoinUtils.so");
     link(lib_path + "/libClp.so");
@@ -62,7 +63,7 @@ else
     link(lib_path + "/libcoinmumps.so");
     link(lib_path + "/libipopt.so");
 	link(lib_path + "/libCbc.so");
-    link(lib_path + '/libbonmin.so');
+    link(lib_path + "/libbonmin.so");
     link(lib_path + "/libecos.so");
     link(lib_path + "/libalgencan.so");
 
